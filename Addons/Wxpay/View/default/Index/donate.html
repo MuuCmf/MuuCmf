@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  user-scalable=0;" name="viewport" />
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/amazeui/assets/css/amazeui2.1.min.css">
+    <!--<link rel="stylesheet" type="text/css" href="{:ADDON_PUBLIC_PATH}/myscore/asset/css/jquery.mobile-1.4.5.min.css">-->
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/weui/style/weui.css">
+    <link rel="stylesheet" type="text/css" href="{:ADDON_PUBLIC_PATH}/css/style.css">
+	<style type="text/css">
+		#form_val{width:80%;margin:0 10%;}
+		#addCard{ margin-top:10px;}
+		/*优惠券css*/
+		.border-box{box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;}/*计算边框的盒子*/
+		.stamp {width: 100%;height: 125px;box-shadow: 2px 2px 2px #888888;border-radius:2px;padding: 0 10px;position: relative;overflow: hidden;}
+		.stamp:before {content: '';position: absolute;top:0;bottom:0;left:10px;right:10px;z-index: -1;}
+		.stamp:after {content: '';position: absolute;left: 10px;top: 10px;right: 10px;bottom: 10px;box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.5);z-index: -2;}
+		.stamp i{position: absolute;left: 20%;top: 45px;height: 190px;width: 390px;background-color: rgba(255,255,255,.15);transform: rotate(-30deg);}
+		.stamp .par{float: left;padding: 2px 5px;width: 55%;border-right:2px dashed rgba(255,255,255,.3);text-align: left;}
+		.stamp .par p{color:#fff;}
+		.stamp .par p.title{ font-size: 18px; margin-bottom: 0px; margin-top: 0px;}
+		.stamp .par p.coupon{ margin: 0;}
+		.stamp .par span{font-size: 41px;color:#fff;margin-right: 5px;}
+		.stamp .par .sign{font-size: 28px;}
+		.stamp .par sub{position: relative;top:-5px;color:rgba(255,255,255,.8);}
+		.stamp .copy{display: inline-block;padding:21px 14px;/*width:31%;*/vertical-align: text-bottom;font-size: 18px;color:rgb(255,255,255);}
+		.stamp .copy p{font-size: 16px;margin-top: 15px;}	
+
+		.stamp04{width: 100%;background: #50ADD3;background: radial-gradient(rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 4px, #50ADD3 4px);background-size: 12px 8px;background-position: -5px 10px;}
+		.stamp04:before{background-color:#50ADD3;left: 5px;right: 5px;}
+		.stamp04 .copy{padding: 10px 6px 10px 12px;font-size: 24px;}
+		.stamp04 .copy p{font-size: 14px;margin-top: 5px;margin-bottom: 8px;}
+		.stamp04 .copy p.title{ font-size: 20px;}
+		.stamp04 .copy a{background-color:#fff;color:#333;font-size: 14px;text-decoration:none;padding:5px 10px;border-radius:3px;display: block;}
+	</style>
+    <title>UCToo开源项目捐赠</title>
+</head>
+<body>
+
+<header><span style="float:left;margin-left:10px;padding:0px 10px;" id="to_home">个人中心</span><span id="user_name" class="margin-auto">UCToo开源项目捐赠</span><span style="float:right;margin-right:10px;padding:0px 10px;" id="to_help">帮助</span></header>
+<div id="user_info_bar">
+    <span class="img"><img src="{$user.headimgurl}"></span><p class="text">{$user.nickname}</p>
+</div>
+<!-- 赋值表单 -->
+<div id="form_val" >
+    <form action="http://test.uctoo.com/addon/Wxpay/Index/jsApiPay/mp_id/{$mp_id}.html" method="post" >
+	<p>捐赠金额（单位：分）</p>
+    <input type="text" class="am-radius" value="" style="width:100%;border:1px solid #04BE02;padding:1px 10px;height:28px;line-height:28px;margin:0px 0 10px;" id="order_total_price" name="order_total_price">
+        <input type="hidden" value="{$mp_id}" id="mp_id" name="mp_id">
+		<input type="hidden" value="donate" id="addon" name="addon">
+        <volist name="consume" id="vo" key="k" >
+            <input type="text" value="{$vo.code}" name="coupon_id_{$k}">
+            <input type="text" value="100" name="coupon_fee_{$k}">
+        </volist>
+        <textarea name="consumeJson">{$consumeJson}</textarea>
+        <input type="text" value="{$selected_couponsum}" name="selected_couponsum">
+        <input type="text" value="2" name="coupon_count">
+        <input type="submit" style="height:42px;line-height:42px;" value="确定" class="weui_btn weui_btn_primary">
+    </form>
+	<a id="addCard" href="javascript:;" class="weui_btn weui_btn_primary">批量添加卡券接口</a>
+    <a id="chooseCard" href="javascript:;" class="weui_btn weui_btn_primary">调起适用于门店的卡券列表并获取用户选择列表</a>
+    <a id="openCard" href="javascript:;" class="weui_btn weui_btn_primary">查看微信卡包中的卡券接口</a>
+</div>
+	<!-- 优惠券 start -->
+	<div style="width:80%;margin:10px 10%;">
+		<div class="stamp stamp04">
+			<div class="par"><p class="title">优创智投</p><sub class="sign">&yen;</sub><span>{$selected_couponsum}</span><p class="coupon">优惠券</p></div>
+			<div class="copy"><p class="title">使用说明</p><p>{$tips}</p></div>
+		</div>
+	</div>	
+   <!-- 优惠券 end -->
+    <!-- 打分人 start -->
+    <div class="am-tabs" style="width:80%;margin:10px 10%;" data-am-tabs>
+          <ul class="am-tabs-nav">
+            <li class="am-active"><a href="#tab1">捐赠列表</a></li>
+            <li><a href="#tab2">捐赠排名</a></li>
+        </ul>
+
+        <div class="am-tabs-bd" style="border:none;">
+            <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+                <div id="point_bar">
+                    <ul>
+                        <volist name="donate_list" id="vo" empty="暂时没有数据" >
+                            <li><span class="img"><img src="{$vo.from_headimgurl}"></span><p class="text"><a class="a_link" attr-url="{:addons_url ( 'Ucuser://Ucuser/myorder',array('id'=>$vo['id']) )}">{$vo.buyer_nick}捐赠了：{$vo.order_total_price}分</a></p></li>
+                        </volist>
+                    </ul>
+                </div>
+            </div>
+            <div class="am-tab-panel am-fade" id="tab2">
+                <div id="point_bar1">
+                    <p style="color:#C00;font-size:12px;">截至2015年12月31日，全球排名前5的用户可获得www.uctoo.com一年钻石会员资格。</p>
+                    <ul>
+
+                        <if condition="$myrank lt 5 ">
+                            <volist name="donate_sum" id="vo" key="k" empty="暂时没有数据" >
+                                <li>第{$k}名<span class="width_10"></span>{$vo.buyer_nick}<span class="img"><img src="{$vo.to_headimgurl}"></span><p class="text">总捐赠额：{$vo.total_price}分</p></li>
+                            </volist>
+                                <li style="padding-left:10px;">……</li>
+
+                            
+                            <else />
+                            <volist name="donate_sum" id="vo" key="k" empty="暂时没有数据" >
+                                <li>第{$k}名<span class="width_10"></span>{$vo.buyer_nick}<span class="img"><img src="{$vo.to_headimgurl}"></span><p class="text">总捐赠额：{$vo.total_price}分</p></li>
+                            </volist>
+                            <li>……</li>
+                            <li>第{$myrank}名<span class="img"><img src="{$mytotalscore.to_headimgurl}">{$mytotalscore.to_name}</span><p class="text">总捐赠额：{$mytotalscore.totalscore}分</p></li>
+                            <li style="padding-left:10px;">……</li>
+                        </if>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 打分人 end -->
+</article>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
+<script type="text/javascript" src="{:ADDON_PUBLIC_PATH}/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="{:ADDON_PUBLIC_PATH}/js/amazeui2.1.min.js"></script>
+
+
+    <script>
+        wx.config({
+            debug: true,
+            appId: '{$js_sign['appid']}',
+            timestamp: {$js_sign['timestamp']},
+            nonceStr: '{$js_sign['noncestr']}',
+            signature: '{$js_sign['signature']}',
+            jsApiList: [
+                // 所有要调用的 API 都要加到这个列表中
+                'checkJsApi',
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage',
+                'onMenuShareQQ',
+                'onMenuShareWeibo',
+                'openProductSpecificView',
+                'addCard',
+                'chooseCard',
+                'openCard'
+            ]
+        });
+        wx.ready(function () {
+            // 在这里调用 API
+            //朋友圈
+            wx.onMenuShareTimeline({
+                title: '{$sharedata.title}',
+                desc: '{$sharedata.desc}',
+                link: '{$sharedata.link}',
+                imgUrl: '{$sharedata.imgUrl}',
+                trigger: function (res) {
+                       //alert('用户点击并朋友圈');
+                },
+                success: function () {
+                    // 用户确认分享后执行的回调函数
+                       //alert('Timeline分享成功');
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                       //alert('您取消了分享Timeline');
+                }
+            });
+            wx.onMenuShareAppMessage({
+                title: '{$sharedata.title}',
+                desc: '{$sharedata.desc}',
+                link: '{$sharedata.link}',
+                imgUrl: '{$sharedata.imgUrl}',
+                type: '', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                success: function () {
+                        //alert('分享给朋友分享成功');
+                },
+                cancel: function () {
+                         //alert('您取消了分享给朋友');
+                }
+            });
+            // 12.1 添加卡券
+            document.querySelector('#addCard').onclick = function () {
+                wx.addCard({
+                    cardList: [
+                        {
+                            cardId: 'pWhGnjq33WL4mFZuNcl-uKZe1lao',
+                            cardExt: '{"code": "", "openid": "", "timestamp": "{$cardExt['timestamp']}","nonce_str": "{$cardExt['nonce_str']}", "signature":"{$cardExt['cardSign']}"}'
+                        }
+                    ],
+                    success: function (res) {
+                        alert('已添加卡券：' + JSON.stringify(res.cardList));
+                    }
+                });
+            };
+            // 12.2 选择卡券
+            document.querySelector('#chooseCard').onclick = function () {
+                wx.chooseCard({
+                    cardSign: '{$card_sign['cardSign']}',
+                    timestamp: {$card_sign['timestamp']},
+                    nonceStr: '{$card_sign['nonceStr']}',
+					cardType: 'CASH',
+                    success: function (res) {
+                        alert('已选择卡券：' + JSON.stringify(res.cardList));
+                    }
+                });
+            };
+
+            // 12.3 查看卡券
+            document.querySelector('#openCard').onclick = function () {
+                wx.openCard({
+                    cardList: [{
+                        cardId: 'pWhGnjq33WL4mFZuNcl-uKZe1lao',
+                        code: '996223018577'
+                    }]
+                });
+            };
+
+        });
+        wx.error(function (res) {
+            //alert(res.errMsg);
+        });
+
+
+        $('.a_link').on("tap",function(){
+            var link = $(this).attr('attr-url');
+            //alert(link)
+            window.location.href = link;
+        });
+
+        $('#go_to_points').on('tap',function(){
+            var url = "{$sharedata.link}";
+            window.location.href = url;
+        });
+
+    </script>
+    <!--end 微信JSSDK-->
+<script>
+    $('#to_home').on('tap',function(){
+        var home_url = "{$home_url}";
+        window.location.href = home_url;
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+.portfolio_topic {
+  background:#607D8B;
+  position:relative;
+  padding:10px 0;
+}
+.portfolio_topic .pic {
+	color:#fff;
+	text-align: center;
+	margin:120px auto;
+	font-size:2em;
+}
+
+.portfolio-list-box {
+	margin:15px auto;
+}
+.portfolio-list-box .con {
+	margin:10px auto;
+}
+.portfolio-list-box .con .author {
+	display:block;
+	margin:10px auto;
+}
+.portfolio-list-box .con p {
+	color:#999;
+	font-size:16px;
+	font-weight: 200;
+}
+.keyword span {
+	display: inline-block;
+	background: #f90;
+	color:#fff;
+	line-height: 28px;
+	margin-right:10px;
+	padding:0 10px;
+}
+.detail_box {
+	background:#fff;
+	padding:20px;
+	margin-top:10px;
+}
+.detail_box .title {
+	margin:10px auto;
+}
+.detail_box .portfolio-content {
+  padding: 0;
+  font-size: 1.2em;
+}
+.detail_box .author_box {
+	margin:10px auto;
+}

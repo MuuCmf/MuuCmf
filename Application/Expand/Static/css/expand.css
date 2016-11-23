@@ -1,0 +1,267 @@
+.expand_common_box {
+  padding:15px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  border-radius: 2px;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+.expand_common_box h2{
+  margin:0;
+}
+.side-menu {
+    background: white;
+}
+.expand_topic {
+  background: #607D8B;
+  position: relative;
+  text-align: center;
+  max-width:1600px;
+  margin:0 auto;
+}
+.navbar-collapse {
+  padding-right: 0;
+  padding-left: 0;
+}
+#sub_nav_list {
+  background:#fff;
+  z-index: 998;
+}
+#sub_nav_list .navbar-header {
+  padding:0 10px;
+ }
+ #sub_nav_list .navbar-header i{
+  font-size:28px;
+  line-height: 40px;
+ }
+
+.expand_menu {
+	border-bottom: 1px solid #DEDEDE;
+	margin:30px auto;
+	text-align: center;
+	padding:20px 0;
+}
+.expand_menu .menu_ico {
+	display:inline-block;
+
+}
+.expand_menu .menu_tit {
+	display:block;
+	font-size:2em;
+	color:#666;
+}
+.expand_list_box {
+  margin: 15px 0;
+  padding-top:15px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  border-radius: 2px;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+
+.expand_list_box:hover {
+  -webkit-box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+  -webkit-transform: translate3d(0, -2px, 0);
+  -moz-transform: translate3d(0, -2px, 0);
+  transform: translate3d(0, -2px, 0);
+}
+.expand_list_box .img {
+  width:50%;
+  padding:0 15px;
+  margin:0 auto;
+}
+.expand_list_box .img img {
+  border-radius:10px;
+}
+
+.expand_list_box .con {
+  padding: 0 15px;
+}
+.expand_list_box a .con h2{
+
+  color:#000;
+}
+.expand_list_box a .con p{
+  color:#737373;
+}
+.expand_list_box .doinfo {
+  background:#fff;
+  padding:0 15px 15px 15px;
+}
+.expand_list_box .doinfo .price {
+  font-size:14px;
+  color:#ff6600;
+}
+.fangfa {
+  font-size:14px;
+  color:#ffcc00;
+}
+
+/*info页面*/
+.expand_info_aside {
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.expand_info_comment {
+  background-color: #fff;
+  padding:15px; 
+  margin-top:15px;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.expand_info_box {
+  background-color: #fff;
+  padding:15px;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.expand_info_box .version_box {
+  background:#fefefe;
+  border-bottom:1px solid #f4f4f4;
+  line-height: 32px;
+}
+
+.expand_info_aside .base_info {
+  padding:15px;
+  background-color: #fff;
+}
+.expand_info_aside .tit h2{
+  margin:5px auto;
+}
+.expand_info_aside .info{
+  color:#737373;
+  background-color: #fff;
+}
+.expand_info_aside .base_info .price {
+  font-size:14px;
+  color:#ff6600;
+  line-height: 32px;
+}
+.expand_info_aside .author_info {
+  margin-top:15px;
+  padding:15px;
+  background-color: #fff;
+}
+.expand_info_box .baseinfo {
+  padding:10px;
+  background:;
+}
+.expand_icon {
+  margin-bottom:10px;
+}
+.expand_icon img {
+  border-radius: 10%;
+}
+.author_box {
+  margin-top:10px;
+  margin-bottom:10px;
+}
+.other_info {
+  margin-bottom:10px;
+}
+
+/*编辑应用信息*/
+.edit-box {
+  background:#fff;
+  padding:25px;
+}
+.upload_btn {
+  background:#f90;
+  border-radius:2px;
+  color:#fff;
+  text-align: center;
+}
+.upload-pre-item {
+
+}
+.file_info img {
+  max-width:60px;
+}
+
+/*版本库列表*/
+.version_list_box {
+  min-height:200px;
+}
+.version_list_box .version_box {
+  background:#fff;
+  margin:10px auto;
+  padding:15px;
+  line-height: 32px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  border-radius: 2px;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  border:2px solid #fff;
+}
+.version_list_box .version_box:hover{
+  border:2px solid #f90;
+}
+.version_list_box .version_box .audit_status {
+  background:#fff;
+  border-color:#ddd;
+}
+.version_list_box .version_box .btn-group .btn {
+  
+}
+
+.expand_info_box {
+  background:#fff;
+  margin-bottom:15px;
+  padding:15px;
+  line-height: 32px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  border-radius: 2px;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+.expand_info_box .img img{
+  border-radius: 10px;
+  width:100px;
+}
+.expand_info_box .con h2{
+  color:#000;
+}
+.expand_info_box .doinfo .price{
+  color:#f60;
+}
+.version_list_box .empty_box {
+  text-align:center;
+  background:#fff;
+  font-size:1.5em;
+  color:#666;
+  line-height:200px;
+  min-height:200px;
+}
+
+/*开发者认证*/
+.devag {
+  border:1px solid #ddd;
+  padding:15px;
+  background:#f7f7f7;
+  font-size:1.1em;
+  max-height:500px;
+  overflow:auth;
+}
+
+.devauth-box {
+  background:#fff;
+  padding:15px;
+  line-height: 32px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  border-radius: 2px;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  margin:10px auto;
+}
+.devauth-box h3 {
+  margin:0px auto 15px auto;
+}
+.devauth-box .dev-group {
+
+}
+
+

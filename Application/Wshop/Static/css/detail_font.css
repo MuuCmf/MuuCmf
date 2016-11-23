@@ -1,0 +1,39 @@
+@font-face {
+	font-family: 'detail';
+	src:url('/Application/Wshop/Static/fonts/detail.eot?z1umhj');
+	src:url('/Application/Wshop/Static/fonts/detail.eot?z1umhj#iefix') format('embedded-opentype'),
+		url('/Application/Wshop/Static/fonts/detail.ttf?z1umhj') format('truetype'),
+		url('/Application/Wshop/Static/fonts/detail.woff?z1umhj') format('woff'),
+		url('/Application/Wshop/Static/fonts/detail.svg?z1umhj#detail') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="detail-icon-"], [class*=" detail-icon-"] {
+	font-family: 'detail';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+.detail-icon-user{
+    font-size: 2.4rem;
+}
+.detail-icon-phone2{
+    font-size: 1.6rem;
+}
+.detail-icon-user:before {
+    font-weight: bold;
+	content: "\e901";
+    vertical-align: middle;
+}
+.detail-icon-phone2:before {
+	content: "\e902";
+}
+

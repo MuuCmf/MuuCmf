@@ -1,0 +1,49 @@
+
+    <volist name="lzlList" id="vo" key="k">
+        <div id="forum_lzl_reply_{$vo.id}" class="show_{$to_f_reply_id} comment" style="<if condition="
+        $nowPage eq 1 and $k gt 3 and $k elt $limit">display:none;</if>">
+
+        
+        <a href="{$vo.userInfo.space_url}" ucard="{$vo.userInfo.uid}" class="avatar"> 
+            <img src="{$vo.userInfo.avatar128}" class="img-circle"/>
+        </a>
+        
+        <div class="content">
+            <div class="pull-right text-muted">{$vo.ctime|time_format}</div>
+                <a href="{$vo.userInfo.space_url}"> 
+                    <strong>{$vo.userInfo.nickname}</strong>
+                </a> 
+                    {:W('Common/UserRank/render',array($vo['userInfo']['uid']))}
+
+                <div class="text">{$vo.content|parse_at_users}</div>
+                <div class="actions">
+                    <if condition="check_auth('Forum/Lzl/doSendLZLReply',get_expect_ids($vo['id'],0,0,0,0))">
+                        <a class="reply_lzl_btn"
+                           args="to_f_reply_id={$to_f_reply_id}&uid={:is_login()}&to_uid={$vo.userInfo.uid}&to_reply_id={$vo.id}&to_nickname={$vo.userInfo.nickname}&p={$p}"
+                           href="javascript:">{:L('_REPLY_')}</a>
+                    </if>
+                    <if condition="check_auth('Forum/Lzl/delLZLReply',get_expect_ids($vo['id']))">
+                        <a class="del_lzl_reply" args="lzl_reply_id={$vo.id}&to_f_reply_id={$to_f_reply_id}"
+                           href="javascript:">{:L('_DELETE_')}</a>
+                    </if>
+
+                </div>
+            </div>
+        </div>
+    </volist>
+
+<if condition="$nowPage eq 1 and $count gt 3">
+    <span class="pull-left XT_reply_count" id="show_{$to_f_reply_id}">
+     还有{$totalCount-3}条回复，<a href="javascript:"
+                             onclick="$('.show_{$to_f_reply_id}').slideDown('normal');$('#show_{$to_f_reply_id}').hide();$('#pagination_{$to_f_reply_id}').show();">点击查看</a>
+    </span>
+
+</if>
+<div class="pager" id="pagination_{$to_f_reply_id}"
+     style="margin-left: 40px;<if condition='$nowPage eq 1'>display:none;</if>">
+    {$html}
+</div>
+
+<script>
+    bindAjaxListEvent()
+</script>

@@ -1,0 +1,138 @@
+.margin-top{
+    margin-top: 2rem;
+}
+.margin-bottom{
+    margin-bottom: 23px!important;
+}
+.price-input{
+    height: 30px;
+    margin-bottom: 8px;
+}
+.yuan-text{
+    width: 70px;
+    line-height: 2.4;
+    position: relative;
+    top: -4px;
+}
+.spe-td{
+    width: 70px;
+}
+.spe-td input{
+    height: 30px;
+}
+.add-more-delivery{
+    cursor: pointer;
+}
+.postage-table{
+    display: none;
+}
+.postage-table small{
+    color: #459ae9;
+    margin-left: 5px;
+    cursor: pointer;
+}
+.postage-table td{
+    vertical-align: middle!important;
+}
+.selected-addr{
+    font-size: small;
+    color: #a3a3a3;
+}
+.popup-left{
+    width: 50%;
+    float: left;
+}
+.popup-right{
+    width: 50%;
+    float: right;
+}
+.addr-box{
+    width: 240px;
+    margin: 0 auto;
+    border: solid thin #e7e7eb;
+}
+.addr-box-p{
+    background-color: #f4f5f9;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+.addr-box-body{
+    overflow: hidden;
+    position: relative;
+}
+.addr-add-btn{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    height: 35px;
+    width: 50px;
+    padding: 5px;
+}
+.addr-list-box{
+    padding: 5px;
+    height: 425px;
+    overflow-y: scroll;
+}
+.addr-selected-list{
+    padding: 5px;
+    height: 425px;
+    overflow-y: scroll;
+}
+.first-level-box{
+    padding: 0 5px;
+}
+.first-level-box p{
+    margin-bottom: 0;
+}
+.parent-addr{
+    display: block;
+    cursor: pointer;
+}
+.added-addr{
+    cursor: pointer;
+    float: right;
+}
+.parent-addr:hover{
+    background-color: #ccced3;
+}
+.child-addr{
+    display: block;
+    margin: 0;
+    padding-left: 20px;
+    cursor: pointer;
+}
+.child-addr:hover{
+    background-color: #ccced3;
+}
+.second-level-box{
+    display: none;
+}
+.addr-active{
+    color: white;
+    background-color: #ccced3;
+}
+.padding-left{
+    padding-left: 15px;
+}
+.addr-selected-list p{
+    padding: 0 8px;
+    margin: 0;
+}
+.addr-selected-list p:hover{
+    background-color: #ccced3;
+}
+.yhc-am-btn{
+    cursor: pointer;
+    display: table-cell;
+    text-align: center;
+    color: #0e90d2;
+}
+.selected-addr span{
+    margin-right: 5px;
+}
+.selected-addr span:last-child{
+    margin-right: 0;
+}

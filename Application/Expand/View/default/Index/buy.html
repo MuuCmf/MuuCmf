@@ -1,0 +1,150 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link type="text/css" rel="stylesheet" href="__CSS__/expand.css"/>
+    <style>
+	.recharge_form_box .paychannel {
+		position: relative;
+		border:2px solid #ddd;
+		background:#f6f6f6;
+		padding:5px;
+		margin-bottom:10px;
+		cursor:pointer;
+	}
+	.recharge_form_box .click{
+		border:2px solid #f60;
+		background:#f6f6f6;
+	}
+	.recharge_form_box .selected {
+	position:absolute;
+	background:#f60;
+	border-radius: 50%;
+	text-align: center;
+	width:20px;
+	height:20px;
+	top:50%;
+	right:10px;
+	margin-top:-10px;
+	}
+	.recharge_form_box .selected i{
+		color:#fff;
+	}
+    </style>
+</block>
+<block name="body">
+                  
+    <div id="main-container" class="container">
+        <div class="expand_info_main">
+        <div class="recharge_form_box">
+        <form class="" role="form" action="__SELF__" method="post">
+	        <div class="expand_common_box margin_bottom_15 clearfix">
+		        <div class="col-md-12">
+	        		<h2>应用名称</h2>
+	                <div class="col-xs-3">
+	                    <div class="expand_icon">
+	                        <img alt="{$result.title|text}" src="{$result.icon|getThumbImageById=200,200}">
+	                    </div>
+	                </div>
+	                <div class="col-xs-9">
+	                    <div class="tit">
+	                    	<input type="hidden" name="expand_id" value="{$result.id}"> 
+	                        <h2>{$result.title}</h2>
+	                        <p>{$result.description}</p>
+	                    </div>
+	                </div>
+		        </div>
+		    </div>
+	        <div class="expand_common_box margin_bottom_15 clearfix">
+	        	<h2>支付方式</h2>
+	        	<ul class="list-group">
+		        	<li class="list-group-item">
+			        	<div class="radio">
+						  <label>
+						    <input type="radio" name="payment" value="score_2"> M币支付
+						  </label>
+						</div>
+					</li>
+					<li class="list-group-item">
+						<div class="radio">
+						  <label>
+						    <input type="radio" name="payment" value="score_4"> 余额支付
+						  </label>
+						</div>
+					</li>
+					<li class="list-group-item clearfix">
+						<div class="radio">
+						  <label>
+						    <input type="radio" name="payment" value="pingpay"> 在线支付
+						  </label>
+						</div>
+						<div class="paychannel-box hidden">
+				        	<volist name="payChannel" id="channel">
+							    <div class="col-md-3">
+								    <div class="paychannel">
+										<input type="hidden" name="channel" value="{$channel.name}">
+										<img src="__ROOT__/Application/Pingpay/Static/images/{$channel.icon}" /> {$channel.stitle} 
+										<span class="selected hidden">
+											<i class="icon-check"></i>
+										</span>
+									</div>
+								</div>
+							</volist>
+						</div>
+					</li>
+				</ul>
+	        </div>
+	        <div class="expand_common_box margin_bottom_15">
+	        	<h2>价格</h2>
+	        	<h2 style="color:#f60">¥ {$result.price}</h2>
+	        </div>
+	        <div class="expand_common_box margin_bottom_15">
+	        	<h2>确认提交</h2>
+	        	<button class="btn btn-lg" type="submit">确认购买</button>
+	        </div>
+	    </form>
+	    </div>
+        </div>
+    </div>
+</block>
+<block name="script">
+<script>
+$(function(){
+	var paychannel;
+	//支付方式
+	$(".paychannel").click(function(){
+		$(".paychannel").removeClass("click");
+		$(".paychannel").children(".selected").addClass("hidden");
+		$(this).addClass("click");
+		$(this).children(".selected").removeClass("hidden");
+		paychannel = $(this).children("input").val();
+	});
+
+	$("input[name='payment']").click(function(){
+		if($(this).val()=="pingpay"){
+			$(".paychannel-box").removeClass("hidden");
+		}else{
+			$(".paychannel-box").addClass("hidden");
+		}
+	});
+
+	$("form").submit(function(e) {
+	    e.preventDefault();
+	    var self=$(this);
+
+	    var _data = {
+	    		"expand_id":$("input[name='expand_id']").val(),
+	        	"payment":$("input[type='radio']:checked").val(),
+	        	"paychannel":paychannel,
+        	};
+
+	    $.post(self.attr("action"),_data, function(data) {
+	    	alert(data);
+            if (data.error) {
+                toast.error(data.error.message, '温馨提示');
+            }else{
+            	toast.success(data.info);
+            }
+    	}, "json");
+	});
+});
+</script>
+</block>

@@ -1,0 +1,61 @@
+<extend name="Public/forum"/>
+<block name="body">
+
+        <if condition="$list_top">
+        <div class=" forum-posts forum_block_border">
+            <div class="forum_block_title">
+                {:L('_TOP_POST_')}
+            </div>
+            <section id="contents">
+                <volist name="list_top" id="vo">
+                    <include file="Public/post-item"/>
+                    <if condition="$i neq count($list_top)">
+                        <hr class="forum-list-hr"/>
+                        <else/>
+                        <div class="forum-list-no-hr"></div>
+                    </if>
+                </volist>
+            </section>
+        </div>
+        </if>
+        <div class="clearfix forum-posts forum_block_border">
+
+        <div class="forum_block_title clearfix">
+            {:L('_POST_LIST_')}
+            <div class="pull-right">
+                <div class="btn-group forum_order">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                        <eq name="order" value="0">{:L('_REPLY_TIME_')}<else/>{:L('_DELIVER_TIME_')}</eq> <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu text-left" role="menu">
+                        <li><a href="{:U('index',array('id'=>$forum_id,'order'=>'ctime'))}">{:L('_DELIVER_TIME_')}</a></li>
+                        <li><a href="{:U('index',array('id'=>$forum_id,'order'=>'reply'))}">{:L('_REPLY_TIME_')}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <section id="contents">
+            <if condition="!$list">
+                <div class="col-xs-12">
+                    <p class="text-muted" style="text-align: center; font-size: 3em;">
+                        <br/><br/>
+                        {:L('_TIP_NOT_POST_NOW_')}
+                        <br/><br/>
+                    </p>
+                </div>
+            </if>
+            <volist name="list" id="vo">
+                <include file="Public/post-item"/>
+                <if condition="$i neq count($list)">
+                    <hr class="forum-list-hr"/>
+                <else/>
+                    <div class="forum-list-no-hr"></div>
+                </if>
+            </volist>
+            <div class="pull-right">
+                {:getPagination($totalCount, modC('FORM_POST_SHOW_NUM_PAGE','10','Forum'))}
+            </div>
+        </section>
+    </div>
+</block>

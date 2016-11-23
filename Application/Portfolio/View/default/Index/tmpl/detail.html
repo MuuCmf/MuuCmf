@@ -1,0 +1,53 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link type="text/css" rel="stylesheet" href="__CSS__/Portfolio.css"/>
+</block>
+<block name="body">
+    <div id="main-container" class="container">
+    <include file="Public/_nav"/>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="common_block_border detail_box">
+                    <div class="common_block_title">
+                        <div class="title text-center"><h2>{$info.title}</h2></div>
+                        <if condition="$info['cover'] neq 0">
+                            <div class="cover_box text-center">
+                                <a title="{$info.title|op_t}" href="{:U('Articles/index/detail',array('id'=>$info['id']))}" class="cover">
+                                    <img alt="{$info.title|op_t}" src="{$info.cover|getThumbImageById=708,304}">
+                                </a>
+
+
+                                <p class="clearfix">
+                                    <if condition="check_auth('Articles/Index/edit',$info['uid'])&&($info['status'] neq 1)">
+                                        <a title="编辑" href="{:U('Articles/index/edit',array('id'=>$info['id']))}" style="float: right"><i class="icon-edit" style="font-size: 16px;">编辑</i></a>
+                                    </if>
+                                </p>
+                            </div>
+                        </if>
+                        <if condition="$info['keywords'] neq ''">
+                            <div class="keyword text-center">
+                                <volist name="keywords" id="vo" key="k">
+                                    <span class="keyspan">{$vo}</span> 
+                                </volist>
+                            </div>
+                        </if>
+                    </div>
+
+                    <section id="contents">
+                        <div class="portfolio-content">
+                            <if condition="$info['source'] neq ''">
+                                <div style="margin-bottom: 20px;color: #C0C0C0;">
+                                    <i class="icon-chrome"></i> 来源：{$info.source}
+                                </div>
+                            </if>
+                            {$info.detail.content}
+                        </div>
+                    </section>
+                    <div style="padding: 20px">
+                        {:hook('localComment', array('path'=>"Portfolio/index/$info[id]", 'uid'=>$info['uid'],'count_model'=>'portfolio','count_field'=>'comment','this_url'=>'portfolio/index/detail'))}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>

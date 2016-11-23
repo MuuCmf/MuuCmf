@@ -1,0 +1,148 @@
+<extend name="public/devcenter"/>
+<block name="body">
+
+    <div class="expand_common_box margin_bottom_15">
+        <div class="dev-group">
+            <if condition="$data['status'] eq 0">
+                审核失败
+                <p>：{$data.reason}</p>
+                <a href="{:U('Expand/Dev/devauth',array('repost'=>$data['uid']))}">重新审核</a>
+            </if>
+            <if condition="$data['status'] eq 1">
+                开发者权限已开通
+            </if>
+            <if condition="$data['status'] eq 2">
+                正在审核中
+            </if>
+        </div>
+    </div>
+    <div id="devauth-box" class="devauth-box clearfix">
+        <h3>实名认证资料</h3>
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="dev-group">
+                    <h4>真实姓名</h4>
+                    <div class="devinfo">
+                        {$data.tname}
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="dev-group">
+                    <h4>身份证号码</h4>
+
+                    <div class="devinfo">
+                        {$data.snum}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="devauth-box" class="devauth-box clearfix">
+    <h3>应用浏览量</h3>
+        <canvas id="viewChart" width="850" height="400"></canvas>
+    </div>
+
+    <div id="devauth-box" class="devauth-box clearfix">
+    <h3>应用下载量</h3>
+        <canvas id="downChart" width="850" height="400"></canvas>
+    </div>
+
+    <div class="expand_common_box">
+            <a class="btn btn-primary btn-block" href="{:U('Expand/Dev/devauth',array('repost'=>$data['uid']))}">修改认证资料</a>
+    </div>
+
+</block>
+<block name="script">
+<script src="__ZUI__/lib/chart/zui.chart.min.js"></script>
+    <script>
+    var data = {
+        // labels 数据包含依次在X轴上显示的文本标签
+        labels: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+        datasets: [{
+            // 数据集名称，会在图例中显示
+            label: "红队",
+
+            // 颜色主题，可以是'#fff'、'rgb(255,0,0)'、'rgba(255,0,0,0.85)'、'red' 或 ZUI配色表中的颜色名称
+            // 或者指定为 'random' 来使用一个随机的颜色主题
+            //color: "red",
+            // 也可以不指定颜色主题，使用下面的值来分别应用颜色设置，这些值会覆盖color生成的主题颜色设置
+             fillColor: "rgba(23,182,200,0.2)",
+             strokeColor: "rgba(23,182,200,1)",
+             pointColor: "rgba(23,182,200,1)",
+             pointStrokeColor: "#fff",
+             pointHighlightFill: "#fff",
+             pointHighlightStroke: "rgba(220,220,220,1)",
+
+            // 数据集
+            data: [65, 59, 80, 81, 56, 55, 40, 44, 55, 70, 30, 40]
+        }, {
+            label: "绿队",
+            fillColor: "rgba(250,100,100,0.2)",
+             strokeColor: "rgba(250,100,100,1)",
+             pointColor: "rgba(250,100,100,1)",
+             pointStrokeColor: "#fff",
+             pointHighlightFill: "#fff",
+             pointHighlightStroke: "rgba(220,220,220,1)",
+            data: [28, 48, 40, 19, 86, 27, 90, 60, 30, 44, 50, 66]
+        }]
+    };
+
+    var options = {
+    ///Boolean - 是否在图表上显示网格
+    scaleShowGridLines : true,
+
+    //String - 网格线条颜色
+    scaleGridLineColor : "rgba(0,0,0,.05)",
+
+    //Number - 网格宽度
+    scaleGridLineWidth : 1,
+
+    //Boolean - 是否显示水平坐标，即X轴
+    scaleShowHorizontalLines: true,
+
+    //Boolean - 是否显示垂直坐标，即Y轴
+    scaleShowVerticalLines: true,
+
+    //Boolean - 是否显示为平滑曲线
+    bezierCurve : true,
+
+    //Number - 平滑曲线时所使用的贝塞尔曲线参数
+    bezierCurveTension : 0.4,
+
+    //Boolean - 是否显示顶点
+    pointDot : true,
+
+    //Number - 顶点半径，单位像素
+    pointDotRadius : 4,
+
+    //Number - 顶点描边线条宽度，单位像素
+    pointDotStrokeWidth : 1,
+
+    //Number - 检测鼠标点击所使用依据的半径大小，单位像素
+    pointHitDetectionRadius : 20,
+
+    //Boolean - 是否
+    datasetStroke : true,
+
+    //Number - 数据集线条宽度，单位为像素
+    datasetStrokeWidth : 2,
+
+    //Boolean - 是否用颜色来填充数据集
+    datasetFill : true,
+
+    
+
+    }; // 图表配置项，可以留空来使用默认的配置
+
+    var chartView = function(id,data,options){
+        var cxt = document.getElementById(id).getContext("2d");
+        new $.zui.Chart(cxt).Line(data,options);
+    }
+
+    chartView('viewChart',data,options);
+    chartView('downChart',data,options);
+
+    </script>
+</block>

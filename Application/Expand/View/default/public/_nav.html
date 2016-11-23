@@ -1,0 +1,29 @@
+      <nav class="navbar navbar-default" role="navigation" id="sub_nav_list">
+          <!-- 导航头部 -->
+          <!-- 导航项目 -->
+          <div class="collapse navbar-collapse navbar-collapse-example">
+            <ul class="nav navbar-nav">
+                <volist name="sub_menu.menu" id="clist">
+                  <li id="tab_{$clist.tab}"><a href="{$clist.href}">{$clist.title}</a></li>
+                </volist>
+            </ul>
+            <!-- 右侧的导航项目 -->
+            <ul class="nav navbar-nav navbar-right">
+                <volist name="sub_menu.user" id="clist">
+                  <li id="tab_{$clist.tab}"><a href="{$clist.href}">{$clist.title}</a></li>
+                </volist>
+              <li><a href="{:U('Index/help')}">帮助</a></li>
+              
+            </ul>
+            <!-- 导航中的表单 -->
+            <form class="navbar-form navbar-left" role="search">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="搜索">
+              </div>
+              <button type="submit" class="btn btn-default">搜索</button>
+            </form>
+          </div><!-- END .navbar-collapse -->
+      </nav>
+        <script>
+            $('#sub_nav_list #tab_category_{$category}').addClass('active');
+        </script>

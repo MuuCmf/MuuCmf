@@ -1,0 +1,48 @@
+<extend name="public/devcenter"/>
+<block name="body">
+    <div class="row">
+        <div class="col-xs-12">
+        <div class="expand_common_box">
+            <h2>{$seo['title']}</h2>
+        </div>
+            <div class="row">
+                <volist name="list" id="data">
+                <div class="col-md-4">
+                    <div class="expand_list_box">
+                        <a href="{:U('Expand/index/info',array('id'=>$data['id']))}" target="_blank">
+                            <div class="img">
+                                <img alt="{$data.title|text}" src="{$data.icon|getThumbImageById=200,200}">
+                            </div>
+                            <div class="con text-center">
+                                <h2 class="text-ellipsis">{$data.title}</h2>
+                                <p class="text-ellipsis">{$data.description|msubstr=0,200,'utf-8',false}...</p>
+                            </div>
+                        </a>
+                        <div class="doinfo">
+                            <div class="text-center">
+                                <div class="price">积分：{$data.price}</div>
+                            </div>
+
+                            <div class="text-center">
+
+                                <a href="{:U('Expand/Dev/edit',array('id'=>$data['id']))}" class="btn btn-block btn-primary">编辑</a>
+
+                                <a href="{:U('Expand/Dev/editversion',array('expand_id'=>$data['id']))}" class="btn btn-block btn-warning">发布版本</a>
+
+                                 <a href="{:U('Expand/Dev/versionlist',array('id'=>$data['id']))}" class="btn btn-block btn-info">版本库</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </volist>
+
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="text-right">
+                {:getPagination($totalCount,20)}
+            </div>
+        </div>
+    </div>
+</block>

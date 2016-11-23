@@ -1,0 +1,157 @@
+/*nav*/
+body>nav{
+    position: relative;
+}
+.section-pic-tips-group{
+    position: absolute;
+    top: 0;left: 0;z-index: 10;
+}
+.section-pic-tips{
+    margin-top: 4px;
+    color: white;
+    min-width: 3rem;
+    text-align: center;
+    padding: 0.2rem 0.5rem;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    box-shadow: 1px 1px 4px #4B4B4B
+}
+.swiper-count-box{
+    bottom: 4.1666rem;
+}
+/*article*/
+.detail-box{
+    margin: 0 10px;
+    background: white;
+    box-shadow: 0 -1px 1px rgba(0,0,0,.2);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    position: relative;
+    top: -3.334rem;z-index: 200;
+
+}
+.detail-margin{
+    margin-bottom: 0.28rem;
+    padding-bottom: 1px;
+    z-index: 200;
+}
+.detail-box .title-section{
+    padding: 0 0.5rem;
+}
+.detail-box .text-section{
+    text-align: center;
+    line-height: 1.8;
+}
+.detail-section{
+    overflow: hidden;
+}
+.show-quantity{
+    text-align: center;
+}
+/*详情footer*/
+body>footer.detail-footer{
+    position: fixed;
+    bottom: 0;  left: 0;z-index: 250;
+    width:100%; height: 4rem;
+    line-height: 4rem;
+    text-align: center;
+}
+.detail-footer-box{
+    border-top: thin solid #e1e1e1;
+    margin: 0 10px;
+    background: white;
+    box-shadow: 0 1px 1px rgba(0,0,0,.2);
+    height: 100%;
+}
+footer.detail-footer button{
+    border: none;
+    border-radius: 3px;
+    padding: 7px 2px;
+    width: 8rem;
+}
+.circle-btn{
+    border: thin solid #333333;
+    border-radius: 50%;
+    float: left;
+    width: 2.5rem;height: 2.5rem;
+    text-align: center;
+    margin-left: 5%;
+    margin-top: 8px;
+    background: white;
+}
+.footer-button-first{
+    margin-right: 4%;
+}
+@media screen and (max-width: 230px) {
+    .footer-button-first{
+        margin-right: 1%;
+    }
+}
+.circle-btn img{
+    width: 1.3rem;
+    vertical-align: super;
+    position: relative;top: 0;
+}
+.detail-shadow{
+    display: none;
+    position: fixed;
+    top: 0;left: 0;z-index: 99;
+    width: 100%;height: 100%;
+    background: rgba(255,255,255,.5);
+    opacity: 0;
+}
+
+.bottom-btn{
+    border: thin solid #333333;
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    text-align: center;
+    margin-left: 5%;
+    margin-top: 8px;
+    background: white;
+}
+.detail-box .bottom-btn{
+    display: none;
+    position: absolute;
+    top: -45px;right: 5px;z-index: 10;
+}
+.bottom-btn img{
+    vertical-align: middle;
+    width: 1.3rem
+}
+/*规格*/
+.sku-content{
+    padding: 0 0.834rem 3rem;
+
+}
+.sku-content .sku-p{
+    text-align: center;
+}
+.sku-content .count-content{
+    text-align: center;
+}
+
+.sku-content .sku-p:last-child{
+    margin-bottom: 0;
+}
+.sku-content .sku-p button{
+    padding: 0.4rem 0.8rem;
+    background: white;
+    border-radius: 4px;
+    border-width: 1px;
+    margin-bottom: 0.834rem;
+}
+/*info*/
+.info-content{
+    padding: 0 0.834rem 4rem;
+}
+
+
+
+
+
+
+
+
+

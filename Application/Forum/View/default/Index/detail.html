@@ -1,0 +1,246 @@
+<extend name="Public/forum"/>
+<block name="body">
+        <php>
+            $user = query_user(array('avatar128','uid','nickname','space_url','rank_link','space_link'),
+            $post['uid']);
+        </php>
+        <if condition="$showMainPost">
+        <div class="forum-posts forum_block_border">
+            <div class="post_content clearfix">
+                <div class="forum_left_operation">
+                    <div class="text-right btn-toolbar " role="toolbar">
+                        <div class="btn-group btn-group-vertical">
+                            <if condition="check_auth('Forum/Index/editPost',get_expect_ids(0,0,$post['id'],0,1)) && $allow_publish">
+                                <a class="btn" title="{:L('_EDIT_')}"
+                                   href="{:U('Index/edit',array('post_id'=>$post['id']))}">
+                                    <i class="forum_edit"></i>
+                                </a>
+                            </if>
+                            <if condition="check_auth('Forum/Index/doReply',get_expect_ids(0,0,$post['id'],0,0))">
+                                <a class="btn" title="{:L('_COMMENT_')}" href="#reply_form">
+                                    <i class="forum_reply"></i>
+                                </a>
+                            </if>
+                            <if condition="check_auth('Forum/Index/delPost',get_expect_ids(0,0,$post['id'],0,0))">
+                                <a href="javascript:" class="btn del_post_btn" args="post_id={$post['id']}">
+                                    <i class="icon-remove-sign" style="background: none;font-size: 19px;"></i>
+                                </a>
+                            </if>
+
+                            <php>
+                                $hideStyle = 'display: none;';
+                                $bookmarkStyle = $isBookmark ? $hideStyle : '';
+                                $unbookmarkStyle = $isBookmark ? '' : $hideStyle;
+                            </php>
+                            <a title="{:L('_FAVORITES_CANCEL_')}" id="unbookmark_button" class="btn " style="{$unbookmarkStyle} padding-bottom: 2px"
+                               href="{:U('Index/doBookmark?add=0',array('post_id'=>$post['id']))}">
+                                <i class="forum_uncollect"></i></a>
+
+                            <a title="{:L('_FAVORITES_DO_')}" id="bookmark_button" class="btn " style="{$bookmarkStyle} padding-bottom: 2px"
+                               href="{:U('Index/doBookmark',array('post_id'=>$post['id']))}"><i
+                                    class="forum_collect" ></i></a>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-2">
+                    <p>
+                        <a href="{$user.space_url}" ucard="{$user.uid}" class="forum-d-avatar">
+                            <img src="{$user.avatar128}" class="img-circle"/>
+                        </a>
+                    </p>
+
+                    <p class="text-center">
+                        <a href="{$user.space_url}" ucard="{$user.uid}">{$user.nickname|htmlspecialchars}</a>
+                    </p>
+
+                    <p class="text-center">
+                        {:W('Common/UserRank/render',array($user['uid']))}
+                    </p>
+                </div>
+                <div class="col-xs-10 ">
+                    <a class="ribbion-green">{:L('_LZ_')}</a>
+                    <div class="post_title">
+                        <h2>{$post.title|op_t}</h2>
+
+                        <div class="small sub_title">   <br/>
+                            <a href="{$user.space_url}" ucard="{$user.uid}"
+                               class="text-primary">{$user.nickname}</a>  {$post.create_time|time_format} {:L('_PUBLISH_IN_')}
+                               <a href="{:U('Forum/Index/index',array('id'=>$post['forum_id']))}">【{$post.forum.title}】</a>
+                        </div>
+                    </div>
+
+                    <div class=" main_content">
+                        {$post.content|parse_popup|parse_at_users|render}
+                    </div>
+                    <div>
+                        <if condition="$post['create_time'] != $post['update_time']">
+                            <p class="text-muted">
+                                [{:L('_EDIT_LAST_TIME_IN_')} {$post['update_time']|time_format} ]
+                            </p>
+                        </if>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </if>
+        <!--回复列表-->
+        <volist name="replyList" id="reply" key="k">
+            <div class="forum-posts forum_block_border clearfix">
+                <eq name="reply.uid" value="$post['uid']">
+                    <a class="ribbion-green">{:L('_LZ_')}</a>
+                </eq>
+
+                <div class="col-xs-2">
+                    <p class="text-center">
+                        <a ucard="{$reply.uid}" href="{$reply.user.space_url}" class="forum-d-avatar">
+                        <img src="{$reply.user.avatar128}" class="img-circle"/></a>
+                    </p>
+
+                    <p class="text-center">
+                        <a ucard="{$reply.uid}" href="{$reply.user.space_url}">{$reply.user.nickname}</a>
+                    </p>
+
+                    <p class="text-center">
+                        {:W('Common/UserRank/render',array($reply['uid']))}
+                    </p>
+                </div>
+                <div class="col-xs-10">
+                    <div style="min-height: 10em;overflow: hidden;word-break: break-all">
+                        {$reply.content|parse_popup|parse_at_users|render}
+                    </div>
+                    <p class="pull-right text-muted">
+                        {:getLou( $limit*($page-1)+$k+1)}
+
+                        {:L('_PUBLISH_IN_')} {$reply.create_time|time_format}
+                        <if condition="check_auth('Forum/Index/delPostReply',get_expect_ids(0,$reply['id'],0,1))">
+                            <a href="javascript:" class="del_reply_btn" args="reply_id={$reply['id']}">{:L('_DELETE_')}</a>
+                        </if>
+                        <if condition="check_auth('Forum/Index/doReplyEdit',get_expect_ids(0,$reply['id'],0,1))">
+                            <a href="{:U('Index/editReply',array('reply_id'=>$reply['id']))}">{:L('_EDIT_')}</a>
+                        </if>
+                        <if condition="check_auth('Forum/Lzl/doSendLZLReply',get_expect_ids(0,$reply['id'],0,1))">
+                            <a href="javascript:" class="reply_btn" args="{$reply['id']}" id="reply_btn_{$reply['id']}">{:L('_REPLY_')}({$reply.lzl_count})</a>
+                            <else/>
+                            <a href="javascript:" onclick=" if(is_login()){toast.error({:L('_ERROR_PLEASE_LOGIN_')});}else{toast.error({:L('_ERROR_NO_AUTHORITY_')});}">{:L('_REPLY_')}({$reply.lzl_count})</a>
+                        </if>
+
+                    </p>
+
+                    <div class="clearfix"></div>
+                    <div id="lzl_reply_div_{$reply['id']}"<if condition="$reply['lzl_count'] eq 0">style="display:none"</if>>
+                    {:W('LZLReply/LZLReply',array('to_f_reply_id'=>$reply['id'],'post_id'=>$post['id'],'reply_uid'=>$reply['uid'],'count'=>$reply['lzl_count']))}
+                    </div>
+                </div>
+            </div>
+        </volist>
+    <!--回复列表END-->
+    <div class="col-xs-12">
+        <pull class="pull-right">
+            {:getPagination($replyTotalCount)}
+        </pull>
+    </div>
+
+    <!--发表回复-->
+    <if condition="is_login()">
+        <if condition="check_auth('Forum/Index/doReply',get_expect_ids(0,0,$post['id'],0,0))">
+            <php>
+                $user = query_user(array('avatar128'));
+                $user['uid'] = get_uid();
+            </php>
+            <div class="forum-posts forum_block_border clearfix">
+                <div class="col-xs-2">
+                    <p>
+                        <a href="{$user.space_url}" ucard="{$user.uid}" class="forum-d-avatar">
+                            <img src="{$user.avatar128}" class="img-circle"/>
+                        </a>
+                    </p>
+                </div>
+                <div class="col-xs-10">
+                    <div id="reply_block">
+                        <form id="reply_form" action="{:U('doReply',array('post_id'=>$post['id']))}" method="post"
+                              class="ajax-form">
+                            <h4>{:L('_COMMENT_PUBLISH_')}</h4>
+                            <p>
+                                <php>$config='';</php>
+                            </p>
+                            {:W('Common/Ueditor/editor',array('content','content','','100%','350px',$config))}
+
+                            <p class="pull-right" style="margin-top: 10px;">
+                                <input type="submit" id="reply_button" class="btn btn-primary" value="{:L('_PUBLISH_')} Ctrl+Enter"/>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <else/>
+            <p class="text-center text-muted" style="font-size: 2em; padding-top: 2em; padding-bottom: 2em;">{:L('_ERROR_NO_COMMENT_AUTHORITY_')}~</p>
+        </if>
+        <else/>
+        <div class="forum-posts forum_block_border">
+            <p class="text-center" style="font-size: 2em; padding-top: 2em; padding-bottom: 2em;">
+                {:L('_PLEASE_')}
+                <a href="{:U('Ucenter/Member/login')}" class="login-a">{:L('_LOGIN_')}</a>
+                {:L('_TIP_COMMENT_AFTER_')}
+            </p>
+        </div>
+
+    </if>
+
+
+
+<script>
+    //点击收藏/取消收藏按钮
+    $(function () {
+
+       /* var $inputor = $('#contentEditor').atwho(atwho_config);
+*/
+      /*  bindSupport();*/
+        $('#bookmark_button, #unbookmark_button').click(function (e) {
+
+            //取消默认操作
+            e.preventDefault();
+
+            //发送AJAX请求
+            var button = $(this);
+            var href = button.attr('href');
+            var originalClass = $(this).attr('class');
+            button.attr('class', 'btn');
+            $.post(href, {}, function (a) {
+                button.attr('class', originalClass);
+                if (a.status) {
+                    switchButtonVisibility();
+                }
+            });
+
+            return false;
+        });
+
+        function switchButtonVisibility() {
+            switchVisibility('#bookmark_button');
+            switchVisibility('#unbookmark_button');
+        }
+
+        function switchVisibility(css) {
+            var element = $(css);
+            if (element.is(':visible')) {
+                element.hide();
+            } else {
+                element.show();
+            }
+        }
+
+        if ("{$sr}" != "") {
+            $('#lzl_reply_list_{$sr}').load(U('Forum/Lzl/lzllist', ['to_f_reply_id', '{$sr}', 'page', '{$sp}'], true), function () {
+                ucard();
+            });
+        }
+    })
+</script>
+<script type="text/javascript" charset="utf-8" src="__STATIC__/ueditor/third-party/SyntaxHighlighter/shCore.js"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css"/>
+<script type="text/javascript">
+    SyntaxHighlighter.all();
+</script>
+</block>

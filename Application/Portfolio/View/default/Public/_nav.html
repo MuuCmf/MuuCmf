@@ -1,0 +1,41 @@
+            <div class="">
+
+                <ul class="nav nav-primary nav-justified public-bg-w" id="nav-list">
+                        <li id="tab_category_0" class="">
+                            <a href="{:U($MODULE_INFO['entry'])}" >
+                                全部案例
+                            </a>
+                        </li>
+                        <volist name="sub_menu.left" id="menu">
+                        <if condition="$menu['children']">
+                        <!--二级菜单-->
+                        <li id="tab_{$menu.tab}" class="dropdown {$class} nav-parent">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <neq name="menu.icon" value=""><i class="icon-{$menu.icon}"></i>
+                                        </neq>
+                                        {$menu.title} <i class="icon-chevron-right nav-parent-fold-icon"></i>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <volist name="menu.children" id="child">
+                                                <li><a href="{$child.href}" class="{$child.class}">
+                                                    <neq name="child.icon" value=""><i
+                                                            class="glyphicon glyphicon-{$child.icon}"></i></neq>
+                                                    {$child.title}</a></li>
+                                            </volist>
+                                        </ul>
+                        </li>
+                        <else/>
+                        <!--一级菜单-->
+                        <li id="tab_{$menu.tab}" class="{$menu.li_class}">
+                                	<a href="{$menu.href}" class="{$menu.a_class}">
+                                    <neq name="menu.icon" value=""><i class="glyphicon glyphicon-{$menu.icon}"></i>
+                                    </neq>
+                                    {$menu.title}
+                                    </a>
+                        </li>
+                        </if>
+                        </volist>
+                    </ul>
+            </div>
+<script>
+    $('#nav-list #tab_category_{$category}').addClass('active');
+</script>

@@ -1,0 +1,50 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link type="text/css" rel="stylesheet" href="__CSS__/expand.css"/>
+</block>
+<block name="body">
+    <div id="main-container" class="container">
+
+        <div class="col-xs-12">
+        <h2>{$oneplus_seo_meta['title']}</h2>
+            <div class="row">
+                <volist name="list" id="data">
+                <div class="col-md-3">
+                    <div class="expand_list_box">
+                        <a href="{:U('Expand/index/info',array('id'=>$data['id']))}" target="_blank">
+                            <div class="img">
+                                <img alt="{$data.title|text}" src="{$data.icon|getThumbImageById=200,200}">
+                            </div>
+                            <div class="con text-center">
+                                <h2 class="text-ellipsis">{$data.title}</h2>
+                                <p class="text-ellipsis">{$data.description|msubstr=0,200,'utf-8',false}...</p>
+                            </div>
+                        </a>
+                        <div class="doinfo">
+                            <div class="text-center">
+                                <div class="price">积分：{$data.price}</div>
+                            </div>
+
+                            <div class="text-center">
+
+                                <a href="{:U('Expand/My/edit',array('id'=>$data['id']))}" class="btn btn-block btn-primary">编辑</a>
+
+                                <a href="{:U('Expand/My/editversion',array('expand_id'=>$data['id']))}" class="btn btn-block btn-warning">发布版本</a>
+
+                                 <a href="{:U('Expand/My/versionlist',array('id'=>$data['id']))}" class="btn btn-block btn-info">版本库</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </volist>
+
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="text-right">
+                {:getPagination($totalCount,20)}
+            </div>
+        </div>
+    </div>
+</block>

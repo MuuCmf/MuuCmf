@@ -1,0 +1,46 @@
+        <div class="all-cats-list">
+        <div class="item-head">全部分类</div>
+            <volist name="cats" id="cats"> 
+            <div class="item">
+                <h3>
+                <a href="{$cats.link}">{$cats.title}</a>
+                </h3>
+                <if condition="$cats['items']">
+                <div class="item-list clearfix" style="display: none;">
+                    <div class="close">x</div>
+                    <div class="subitem">
+                        <volist name="cats.items" id="child">
+                            <dl class="fore1">
+                                <dt><a href="{$child.title}">{$child.title}</a></dt>
+                                <dd><em><a href="#">免费</a></em><em><a href="#">小说</a></em><em><a href="#">励志与成功</a></em><em><a href="#">婚恋/两性</a></em><em><a href="#">文学</a></em><em><a href="#">经管</a></em><em><a href="#">畅读VIP</a></em></dd>
+                            </dl>
+                        </volist>
+                    </div>
+                    <div class="cat-right">
+                        <dl class="categorys-promotions" clstag="homepage|keycount|home2013|0601c">
+                            <dd>
+                            <ul>
+                                <li><a href="#"><img src="images/rBEhWFJTydgIAAAAAAAiD8_1J3AAAD5mAMC0SYAACIn230.jpg" width="194" height="70" title="特价书满减"></a></li>
+                                <li><a href="#"><img src="images/rBEhVlJTyt8IAAAAAAAiq1D-0D8AAD7_gIE2KUAACLD102.jpg" width="194" height="70" title="重磅独家"></a></li>
+                            </ul>
+                            </dd>
+                        </dl>
+                        <dl class="categorys-brands" clstag="homepage|keycount|home2013|0601d">
+                            <dt>推荐品牌出版商</dt>
+                            <dd>
+                            <ul>
+                                <li><a href="#">中华书局</a></li>
+                                <li><a href="#">人民邮电出版社</a></li>
+                                <li><a href="#">上海世纪出版股份有限公司</a></li>
+                                <li><a href="#">电子工业出版社</a></li>
+                                <li><a href="#">三联书店</a></li>
+                                <li><a href="#">浙江少年儿童出版社</a></li>
+                            </ul>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                </if>
+            </div>
+            </volist>
+        </div>

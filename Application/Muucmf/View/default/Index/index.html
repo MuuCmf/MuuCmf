@@ -1,0 +1,15 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link rel="stylesheet" href="__CSS__/muucmf.css"/>
+</block>
+<block name="body">
+        <volist name="showBlocks" id="v">
+            <php>if($v=='custom'){</php>
+                {:W('Custom/lists')}
+            <php>}</php>
+            {:W($v.'/MuucmfBlock/render')}
+        </volist>
+</block>
+<block name="script">
+    <script src="__JS__/muucmf.js"/></script>
+</block>
