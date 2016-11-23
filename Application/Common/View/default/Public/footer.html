@@ -1,0 +1,30 @@
+<div class="footer-bar">
+    <div class="container text-center">
+        <div class="col-xs-12">
+                <p>
+                    {:modC('ABOUT_US',L('_NOT_SET_NOW_'),'Config')}
+                </p>
+        </div>
+        <div class="text-center">
+                <h4> {:modC('COPY_RIGHT',L('_NOT_SET_NOW_'),'Config')}</h4>
+                <div class="col-xs-12">{:L('_RECORD_N_')}<a href="http://www.miitbeian.gov.cn/" target="_blank">
+                    {:modC('ICP',L('_NOT_SET_NOW_'),'Config')} </a>
+                </div>
+           		<div class="hidden">{$count_code}</div>
+        </div>
+    </div>
+</div>
+<div>
+    {:C('COUNT_CODE')}
+</div>
+<include file="Public/js"/>
+<block name="script"><!-- 用于加载js代码 --></block>
+<!-- 页面footer钩子，一般用于加载插件JS文件和JS代码 -->
+{:hook('pageFooter', 'widget')}
+<!-- 调用全站公告部件-->
+{:W('Common/Announce/render')}
+<!-- 调用消息部件-->
+{:W('Common/Message/render')}
+<div class="hidden"><!-- 用于加载统计代码等隐藏元素 -->
+    <block name="hidden"></block>
+</div>

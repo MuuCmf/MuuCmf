@@ -1,0 +1,182 @@
+<extend name="Base/common"/>
+<block name="style">
+    <link href="__CSS__/articles.css" rel="stylesheet" type="text/css"/>
+    <link href="__ZUI__/lib/datetimepicker/datetimepicker.css" rel="stylesheet" type="text/css">
+</block>
+<block name="body">
+<div id="main-container" class="container">
+    <div id="frm-post-popup " class="white-popup1 boxShadowBorder col-xs-12" >
+        <h2>{$title}</h2>
+
+        <div class="aline" style="margin-bottom: 10px"></div>
+        <div>
+            <div class="row">
+                <div class="col-xs-3">
+                    <div class="controls">
+                        <input type="file" id="upload_picture_cover">
+
+                        <div class="upload-img-box" style="margin-top: 20px;">
+                            <div class="upload-pre-item">
+                                <if condition="$data['cover']">
+                                    <img src="{$data.cover|get_cover='path'}" style="width: 200px;height: 146px;">
+                                    <else/>
+                                    <div style="font-size:3em;padding:2em 0;color: #ccc;text-align: center">暂无封面</div>
+                                </if>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-xs-9">
+                    <form class="form-horizontal ajax-form" role="form" action="{:U('Articles/Index/edit')}" method="post">
+                        <input type="hidden" name="id" id="id" value="{$data.id}"/>
+                        <input type="hidden" name="uid" value="{$data.uid}"/>
+                        <input type="hidden" name="cover" id="cover_id_cover" value="{$data.cover}"/>
+                        <div class="form-group has-feedback">
+                            <label for="title" class="col-xs-1 control-label">标题</label>
+
+                            <div class="col-xs-8">
+                                <input id="title" name="title" class="form-control form_check" check-type="Text" value="{$data.title}" placeholder="标题"/>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="category" class="col-xs-1 control-label">分类</label>
+
+                            <div class="col-xs-5">
+                                <select id="category" name="category" class="form-control">
+                                    <volist name="category" id="top">
+                                        <option value="{$top.id}" <eq name="data['category']" value="$top['id']"> selected</eq>>
+                                        {$top.title}
+                                        </option>
+                                    </volist>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label for="source" class="col-xs-1 control-label">来源</label>
+
+                            <div class="col-xs-8">
+                                <input id="source" name="source" class="form-control" value="{$data.source}" placeholder="原文地址(选填)"/>
+                            </div>
+
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label for="dead_line" class="col-xs-1 control-label">有效期</label>
+
+                            <div class="col-xs-5">
+                                <php>
+                                    if(isset($data['dead_line'])){
+                                        $data['dead_line']=date('Y-m-d H:i',$data['dead_line']);
+                                    }
+                                </php>
+                                <input id="dead_line" name="dead_line" class="time form-control form_check" value="{$data['dead_line']}" placeholder="有效期(选填)"/>
+                            </div>
+
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label for="description" class="col-xs-1 control-label">摘要</label>
+
+                            <div class="col-xs-8">
+                                <textarea id="description" name="description" class="form-control" placeholder="简单描述一下资讯内容(选填)">{$data.description}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="content" class="col-xs-1 control-label">详情</label>
+
+                            <div class="col-xs-10">
+                                <php>
+                                    $config="toolbars:[['source','|','bold','italic','underline','fontsize','forecolor','fontfamily','backcolor','|','link','emotion','scrawl','attachment','insertvideo','insertimage','insertcode']]";</php>
+                                </php>
+                                {:W('Common/Ueditor/editor',array('myeditor_edit','content',$data['detail']['content'],'700px','250px',$config))}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-1 col-xs-1">
+                                <button type="submit" class="btn btn-primary " href="{:U('Event/Index/doPost')}">提交
+                                </button>
+
+                            </div>
+                            <div class="col-xs-8">
+                                <button onclick="history.go(-1);" class="btn btn-default " href="{:U('Event/Index/doPost')}">返回
+                                </button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+    <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <link href="__PUBLIC__/css/form_check.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="__PUBLIC__/js/form_check.js"></script>
+    <script type="text/javascript" src="__ZUI__/lib/datetimepicker/datetimepicker.min.js"></script>
+    <script>
+        $("#upload_picture_cover").uploadify({
+            "height": 30,
+            "swf": "__STATIC__/uploadify/uploadify.swf",
+            "fileObjName": "download",
+            "buttonText": "上传封面",
+            "buttonClass": "uploadcover",
+            "uploader": "{:U('Home/File/uploadPicture',array('session_id'=>session_id()))}",
+            "width": 250,
+            'removeTimeout': 1,
+            'fileTypeExts': '*.jpg; *.png; *.gif;',
+            "onUploadSuccess": uploadPicturecover,
+            'overrideEvents': ['onUploadProgress', 'onUploadComplete', 'onUploadStart', 'onSelect'],
+            'onFallback': function () {
+                alert('未检测到兼容版本的Flash.');
+            }, 'onUploadProgress': function (file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) {
+                $("#cover_id_cover").parent().find('.upload-img-box').html(totalBytesUploaded + ' bytes uploaded of ' + totalBytesTotal + ' bytes.');
+            }, 'onUploadComplete': function (file) {
+                //alert('The file ' + file.name + ' finished processing.');
+            }, 'onUploadStart': function (file) {
+                //alert('Starting to upload ' + file.name);
+            }, 'onQueueComplete': function (queueData) {
+                // alert(queueData.uploadsSuccessful + ' files were successfully uploaded.');
+            }
+        });
+        function uploadPicturecover(file, data) {
+            var data = $.parseJSON(data);
+            var src = '';
+            if (data.status) {
+                $("#cover_id_cover").val(data.id);
+                src = data.url || data.path
+                $('.upload-img-box').html(
+                        '<div class="upload-pre-item"><img src="' + src + '"/></div>'
+                );
+            } else {
+                toast.error('封面上传失败。', '温馨提示');
+            }
+        }
+
+        $('.time').datetimepicker({
+            language:'zh-CN',
+            weekStart:1,
+            todayBtn:1,
+            autoclose:1,
+            todayHighlight:1,
+            startView:2,
+            minView:0,
+            forceParse:0,
+            format: 'yyyy-mm-dd hh:ii'
+        });
+
+        $('.time_d').datetimepicker({
+            language:'zh-CN',
+            weekStart:1,
+            todayBtn:1,
+            autoclose:1,
+            todayHighlight:1,
+            startView:2,
+            minView:2,
+            forceParse:0,
+            format: 'yyyy-mm-dd'
+        });
+
+    </script>
+</block>

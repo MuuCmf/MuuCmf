@@ -1,0 +1,549 @@
+html {
+  font-family:sans-serif;
+   -ms-text-size-adjust: 100%;
+   -webkit-text-size-adjust: 100%;
+}
+body {
+  background:#f2f2f2;
+  font-family:-apple-system-font, "Helvetica Neue",Tahoma,"PingFang SC","lantinghei sc","Microsoft Yahei", sans-serif;
+  line-height: 1.6;
+  font-weight: 400;
+  -webkit-font-feature-settings: 'kern' 1;
+  -moz-font-feature-settings: 'kern' 1;
+  -o-font-feature-settings: 'kern' 1;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+}
+a {
+  color:#000;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: none;
+  cursor: pointer !important;
+}
+ul {
+  padding-left: 0;
+  margin-left: 0;
+}
+/*ZUI修复*/
+.modal-open .modal {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+/*布局通用样式*/
+.padding_10 {
+  padding: 10px;
+}
+.margin_10 {
+  margin: 10px;
+}
+.margin-0 {
+  margin: 0;
+}
+.margin-top-10 {
+  margin-top: 10px;
+}
+.margin-top-5 {
+  margin-top: 5px;
+}
+.margin-bottom-0 {
+  margin-bottom: 0 !important;
+}
+.margin_bottom_10 {
+  margin-bottom: 10px;
+}
+.margin_bottom_0 {
+  margin-bottom: 0px;
+}
+.margin_bottom_15 {
+  margin-bottom: 15px;
+}
+.margin-bottom-10 {
+  margin-bottom: 10px;
+}
+.margin-bottom-15 {
+  margin-bottom: 15px;
+}
+.margin-top-15 {
+  margin-top: 15px;
+}
+.margin-top-0 {
+  margin-top: 0;
+}
+.padding-top-5 {
+  padding-top: 5px;
+}
+.padding-top-10 {
+  padding-top: 10px;
+}
+.padding-top-15 {
+  padding-top: 15px;
+}
+/*布局样式end*/
+
+.adv-wrap {
+  position: relative;
+  overflow: visible;
+}
+.adv-wrap .adv-content {
+  line-height: 18px;
+  text-align: center;
+  padding-top: 5px;
+  background: url(/Public/images/adv_line.jpg);
+  padding-left: 10px;
+}
+.adv-wrap .adv-content .text {
+  background: white;
+  padding: 5px 10px;
+}
+.adv-wrap .adv-tool {
+  display: none;
+  position: absolute;
+  width: 165px;
+  right: 0;
+  top: -24px;
+  background: #fcfcfc;
+  border: 1px solid #ddd;
+  box-shadow: 2px 2px #eee;
+  line-height: 12px;
+  z-index: 999999;
+}
+.adv-wrap .adv-tool a {
+  line-height: 24px !important;
+  padding: 10px 5px;
+}
+.adv-wrap .adv-size {
+  display: none;
+  left: 50%;
+  margin-left: -150px;
+  width: 300px;
+  position: absolute;
+  z-index: 999;
+  background: #fcfcfc;
+  border: 1px solid #ddd;
+  box-shadow: 2px 2px #eee;
+  line-height: 16px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.tool {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  width: 46px;
+  z-index: 999;
+}
+.tool > a {
+  display: block;
+  width: 48px;
+  height: 46px;
+  margin-bottom: 10px;
+  background-image: url(/Public/images/tools.png);
+  border: 1px solid #dddddd;
+}
+.tool a:last-child {
+  margin-bottom: 0;
+}
+.tool .go-top {
+  background-position: 0 0;
+  display: none;
+}
+.tool .go-top:hover {
+  background-position: 0 -46px;
+}
+.tool .admin-view {
+  background-position: 0 -92px;
+}
+.tool .admin-view:hover {
+  background-position: 0 -137px;
+}
+/*用户注册*/
+.register {
+  position:relative;
+  margin:20px auto;
+  background:#fff;
+  max-width:560px;
+  border-radius:8px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+.register .register_header {
+  border-radius: 8px 8px 0 0;
+  background:#607D8B;
+}
+.register .register_header h1{
+  margin:30px auto;
+  color: #fff;
+}
+.register .register_body {
+  padding:20px;
+}
+.register .register_body .tab-content {
+  margin-top:20px;
+}
+.register .register_body .tab-content input{
+  border:1px solid #ddd;
+}
+
+.register .form-group {
+  position:relative;
+  margin-bottom:5px;
+}
+.register .new-input {
+  border-radius: 3px;
+  display: inline-block;
+}
+/*用户登录*/
+.login{
+  margin:20px auto;
+  padding:20px;
+  background:#fff;
+  max-width:460px;
+}
+/*悬浮样式end*/
+.user-card {
+  height: 230px;
+  background: white;
+  margin-bottom: 15px;
+}
+.user-card .user_info {
+  margin-bottom: 20px;
+  position: relative;
+}
+.user-card .cover {
+  width: 100%;
+  height: 80px;
+}
+.user-card .user-data > div {
+  padding-bottom: 10px;
+}
+.user-card .headpic {
+  padding: 0;
+  border-radius: 50%;
+  text-align: center;
+  margin-top: -40px;
+}
+.user-card .cover {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.user-card .nickname {
+  padding-top: 10px;
+}
+/*头衔*/
+.rank-icon {
+  width: 18px;
+  height: 18px;
+  vertical-align: text-bottom;
+  margin-right: 3px;
+}
+.rank-label {
+  display: inline-block;
+  padding: 3px 7px;
+  margin-right: 3px;
+}
+.tb_rank {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  width: 100%;
+  margin: auto;
+}
+.tb_rank td,
+.tb_rank th {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-left: none;
+  border-right: none;
+  color: #555;
+}
+/*头衔end*/
+/*编辑器修复*/
+.edui-btn-toolbar {
+  background: white;
+}
+/*编辑器修复end*/
+/*弹出消息列表按钮*/
+#messages_btn span {
+  display:inline-block;
+}
+/**
+ * 弹出消息模态框消息列表
+ */
+/*common*/
+.message-info-list .common {
+  list-style: none;
+  padding:15px 0;
+  border-bottom:1px solid #f2f2f2;
+}
+.message-info-list .common .avatar-box {
+  margin:10px 10px 0 0;
+  position: relative;
+  float:left;
+  width:64px;
+  height:64px;
+  overflow:hidden;
+}
+.message-info-list .common .common_con{
+    margin-left:74px;
+    margin-top:10px;
+}
+.message-info-list .comment .comment_con .from{
+    background:#f2f2f2;
+    border-radius:5px;
+    padding:5px;
+}
+.message-info-list .comment .comment_con .from .from_con{
+    margin-left:130px;
+}
+/*comment end*/
+#msgModal .message-type-box {
+  overflow-y:auto;
+}
+#msgModal .message-info-list {
+  overflow-y:auto;
+}
+#msgModal .message-type-box .message-type-list li {
+  position: relative;
+}
+#msgModal .loadmore-type-messages {
+  text-align: center;
+  line-height: 32px;
+  padding:5px;
+  font-size:14px;
+}
+/**
+ *session1 样式
+ */
+#msgModal .message-content .content-list .message-type-list li.session1 {
+  display:block;
+}
+#msgModal .message-content .content-list .message-type-list li.session1 a {
+  margin: 5px;
+  display:block;
+}
+#msgModal .message-content .content-list .message-type-list li.session1 a .message-s {
+  padding: 10px;
+  border-radius: 3px;
+  border: 1px solid #f2f2f2;
+  background-color: #f0f2f5;
+}
+#msgModal .message-content .content-list .message-type-list li.session1 a .message-s .pic {
+  height:50px;
+  width:50px;
+  float:left;
+}
+#msgModal .message-content .content-list .message-type-list li.session1 a .message-s .img-wrap {
+  width: 50px;
+  height: 50px;
+}
+#msgModal .message-content .content-list .message-type-list li.session1 a .message-s .info {
+  height:50px;
+  line-height: 50px;
+  margin-left:60px;
+}
+#msgModal .message-content .content-list .message-type-list li.session1 a .message-s .title {
+  display: inline-block;
+  font-size: 14px;
+  color:#666;
+}
+#msgModal .message-content .content-list .message-type-list li.session1 a .message-s .title .unread-num{
+  font-size:12px;
+  display: table-cell;
+  vertical-align:middle;
+}
+/**
+ *session2 样式
+ */
+#msgModal .message-content .content-list .message-type-list li.session2 {
+  display:block;
+}
+#msgModal .message-content .content-list .message-type-list li.session2 a {
+  margin: 5px;
+  display:block;
+}
+#msgModal .message-content .content-list .message-type-list li.session2 a .message-s {
+  padding: 10px;
+  border-radius: 3px;
+  border: 1px solid #f2f2f2;
+  background-color: #f0f2f5;
+}
+#msgModal .message-content .content-list .message-type-list li.session2 a .message-s .pic {
+  height:50px;
+  width:50px;
+  float:left;
+}
+#msgModal .message-content .content-list .message-type-list li.session2 a .message-s .img-wrap {
+  width: 50px;
+  height: 50px;
+}
+#msgModal .message-content .content-list .message-type-list li.session2 a .message-s .info {
+  height:50px;
+  line-height: 50px;
+  margin-left:60px;
+}
+#msgModal .message-content .content-list .message-type-list li.session2 a .message-s .title {
+  display: inline-block;
+  font-size: 14px;
+  color:#666;
+}
+#msgModal .message-content .content-list .message-type-list li.session2 a .message-s .title .unread-num{
+  font-size:12px;
+  display: table-cell;
+  vertical-align:middle;
+}
+/**
+ *session3 样式
+ */
+#msgModal .message-type-list li.session3 {
+  display:block;
+}
+#msgModal .message-type-list li.session3 a {
+  margin: 5px;
+  display:block;
+}
+#msgModal .message-type-list li.session3 a .message-s {
+  padding: 10px;
+  border-radius: 3px;
+  border: 1px solid #f2f2f2;
+  background-color: #f0f2f5;
+}
+#msgModal .message-type-list li.session3 a .message-s .pic {
+  height:50px;
+  width:50px;
+  float:left;
+}
+#msgModal .message-type-list li.session3 a .message-s .img-wrap {
+  width: 50px;
+  height: 50px;
+}
+#msgModal .message-type-list li.session3 a .message-s .info {
+  height:50px;
+  line-height: 50px;
+  margin-left:60px;
+}
+#msgModal .message-type-list li.session3 a .message-s .title {
+  display: inline-block;
+  font-size: 14px;
+  color:#666;
+}
+#msgModal .message-type-list li.session3 a .message-s .title .unread-num{
+  font-size:12px;
+  display: table-cell;
+  vertical-align:middle;
+}
+
+/**
+ *session4 样式
+ */
+#msgModal .message-content .content-list .message-type-list li.session4 {
+  display:block;
+}
+#msgModal .message-content .content-list .message-type-list li.session4 a {
+  margin: 5px;
+  display:block;
+}
+#msgModal .message-content .content-list .message-type-list li.session4 a .message-s {
+  padding: 10px;
+  border-radius: 3px;
+  border: 1px solid #f2f2f2;
+  background-color: #f0f2f5;
+}
+#msgModal .message-content .content-list .message-type-list li.session4 a .message-s .pic {
+  height:50px;
+  width:50px;
+  float:left;
+}
+#msgModal .message-content .content-list .message-type-list li.session4 a .message-s .img-wrap {
+  width: 50px;
+  height: 50px;
+}
+#msgModal .message-content .content-list .message-type-list li.session4 a .message-s .info {
+  height:50px;
+  line-height: 50px;
+  margin-left:60px;
+}
+#msgModal .message-content .content-list .message-type-list li.session4 a .message-s .title {
+  display: inline-block;
+  font-size: 14px;
+  color:#666;
+}
+#msgModal .message-content .content-list .message-type-list li.session4 a .message-s .title .unread-num{
+  font-size:12px;
+  display: table-cell;
+  vertical-align:middle;
+}
+
+/*弹出消息列表end*/
+/*提示信息颜色*/
+.tooltip.green .tooltip-inner {
+  background-color: #2ac25f;
+}
+.tooltip.green.top .tooltip-arrow {
+  border-top-color: #2ac25f;
+}
+.tooltip.green.top-left .tooltip-arrow {
+  border-top-color: #2ac25f;
+}
+.tooltip.green.top-right .tooltip-arrow {
+  border-top-color: #2ac25f;
+}
+.tooltip.green.right .tooltip-arrow {
+  border-right-color: #2ac25f;
+}
+.tooltip.green.left .tooltip-arrow {
+  border-left-color: #2ac25f;
+}
+.tooltip.green.bottom .tooltip-arrow {
+  border-bottom-color: #2ac25f;
+}
+.tooltip.green.bottom-left .tooltip-arrow {
+  border-bottom-color: #2ac25f;
+}
+.tooltip.green.bottom-right .tooltip-arrow {
+  border-bottom-color: #2ac25f;
+}
+.tooltip.red .tooltip-inner {
+  background-color: #ee4e2f;
+}
+.tooltip.red.top .tooltip-arrow {
+  border-top-color: #ee4e2f;
+}
+.tooltip.red.top-left .tooltip-arrow {
+  border-top-color: #ee4e2f;
+}
+.tooltip.red.top-right .tooltip-arrow {
+  border-top-color: #ee4e2f;
+}
+.tooltip.red.right .tooltip-arrow {
+  border-right-color: #ee4e2f;
+}
+.tooltip.red.left .tooltip-arrow {
+  border-left-color: #ee4e2f;
+}
+.tooltip.red.bottom .tooltip-arrow {
+  border-bottom-color: #ee4e2f;
+}
+.tooltip.red.bottom-left .tooltip-arrow {
+  border-bottom-color: #ee4e2f;
+}
+.tooltip.red.bottom-right .tooltip-arrow {
+  border-bottom-color: #ee4e2f;
+}
+/*提示信息颜色end*/
+/*ucard 样式*/
+.qtip {
+  max-width: 352px !important;
+  border: 1px solid #eee!important;
+}
+.qtip-bootstrap .qtip-content {
+  width: 346px !important;
+  padding: 0 !important;
+}
+/**
+ * 显示加载中样式
+ */
+.big_loading {
+  text-align: center;
+}

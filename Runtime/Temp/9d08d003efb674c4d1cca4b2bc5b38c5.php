@@ -1,0 +1,3 @@
+<?php
+//000000000000a:15:{s:2:"id";s:1:"1";s:4:"name";s:4:"Home";s:5:"alias";s:6:"主页";s:7:"version";s:5:"1.0.0";s:6:"is_com";s:1:"0";s:8:"show_nav";s:1:"1";s:7:"summary";s:63:"通用首页模块，系统共用控制器放置于该模块下";s:9:"developer";s:30:"北京火木科技有限公司";s:7:"website";s:20:"http://www.hoomuu.cn";s:5:"entry";s:16:"Home/index/index";s:8:"is_setup";s:1:"1";s:4:"sort";s:1:"0";s:4:"icon";s:4:"home";s:13:"can_uninstall";s:1:"0";s:11:"admin_entry";s:17:"Admin/Home/config";}
+?>

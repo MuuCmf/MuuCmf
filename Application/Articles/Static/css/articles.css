@@ -1,0 +1,133 @@
+.section {
+  padding: 0;
+}
+.common_content_box {
+  padding:0;
+}
+.common_content_box .news-list-box {
+  background: #fff;
+  margin-bottom: 15px;
+  padding: 15px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  border-radius: 2px;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+.common_content_box .news-list-box .con p {
+  margin-top: 10px;
+  color: #999;
+}
+#contents {
+  padding: 0;
+}
+#contents .title {
+  margin-top: 0;
+  line-height:28px;
+}
+#contents .title  a{
+  font-size:18px;
+  font-weight:bold;
+}
+
+#contents .author {
+  color: #999;
+}
+#contents .author a {
+  color: #999;
+}
+#contents .author a:hover {
+  color: #333;
+}
+.right_block {
+  border-radius: 3px;
+  border: 1px solid #f0f0f0;
+  background:#fff;
+  margin-bottom: 10px;
+}
+.right_block .right_block_title {
+  padding:10px;
+}
+.right_block .right_block_title h3{
+  margin-top:0;
+}
+.boxShadowBorder {
+  background: #fff;
+  padding-top: 20px;
+}
+.aline {
+  border-bottom: 1px solid white;
+  border-top: 1px solid #ccc;
+}
+.uploadcover {
+  color: #ffffff;
+  background-color: rgba(3, 3, 3, 0.5);
+  border-color: #2f7a51;
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid rgba(0, 0, 0, 0);
+  white-space: nowrap;
+  font-size: 14px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  position: absolute;
+}
+.news_position {
+  background:#fff;
+  margin-top:15px;
+}
+.recommended-con {
+  width:100%;
+  overflow:hidden;
+}
+.detail_box {
+  background:#fff;
+}
+.detail_box .common_block_title {
+  padding:20px;
+
+}
+.detail_box .common_block_title .title{
+  margin:30px auto;
+}
+.detail_box .common_block_title .author{
+  margin:15px auto;
+}
+.detail_box .cover img{
+  width:100%;
+}
+.detail_box .news-content {
+  padding:20px;
+  font-size:1.2em;
+}
+.detail_box .news-content * {
+  max-width: 100%;
+}
+.author_info {
+}
+.author_info .author_num{
+  text-align: center;
+}
+.author_info .num{
+  display:inline-block;
+  padding:20px;
+  margin:15px auto;
+  text-align:center;
+  background:#eee;
+  border:1px solid #f2f2f2;
+}
+.keywords-box {
+  margin:15px auto 5px auto;
+}
+.keywords {
+  background:#f90;
+  color:#fff;
+  padding:5px;
+  margin:5px;
+}
+

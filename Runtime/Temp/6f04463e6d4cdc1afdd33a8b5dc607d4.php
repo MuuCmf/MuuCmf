@@ -1,0 +1,3 @@
+<?php
+//000000000000a:15:{s:2:"id";s:2:"27";s:4:"name";s:7:"Devtool";s:5:"alias";s:15:"开发者工具";s:7:"version";s:5:"2.0.2";s:6:"is_com";s:1:"0";s:8:"show_nav";s:1:"1";s:7:"summary";s:78:"开发者工具，主要提供给开发者使用，包含了模块打包工具";s:9:"developer";s:36:"嘉兴想天信息科技有限公司";s:7:"website";s:21:"http://www.ourstu.com";s:5:"entry";s:0:"";s:8:"is_setup";s:1:"1";s:4:"sort";s:1:"0";s:4:"icon";s:6:"wrench";s:13:"can_uninstall";s:1:"1";s:11:"admin_entry";s:20:"Admin/Devtool/module";}
+?>
