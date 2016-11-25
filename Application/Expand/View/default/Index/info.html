@@ -25,32 +25,17 @@
                             </div>
                         </div>
                         <div class="col-xs-12">
-                            <if condition="$info.file_id neq 0">
-                                <if condition="is_login()">
-                                        <button 
-                                            type="button" 
-                                            class="btn btn-block btn-lg btn-warning" 
-                                            data-title="{$info.downBtn.title}" 
-                                            data-url="{$info.downBtn.url}" 
-                                            data-toggle="modal">
-                                            下载应用
-                                        </button>
+                                <notempty name="info.downBtn">
+                                    {$info.downBtn.btn}
                                 <else />
                                     <button 
                                         type="button" 
-                                        class="btn btn-block btn-lg btn-warning" onclick="javascript:toast.error('登录后才能操作')">
-                                        下载应用
+                                        class="btn btn-block btn-lg btn-primary" >
+                                            暂无版本
                                     </button>
-                                </if>
-                            <else />
-                                <button 
-                                    type="button" 
-                                    class="btn btn-block btn-lg btn-primary" >
-                                        暂无版本
-                                </button>
-                            </if>
+                                </notempty>
                             <div class="price text-center">
-                                    积分:{$info.price}
+                                    RMB:{$info.price}
                             </div>
                         </div>
                         <div class="clearfix"></div>
@@ -123,14 +108,9 @@
                                 <div class="col-md-3">更新日志</div>
                                 <div class="col-md-3">更新日期：{$data.update_time|date='Y/m/d H:i',###}</div>
                                 <div class="col-md-3">
-                                <button 
-                                    type="button" 
-                                    class="btn btn-block btn-warning" 
-                                    data-title="{$data.downBtn.title}"
-                                    data-url="{$data.downBtn.url}" 
-                                    data-toggle="modal">
-                                        下载应用
-                                </button>
+                                <notempty name="data.downBtn">
+                                    {$data.downBtn.btn}
+                                </notempty>
                                 </div>
                             </div>
                             </volist>

@@ -71,11 +71,13 @@
 }
 .expand_list_box .img {
   width:50%;
-  padding:0 15px;
+  width:105px;
+  height:105px;
   margin:0 auto;
 }
 .expand_list_box .img img {
   border-radius:10px;
+  width:100%;
 }
 
 .expand_list_box .con {
@@ -264,4 +266,30 @@
 
 }
 
-
+/*buy购买页面*/
+.recharge_form_box .paychannel {
+  position: relative;
+  border:2px solid #ddd;
+  background:#f6f6f6;
+  padding:5px;
+  margin-bottom:10px;
+  cursor:pointer;
+}
+.recharge_form_box .click{
+  border:2px solid #f60;
+  background:#f6f6f6;
+}
+.recharge_form_box .selected {
+  position:absolute;
+  background:#f60;
+  border-radius: 50%;
+  text-align: center;
+  width:20px;
+  height:20px;
+  top:50%;
+  right:10px;
+  margin-top:-10px;
+}
+.recharge_form_box .selected i{
+  color:#fff;
+}

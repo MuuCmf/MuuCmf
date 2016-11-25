@@ -34,6 +34,7 @@ class MyController extends IndexController
         $aId=I('id',0,'intval');
 
         $map['uid'] = is_login();
+        $map['paid'] = 1;
         list($list,$totalCount) = $this->expandRecordsModel->getListByPage($map,$page,'id desc,create_time desc','*',$r);
         $ids = array();
         foreach($list as &$val){
@@ -43,11 +44,11 @@ class MyController extends IndexController
         $ids=implode(',',$ids);
         $myList = $this->expandModel->getListByIds($ids);
         foreach($myList as &$val){
+            $val['price'] ='￥'. sprintf("%01.2f", $val['price']/100);
             $map['expand_id'] = $val['id'];
             $map['status'] = 1;
             $version = $this->expandVersionModel->getList($map,'id desc',1,'*');
-            $val['downBtn'] = parent::_downBtn($version[0]['expand_id'],$version[0]['download_file'],$val['price']);
-            $val['file_id'] = $version[0]['download_file'];
+            $val['downBtn'] = parent::_downBtn($version[0]['expand_id'],$version[0]['download_file']);
         }
         
         $this->setTitle('我购买的应用');

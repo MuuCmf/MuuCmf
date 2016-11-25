@@ -69,23 +69,14 @@ class IndexController extends Controller
         /* 获取当前分类下列表 */
         list($list,$totalCount) = $this->expandModel->getListByPage($map,$page,'sort desc,update_time desc','*',$r);
         foreach($list as &$val){
+            $val['price'] = '￥'.sprintf("%.2f",$val['price']/100);//将金额单位转成元
             $val['user']=query_user(array('space_url','avatar32','nickname'),$val['uid']);
 
             $map['expand_id'] = $val['id'];
             $version = $this->expandVersionModel->getList($map,'id desc',1,'*');
             if($version){
-                $val['file_id'] = $version[0]['download_file'];
-                $val['downBtn'] = $this->_downBtn ($val['id'],$version[0]['download_file'],$val['price']);
-            }
-            
-            if(is_login()){
-            $map['uid'] = is_login();
-            $result = $this->expandRecordsModel->where($map)->find();
-                if($result) {
-                    $val['enable_down'] = 1;
-                }else {
-                    $val['enable_down'] = 0;
-                }
+                //$val['file_id'] = $version[0]['download_file'];
+                $val['downBtn'] = $this->_downBtn ($val['id'],$version[0]['download_file']);
             }
         }
         unset($val);
@@ -108,6 +99,7 @@ class IndexController extends Controller
         }
         $info = $this->expandModel->getData($aId);
         //开始获取该应用版本库列表
+        $info['price'] = '￥'.sprintf("%.2f",$info['price']/100);//将金额单位转成元
         $map['expand_id'] = $aId;
         $map['status'] = 1;
         $page = 1;
@@ -118,9 +110,11 @@ class IndexController extends Controller
             $info['version'] = $versionList[0]['version'];
             $info['update_log'] = $versionList[0]['update_log'];
             $info['update_time'] = $versionList[0]['update_time'];
-            $info['downBtn'] = $this->_downBtn($aId,$info['file_id'],$info['price']);
+            $info['downBtn'] = $this->_downBtn($aId,$info['file_id']);
+
             foreach($versionList as &$val){
-                $val['downBtn'] = $this->_downBtn($aId,$val['download_file'],$info['price']);
+                $val['price'] = '￥'.sprintf("%.2f",$val['price']/100);//将金额单位转成元
+                $val['downBtn'] = $this->_downBtn($aId,$val['download_file']);
             }
             unset($val);
         }
@@ -136,19 +130,6 @@ class IndexController extends Controller
 
         $info['cover'] = explode(',',$info['cover']);
 
-        if(is_login()){
-            $map['uid'] = is_login();
-            $map['expand_id'] = $info['id'];
-            $result = $this->expandRecordsModel->where($map)->find();
-                if($result) {
-                    $info['enable_down'] = 1;
-                }else {
-                    $info['enable_down'] = 0;
-                }
-        }
-        //dump($versionList);exit;
-
-
         /* 更新浏览数 */
         $map = array('id' => $aId);
         $this->expandModel->where($map)->setInc('view');
@@ -162,98 +143,6 @@ class IndexController extends Controller
         $this->assign('vtotalCount',$vtotalCount);
         $this->display();
     }
-
-    public function buyExpand()
-    {
-        $aid=I('id',0,'intval');
-        $file_id=I('file_id',0,'intval');
-        $aprice=I('price',0,'intval');
-        $result = $this->expandModel->getData($aid);
-        if(empty($result)){
-            $this->error('少年！发生参数错误了。sorry');exit;
-        }
-        if(IS_POST && is_login()){
-            //获取用户积分
-            $scoreModel = D('Ucenter/Score');
-            $score = $scoreModel->getUserScore(is_login(), 1);
-            //判断用户积分是否够用
-            if($score<$aprice){//用户积分小于应用价格提示错误
-                $this->error('少年！积分也太少了...不够用啦');
-            }else{
-
-                $expand_id = $aid;
-                $uid = is_login();
-                $resRecord = $this->expandRecordsModel->getRecordData($uid,$expand_id);//获取购买应用记录
-                if($resRecord){
-                    if($result){
-                        $this->success('已购应用，即将开始下载...',U('index/downexpand',array('id'=>$aid,'file_id'=>$file_id)));
-                    }else{
-                        $this->error('操作失败！'.$this->expandModel->getError());
-                    }
-                }else{
-                    $now_time=date('Y-m-d H:i:s',time()); //格式化当前时间
-                    $score = $result['price'];
-
-                    $uid = is_login();
-                    $duid=query_user(array('nickname'),$uid); //下载用户的昵称
-                    $remark = $duid['nickname'].'在'.$now_time.'下载应用【积分：-'.$score.'分】';
-                    $scoreModel->setUserScore($uid, $score,1,'dec','expand',0,$remark);//购买用户扣除积分
-
-                    $add_uid = $result['uid'];
-                    $fuid=query_user(array('nickname'),$add_uid); //发布用户的昵称
-                    $remark = $fuid['nickname'].'发布的应用在'.$now_time.'被'.$duid['nickname'].'下载【积分：+'.$score.'分】';
-                    $scoreModel->setUserScore($add_uid, $score,1,'inc','expand',0,$remark);//发布应用用户增加积分
-
-                    //写入购买记录
-                    $data['uid'] = $uid;
-                    $data['add_uid'] = $add_uid;
-                    $data['expand_id'] = $aid;
-                    $data['score'] = $score;
-                    $res=$this->expandRecordsModel->addRecordData($data);//写入购买记录
-
-                    if(!empty($res)){
-                        $this->success('购买成功！-'.$aprice.'积分，即将开始下载...',U('index/downexpand',array('id'=>$aid,'file_id'=>$file_id)));
-                    }else{
-                        $this->error('操作失败！'.$this->expandModel->getError());
-                    }
-                }
-            }
-            
-        }else{
-            if(is_login()){
-                $scoreModel = D('Ucenter/Score');
-                $score = $scoreModel->getUserScore(is_login(), 1);
-                //判断用户积分是否够用
-                if($score<$aprice){//用户积分小于应用价格提示错误
-                    $score = 0; //用于前端判断
-                    $info = "少年！积分也太少了...不够用啦>>><a class='fangfa' href=''>如何赚积分</a>";
-                }else{
-                    $expand_id = $aid;
-                    $uid = is_login();
-                    $resRecord = $this->expandRecordsModel->getRecordData($uid,$expand_id);//获取购买应用记录
-                    if($resRecord){
-                        $info = "已购应用，确认后开始下载...";
-                    }else{
-                        if($result['price']==0){
-                            $info = "免费应用，确认后开始下载...";
-                        }else{
-                            $info = "您的操作将扣除".$aprice."积分，是否确认？";
-                        } 
-                    }
-                    $score = 1; //用于前端判断
-                }
-            }else{
-                $score = 0; //用于前端判断
-                $info = "需要登录后才能继续操作！";
-            }
-            $this->assign('score',$score);
-            $this->assign('info',$info);
-            $this->assign('price',$aprice);
-            $this->assign('id',$aid);
-            $this->display();
-        }
-    }
-
     /*
     **应用下载并记录下载数量
     */
@@ -262,9 +151,13 @@ class IndexController extends Controller
         $aid=I('id',0,'intval');
         $file_id = I('file_id',0,'intval');
         $uid=is_login();
-        $resRecord = $this->expandRecordsModel->getRecordData($uid,$aid);//获取购买应用记录
+        $map['uid']=$uid;
+        $map['expand_id']=$aid;
+        $map['paid']=1;
+        $resRecord = $this->expandRecordsModel->getRecordData($map);//获取购买应用记录
+        unset($map);
         if($resRecord){
-            if($file_id){
+            if(!$file_id){
                 $file_id = $file_id;
             }else{
                 $map['expand_id'] = $aid;
@@ -272,9 +165,6 @@ class IndexController extends Controller
                 $result = $this->expandVersionModel->getList($map,'id desc',5,'*');
                 $file_id = $result[0]['download_file'];
             }
-            //$result = $this->expandModel->getData($aid);
-            
-
             //$file_url = getFileById($file_id);
             $downexpand= M('file')->find($file_id);
             $file_name = $downexpand['name'];//原始名
@@ -318,34 +208,115 @@ class IndexController extends Controller
             $order_px = modC('EXPAND_CONFIG_ORDERPX','','Expand');//订单前缀，webhooks将根据订单前缀判断订单类型
             // 支付参数
             $data['order_no'] = $order_px.substr(md5(time()), 0, 12);//商户订单号,推荐使用 8-20 位，要求数字或字母，不允许其他字符
-            $data['uid'] = is_login();
-            
+            $data['uid'] = $uid = is_login();
             $data['expand_id'] = I('post.expand_id',0,'intval');
-            $data['payment'] = I('post.payment','','');
+            $data['payment'] = I('post.payment','','op_t');
+            $data['amount'] = I('post.amount',0,'intval');
+            $data['amount'] = sprintf("%01.2f", $data['amount']*100);//将金额单位转成分
             $result = $this->expandModel->getData($data['expand_id']);//获取应用详细
             $data['add_uid'] = $result['uid'];
-            //dump($data);exit;
-
-            $res=$this->expandRecordsModel->addRecordData($data);//写入购买记录
-            if($res){
-                $this->success('操作成功');
+            //积分支付，判断积分是否够用
+            if(is_numeric($data['payment'])){
+                $score_type = D('Ucenter/Score')->getType(array('id'=>$data['payment']));
+                $score = D('Ucenter/Score')->getUserScore($uid, $data['payment']);
+                if($score<$data['amount']){
+                    $this->error('少年~'.$score_type['title'].'不够用啦！');
+                }
+            }
+            //验证及写入数据
+            if (!$this->expandRecordsModel->create($data)){//验证表单
+                $this->error('操作失败！'.$this->expandRecordsModel->getError());
             }else{
-                $this->error('操作错误');
+                $res=$this->expandRecordsModel->addRecordData($data);//写入购买记录
+                if($res){
+                $recordData = $this->expandRecordsModel->getDataById($res);
+                $this->success('操作成功',U('index/pay',array('id'=>$recordData['id'],'order_no'=>$recordData['order_no'])));
+                }else{
+                    $this->error('操作错误');
+                }
             }
         }else{
             $aId=I('id',0,'intval');
+            $uid = is_login();
             /* 标识正确性检测 */
             $result = $this->expandModel->getData($aId);
             if(empty($result)){
                 $this->error('应用ID错误!sorry');
             }
-            //获取支付方式
+            $result['price'] = sprintf("%01.2f", $result['price']/100);
+            //允许购买的积分类型
+            $able_score=modC('EXPAND_CONFIG_SCORE','','Expand');
+            $able_score = explode(',',$able_score);
+            $score_ids = array();
+            foreach($able_score as $val){
+                $score_ids[] = substr($val,-1);
+            }
+            unset($val);
+            $map['id'] = array('in',$score_ids);
+            $map['status'] = 1;
+            $score_list = D('Ucenter/Score')->getTypeList($map);
+            //获取用户积分数量
+            $score = query_user('score1,score2,score3,score4',$uid);
+            foreach($score_list as &$val){
+                $val['num'] = $score['score'.$val['id']];
+            }
+            //是否启用在线支付
+            $onlinePay=modC('EXPAND_CONFIG_ONLINEPAY','','Expand');
+            //获取在线支付渠道
             $payChannel = D('Pingpay/Pingpay')->channel();
 
-            //dump($result);exit;
+            //dump($score_list);exit;
+            $this->assign('ableScore',$score_list);
+            $this->assign('onlinePay',$onlinePay);
             $this->assign('payChannel',$payChannel);
             $this->assign('result',$result);
             $this->display();
+        }
+    }
+
+    public function pay()
+    {
+        if(!is_login()){
+            $this->error("需要登陆");
+        }
+
+        $aId=I('id',0,'intval');//获取订单ID
+        $aOrder_no=I('order_no','','text');//获取订单ID
+        $recordData = $this->expandRecordsModel->getDataById($aId);
+        if($aOrder_no!=$recordData['order_no']){
+            $this->error("参数错误");
+        }
+
+        //支付处理
+        if($recordData['payment']!='pingpay'){//判断是否在线支付
+            //积分购买处理
+            $score = $recordData['amount']/100;//积分数量
+            $add_uid = $recordData['add_uid'];//发布者的UID
+            $scoreModel = D('Ucenter/Score');
+
+            $scoreID = $map['id'] = $recordData['payment'];
+            $scoreType = D('Ucenter/Score')->getType($map);//根据ID获取积分类型详细
+
+            $duid=query_user(array('nickname'),is_login()); //购买用户的昵称
+            $fuid=query_user(array('nickname'),$add_uid); //发布用户的昵称
+
+            $remark = $duid['nickname'].'在'.$now_time.'购买了'.$fuid['nickname'].'发布的应用扣除【'.$scoreType['title'].'：-'.$score.$scoreType['unit'].'】';
+            $res = $scoreModel->setUserScore(is_login(),$score,$scoreID,'dec','expand',0,$remark);//购买用户扣除积分
+            if(!$res){
+                $this->error('扣除积分错误！');
+            }
+            $remark = $fuid['nickname'].'发布的应用在'.$now_time.'被'.$duid['nickname'].'购买【'.$scoreType['title'].'：+'.$score.$scoreType['unit'].'】';
+            $res = $scoreModel->setUserScore($add_uid, $score,$scoreID,'inc','expand',0,$remark);//发布应用用户增加积分
+            if(!$res){
+                $this->error('写入积分错误！');
+            }
+            $data['id']=$aId;
+            $data['paid']=1;
+            $res=$this->expandRecordsModel->editRecordData($data);//写入购买记录
+            $this->success('成功购买应用');
+        }else{
+             //在线支付处理
+            echo "在线支付页面";
         }
     }
     /*
@@ -365,11 +336,26 @@ class IndexController extends Controller
      * @param  [type] $price   [下载所需积分]
      * @return [type]          [Array]
      */
-    public function _downBtn ($id,$file_id,$price)
+    public function _downBtn ($id,$file_id)
     {
-        $downBtn['url'] = U('index/buyexpand',array('id'=>$id,'price'=>$price,'file_id'=>$file_id));
         $downBtn['title'] = '下载应用';
-
+        
+        $map['uid'] = is_login();
+        $map['expand_id'] = $id;
+        $map['paid'] = 1;
+        $result = $this->expandRecordsModel->getRecordData($map);//获取购买应用记录
+            if($result) {
+                $$downBtn['enable_down'] = 1;
+                $downBtn['down_url'] = U('index/downexpand',array('id'=>$id,'file_id'=>$file_id));
+                $downBtn['btn'] = '<a type="button" class="btn btn-block btn-lg btn-warning" href="'.$downBtn['down_url'].'" target= _blank>已购 下载应用</a>';
+            }else {
+                $downBtn['url'] = U('index/buy',array('id'=>$id,'file_id'=>$file_id));
+                $$downBtn['enable_down'] = 0;
+                $downBtn['btn'] = '<button type="button" class="btn btn-block btn-lg btn-warning" data-title="'.$downBtn['title'].'" data-url="'.$downBtn['url'].'" data-toggle="modal">下载应用</button>';
+            }
+            if(!is_login()){
+                $downBtn['btn'] = '<button type="button" class="btn btn-block btn-lg btn-warning" onclick="javascript:toast.error(\'登录后才能操作\')">下载应用</button>';
+            }
         return $downBtn;
     }
     private function _category($id=0)

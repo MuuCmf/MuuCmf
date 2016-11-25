@@ -106,6 +106,7 @@ class DevController extends IndexController
         $map['uid'] = is_login();
         list($list,$totalCount)=$this->expandModel->getListByPage($map,$page,'sort desc,update_time desc','*',$r);
         foreach($list as &$val){
+            $val['price'] = sprintf("%.2f",$val['price']/100);//将金额单位转成元
             $val['user']=query_user(array('space_url','avatar32','nickname'),$val['uid']);
         }
         unset($val);
@@ -135,6 +136,7 @@ class DevController extends IndexController
             $data['description']=I('post.description','','op_t');
             $data['content']=I('post.content','','op_h');
             $data['price']=I('post.price',0,'intval');
+            $data['price']=$data['price']*100;
 
             if (!$this->expandModel->create($data)){//验证表单
                 $this->error('操作失败！'.$this->expandModel->getError());
@@ -154,6 +156,7 @@ class DevController extends IndexController
             $map['status'] = 1;
             $category=$this->expandCategoryModel->getCategoryList($map);
             $data = $this->expandModel->getData($aId);
+            $data['price']=$data['price']/100;
             $this->setTitle($title.'应用');
             $this->assign('button',$button);
             $this->assign('category',$category);

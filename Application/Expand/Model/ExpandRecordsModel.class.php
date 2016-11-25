@@ -6,8 +6,15 @@ namespace Expand\Model;
 use Think\Model;
 
 class ExpandRecordsModel extends Model{
-
-
+    protected $_validate  =  array(
+        array('uid','require','用户ID不能为空！'), //默认情况下用正则进行验证
+        array('add_uid','require','发布应用的用户ID不能为空！'), 
+        array('expand_id','require','应用ID不能为空！'),
+        array('order_no','require','商户订单号不能为空！'),
+        array('payment','require','支付方式不能为空！'),
+        array('amount','require','应用价格不能为空！'),
+        array('amount',array(0,999999),'价格太离谱了!',1,'between',''),
+    );
 
     public function getListByPage($map,$page=1,$order='create_time desc',$field='*',$r=20)
     {
@@ -21,10 +28,19 @@ class ExpandRecordsModel extends Model{
 	/*
 	**获取用户购买应用数据
 	*/
-    public function getRecordData($uid,$expand_id)
+    public function getRecordData($map)
     {
-        $map['uid']=$uid;
-        $map['expand_id']=$expand_id;
+        $data=$this->where($map)->find();
+        return $data;
+    }
+    /**
+     * 根据ID获取应用购买数据
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    public function getDataById($id)
+    {
+        $map['id']=$id;
         $data=$this->where($map)->find();
         return $data;
     }
@@ -36,6 +52,17 @@ class ExpandRecordsModel extends Model{
 	    $data['create_time']=time();
         $res=$this->add($data);
         //action_log('add_expandRecord', 'Expand', $res, is_login());
+        return $res;
+    }
+    /*
+    **编辑购买记录
+    */
+    public function editRecordData($data)
+    {
+        if($data['id']){
+            $data['pay_time']=time();
+            $res=$this->save($data);  
+        }
         return $res;
     }
 

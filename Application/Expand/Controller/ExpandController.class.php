@@ -36,6 +36,11 @@ class ExpandController extends AdminController
 
     public function config()
     {
+        $score_list = D('Ucenter/Score')->getTypeList(array('status' => 1));
+        $score_type=array();
+        foreach($score_list as $val){
+            $score_type=array_merge($score_type,array('score'.$val['id']=>$val['title']));
+        }
         $builder=new AdminConfigBuilder();
                 $data=$builder->handleConfig();
                 $default_position=<<<str
@@ -46,6 +51,8 @@ str;
                 ->data($data);
 
         $builder->keyText('EXPAND_CONFIG_ORDERPX', '订单号前缀', '')
+                ->keyCheckBox('EXPAND_CONFIG_SCORE','允许支付的积分类型','',$score_type)
+                ->keySelect('EXPAND_CONFIG_ONLINEPAY','是否开通在线支付','',array(0=>'否',1=>'是'))
                 ->keyTextArea('EXPAND_SHOW_POSITION','展示位配置')
                 ->keyDefault('EXPAND_SHOW_POSITION',$default_position)
                 ->keyText('EXPAND_SHOW_TITLE', '标题名称', '在首页展示块的标题')
@@ -64,7 +71,7 @@ str;
                 ->keyEditor('EXPAND_SHOW_HELP', '应用商店的使用帮助文档','','all',array('width' => '100%', 'height' => '400px'))
                 ->keyEditor('EXPAND_SHOW_DEVAG', '开发者认证协议','','all',array('width' => '100%', 'height' => '400px'))
 
-                ->group('基本配置', 'EXPAND_CONFIG_ORDERPX,EXPAND_SHOW_POSITION')
+                ->group('基本配置', 'EXPAND_CONFIG_SCORE,EXPAND_CONFIG_ORDERPX,EXPAND_CONFIG_ONLINEPAY,EXPAND_SHOW_POSITION')
                 ->group('首页展示配置', 'EXPAND_SHOW_COUNT,EXPAND_SHOW_TITLE,EXPAND_SHOW_DESCRIPTION,EXPAND_SHOW_TYPE,EXPAND_SHOW_ORDER_TYPE,EXPAND_SHOW_ORDER_FIELD,EXPAND_SHOW_CACHE_TIME')
                 ->group('帮助文档', 'EXPAND_SHOW_HELP')
                 ->group('开发者协议', 'EXPAND_SHOW_DEVAG')
@@ -182,6 +189,7 @@ str;
         $category=$this->expandCategoryModel->getCategoryList(array('status'=>array('egt',0)),1);
         $category=array_combine(array_column($category,'id'),$category);
         foreach($list as &$val){
+            $val['price'] = '￥'.sprintf("%.2f",$val['price']/100);//将金额单位转成元
             $val['category']='['.$val['category'].'] '.$category[$val['category']]['title'];
             $val['icon']=getThumbImageById($val['icon'],60,60);
         }
@@ -207,7 +215,7 @@ str;
             ->keyImage('icon','图标')
             ->keyText('title','标题')
             ->keyText('category','分类')
-            ->keyText('price','价格')
+            ->keyText('price','价格（元）')
             ->keyText('download_num','下载次数')
             ->keyText('sort','排序')
             ->keyLink('revisions','版本库','Expand/revisions?id=###')
@@ -730,27 +738,44 @@ str;
     */
     public function expandRecord($page=1,$r=20)
     {
+
         $map['status']=1;
         list($list,$totalCount)=$this->expandRecordsModel->getListByPage($map,$page,'create_time desc','*',$r);
+        unset($map);
         foreach($list as &$val){
+            $val['amount'] = '￥'.sprintf("%01.2f", $val['amount']/100);//将金额单位分转成元
             $val['expand']=$this->expandRecordsModel->query_expand(array('id','title','description'),$val['expand_id']);
             $val['title'] = $val['expand']['title'];
+            if($val['paid']==1){
+                $val['paid'] = '已付款';
+            }else{
+                $val['paid'] = '未付款';
+            }
+            if($val['payment']!='pingpay'){
+                $map['id'] = $val['payment'];
+                $score = D('Ucenter/Score')->getType($map);
+                $val['payment']=$score['title'];
+            }else{
+                $val['payment']='在线支付';
+            }
         }
         unset($val);
         //dump($list);exit;
-
-
         $builder=new AdminListBuilder();
         $builder->title('购买应用列表')
             ->data($list)
             ->setSelectPostUrl(U('Admin/Expand/expandRecord'))
 
             ->keyId()
+            ->keyText('order_no','订单号')
             ->keyUid()
             ->keyUid('add_uid','发布者')
             ->keyText('title','标题')
-            ->keyText('score','积分')
-            ->keyCreateTime();
+            ->keyText('amount','金额')
+            ->keyText('payment','支付方式')
+            ->keyText('paid','状态')
+            ->keyCreateTime()
+            ->keyTime('pay_time','付款时间');
 
         $builder->pagination($totalCount,$r)
         ->display();

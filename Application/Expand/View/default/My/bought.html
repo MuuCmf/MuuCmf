@@ -27,26 +27,19 @@
                         </a>
                         <div class="doinfo">
                             <div class="text-center">
-                                <div class="price">积分：{$data.price}</div>
+                                <div class="price">RMB：{$data.price}</div>
                             </div>
 
                             <div class="text-center">
-                            <if condition="$data.file_id neq 0">
-                                <button 
-                                    type="button" 
-                                    class="btn btn-block btn-lg btn-warning" 
-                                    data-title="{$data.downBtn.title}"
-                                    data-url="{$data.downBtn.url}" 
-                                    data-toggle="modal">
-                                        下载应用
-                                </button>
+                            <notempty name="data.downBtn">
+                                    {$data.downBtn.btn}
                                 <else />
-                                <button 
-                                    type="button" 
-                                    class="btn btn-block btn-lg btn-primary" >
-                                        暂无版本
-                                </button>
-                            </if>
+                                    <button 
+                                        type="button" 
+                                        class="btn btn-block btn-lg btn-primary" >
+                                            暂无版本
+                                    </button>
+                            </notempty>
                             </div>
                         </div>
                     </div>
