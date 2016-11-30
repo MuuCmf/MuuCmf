@@ -9,9 +9,10 @@
                     </div>
                 </div>
                 <div class="col-xs-9">
-                    <div class="tit">
+                    <div class="tit" data-id="{$result.id}" data-title="{$result.title}" data-body="{$result.description}">
                     	<input type="hidden" name="expand_id" value="{$result.id}"> 
                         <h2>{$result.title}</h2>
+
                         <p>{$result.description}</p>
                     </div>
                 </div>
@@ -36,7 +37,7 @@
 						<div class="paychannel-box hidden">
 				        	<volist name="payChannel" id="channel">
 							    <div class="col-md-4">
-								    <div class="paychannel">
+								    <div class="paychannel" data-value="{$channel.name}">
 										<input type="hidden" name="channel" value="{$channel.name}">
 										<img src="__ROOT__/Application/Pingpay/Static/images/{$channel.icon}" /> {$channel.stitle} 
 										<span class="selected hidden">
@@ -88,7 +89,7 @@ $(function(){
 	    var _data = {
 	    		"expand_id":$("input[name='expand_id']").val(),
 	        	"payment":$("input[type='radio']:checked").val(),
-	        	//"paychannel":paychannel,
+	        	"paychannel":paychannel,
 	        	"amount":$("input[name='amount']").val(),
         	};
 

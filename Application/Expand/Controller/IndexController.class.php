@@ -211,15 +211,22 @@ class IndexController extends Controller
             $data['uid'] = $uid = is_login();
             $data['expand_id'] = I('post.expand_id',0,'intval');
             $data['payment'] = I('post.payment','','op_t');
+            if(!is_numeric($data['payment'])){
+                $data['paychannel'] = I('post.paychannel','','text');
+            }
             $data['amount'] = I('post.amount',0,'intval');
             $data['amount'] = sprintf("%01.2f", $data['amount']*100);//将金额单位转成分
             $result = $this->expandModel->getData($data['expand_id']);//获取应用详细
-            $data['add_uid'] = $result['uid'];
+            $data['subject'] = $result['title'];//商品名称
+            $data['body'] = $result['description'];//商品描述
+            $data['add_uid'] = $result['uid'];//应用发布者id
+            $data['metadata'] = serialize(array('module'=>'Expand'));//订单元数据，要求JSON字符串
+            $data['client_ip'] = $_SERVER['REMOTE_ADDR']; //下单的ip地址
             //积分支付，判断积分是否够用
             if(is_numeric($data['payment'])){
                 $score_type = D('Ucenter/Score')->getType(array('id'=>$data['payment']));
                 $score = D('Ucenter/Score')->getUserScore($uid, $data['payment']);
-                if($score<$data['amount']){
+                if($score<$data['amount']/100){
                     $this->error('少年~'.$score_type['title'].'不够用啦！');
                 }
             }
@@ -230,11 +237,17 @@ class IndexController extends Controller
                 $res=$this->expandRecordsModel->addRecordData($data);//写入购买记录
                 if($res){
                 $recordData = $this->expandRecordsModel->getDataById($res);
-                $this->success('操作成功',U('index/pay',array('id'=>$recordData['id'],'order_no'=>$recordData['order_no'])));
+                    //判断支付类型
+                    if(is_numeric($recordData['payment'])){
+                        $this->success('操作成功,即将进入支付页面',U('index/pay',array('id'=>$recordData['id'],'order_no'=>$recordData['order_no'])));
+                    }else{
+                        $result_url=think_encrypt(U('Expand/my/bought'));//支付成功后跳转回的地址
+                        $this->success('操作成功，即将进入在线支付页面',U('Pingpay/index/pubpingpay',array('app'=>'Expand','table'=>'ExpandRecords','order_no'=>$recordData['order_no'],'result_url'=>$result_url)));
+                    }
                 }else{
-                    $this->error('操作错误');
+                    $this->error('写入数据错误');
                 }
-            }
+            }  
         }else{
             $aId=I('id',0,'intval');
             $uid = is_login();
@@ -256,10 +269,11 @@ class IndexController extends Controller
             $map['status'] = 1;
             $score_list = D('Ucenter/Score')->getTypeList($map);
             //获取用户积分数量
-            $score = query_user('score1,score2,score3,score4',$uid);
+            //$score = getUserScore($uid,$val['id']);
             foreach($score_list as &$val){
-                $val['num'] = $score['score'.$val['id']];
+                $val['num'] = D('Ucenter/Score')->getUserScore($uid,$val['id']);
             }
+            
             //是否启用在线支付
             $onlinePay=modC('EXPAND_CONFIG_ONLINEPAY','','Expand');
             //获取在线支付渠道
@@ -273,7 +287,9 @@ class IndexController extends Controller
             $this->display();
         }
     }
-
+    /**
+    *   积分购买应用的订单支付页
+    */
     public function pay()
     {
         if(!is_login()){
@@ -288,7 +304,7 @@ class IndexController extends Controller
         }
 
         //支付处理
-        if($recordData['payment']!='pingpay'){//判断是否在线支付
+        if($recordData['payment']!='pingpay' || is_numeric($recordData['payment'])){//判断是否在线支付
             //积分购买处理
             $score = $recordData['amount']/100;//积分数量
             $add_uid = $recordData['add_uid'];//发布者的UID
@@ -300,12 +316,12 @@ class IndexController extends Controller
             $duid=query_user(array('nickname'),is_login()); //购买用户的昵称
             $fuid=query_user(array('nickname'),$add_uid); //发布用户的昵称
 
-            $remark = $duid['nickname'].'在'.$now_time.'购买了'.$fuid['nickname'].'发布的应用扣除【'.$scoreType['title'].'：-'.$score.$scoreType['unit'].'】';
+            $remark = $duid['nickname'].'购买了'.$fuid['nickname'].'发布的应用扣除【'.$scoreType['title'].'：-'.$score.$scoreType['unit'].'】';
             $res = $scoreModel->setUserScore(is_login(),$score,$scoreID,'dec','expand',0,$remark);//购买用户扣除积分
             if(!$res){
                 $this->error('扣除积分错误！');
             }
-            $remark = $fuid['nickname'].'发布的应用在'.$now_time.'被'.$duid['nickname'].'购买【'.$scoreType['title'].'：+'.$score.$scoreType['unit'].'】';
+            $remark = $fuid['nickname'].'发布的应用被'.$duid['nickname'].'购买【'.$scoreType['title'].'：+'.$score.$scoreType['unit'].'】';
             $res = $scoreModel->setUserScore($add_uid, $score,$scoreID,'inc','expand',0,$remark);//发布应用用户增加积分
             if(!$res){
                 $this->error('写入积分错误！');
@@ -314,9 +330,6 @@ class IndexController extends Controller
             $data['paid']=1;
             $res=$this->expandRecordsModel->editRecordData($data);//写入购买记录
             $this->success('成功购买应用');
-        }else{
-             //在线支付处理
-            echo "在线支付页面";
         }
     }
     /*

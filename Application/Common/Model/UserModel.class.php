@@ -149,6 +149,10 @@ class UserModel
             $user_data['following'] = M('Follow')->where('who_follow=' . $uid)->count();
             $this->write_query_user_cache($uid, 'following', $user_data['following']);
         }
+        if (in_array('weibocount', $fields)) {
+            $user_data['weibocount'] = M('Weibo')->where('uid=' . $uid . ' and status >0')->count();
+            $this->write_query_user_cache($uid, 'weibocount', $user_data['weibocount']);
+        }
         //是否关注、是否被关注
         if (in_array('is_following', $fields)) {
             $follow = D('Follow')->where(array('who_follow' => get_uid(), 'follow_who' => $uid))->find();

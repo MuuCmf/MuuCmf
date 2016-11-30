@@ -53,6 +53,7 @@ str;
         $builder->keyText('EXPAND_CONFIG_ORDERPX', '订单号前缀', '')
                 ->keyCheckBox('EXPAND_CONFIG_SCORE','允许支付的积分类型','',$score_type)
                 ->keySelect('EXPAND_CONFIG_ONLINEPAY','是否开通在线支付','',array(0=>'否',1=>'是'))
+                ->keyText('EXPAND_CONFIG_RESURL', '回调地址', '在线支付成功后返回的地址')
                 ->keyTextArea('EXPAND_SHOW_POSITION','展示位配置')
                 ->keyDefault('EXPAND_SHOW_POSITION',$default_position)
                 ->keyText('EXPAND_SHOW_TITLE', '标题名称', '在首页展示块的标题')
@@ -71,7 +72,7 @@ str;
                 ->keyEditor('EXPAND_SHOW_HELP', '应用商店的使用帮助文档','','all',array('width' => '100%', 'height' => '400px'))
                 ->keyEditor('EXPAND_SHOW_DEVAG', '开发者认证协议','','all',array('width' => '100%', 'height' => '400px'))
 
-                ->group('基本配置', 'EXPAND_CONFIG_SCORE,EXPAND_CONFIG_ORDERPX,EXPAND_CONFIG_ONLINEPAY,EXPAND_SHOW_POSITION')
+                ->group('基本配置', 'EXPAND_CONFIG_SCORE,EXPAND_CONFIG_ORDERPX,EXPAND_CONFIG_ONLINEPAY,EXPAND_CONFIG_RESURL,EXPAND_SHOW_POSITION')
                 ->group('首页展示配置', 'EXPAND_SHOW_COUNT,EXPAND_SHOW_TITLE,EXPAND_SHOW_DESCRIPTION,EXPAND_SHOW_TYPE,EXPAND_SHOW_ORDER_TYPE,EXPAND_SHOW_ORDER_FIELD,EXPAND_SHOW_CACHE_TIME')
                 ->group('帮助文档', 'EXPAND_SHOW_HELP')
                 ->group('开发者协议', 'EXPAND_SHOW_DEVAG')
