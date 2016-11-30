@@ -1,0 +1,128 @@
+<extend name="Public/common"/>
+<block name="style">
+	<link href="__CSS__/pingpay.css" rel="stylesheet" type="text/css"/>
+	<link href="__PUBLIC__/css/form_check.css" rel="stylesheet" type="text/css">
+</block>
+<block name="body">
+	<div class="recharge_form_box clearfix">
+		<form class="" role="form" action="__SELF__" method="post">
+			<input type="hidden" name="body" value="在线积分充值">
+
+			<div class="form-group">
+	    	<label for="amount" >充值金额</label>
+			    <div class="amount-input">
+			    	<input type="text" name="amount" class="form-control form_check" check-type="Num" check-type="IntNum" check-value="{$min_money},99999" id="amount" placeholder="请输入充值金额，如：100.00（单位：元）">
+			  	</div>
+		  	</div>
+			<div class="form-group clearfix">
+		    <label for="channel">充值类型</label>
+			    <div class="row">
+				    <volist name="score" id="score">
+				    	<div class="col-xs-3">
+						    <div class="subject" data-id="{$score.id}" data-type="{$score.title}">
+							  <input type="hidden" name="subject" value="[{$score.id}]{$score.title}-充值"> {$score.title}
+							  <span class="selected hidden">
+							  	<i class="icon-check"></i>
+							  </span>
+							</div>
+						</div>
+					</volist>
+			    </div>
+		  </div>
+		  
+		  <div class="form-group clearfix">
+		    <label for="channel" class="">选择支付方式</label>
+		    <div class="row">
+		    <volist name="payChannel" id="channel">
+			    <div class="col-md-3">
+				    <div class="paychannel">
+						<input type="hidden" name="channel" value="{$channel.name}">
+						<img src="__IMG__/{$channel.icon}" /> {$channel.stitle} 
+						<span class="selected hidden">
+							<i class="icon-check"></i>
+						</span>
+					</div>
+				</div>
+			</volist>
+		    </div>
+		  </div>
+
+		  <div class="form-group">
+		    <div class="">
+		      <button type="submit" class="btn btn-lg btn-warning">在线支付</button>
+		    </div>
+		  </div>
+
+		</form>
+	</div>
+</block>
+
+<block name="script">
+    <script src="__JS__/pingpay.js"></script>
+    <script src="__PUBLIC__/js/form_check.js"></script>
+    <script>
+        $(function () {
+        	var score_id,subject,paychannel;
+    		//充值类型
+        	$(".subject").click(function(){
+        		$(".subject").removeClass("click");
+        		$(".subject").children(".selected").addClass("hidden");
+				$(this).addClass("click");
+				$(this).children(".selected").removeClass("hidden");
+				subject = $(this).children("input").val();
+				score_id = $(this).attr("data-id");
+        	});
+        	//支付方式
+        	$(".paychannel").click(function(){
+        		$(".paychannel").removeClass("click");
+        		$(".paychannel").children(".selected").addClass("hidden");
+				$(this).addClass("click");
+				$(this).children(".selected").removeClass("hidden");
+				paychannel = $(this).children("input").val();
+        	});
+        	$(".subject:first").click();//执行一次充值类型点击
+        	$(".paychannel:first").click();//执行一次支付方式选择点击
+        	//表单提交
+	        $("form").submit(function(e) {
+	        	e.preventDefault();
+	            toast.showLoading();
+	            var self=$(this);
+	            //var _data = self.serialize();
+	            var _data = {
+	            	"subject":subject,
+	            	"body":$("input[name='body']").val(),
+	            	"amount":$("input[name='amount']").val(),
+	            	"channel":paychannel,
+	            	"description":$("input[name='description']").val(),
+	            	"metadata": {
+	            		"module":"Pingpay",
+	            		"score_id":score_id,
+	            	},
+	            };
+
+			    $.post(self.attr("action"),_data, function(data) {
+			    	//alert(data);
+		            if (!data.status) {
+		                toast.error(data.info, '温馨提示');
+		            }else{
+		            	toast.success(data.info);
+		            	setTimeout(function () {
+		                	window.location.href = data.url;
+		                }, 1000);
+		            }
+		    	}, "json");
+	            toast.hideLoading();
+	        });
+        })
+    </script>
+</block>
+
+
+
+
+
+
+
+
+
+

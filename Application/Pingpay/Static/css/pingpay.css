@@ -1,0 +1,105 @@
+/*公共*/
+.side-menu {
+    background: white;
+}
+.common_box {
+	padding: 15px;
+    background: #fff;
+    min-height: 400px;
+}
+/*钱包首页*/
+.score_box {
+	padding:10px;
+	background:#f90;
+	color:#fff;
+}
+.score_1 {
+	background:#03B8CF
+}
+.score_2 {
+	background:#F1A325;
+}
+.score_3 {
+	background:#38B03F;
+}
+.score_4 {
+	background:#8666B8;
+}
+
+.menu_list_box {
+	margin-top:15px;
+}
+.menu_list_box .menu_box {
+	margin:0 auto 15px auto;
+}
+.menu_list_box .menu_box .menu_a {
+	display:block;
+	padding:15px;
+	border:1px solid #ddd;
+	text-align:center;
+}
+.menu_list_box .menu_box .menu_a i{
+	font-size:18px;
+}
+/*支付表单页*/
+.form-horizontal .form-group {
+	margin:0;
+}
+
+.recharge_form_box {
+	padding:15px;
+	background:#fff;
+	min-height: 400px;
+}
+
+#amount {
+	line-height: 36px;
+	font-size:18px;
+	height:auto;
+}
+
+.recharge_form_box .subject {
+	position: relative;
+	border:2px solid #ddd;
+	background:#f6f6f6;
+	padding:10px;
+	margin-bottom:10px;
+	cursor:pointer;
+}
+.recharge_form_box .paychannel {
+	position: relative;
+	border:2px solid #ddd;
+	background:#f6f6f6;
+	padding:5px;
+	margin-bottom:10px;
+	cursor:pointer;
+}
+.recharge_form_box .click{
+	border:2px solid #f60;
+	background:#f6f6f6;
+}
+.recharge_form_box .selected {
+	position:absolute;
+	background:#f60;
+	border-radius: 50%;
+	text-align: center;
+	width:20px;
+	height:20px;
+	top:50%;
+	right:10px;
+	margin-top:-10px;
+}
+.recharge_form_box .selected i{
+	color:#fff;
+}
+/*支付确认页面*/
+.pingpay_pay_box {
+
+}
+.pingpay_pay_box .pay_box_body {
+	padding:15px;
+}
+
+.pingpay_pay_box .pay_box_body h4{
+	color:#f60;
+} 

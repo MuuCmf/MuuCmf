@@ -1,0 +1,62 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__CSS__/pingpay.css" rel="stylesheet" type="text/css"/>
+</block>
+
+<block name="body">
+<div id="main-container" class="container">
+	<div class="pingpay_pay_box common_box clearfix">
+		<div class="col-xs-6 col-md-offset-3">
+			<div class="pay_box">
+				<div class="pay_box_heading text-center">
+				    <h2>确认订单</h2>
+				</div>
+				<div class="pay_box_body text-center">
+					<h4>支付金额</h4>
+				    <p>￥{$ch_y}</p>
+				    <h4>SUBJECT</h4>
+				    <p>{$ch.subject}</p>
+				    <h4>支付方式</h4>
+				    <p>{$channel.title}</p>
+				    <button type="button" id="submit" class="btn btn-lg btn-warning">确认无误 立即支付</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</block>
+
+<block name="script">
+	<script type="text/javascript" src="__PINGPPJS__/pingpp.js"></script>
+    <script>
+    $(function(){
+    	$('#submit').click(toPayChannel);
+    })
+    function toPayChannel(){
+    	var charge = {$ch};
+    	if(charge.credential.wx_pub_qr){
+    		
+    		return;
+    	}
+    	pingpp.createPayment(charge, function(result, err) {
+			if (result=="success") {
+			  // payment succeeded
+			} else {
+				toast.error(result+" "+err.msg+" "+err.extra, '温馨提示');
+				//console.log(result+" "+err.msg+" "+err.extra);
+			}
+		});
+    }
+    </script>
+</block>
+
+
+
+
+
+
+
+
+
+
