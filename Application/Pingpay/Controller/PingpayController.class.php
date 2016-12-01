@@ -56,6 +56,7 @@ class PingPayController extends AdminController
             ->keyReadOnlyText('PINGPAY_CONFIG_WEBHOOKS','webhooks回调地址')
             //充值设置
             ->keyRadio('PINGPAY_CONFIG_OPEN','是否开通充值功能','',array('1'=>'是','0'=>'否'))
+            ->keyText('PINGPAY_CONFIG_RESULTURL','充值成功后的返回地址','支付成功页返回地址（通常设置为订单列表）')
             ->keyCheckBox('PINGPAY_CONFIG_SCORE','允许充值的积分类型','',$score_type)
             ->keyText('PINGPAY_CONFIG_MINMONEY','最小充值金额','请填写允许在线充值的最小额度，单位（元）,默认或0为不限制')
             ->keyText('PINGPAY_CONFIG_ORDERPX','商户订单前缀','数字或字符')
@@ -65,7 +66,7 @@ class PingPayController extends AdminController
 
 
             ->group('ping++ 接口设置','PINGPAY_CONFIG_APIKEY,PINGPAY_CONFIG_APPID,PINGPAY_CONFIG_PUBLICKEY,PINGPAY_CONFIG_PUBLISHABLEKEY,PINGPAY_CONFIG_PRIVATEKEY,PINGPAY_CONFIG_WEBHOOKS')
-            ->group('充值设置','PINGPAY_CONFIG_OPEN,PINGPAY_CONFIG_SCORE,PINGPAY_CONFIG_MINMONEY,PINGPAY_CONFIG_ORDERPX')
+            ->group('充值设置','PINGPAY_CONFIG_OPEN,PINGPAY_CONFIG_RESULTURL,PINGPAY_CONFIG_SCORE,PINGPAY_CONFIG_MINMONEY,PINGPAY_CONFIG_ORDERPX')
             ->group('提现设置','PINGPAY_CONFIG_TOPEN,PINGPAY_CONFIG_TMINMONEY')
             ->group('第三方模块支付配置','')
 
@@ -114,7 +115,8 @@ class PingPayController extends AdminController
         $builder=new AdminListBuilder();
         $builder->title('订单列表')
         ->data($list)
-        ->keyId('id','ping++ ID')
+        ->keyId('id')
+        ->keyText('ch_id','PingId')
         ->keyText('order_no','商户订单号')
         ->keyText('subject','商品名')
         ->keyText('amount','金额(单位：元)')

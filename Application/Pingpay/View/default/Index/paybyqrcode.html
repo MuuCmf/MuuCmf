@@ -30,7 +30,7 @@
 		function result(){
 			$.get(_url,_data, function(data) {
             if(data.paid==1){
-            	var succee_url = "{:U('pingpay/index/succee',array('app'=>$app,'table'=>$table,'order_no'=>$order_no))}";
+            	var succee_url = "{:U('pingpay/index/succee',array('app'=>$app,'table'=>$table,'order_no'=>$order_no,'result_url'=>$result_url))}";
             	window.location.href = succee_url;
             }
 	        })

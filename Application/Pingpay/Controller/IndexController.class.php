@@ -66,8 +66,8 @@ class IndexController extends BaseController
             $data['description'] = I('post.description','','text');//订单附加说明
             $data['client_ip'] = $_SERVER['REMOTE_ADDR']; // 发起支付请求客户端的 IP 地址，格式为 IPV4，如: 127.0.0.1
 
-            $result_url=think_encrypt(U('Pingpay/Order/index'));//支付成功后跳转回的地址
-
+            $result_url=think_encrypt(modC('PINGPAY_CONFIG_RESULTURL','','Pingpay'));//支付成功后跳转回的地址
+            
             if (!$this->pingpayOrderModel->create($data)){//验证表单
                 $this->error('操作失败！'.$this->pingpayOrderModel->getError());
             }else{
@@ -111,6 +111,7 @@ class IndexController extends BaseController
         $table = I('table','','text');
         $order_no = I('order_no','','text');
         $chid = I('data','','text');
+        $result_url = I('result_url','','text');
 
         \Pingpp\Pingpp::setApiKey($this->api_key);
         $ch = \Pingpp\Charge::retrieve($chid);
@@ -119,7 +120,7 @@ class IndexController extends BaseController
         $credential = think_encrypt($credential);
 
         if($ch['credential']['wx_pub_qr']){
-             $this->redirect('pingpay/index/paybyqrcode',array('app'=>$app,'table'=>$table,'order_no'=>$ch['order_no'],'data'=>$credential),0, '页面跳转中...');   
+             $this->redirect('pingpay/index/paybyqrcode',array('app'=>$app,'table'=>$table,'order_no'=>$ch['order_no'],'data'=>$credential,'result_url'=>$result_url),0, '页面跳转中...');
         }
         //非扫码支付处理
         $channel = $this->pingpayModel->getPaychannelInfo($ch['channel']);//获取支付渠道的详细配置
@@ -145,6 +146,7 @@ class IndexController extends BaseController
         $app = I('app','','text');
         $table = I('table','','text');
         $order_no = I('order_no','','text');
+        $result_url = I('result_url','','text');
         $map['order_no']=$order_no;
         $order = M($table)->where($map)->find();
         if($order){
@@ -152,7 +154,7 @@ class IndexController extends BaseController
         }else{
             $this->error('参数错误');
         }
-
+        $this->assign('result_url',$result_url);
         $this->assign('app',$app);
         $this->assign('table',$table);
         $this->assign('order_no',$order_no);
@@ -242,7 +244,7 @@ class IndexController extends BaseController
                     //$edata['id'] = $order['id'];
                     //$res = $this->D($app.'/'.$table)->editData($edata);
                     //echo $ch;
-                    $this->redirect('pingpay/index/payMent',array('app'=>$app,'table'=>$table,'order_no'=>$order_no,'data'=>$ch['id']), 0, '页面跳转中...');
+                    $this->redirect('pingpay/index/payMent',array('app'=>$app,'table'=>$table,'order_no'=>$order_no,'data'=>$ch['id'],'result_url'=>$result_url), 0, '页面跳转中...');
                 }else{
                     $check['error']['message'] = '支付参数有错误';
                     $this->ajaxReturn($check);

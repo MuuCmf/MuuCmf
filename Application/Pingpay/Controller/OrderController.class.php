@@ -31,7 +31,8 @@ class OrderController extends BaseController
             $val['amount'] = sprintf("%01.2f", $val['amount']/100);//将金额单位分转成元
         }
         unset($val);
-        $result_url=think_encrypt(U('Pingpay/Order/index'));//支付成功后跳转回的地址
+        
+        $result_url=think_encrypt(modC('PINGPAY_CONFIG_RESULTURL','','Pingpay'));//支付成功后跳转回的地址
 
         $this->assign('result_url',$result_url);
         $this->assign('data',$list);

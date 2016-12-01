@@ -52,6 +52,7 @@ class IndexController extends Controller
     //扩展首页
     public function index($page=1,$r=20)
     {
+        
         /* 分类信息 */
         $category = I('category',0,'intval');
         if($category){
@@ -241,7 +242,7 @@ class IndexController extends Controller
                     if(is_numeric($recordData['payment'])){
                         $this->success('操作成功,即将进入支付页面',U('index/pay',array('id'=>$recordData['id'],'order_no'=>$recordData['order_no'])));
                     }else{
-                        $result_url=think_encrypt(U('Expand/my/bought'));//支付成功后跳转回的地址
+                        $result_url=think_encrypt(modC('EXPAND_CONFIG_RESULTURL','','Expand'));//支付成功后跳转回的地址
                         $this->success('操作成功，即将进入在线支付页面',U('Pingpay/index/pubpingpay',array('app'=>'Expand','table'=>'ExpandRecords','order_no'=>$recordData['order_no'],'result_url'=>$result_url)));
                     }
                 }else{
