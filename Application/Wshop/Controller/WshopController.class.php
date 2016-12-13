@@ -217,16 +217,15 @@ class WshopController extends AdminController
 
 					$product = $this->product_model->create();
 					if (!$product){
-
 						$this->error($this->product_model->getError());
 					}
+					$product['price'] = sprintf("%.2f",$product['price']*100);
+					$product['ori_price'] = sprintf("%.2f",$product['ori_price']*100);
+
 					$ret = $this->product_model->add_or_edit_product($product);
-					if ($ret)
-					{
+					if ($ret){
 						$this->success('操作成功。', U('wshop/product'));
-					}
-					else
-					{
+					}else{
 						$this->error('操作失败。');
 					}
 				}
@@ -237,17 +236,22 @@ class WshopController extends AdminController
 					if(!empty($id))
 					{
 						$product = $this->product_model->get_product_by_id($id);
+						$product['price'] = sprintf("%.2f",$product['price']/100);
+						$product['ori_price'] = sprintf("%.2f",$product['ori_price']/100);
 					}
 					else
 					{
 						$product = array();
 					}
 
+
 					$select = $this->product_cats_model->get_produnct_cat_config_select('选择分类');
 					if(count($select)==1)
 					{
 						$this->error('先添加一个商品分类吧',U('wshop/product_cats',array('action'=>'add')),2);
 					}
+
+
 					$delivery_select = $this->delivery_model->getfield('id,title');
 					empty($delivery_select) && $delivery_select=array();
 					array_unshift($delivery_select,'不需要运费');
@@ -261,8 +265,8 @@ class WshopController extends AdminController
 						->keySingleImage('main_img','商品主图')
 						->keyMultiImage('images','商品图片,分号分开多张图片')
 						->keySelect('cat_id','商品分类','',$select)
-						->keyInteger('price', '价格/分','交易价格')
-						->keyInteger('ori_price', '原价/分','显示被划掉价格')
+						->keyInteger('price', '价格/元','交易价格')
+						->keyInteger('ori_price', '原价/元','显示被划掉价格')
 						->keyInteger('quantity', '库存')
 //						->keyText('product_code', '商家编码,可用于搜索')
 						->keyCheckBox('info','其他配置','',$info_array)
@@ -339,27 +343,24 @@ class WshopController extends AdminController
 			case 'sku_table':
 				if(IS_POST)
 				{
-					$product['id'] = I('id','','intval');
+					$product['id'] = I('id',0,'intval');
 					empty($product['id']) && $this->error('缺少商品id');
-					$table = I('table');
-					$info = I('info');
+					$table = I('table','','text');
+					$info = I('info','','text');
+
 					$product['sku_table'] = array('table'=>$table,'info'=>$info);
 					$product['sku_table'] = json_encode($product['sku_table']);
 					$ret = $this->product_model->add_or_edit_product($product);
-					if ($ret)
-					{
+					if ($ret){
 						$this->success('操作成功。');
-					}
-					else
-					{
+					}else{
 						$this->error('操作失败。');
 					}
 				}
 				else
 				{
-					$id = I('id');
-					if(empty($id)
-					||!($product = $this->product_model->get_product_by_id($id)))
+					$id = I('id',0,'intval');
+					if(empty($id) || !($product = $this->product_model->get_product_by_id($id)))
 					{
 						$this->error('请选择一个商品','',2);
 					}
@@ -375,20 +376,13 @@ class WshopController extends AdminController
 					var_dump(__file__.' line:'.__line__,$_REQUEST);exit;
 					$product = array();
 					$ret = $this->product_model->add_or_edit_product($product);
-					if($ret)
-					{
+					if($ret){
 						$this->success('操作成功',U('wshop/product'));
-					}
-					else
-					{
+					}else{
 						$this->error('操作失败');
-
 					}
-					//					var_dump(__file__.' line:'.__line__, $_REQUEST);exit;
 
-				}
-				else
-				{
+				}else{
 					$porduct_extra_info_model = D('Wshop/WshopProductExtraInfo');
 
 					$id = I('id');
@@ -410,7 +404,12 @@ class WshopController extends AdminController
 				$count = I('count');
 				if(empty($option['cat_id'])) unset($option['cat_id']);
 				$product = $this->product_model->get_product_list($option);
+				foreach($product['list'] as &$val){
+					$val['price']='￥'.sprintf("%.2f",$val['price']/100);
+				}
+				unset($val);
 				$totalCount = $product['count'];
+				
 				$select = $this->product_cats_model->get_produnct_cat_list_select('全部分类');
 				$select2 = $this->product_cats_model->get_produnct_cat_config_select('全部分类');
 				$builder = new AdminListBuilder();
@@ -423,36 +422,33 @@ class WshopController extends AdminController
 					->ajaxButton(U('wshop/product',array('action'=>'delete')),'','删除')
 					->keyText('id','商品id')
 					->keyText('title','商品名');
-				if(!$count)
-				{
+				if(!$count){
 					$builder->keyMap('cat_id','所属分类',$select2)
-						->keyText('price','价格/（分）')
+						->keyText('price','价格/（元）')
 						->keyText('quantity','库存')
 						->keyImage('main_img','图片')
-						//					->keyTime('create_time','创建时间')
-						//					->keyTime('modify_time','编辑时间')
+						->keyTime('create_time','创建时间')
+						//->keyTime('modify_time','编辑时间')
 						->keyText('sort','排序')
 						->keyMap('status','状态',array('0'=>'正常','1'=>'下架'));
-				}
-				else
-				{
+				}else{
 					$builder
-//						->keyText('like_cnt','点赞数')
+						->keyText('like_cnt','点赞数')
 //						->keyText('fav_cnt','收藏数')
 						->keyText('comment_cnt','评论数')
-//						->keyText('click_cnt','点击数')
+						->keyText('click_cnt','点击数')
 						->keyText('sell_cnt','总销量')
 						->keyText('score_cnt','评分次数')
 						->keyText('score_total','总评分');
 				}
 
-				$builder->keyDoAction('admin/wshop/product/action/add/id/###','基本信息')
-					->keyDoAction('admin/wshop/product/action/sku_table/id/###','特殊规格')
+				$builder->keyDoAction('admin/wshop/product/action/add/id/###','基本')
+					->keyDoAction('admin/wshop/product/action/sku_table/id/###','规格')
 //					->keyDoAction('admin/shop/product/action/exi/id/###','商品参数')
 					->data($product['list'])
 					->pagination($totalCount, $option['r'])
 					->display();
-				break;
+			break;
 		}
 	}
 

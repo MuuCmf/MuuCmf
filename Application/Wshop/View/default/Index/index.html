@@ -1,4 +1,4 @@
-<extend name="Base/common"/>
+<extend name="Public/common"/>
 <block name="style">
     <link type="text/css" rel="stylesheet" href="__CSS__/public.css"/>
     <link type="text/css" rel="stylesheet" href="__CSS__/product.css"/>
@@ -9,75 +9,77 @@
             <div class="wshop_cats_box">
                 <include file="Public/_cats"/>
             </div>
+            
+            <div class="menu">
+
+            </div>
+            <div class="wshop_my">
+            <ul class="nav nav-primary">
+                <volist name="menu" id="menu">
+                    <li><a href="{$menu.link}">{$menu.title} <span class="label label-badge label-success">4</span></a> </li>
+               </volist>
+            </ul>
+            </div>
             <div class="pic">
                 轻量级PC+APP+微信商城解决方案
             </div>
         </div>
     </div>
-    <div class="wshop_my">
-        <volist name="menu" id="menu">
-            <a href="{$menu.link}">{$menu.title}</a><br>
-        </volist>
-    </div>
-
-
     <div id="main-container" class="container">
-        <div class="row">
-            <div class="col-md-8">
-                <div class="common_block_border">
+        <div class="col-md-8">
+            <div class="common_block_border">
 
-                    <div class="common_content_box">
-                        <section id="contents">
+                <div class="common_content_box">
+                    <section id="contents">
 
-                            <notempty name="list">
-                                <volist name="list" id="data">
-                                    <div class="col-md-4">
-                                        <div class="product_list_box">
-                                        <a href="{:U('Wshop/index/info',array('id'=>$data['id']))}" target="_blank">
-                                            <div class="img">
-                                                <img alt="{$data.title|text}" src="{$data.main_img|getThumbImageById=475,475}" class="img-responsive">
-                                            </div>
-                                            <div class="con">
-                                                <h3>{$data.title}</h3>
-                                            </div>
-                                        </a>
-                                        <div class="doinfo clearfix">
-                                            <div class="row">
-                                                <div class="col-xs-6">
-                                                    <div class="price">价格：{$data.price}</div>
-                                                </div>
-
-                                                <div class="col-xs-6">
-                                                    <button 
-                                                        type="button" 
-                                                        class="btn btn-block btn-lg btn-primary" 
-                                                        data-title="立即购买" 
-                                                        data-url="{:U('index/buyexpand',array('id'=>$data['id'],'price'=>$data['price']))}" 
-                                                        data-toggle="modal">
-                                                        立即购买
-                                                    </button>
-                                                </div>
-                                            </div>
+                        <notempty name="list">
+                            <volist name="list" id="data">
+                                <div class="col-md-4">
+                                    <div class="product_list_box">
+                                    <a href="{:U('Wshop/index/product',array('id'=>$data['id']))}" target="_blank">
+                                        <div class="img">
+                                            <img alt="{$data.title|text}" src="{$data.main_img|getThumbImageById=475,475}" class="img-responsive">
                                         </div>
+                                        <div class="con">
+                                            <h3>{$data.title}</h3>
+                                        </div>
+                                    </a>
+                                    <div class="doinfo clearfix">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <div class="price">价格：{$data.price}</div>
+                                            </div>
+
+                                            <div class="col-xs-6">
+                                                <button 
+                                                    type="button" 
+                                                    class="btn btn-block btn-lg btn-primary" 
+                                                    data-title="立即购买" 
+                                                    data-url="{:U('index/buyexpand',array('id'=>$data['id'],'price'=>$data['price']))}" 
+                                                    data-toggle="modal">
+                                                    立即购买
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                </volist>
-                                <else/>
-                                <div style="font-size:1em;padding:2em 0;color: #ccc;text-align: center">该类型下没有内容~</div>
-                            </notempty>
-                        </section>
+                                    </div>
+                                </div>
+                            </volist>
+                            <else/>
+                            <div style="font-size:1em;padding:2em 0;color: #ccc;text-align: center">该类型下没有内容~</div>
+                        </notempty>
+                    </section>
 
-                        <div class="text-center">
-                            {:getPagination($totalCount,20)}
-                        </div>
+                    <div class="text-center">
+                        {:getPagination($totalCount,20)}
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="common_block_border">
-                <!--侧栏菜单-->
-                    <include file="Public/_nav"/>
-                </div>
+        </div>
+        <div class="col-md-4">
+            <div class="common_block_border">
+            <!--侧栏菜单-->
+                <include file="Public/_nav"/>
             </div>
         </div>
     </div>

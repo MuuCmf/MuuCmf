@@ -8,6 +8,7 @@ class BaseController extends Controller
     protected $api_key;
     protected $app_id;
     protected $public_key;
+    protected $rsa_key;
     protected $open_recharge;
     protected $open_withdraw;
     public function _initialize()
@@ -17,6 +18,7 @@ class BaseController extends Controller
         $this->api_key=modC('PINGPAY_CONFIG_APIKEY','','Pingpay');
         $this->app_id=modC('PINGPAY_CONFIG_APPID','','Pingpay');
         $this->public_key=modC('PINGPAY_CONFIG_PUBLICKEY','','Pingpay');
+        $this->rsa_key=modC('PINGPAY_CONFIG_PRIVATEKEY','','Pingpay');
 
         $this->open_recharge=modC('PINGPAY_CONFIG_OPEN','','Pingpay');//是否开通充值
         $this->open_withdraw=modC('PINGPAY_CONFIG_TOPEN','','Pingpay');//是否开通提现

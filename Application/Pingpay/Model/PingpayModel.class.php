@@ -35,20 +35,23 @@ class PingpayModel extends Model{
 
         if(is_mobile()){
             foreach($channel as $k=>$val){
-                if(strpos($k,'wap')){
+                if(strpos($k,'wap') && $val['status']){
                     $payChannel[] = $val;
                 }
             }
         }elseif(isWeixinBrowser()){
-            if($k=='wx_wap'){
+            if($k=='wx_wap' && $val['status']){
                 $payChannel[] = $val;
             }
         }else{
             foreach($channel as $k=>$val){
-                if(strpos($k,'pc')){
+                if(strpos($k,'pc') && $val['status']){
                     $payChannel[] = $val;
                 }
-                if($k=='wx_pub_qr'){
+                if($k=='wx_pub_qr' && $val['status']){
+                    $payChannel[] = $val;
+                }
+                if($k=='alipay_qr' && $val['status']){
                     $payChannel[] = $val;
                 }
             }

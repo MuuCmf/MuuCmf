@@ -99,6 +99,10 @@
 .pingpay_pay_box .pay_box_body {
 	padding:15px;
 }
+.pingpay_pay_box .pay_box_body .paychannel {
+	border:1px solid #eee;
+	background:#eee;
+}
 
 .pingpay_pay_box .pay_box_body h4{
 	color:#f60;

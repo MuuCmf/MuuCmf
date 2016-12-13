@@ -4,7 +4,20 @@
 .wshop_topic {
   background:#607D8B;
   position:relative;
-  margin-top:36px;
+  margin-top:38px;
+}
+.wshop_topic .menu {
+	position:absolute;
+	top:-38px;
+	left:0;
+	background:rgba(255,255,255,0.6);
+	margin-left:203px;
+}
+.wshop_topic .wshop_my {
+	position:absolute;
+	top:-38px;
+	right:0;
+	background:rgba(255,255,255,0.6);
 }
 .wshop_topic .pic {
 	color:#fff;
@@ -14,14 +27,14 @@
 }
 .wshop_cats_box {
 	position:absolute;
-	top:-36px;
+	top:-38px;
 	left:0;
 	background:rgba(255,255,255,0.6);
 }
 
 .all-cats-list{position:relative;width:203px;background:#FAFAFA;}
 .all-cats-list .item-head {
-	height:36px;
+	height:38px;
 	font-weight:bold;
 	padding:10px;
 }

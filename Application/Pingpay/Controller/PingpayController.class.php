@@ -52,7 +52,7 @@ class PingPayController extends AdminController
             ->keyText('PINGPAY_CONFIG_APPID','app_id','登录(https://dashboard.pingxx.com)->点击你创建的应用->应用首页->应用 ID(App ID)')
             ->keyTextArea('PINGPAY_CONFIG_PUBLICKEY','ping++公钥','')
             ->keyText('PINGPAY_CONFIG_PUBLISHABLEKEY','Publishable Key','Ping++ 应用内快捷支付 Key')
-            ->keySingleFile('PINGPAY_CONFIG_PRIVATEKEY','上传RSA 商户私钥','如：your_rsa_private_key.pem')
+            ->keyTextArea('PINGPAY_CONFIG_PRIVATEKEY','RSA 商户私钥','如：your_rsa_private_key.pem')
             ->keyReadOnlyText('PINGPAY_CONFIG_WEBHOOKS','webhooks回调地址')
             //充值设置
             ->keyRadio('PINGPAY_CONFIG_OPEN','是否开通充值功能','',array('1'=>'是','0'=>'否'))
@@ -98,8 +98,14 @@ class PingPayController extends AdminController
                 ->display();
     }
 
-    public function index($page=1,$r=20)
+    public function index($page=1,$r=20,$uid='',$order_no='')
     {
+        if ($uid != '') {
+            $map['uid'] = $uid;
+        }
+        if ($order_no != '') {
+            $map['order_no'] = array('like', '%' . $order_no . '%');
+        }
         list($list,$totalCount) = $this->pingpayOrderModel->getListByPage($map,$page,'created desc','*',$r);
         foreach($list as &$val){
             if($val['paid']==1){
@@ -116,14 +122,16 @@ class PingPayController extends AdminController
         $builder->title('订单列表')
         ->data($list)
         ->keyId('id')
+        ->keyUid('uid')
         ->keyText('ch_id','PingId')
         ->keyText('order_no','商户订单号')
         ->keyText('subject','商品名')
         ->keyText('amount','金额(单位：元)')
         ->keyText('channel','支付渠道')
         ->keyText('paid','状态')
-        
-        ->keyCreateTime('created','订单创建时间');
+        ->keyCreateTime('created','订单创建时间')
+        ->keyCreateTime('time_paid','订单支付时间')
+        ->setSearchPostUrl(U('Admin/Pingpay/index'))->search('UID','uid')->search('订单号', 'order_no');
         $builder->pagination($totalCount,$r);
         $builder->display();
     }

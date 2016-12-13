@@ -112,14 +112,25 @@ class IndexController extends BaseController
         $order_no = I('order_no','','text');
         $chid = I('data','','text');
         $result_url = I('result_url','','text');
+        //获取订单信息
+        $map['order_no'] = $order_no;
+        $order = D($app.'/'.$table)->where($map)->find();
+        // 设置RSA私钥
+        \Pingpp\Pingpp::setPrivateKeyPath($this->rsa_key);
 
         \Pingpp\Pingpp::setApiKey($this->api_key);
         $ch = \Pingpp\Charge::retrieve($chid);
         //扫码支付判断
-        $credential = urlencode($ch['credential']['wx_pub_qr']);
-        $credential = think_encrypt($credential);
-
+        //$qrcode_url = '';
         if($ch['credential']['wx_pub_qr']){
+            $credential = think_encrypt($ch['credential']['wx_pub_qr']);
+        }
+        if($ch['credential']['alipay_qr']){
+            $credential = think_encrypt($ch['credential']['alipay_qr']);
+        }
+        
+
+        if($ch['credential']['wx_pub_qr'] || $ch['credential']['alipay_qr']){
              $this->redirect('pingpay/index/paybyqrcode',array('app'=>$app,'table'=>$table,'order_no'=>$ch['order_no'],'data'=>$credential,'result_url'=>$result_url),0, '页面跳转中...');
         }
         //非扫码支付处理
@@ -127,7 +138,7 @@ class IndexController extends BaseController
         $ch_y = sprintf("%.2f",$ch['amount']/100);
 
         //$ch=json_decode($ch, true);
-        
+        $this->assign('order',$order);
         $this->assign('channel',$channel);//支付渠道
         $this->assign('ch_y',$ch_y);//金额转换成元
         $this->assign('ch',$ch);
@@ -218,8 +229,8 @@ class IndexController extends BaseController
             //获取特定渠道的额外参数
             $channel = $order['channel']?strtolower($order['channel']):strtolower($order['paychannel']);
             $extra = $this->extra($channel,$arr);
-            // 设置私钥
-            //\Pingpp\Pingpp::setPrivateKeyPath(__DIR__ . '/your_rsa_private_key.pem');
+            // 设置RSA私钥
+            \Pingpp\Pingpp::setPrivateKeyPath($this->rsa_key);
 
             //发起支付 设置 API Key
             \Pingpp\Pingpp::setApiKey($this->api_key);
@@ -326,6 +337,11 @@ class IndexController extends BaseController
                     'success_url'=>$arr['success_url'],//支付成功的回调地址。
                     'enable_anti_phishing_key'=>'',//是否开启防钓鱼网站的验证参数（如果已申请开通防钓鱼时间戳验证，则此字段必填)
                     'exter_invoke_ip'=>$_SERVER['REMOTE_ADDR'],//客户端 IP ，用户在创建交易时，该用户当前所使用机器的IP（如果商户申请后台开通防钓鱼IP地址检查选项，此字段必填，校验用）
+                );
+            break;
+            case 'alipay_qr':
+            $extra = array(
+                    
                 );
             break;
             case 'wx':
