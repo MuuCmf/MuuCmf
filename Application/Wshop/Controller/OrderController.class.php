@@ -74,13 +74,7 @@ function _initialize()
 			//运送方式 express, ems, mail, self, virtual
 			isset($_REQUEST['delivery']) && $address['delivery'] = I('delivery','','text');
 			isset($address) && $order['address'] = $address;
-//			//支付方式
-//			if (!isset($_REQUEST['pay_type']) ||
-//				!($order['pay_type'] = I('pay_type', ShopOrderModel::PAY_TYPE_WEIXINPAY,'intval'))
-//			)
-//			{
-//				$this->error('选择支付方式');
-//			}
+
 			//使用优惠劵
 			isset($_REQUEST['coupon_id']) && $order['coupon_id'] = I('coupon_id', '', 'intval');
 			//留言 发票 提货时间 等其他信息
@@ -94,34 +88,51 @@ function _initialize()
 				$this->error('下单失败.' . $this->order_logic->error_str);
 			}
 		}else{
-			//$this->assign('su', $su);
-			if(!($id = I('id','','intval')) || !($product = $this->product_model->get_product_by_id($id))) {
-				$product = array();
-			}
-			$quantity =I('quantity','1','intval');
-			if(!($coupon_id = I('cookie.coupon_id','','intval')) || !($coupon = $this->user_coupon_model->get_user_coupon_by_id($coupon_id))) {
-				$coupon = array();
-			}
+			//购物车提交
+			$cart_id = I('cart_id','','text');
+			//直接购买
+			$id = I('id','','intval');
+			$quantity =I('quantity',0,'intval');
 			$sku = I('sku','','text');
-			if( !empty($sku) && !($product['sku_table']['info'][$sku])){
-				$product['price'] = $product['sku_table']['info'][$sku]['price'];
-			}else{
-				$sku = '';
+			//购物车提交
+			if($cart_id){
+				//$cart_id=explode(',',$cart_id);
+				$cart_list_products = $this->cart_model->get_shop_cart_by_ids($cart_id,$this->uid);
+				foreach($cart_list_products as &$val){
+		            $val['product']['price'] = sprintf("%01.2f", $val['product']['price']/100);//将金额单位分转成元
+		            $val['product']['ori_price'] = sprintf("%01.2f", $val['product']['ori_price']/100);
+		            $val['total_price'] = $val['product']['price']*$val['quantity'];
+		            $val['total_price'] = sprintf("%01.2f", $val['total_price']);
+		        }
+				//dump($cart_list_products);exit;
 			}
-
-			$cart = $this->cart_model->get_shop_cart_by_user_id($this->user_id);
-			$cart_id[0] = '';
-
-			if (isset($_REQUEST['cart_id'])
-				&& ( !($cart_id = I('cart_id','','text'))
-					|| !(preg_match('/^\d+(,\d+)*$/',$cart_id))
-					|| !($cart_id = explode(',',$cart_id))
-					|| !($cart_list_products = $this->cart_model->get_shop_cart_by_ids($cart_id, $this->user_id)))
-			) {
-				redirect(U('wshop/index/user'));
+			//直接购买
+			if($id && $quantity){
+				$product = $this->product_model->get_product_by_id($id);
+				if( !empty($sku) && !($product['sku_table']['info'][$sku])){
+					$product['price'] = $product['sku_table']['info'][$sku]['price'];
+				}else{
+					$sku = '';
+				}
+				$product['price'] = sprintf("%01.2f", $product['price']/100);//将金额单位分转成元
+				$product['total_price'] = $product['price']*$quantity;
+				$product['total_price'] = sprintf("%01.2f", $product['total_price']);
 			}
-
+			
+			//if(!($coupon_id = I('cookie.coupon_id','','intval')) || !($coupon = $this->user_coupon_model->get_user_coupon_by_id($coupon_id))) {
+			//	$coupon = array();
+			//}
+			
+			// if (isset($_REQUEST['cart_id'])
+			// 	&& ( !($cart_id = I('cart_id','','text'))
+			// 		|| !(preg_match('/^\d+(,\d+)*$/',$cart_id))
+			// 		|| !($cart_id = explode(',',$cart_id))
+			// 		|| !($cart_list_products = $this->cart_model->get_shop_cart_by_ids($cart_id, $this->user_id)))
+			// ) {
+			// 	redirect(U('wshop/index/user'));
+			// }
 			$address[0] = $this->user_address_model->get_last_user_address_by_user_id($this->user_id);
+			//dump($address);exit;
 
 			$this->assign('quantity', $quantity);
 			$this->assign('product', $product);

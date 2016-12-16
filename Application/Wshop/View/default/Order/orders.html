@@ -101,11 +101,8 @@
     <p class="load-more">加载中...</p>
 </article>
 
-<include file="mobile/Public/footer" />
-
-
 <script>
-    var order_option = <php> echo(!empty($option)? json_encode($option):"null")</php>;
+    var order_option = {$option};
     //'jquery' or 'zepto' 脚本入口,按情况选择加载
     seajs.use(['jquery','doT'], function () {
         $(document).ready(function () {

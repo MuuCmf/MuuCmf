@@ -1,5 +1,9 @@
+    section {
+        padding:5px;
+    }
     .sku-content {
-
+        border:1px solid #ff6600;
+        background:#;
     }
     
     .sku-content li {

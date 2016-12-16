@@ -1,24 +1,21 @@
-
-<include file="mobile/Public/header" />
-
-<link rel="stylesheet" href="__CSS__/detail_font.css">
-<link rel="stylesheet" href="__CSS__/makeorder.css">
-<link rel="stylesheet" href="__CSS__/good.css">
+<extend name="Public/common"/>
+<block name="style">
+<link rel="stylesheet" href="__CSS__/common.css">
+<link rel="stylesheet" href="__CSS__/default/pc/makeorder.css">
+<link rel="stylesheet" href="__CSS__/default/pc/good.css">
+</block>
+<block name="body">
+<div id="main-container" class="container">
+<div class="common_box">
 <header class="color-main vertical-box">
-    <span class="header-title">提交订单</span>
-    <div class="header-left vertical-box">
-        <img class="img-btn" src="__IMG__/back.png" onclick="history.back()">
-    </div>
-    <div class="header-right vertical-box">
-        <img class="img-btn" src="__IMG__/home.png" onclick="window.location.href='{:U('wshop/index/index')}'">
-    </div>
+    <h3 class="header-title">提交订单</h3>
 </header>
 <article class="makeorder-section btn-footer-margin">
     <php>
     if(!empty($address[0])){
         </php>
         <section class="address-section linear-section margin-top-section margin-bottom last-liner-section"
-                 onclick="window.location.href='{:U('Wshop/address/address')}&type=select'"
+                 onclick="window.location.href='{:U("Wshop/address/address")}&type=select'"
                  data-id="<php> echo $address[0]['id'] </php>">
             <div class="linear-address-section border-box">
                 <p class="big-text">
@@ -46,7 +43,7 @@
         </php>
         <section class="address-section linear-section margin-top-section margin-bottom last-liner-section" onclick="window.location.href='{:U('wshop/address/address')}&type=select'">
             <div class="linear-address-section border-box">
-                <p class="big-text">请选择您的收货信息</p>
+                <h3 class="big-text">请选择您的收货信息</h3>
             </div>
         <span class="linear-right vertical-box"><span>
             <img src="__IMG__/go.png">
@@ -55,68 +52,56 @@
     <php>
     }
     </php>
-
-
-    <php>
-    /*立即购买模式*/
-    if(!empty($product)){
-        </php>
+    <!--立即购买模式-->
+    <notempty name="product">
         <section class="good-section linear-section">
             <div class="good-section-left">
-                <img class="good-section-img" src="<php> if(!empty($product['main_img'])) echo pic($product['main_img']); </php>">
+                <img class="good-section-img" src="{$product['main_img']|getThumbImageById=200,200}">
             </div>
             <div class="good-section-right border-box">
-                <p class="good-section-title"><php> if(!empty($product['title'])) echo $product['title']; </php></p>
-                <php>
-                if(!empty($sku)){
-                    </php>
-                    <p class="good-section-option small-text tips-font"><php> echo $sku</php></p>
-                <php>
-                }
-                </php>
+                <p class="good-section-title">{$product['title']}</p>
+                <notempty name="sku">
+                    <p class="good-section-option small-text tips-font">{$sku}</p>
+                </notempty>
                 <p class="good-section-option small-text tips-font clearfix">
-                    ￥<php> echo sprintf("%.2f", $product['price']/100) </php> x <php> if(!empty($quantity)) echo $quantity</php>
-                    <span class="big-text good-section-price secondary-font">￥<php> echo sprintf("%.2f", ($product['price']*$quantity)/100) </php></span>
+                    ￥{$product['price']} x {$quantity}
+                    <span class="big-text good-section-price secondary-font">￥{$product['total_price']}</span>
                 </p>
             </div>
         </section>
-    <php>
-    }
-    /*购物车模式*/
-    elseif(!empty($cart_list_products)){
-        $cart_price = 0;//记录购物车总价格
-        foreach ($cart_list_products as $c) {
-            $cart_product = $c['product'];
-            $cart_price+=$cart_product['price']*$c['quantity']
-            </php>
+    </notempty>
+
+    <notempty name="cart_list_products">
+        <volist name="cart_list_products" id="data">
             <section class="good-section linear-section">
                 <div class="good-section-left">
-                    <img class="good-section-img" src="<php> if(!empty($cart_product['main_img'])) echo pic($cart_product['main_img']); </php>">
+                    <img class="good-section-img" src="{$data['product']['main_img']|getThumbImageById=200,200}">
                 </div>
                 <div class="good-section-right border-box">
-                    <p class="good-section-title"><php> if(!empty($cart_product['title'])) echo $cart_product['title']; </php></p>
+                    <p class="good-section-title">{$data['product']['title']}</p>
                     <php>
                     if(!empty($cart_product['sku_id'][1])){
-                        </php>
-                        <p class="good-section-option small-text tips-font"><php> echo $cart_product['sku_id'][1]</php></p>
+                    </php>
+                        <p class="good-section-option small-text tips-font">{$data['product']['sku_id'][1]}</p>
                     <php>
                     }
                     </php>
                     <p class="good-section-option small-text tips-font clearfix">
-                        ￥<php> echo sprintf("%.2f", $cart_product['price']/100) </php> x <php> if(!empty($c['quantity'])) echo $c['quantity']</php>
-                        <span class="big-text good-section-price secondary-font">￥<php> echo sprintf("%.2f", ($cart_product['price']*$c['quantity'])/100) </php></span>
+                        ￥{$data['product']['price']} x {$data['quantity']}
+                        <span class="big-text good-section-price secondary-font">
+                        ￥{$data['total_price']}
+                        </span>
                     </p>
                 </div>
             </section>
-        <php>
-        }
-    }
-    </php>
+        </volist>
+    </notempty>
 
     <section class="delivery-section linear-section last-liner-section">
-        <span class="linear-title vertical-box"><span>配送方式</span></span>
+        <h3 class="linear-title vertical-box"><span>配送方式</span></h3>
         <p class="linear-input border-box small-text tips-font">快递费：<span class="delivery-fee"></span></p>
     </section>
+
     <php>
     $real_price = 0;
     if(!empty($product)){
@@ -126,10 +111,11 @@
         $real_price =  sprintf("%.2f", $cart_price/100);
     }
     </php>
+
     <section class="linear-section margin-top-section"
              onclick="window.location.href='/index.php?s=wshop/index/user_coupon&type=select&paid_fee=<php> echo $real_price*100 </php>'"
              data-id="<php> if(!empty($coupon['id'])) echo $coupon['id'] </php>">
-        <span class="linear-title vertical-box"><span>优惠券</span></span>
+        <h3 class="linear-title vertical-box"><span>优惠券</span></h3>
         <input class="linear-input border-box tips-font" type="text" readonly placeholder="请选择使用优惠券"
                value="<php> if(!empty($coupon['info']['title'])) echo $coupon['info']['title'].'：优惠￥'.sprintf("%.2f", $coupon['info']['rule']['discount']/100) </php>">
         <span class="linear-right vertical-box"><span>
@@ -153,7 +139,7 @@
 
 
     <section class="linear-section last-liner-section">
-        <span class="linear-title vertical-box"><span>备注</span></span>
+        <h3 class="linear-title vertical-box"><span>备注</span></h3>
         <input class="remark-input linear-input border-box tips-font" type="text" value="" placeholder="请填写您的留言">
     </section>
     <!---->
@@ -184,24 +170,22 @@
             <php> echo $real_price </php>
         </span>
     </div>
-    <div class="makeorderBtn makeorder-footer-right color-primary big-text">提交订单</div>
+    <div class="makeorderBtn makeorder-footer-right btn btn-lg">提交订单</div>
 </footer>
-
-<include file="mobile/Public/footer" />
-
-
+</div>
+</div>
 <script>
-    var product_data = <php> echo(!empty($product)? json_encode($product):"null")</php>;//useful
-    var address_data = <php> echo(!empty($address[0])? json_encode($address[0]):"null")</php>;//useful
-    var quantity_data = <php> echo(!empty($quantity)? json_encode($quantity):"null")</php>;//useful
-    var sku_data = <php> echo(!empty($sku)? json_encode($sku):"null")</php>;//useful
-    var cart_data = <php> echo(!empty($cart_list_products)? json_encode($cart_list_products):"null")</php>;//useful
-    var cart_id = <php> echo(!empty($cart_id)? json_encode($cart_id):"null")</php>;//useful
-    var coupon_data = <php> echo(!empty($coupon)? json_encode($coupon):"null")</php>;
+    var product_data = '{$product}';
+    //var address_data = <php> echo(!empty($address[0])? json_encode($address[0]):"null")</php>;//useful
+    //var quantity_data = <php> echo(!empty($quantity)? json_encode($quantity):"null")</php>;//useful
+    //var sku_data = <php> echo(!empty($sku)? json_encode($sku):"null")</php>;//useful
+    //var cart_data = <php> echo(!empty($cart_list_products)? json_encode($cart_list_products):"null")</php>;//useful
+    //var cart_id = <php> echo(!empty($cart_id)? json_encode($cart_id):"null")</php>;//useful
+    //var coupon_data = <php> echo(!empty($coupon)? json_encode($coupon):"null")</php>;
+
     //'jquery' or 'zepto' 脚本入口,按情况选择加载
-    seajs.use('zepto', function () {
+
         $(document).ready(function () {
-            seajs.use('zepto_cookie', function () {
                 /*
                     下单,下单完清楚优惠券信息
                 */
@@ -260,15 +244,6 @@
 
                     })
                 });
-                /*
-                    根据cookie刷新页面获取新的内容，解决微信的缓存
-                */
-                var freshen_data = $.fn.cookie('freshen_data');
-                if(freshen_data=='true'){
-                    $.fn.cookie('freshen_data','false');
-                    window.location.reload()
-                }
-            });
 
             /*付款数整合计算*/
             function countPrice(ele){
@@ -342,7 +317,5 @@
                 })
             }
         })
-    });
 </script>
-</body>
-</html>
+</block>

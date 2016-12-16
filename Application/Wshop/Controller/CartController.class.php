@@ -3,8 +3,6 @@
 namespace Wshop\Controller;
 
 use Think\Controller;
-use Com\TPWechat;
-use Com\WechatAuth;
 class CartController extends BaseController {
 
 	protected $cart_model;
@@ -19,7 +17,13 @@ class CartController extends BaseController {
 	{
 		parent::init_user();
 		$cart = $this->cart_model->get_shop_cart_by_user_id($this->uid);
-		
+		foreach($cart as &$val){
+            $val['product']['price'] = sprintf("%01.2f", $val['product']['price']/100);//将金额单位分转成元
+            $val['product']['ori_price'] = sprintf("%01.2f", $val['product']['ori_price']/100);
+            $val['total_price'] = $val['product']['price']*$val['quantity'];
+            $val['total_price'] = sprintf("%01.2f", $val['total_price']);
+		}
+		//dump($cart);exit;
 		$this->assign('cart', $cart);
 		$this->display();
 	}
@@ -33,20 +37,40 @@ class CartController extends BaseController {
 		$shop_cart['user_id'] = $this->uid;
 		$ret = $this->cart_model->add_shop_cart($shop_cart);
 		if ($ret){
-			$this->success('成功');
+			$this->success('加入购物车成功');
 		}else{
-			$this->error('');
+			$this->error('加入购物车时发生错误');
 		}
 	}
 	public function delete_cart()
 	{
 		parent::init_user();
-		$ids = I('ids', '');
+		$ids = I('ids','');
 		$ret = $this->cart_model->delete_shop_cart($ids, $this->user_id);
 		if ($ret){
-			$this->success('成功');
+			$this->success('商品删除成功',U('Wshop/cart/index'));
 		}else{
-			$this->error();
+			$this->error('商品删除时发生错误');
+		}
+	}
+
+	public function edit_to_cart()
+	{
+		parent::init_user();
+		if(IS_POST){
+			$data = I('post.data','','text');
+			if (!($shop_cart = $this->cart_model->create())){
+				$this->error($this->cart_model->getError());
+			}
+			$shop_cart = $data;
+			$shop_cart['user_id'] = $this->uid;
+
+			$ret = $this->cart_model->add_shop_cart($shop_cart);
+			if ($ret){
+				$this->success('成功修改购物车数据');
+			}else{
+				$this->error('修改数据时发生错误');
+			}
 		}
 	}
 

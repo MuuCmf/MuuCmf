@@ -262,6 +262,7 @@ class WshopController extends AdminController
 					$builder->title('新增/修改商品')
 						->keyId()
 						->keyText('title', '商品名称')
+						->keyTextArea('description','简单描述')
 						->keySingleImage('main_img','商品主图')
 						->keyMultiImage('images','商品图片,分号分开多张图片')
 						->keySelect('cat_id','商品分类','',$select)

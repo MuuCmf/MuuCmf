@@ -22,19 +22,19 @@ class WshopCartModel extends Model{
 		}
 		else
 		{
-			//			$this->create();
 			$ret = $this->where('id='.$shop_cart['id'])->save($shop_cart);
 		}
 		return $ret;
 	}
 
+	
+
 	public function delete_shop_cart($ids,$user_id)
 	{
-		if(!is_array($ids))
-		{
-			$ids = array($ids);
-		}
-		$ret = $this->where('id in ('.implode(',',$ids).') and user_id='.$user_id)->delete();
+		!is_array($ids)&&$ids=explode(',',$ids);
+		$map['id']=array('in',$ids);
+		$map['uid'] = $user_id;
+		$ret = $this->where($map)->delete();
 		return $ret;
 	}
 
@@ -46,11 +46,11 @@ class WshopCartModel extends Model{
 
 	public function get_shop_cart_by_ids($ids,$user_id)
 	{
-		if(!is_array($ids))
-		{
-			$ids = array($ids);
-		}
-		return $this->where('id in ('.implode(',',$ids).') and user_id = '.$user_id)->select();
+		!is_array($ids)&&$ids=explode(',',$ids);
+		$map['id']=array('in',$ids);
+		$map['user_id'] = $user_id;
+		$ret = $this->where($map)->select();
+		return $ret;
 	}
 
 	public function _after_select(&$ret,&$option)

@@ -1,0 +1,29 @@
+/**/
+.sku-type.count-box{ display: inline-block }
+.section-type.sku-type.count-box{ display: inline }
+.sku-type.count-box .count-btn{
+    float: left;
+    border: thin solid #dddddd;
+    border-radius: 4px;
+    background: white;
+    padding:0.4rem 0;
+    width: 3rem;
+    height: 3rem;
+}
+.sku-type.count-box .cut-btn{}
+.sku-type.count-box .add-btn{}
+
+.sku-type.count-box .count-input{
+    float: left;
+    border: thin solid #dddddd;
+    border-radius: 4px;
+    background: white;
+    text-align: center;
+    padding:0.67rem 0;
+    width: 3rem;
+    height: 3rem;
+}
+/**/
+.section-type.count-box{  }
+.section-type.count-box .count-btn{  }
+.section-type.count-box .count-input{  }
