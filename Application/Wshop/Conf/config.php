@@ -22,22 +22,17 @@ return array(
     /* 主题设置 */
     'DEFAULT_THEME' => 'default', // 默认模板主题名称
 
-
     /* 模板相关配置 */
+    //此处只做模板使用，具体替换在COMMON模块中的set_theme函数,该函数替换MODULE_NAME,DEFAULT_THEME两个值为设置值
     'TMPL_PARSE_STRING' => array(
         '__STATIC__' => __ROOT__ . '/Public/static',
-        '__ADDONS__' => __ROOT__ . '/Public/' . MODULE_NAME . '/Addons',
-        '__IMG__' => __ROOT__ . '/Application/'.MODULE_NAME   . '/Static/images',
-        '__CSS__' => __ROOT__ . '/Application/'.MODULE_NAME .'/Static/css',
-        '__JS__' => __ROOT__ . '/Application/'.MODULE_NAME. '/Static/js',
-        '__JS__' => __ROOT__ . '/Application/'.MODULE_NAME. '/Static/js',
-        '__WEUI__' => __ROOT__ . '/Application/'.MODULE_NAME. '/Static/weui',
         '__ZUI__' => __ROOT__ . '/Public/zui',
-		'__AUI__'=>__ROOT__.'/Public/amazeui/assets',
+        '__ADDONS__' => __ROOT__ . '/Public/'. MODULE_NAME.'/Addons',
+        '__IMG__'    => __ROOT__ . '/Application/'.MODULE_NAME. '/Static/'.DEFAULT_THEME.'/images',
+        '__CSS__'    => __ROOT__ . '/Application/'.MODULE_NAME. '/Static/'.DEFAULT_THEME.'/css',
+        '__JS__'     => __ROOT__ . '/Application/'.MODULE_NAME. '/Static/'.DEFAULT_THEME.'/js',
+        '__Theme__'     => __ROOT__ . '/Application/'.MODULE_NAME. '/Static/'.DEFAULT_THEME,
     ),
-
-    //'TMPL_ACTION_ERROR' => MODULE_PATH . 'View/mobile/Public/error.html', // 默认错误跳转对应的模板文件
-    //'TMPL_ACTION_SUCCESS' => MODULE_PATH . 'View/mobile/Public/success.html', // 默认成功跳转对应的模板文件
 
     'NEED_VERIFY'=>true,//此处控制默认是否需要审核，该配置项为了便于部署起见，暂时通过在此修改来设定。
 

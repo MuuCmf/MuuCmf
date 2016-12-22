@@ -28,34 +28,25 @@ function _initialize()
 
 		$this->init_user();
 		if (IS_POST){
+			$products = I('post.products');
+			$cart_id = I('cart_id','','text');
 			//todo 也可以通过购物车id来取, 下单完成后可以清除下购物车
-			if (isset($_REQUEST['products']) && !($products = I('post.products')) )
-			{
-				$this->error('商品参数错误');
-			}
 			//购物车 cart_id = array(1,2,3)
-			if (isset($_REQUEST['cart_id']) && (!($cart_id = I('cart_id',''))
-				|| !($GLOBALS['_TMP']['cart_id'] = $cart_id)
-				|| !($products = $this->cart_model->get_shop_cart_by_ids($cart_id, $this->user_id)))
-			)
-			{
-				$this->error('购物车数据有误');
+			if ($cart_id){
+				$products = $this->cart_model->get_shop_cart_by_ids($cart_id, $this->uid);
 			}
 
 			foreach ($products as $k => $p)
 			{
-				if (!is_string($p['sku_id']) || !is_numeric($p['quantity']))
-				{
+				if (!is_string($p['sku_id']) || !is_numeric($p['quantity'])){
 					$this->error('参数错误');
 				}
 				$products[$k] = array(
 					'sku_id'   => $products[$k]['sku_id'],
 					'quantity' => $products[$k]['quantity']);
 			}
-			$order = array(
-				'user_id'  => $this->user_id,
-				'products' => $products,
-			);
+			$order['user_id'] = $this->uid;
+			$order['products'] = $products;
 
 			//收货地址, 虚拟物品不要收货地址
 			if (isset($_REQUEST['address_id'])){
@@ -63,27 +54,29 @@ function _initialize()
 					$this->error('地址参数错误');
 				}
 			}else{
-				isset($_REQUEST['name']) && $address['name'] = I('name','','text');
-				isset($_REQUEST['phone']) && $address['phone']  = preg_match('/^([0-9\-\+]{3,16})$/',I('phone', '', 'text'),$ret)?'':$ret[0];
-				isset($_REQUEST['province']) && $address['province'] = I('province','','text');
-				isset($_REQUEST['city']) && $address['city'] = I('city','','text');
-				isset($_REQUEST['town']) && $address['town'] = I('town','','text');
+				$address['name'] = I('name','','text');
+				$address['phone']  = preg_match('/^([0-9\-\+]{3,16})$/',I('phone', '', 'text'),$ret)?'':$ret[0];
+				$address['province'] = I('province','','text');
+				$address['city'] = I('city','','text');
+				$address['town'] = I('town','','text');
 				//如果这里要5级分类,用冒号分开多级 如 ${town}:车公庙:金地花园:48栋301
-				isset($_REQUEST['address']) && $address['address'] = I('address','','text');
+				$address['address'] = I('address','','text');
 			}
 			//运送方式 express, ems, mail, self, virtual
-			isset($_REQUEST['delivery']) && $address['delivery'] = I('delivery','','text');
-			isset($address) && $order['address'] = $address;
+			$address['delivery'] = I('delivery','','text');
+
+			$order['address'] = $address;
 
 			//使用优惠劵
-			isset($_REQUEST['coupon_id']) && $order['coupon_id'] = I('coupon_id', '', 'intval');
+			$order['coupon_id'] = I('coupon_id', '', 'intval');
 			//留言 发票 提货时间 等其他信息
 			$order['info'] = I('info', '', 'text');
+			//dump($order);exit;
 			//增加下单后的钩子
 			\Think\Hook::add('AfterMakeOrder', '\Wshop\Logic\WshopOrderLogic');
 			$ret = $this->order_logic->make_order($order);
 			if ($ret){
-				$this->success($ret);
+				$this->success('下单成功');
 			}else{
 				$this->error('下单失败.' . $this->order_logic->error_str);
 			}
@@ -94,54 +87,53 @@ function _initialize()
 			$id = I('id','','intval');
 			$quantity =I('quantity',0,'intval');
 			$sku = I('sku','','text');
+			//初始化总价格为0
+			$real_price = 0;
 			//购物车提交
 			if($cart_id){
-				//$cart_id=explode(',',$cart_id);
 				$cart_list_products = $this->cart_model->get_shop_cart_by_ids($cart_id,$this->uid);
 				foreach($cart_list_products as &$val){
 		            $val['product']['price'] = sprintf("%01.2f", $val['product']['price']/100);//将金额单位分转成元
 		            $val['product']['ori_price'] = sprintf("%01.2f", $val['product']['ori_price']/100);
 		            $val['total_price'] = $val['product']['price']*$val['quantity'];
 		            $val['total_price'] = sprintf("%01.2f", $val['total_price']);
+		            $real_price+=$val['total_price'];
 		        }
-				//dump($cart_list_products);exit;
+		        $this->assign('cart_id',$cart_id);
 			}
 			//直接购买
 			if($id && $quantity){
+				//商品信息
+				//购买数量
+				//购买规格
 				$product = $this->product_model->get_product_by_id($id);
-				if( !empty($sku) && !($product['sku_table']['info'][$sku])){
+				if($product['sku_table']['info'][$sku]){
 					$product['price'] = $product['sku_table']['info'][$sku]['price'];
-				}else{
-					$sku = '';
 				}
 				$product['price'] = sprintf("%01.2f", $product['price']/100);//将金额单位分转成元
 				$product['total_price'] = $product['price']*$quantity;
 				$product['total_price'] = sprintf("%01.2f", $product['total_price']);
+				$product['sku'] = $sku;
+				$product['sku_quantity'] = $quantity;
 			}
-			
-			//if(!($coupon_id = I('cookie.coupon_id','','intval')) || !($coupon = $this->user_coupon_model->get_user_coupon_by_id($coupon_id))) {
-			//	$coupon = array();
-			//}
-			
-			// if (isset($_REQUEST['cart_id'])
-			// 	&& ( !($cart_id = I('cart_id','','text'))
-			// 		|| !(preg_match('/^\d+(,\d+)*$/',$cart_id))
-			// 		|| !($cart_id = explode(',',$cart_id))
-			// 		|| !($cart_list_products = $this->cart_model->get_shop_cart_by_ids($cart_id, $this->user_id)))
-			// ) {
-			// 	redirect(U('wshop/index/user'));
-			// }
-			$address[0] = $this->user_address_model->get_last_user_address_by_user_id($this->user_id);
-			//dump($address);exit;
 
-			$this->assign('quantity', $quantity);
+			if(!empty($product)){
+		        $real_price =  $product['total_price'];
+		        $way = 'product';
+		    }
+		    if(!empty($cart_list_products)){
+		        $real_price =  $real_price;
+		        $way = 'cart';
+		    }
+			
+			$listAddress = $this->user_address_model->get_user_address_list($this->uid);
+			$lastAddress = $this->user_address_model->get_last_user_address_by_user_id($this->uid);
+			
 			$this->assign('product', $product);
-			$this->assign('coupon', $coupon);
-			$this->assign('sku', $sku);
-			$this->assign('cart_id', $cart_id);
-			$this->assign('cart', $cart);
 			$this->assign('cart_list_products', $cart_list_products);
-			$this->assign('address',$address);
+			$this->assign('real_price',$real_price);
+			$this->assign('listAddress',$listAddress);
+			$this->assign('lastAddress',$lastAddress);
 			$this->display();
 		}
 	}

@@ -48,19 +48,10 @@ class WshopUserAddressModel extends Model{
 		return $this->where('id in ('.implode(',',$ids).')')->delete();
 	}
 
-	public function get_user_address_list($option)
+	public function get_user_address_list($uid)
 	{
-		if (!empty($option['user_id']))
-		{
-			$where_arr[] = 'user_id = ' . $option['user_id'];
-		}
-		$where_str = '';
-		if (!empty($where_arr))
-		{
-			$where_str .=  implode(' and ', $where_arr);
-		}
-		$ret['list']  = $this->where($where_str)->page($option['page'], $option['r'])->select();
-		$ret['count'] = $this->where($where_str)->count();
+		$map['user_id']=$uid;
+		$ret = $this->where($map)->select();
 		return $ret;
 	}
 

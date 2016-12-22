@@ -1,6 +1,7 @@
 <extend name="Public/common"/>
 <block name="style">
     <link type="text/css" rel="stylesheet" href="__CSS__/public.css"/>
+    <link type="text/css" rel="stylesheet" href="__CSS__/index.css"/>
     <link type="text/css" rel="stylesheet" href="__CSS__/product.css"/>
 </block>
 <block name="body">
@@ -26,7 +27,7 @@
         </div>
     </div>
     <div id="main-container" class="container">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="common_block_border">
 
                 <div class="common_content_box">
@@ -34,31 +35,20 @@
 
                         <notempty name="list">
                             <volist name="list" id="data">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="product_list_box">
                                     <a href="{:U('Wshop/index/product',array('id'=>$data['id']))}" target="_blank">
                                         <div class="img">
                                             <img alt="{$data.title|text}" src="{$data.main_img|getThumbImageById=475,475}" class="img-responsive">
                                         </div>
                                         <div class="con">
-                                            <h3>{$data.title}</h3>
+                                            <h4>{$data.title}</h4>
                                         </div>
                                     </a>
                                     <div class="doinfo clearfix">
                                         <div class="row">
                                             <div class="col-xs-6">
                                                 <div class="price">价格：{$data.price}</div>
-                                            </div>
-
-                                            <div class="col-xs-6">
-                                                <button 
-                                                    type="button" 
-                                                    class="btn btn-block btn-lg btn-primary" 
-                                                    data-title="立即购买" 
-                                                    data-url="{:U('index/buyexpand',array('id'=>$data['id'],'price'=>$data['price']))}" 
-                                                    data-toggle="modal">
-                                                    立即购买
-                                                </button>
                                             </div>
                                         </div>
                                     </div>

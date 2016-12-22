@@ -49,7 +49,7 @@ class IndexController extends BaseController {
 		//商城菜单
 		$menu = array(
 			array('title'=>'购物车','link'=>U('Wshop/cart/index'),'tab'=>'cart'),
-			array('title'=>'我的','link'=>U('Wshop/index/user'),'tab'=>'user')
+			array('title'=>'我的','link'=>U('Wshop/user/index'),'tab'=>'user')
 		);
 		$this->assign('menu',$menu);
 
@@ -72,10 +72,16 @@ class IndexController extends BaseController {
 	public function cats($page = 1, $r = 20)
 	{	
 		$id = I('id',0,'intval');
-		$map['id'] = $id;
+		$all_son_id = $this->product_cats_model->get_all_cat_id_by_pid($id);
+		//dump($all_son_id);exit;
+		$map['id'] = array('in',$all_son_id);
 		$map['status']=1;
         /* 获取当前分类下列表 */
         list($list,$totalCount) = $this->product_model->getListByPage($map,$page,'id desc,create_time desc','*',$r);
+        foreach($list as &$val){
+        	$val['price'] = price_convert('yuan',$val['price']);
+        }
+        unset($val);
         
 		//dump($menu);exit;
 		$this->assign('list', $list);
@@ -100,7 +106,6 @@ class IndexController extends BaseController {
 			foreach($product['sku_table']['info'] as $val){
 				if($val['price']==''){
 					$val['price']= intval($product['price']);
-					
 				}
 				//dump($val['price']);
 				if($val['price']<=$minPrice){
@@ -110,18 +115,23 @@ class IndexController extends BaseController {
 					$maxPrice = $val['price'];
 				}
 			}
+			unset($val);
+			if($minPrice==$maxPrice){
+					$product['price']=$minPrice;
+					$product['price'] = $product['price'];
+			}else{
+					$minPrice = sprintf("%.2f",$minPrice/100);
+					$maxPrice = sprintf("%.2f",$maxPrice/100);
+					$product['price']=$minPrice.'-'.$maxPrice;
+			}
 
 			//dump($maxPrice);exit;
-
-			if($minPrice==$maxPrice){
-				$product['price']=$minPrice;
-				$product['price'] = sprintf("%.2f",$product['price']/100);
-			}else{
-				$minPrice = sprintf("%.2f",$minPrice/100);
-				$maxPrice = sprintf("%.2f",$maxPrice/100);
-
-				$product['price']=$minPrice.'-'.$maxPrice;
+			foreach($product['sku_table']['info'] as &$val){
+				$val['price'] = sprintf("%.2f",$val['price']/100);
+				$val['ori_price'] = sprintf("%.2f",$val['ori_price']/100);
 			}
+			unset($val);
+			
 			$product['ori_price'] = sprintf("%.2f",$product['ori_price']/100);
 		}else{
 			$product['price'] = sprintf("%.2f",$product['price']/100);
@@ -231,17 +241,7 @@ class IndexController extends BaseController {
 	}
 
 
-	public function user()
-	{
-		$this->init_user();
-		$su = query_user(array('avatar32', 'nickname', 'mobile'), $this->user_id);
-		$map['user_id'] = $this->user_id;
-		$map['status'] = 1;
-		$order_count_group_by_status = $this->order_model->where($map)->getfield('status,count(1) as count');
-		$this->assign('su', $su);
-		$this->assign('order_count_group_by_status', $order_count_group_by_status);
-		$this->display();
-	}
+
 
 
 	

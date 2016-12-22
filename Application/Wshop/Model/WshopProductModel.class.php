@@ -107,7 +107,7 @@ class WshopProductModel extends Model {
 			$where_str .= implode(' and ', $where_arr);
 		}
 		$ret = $this->where($where_str)->find();
-		$ret['quantity_total'] = $ret['quantity'];
+		//$ret['quantity_total'] = $ret['quantity'];
 		if(!empty($sku_id[1]) && !empty($ret['sku_table']['info'][$sku_id[1]])) {
 			$ret = array_merge($ret, $ret['sku_table']['info'][$sku_id[1]]);
 		}

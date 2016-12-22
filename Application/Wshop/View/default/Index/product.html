@@ -1,11 +1,10 @@
 
 <extend name="Public/common"/>
 <block name="style">
-    <link rel="stylesheet" href="__CSS__/common.css">
-    <link rel="stylesheet" href="__CSS__/default/pc/product.css">
-    <link rel="stylesheet" href="__CSS__/default/pc/count_box.css">
-    <link rel="stylesheet" href="__CSS__/swiper/swiper.min.css">
+    <link rel="stylesheet" href="__CSS__/product.css">
     <link rel="stylesheet" href="__CSS__/swiper.css">
+    <link rel="stylesheet" href="__CSS__/count_box.css">
+    <link rel="stylesheet" href="__Theme__/swiper/swiper.min.css">
 </block>
 <block name="body">
 <div id="main-container" class="container">
@@ -58,10 +57,10 @@
             <h3 class="title-section text-section big-text">{$product['title']}</h3>
             <p>{$product['description']}</p>
             <section class="price-section">
-                <span class="big-price price">
+                <span class="now-price price">
                     ￥{$product.price}
                 </span>
-                <span class="small-price price" style="text-decoration: line-through">
+                <span class="ori-price price" style="text-decoration: line-through">
                     ￥{$product.ori_price}
                 </span>
 
@@ -171,7 +170,7 @@
 </div>
     
 </div>
-<script src="__CSS__/swiper/swiper.min.js"></script>
+<script src="__Theme__/swiper/swiper.min.js"></script>
 <script>
     var product_id = {$product.id};
     var product_sku = {$product_sku};
@@ -208,7 +207,7 @@
     });
 
     /*
-        下订单
+    下订单
     */
     $('.buyImmediately').click(function () {
         /*数量*/
@@ -227,7 +226,9 @@
             window.location.href='{:U("wshop/order/makeorder")}'+'&id='+product_id+'&quantity='+quantity;
         } 
     });
-
+    /*
+    加入购物车
+     */
     $('.addCartNow').click(function () {
         /*数量*/
         var quantity = $('.count-input').val();
@@ -238,9 +239,11 @@
             var sku_index = order_sku;
             if(sku_index){
                 sku_uid += ';'+sku_index;
+            }else{
+                alert('请选择商品规格');
+                return;
             }
         }
-        console.log("?",sku_uid,quantity);
         var data = {
             sku_id:sku_uid,
             quantity:quantity
@@ -338,14 +341,25 @@
                 q+=';'+$(selectedLi[i]).attr('data-table')+':'+$(selectedLi[i]).attr('data-value');
             }
             if(q.substr(0,1)==';')q=q.substr(1);
-            order_sku = q;
-            q = quantity(q);
+            skuQuery(q);
+            quantity(q);
+            price(q);
         })
     }
 })
-
 /*
-获取库存数量
+确认商品规格选择完整
+ */
+function skuQuery(t){
+     $.each(product_sku.info, function(idx, obj) {
+        
+        if(idx==t){
+            order_sku = t;
+        }
+    })
+}
+/*
+获取并设置库存数量
  */
 function quantity(t){
     var q = 0;
@@ -369,6 +383,22 @@ function quantity(t){
     $('.quantity span').text(q);
     return q;
 }
+function price(t){
+    //alert(t);
+    t=$.trim(t);
+    var price = 0;
+    $.each(product_sku.info, function(idx, obj) {
+        
+        if(idx==t){
+            price=obj.price;
+            $('.now-price').text(price);
+        }else{
+            price='{$product.price}';
+        }
+
+    })
+    
+}
 //商品购买数量
 $(function(){
     var cutBtn = $('.count-content .cut-btn');
@@ -383,7 +413,6 @@ $(function(){
         if(countInput.val()>=quantity)return;
         countInput.val(parseInt(countInput.val())+1);
     });
-
 })
 </script>
 </block>

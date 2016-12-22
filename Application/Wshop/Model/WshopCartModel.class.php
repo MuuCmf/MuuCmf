@@ -22,12 +22,11 @@ class WshopCartModel extends Model{
 		}
 		else
 		{
+			//			$this->create();
 			$ret = $this->where('id='.$shop_cart['id'])->save($shop_cart);
 		}
 		return $ret;
 	}
-
-	
 
 	public function delete_shop_cart($ids,$user_id)
 	{

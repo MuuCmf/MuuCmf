@@ -1,9 +1,9 @@
 
 <extend name="Public/common"/>
 <block name="style">
-    <link rel="stylesheet" href="__CSS__/common.css">
-    <link rel="stylesheet" href="__CSS__/default/pc/cart.css">
-    <link rel="stylesheet" href="__CSS__/default/pc/count_box.css">
+    <link rel="stylesheet" href="__CSS__/public.css">
+    <link rel="stylesheet" href="__CSS__/cart.css">
+    <link rel="stylesheet" href="__CSS__/count_box.css">
 </block>
 <block name="body">
 <div id="main-container" class="container">
@@ -179,8 +179,8 @@ $(function () {
 })
 /*更改小计算价格*/
     function tsum_price(box){
-        var num = parseInt(box.find('.count-input').val());
-        var tprice = parseInt(box.parents('.good-section').find('.good-section-tprice span').text());
+        var num = parseFloat(box.find('.count-input').val());
+        var tprice = parseFloat(box.parents('.good-section').find('.good-section-tprice span').text());
         var tsumBox = box.parents('.good-section').find('.good-section-tsum span');
         tsumBox.html(formatCurrency(num*tprice));
         //如果是选中商品就更改一次结算价格
@@ -252,7 +252,6 @@ $(function () {
             editQuantity(id,oNum-1);
         }
     }
-    /*修改购买数量AJAX*/
     function editQuantity(id,quantity){
         var data = {
             id:id,

@@ -600,16 +600,13 @@ class WshopController extends AdminController
 						foreach($product_input_list as $k=>$kv)
 						{
 							$name = 'porduct'.$pk.$k;
-							if($k == 'sku_id')
-							{
+							if($k == 'sku_id'){
 								if($product['sku_id'] = explode(';',$product['sku_id']))
 								{
 									unset($product['sku_id'][0]);
 									$order[$name] =(empty($product['sku_id'])?'无':implode(',',$product['sku_id'])) ;
 								}
-							}
-							else
-							{
+							}else{
 								$order[$name] = $product[$k];
 							}
 							$order[$name.'title'] = $kv['name'];
@@ -726,7 +723,7 @@ class WshopController extends AdminController
 				break;
 			default:
 				$option['page'] = I('page',1);
-				$option['r'] = I('r',10);
+				$option['r'] = I('r',20);
 				$option['user_id'] = I('user_id');
 				$option['status'] = I('status');
 				$option['key'] = I('key');
@@ -734,7 +731,12 @@ class WshopController extends AdminController
 				empty($option['ids']) || $option['ids'] = array($option['ids']);
 				$option['show_type'] = I('show_type','','intval');
 				$order = $this->order_model->get_order_list($option);
-//				var_dump(__file__.' line:'.__line__,$order);exit;
+
+				foreach($order['list'] as &$val){
+					$val['paid_fee']='¥ '.sprintf("%01.2f", $val['paid_fee']/100);
+				}
+				//dump($order);exit;
+
 				$status_select = $this->order_model->get_order_status_config_select();
 				$status_select2 = $this->order_model->get_order_status_list_select();
 				$show_type_array = array(array('id'=>0,'value'=>'订单信息'),array('id'=>1,'value'=>'订单状态'));
@@ -755,12 +757,11 @@ class WshopController extends AdminController
 					->keyTime('create_time','下单时间')
 					->keyTime('paid_time','支付时间')
 					->keyTime('send_time','发货时间')
-					->keyTime('recv_time','收货时间')
-					;
+					->keyTime('recv_time','收货时间');
 
 				$option['show_type'] || $builder
 					->keyMap('status','订单状态',$status_select)
-					->keyText('paid_fee','总价/分')
+					->keyText('paid_fee','总价/元')
 					->keyText('discount_fee','已优惠的价格')
 					->keyText('delivery_fee','邮费')
 					->keyText('product_cnt','商品种数')
@@ -1089,7 +1090,7 @@ class WshopController extends AdminController
 					->keyText('used_cnt','已发放数量')
 					->keyText('publish_cnt','总发放数量')
 					->keyTime('create_time','创建时间')
-					->keyLinkByFlag('','领取链接','admin/wshop/coupon/action/couponlink/id/###','id')
+					->keyLinkByFlag('','领取链接','/wshop/coupon/get_coupon/coupon_id/###','id')
 					->keyMap('duration','有效期',array('0'=>'永久有效','86400'=>'一天内有效','604800'=>'一周内有效','2592000'=>'一月内有效'))
 					->keyDoAction('admin/wshop/coupon/action/add/id/###','查看和编辑')
 					->data($coupon['list'])

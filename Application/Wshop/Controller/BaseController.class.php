@@ -13,6 +13,7 @@ class BaseController extends Controller {
 
 	function _initialize()
 	{
+
 		$this->weinfo=array(
 				'appid'=>modC('WSHOP_WX_APPID', '', 'Wshop'),
 				'appsecret'=>modC('WSHOP_WX_APPSECRET', '', 'Wshop'),
@@ -36,6 +37,8 @@ class BaseController extends Controller {
 			'desc'=>modC('WSHOP_SHOW_DESC', '', 'Wshop'),
 		);
 		$this->assign('shopConfig',$shopConfig);
+
+		set_theme();
 	}
 
 	/**

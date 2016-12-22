@@ -132,8 +132,7 @@ class WshopOrderLogic extends Model{
 			                    'odelivery_fee' => $odiscount_fee,
 			                    'products' => $order['products']);
 			$ret = $this->coupon_logic->calc_coupon_fee($order['coupon_id'], $order_info);
-			if(!$ret)
-			{
+			if(!$ret){
 				$this->error_str = $this->coupon_logic->error_str;
 				return false;
 			}
@@ -177,13 +176,13 @@ class WshopOrderLogic extends Model{
 
 		$this->startTrans();
 		//根据$lps减库存
-		foreach ($lps as $l) {
-			if (!$this->decrease_product_quantity($l['sku_id'], $l['quantity'])) {
-				$this->rollback();
-				$this->error_str = '减库存失败';
-				return false;
-			}
-		}
+		//foreach ($lps as $l) {
+		//	if (!$this->decrease_product_quantity($l['sku_id'], $l['quantity'])) {
+		//		$this->rollback();
+		//		$this->error_str = '减库存失败';
+		//		return false;
+		//	}
+		//}
 
 		if(!$this->order_model->add_or_edit_order($order))
 		{

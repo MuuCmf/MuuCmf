@@ -1,116 +1,103 @@
 <extend name="Public/common"/>
 <block name="style">
-<link rel="stylesheet" href="__CSS__/common.css">
-<link rel="stylesheet" href="__CSS__/default/pc/makeorder.css">
-<link rel="stylesheet" href="__CSS__/default/pc/good.css">
+<link rel="stylesheet" href="__CSS__/public.css">
+<link rel="stylesheet" href="__CSS__/makeorder.css">
+<link rel="stylesheet" href="__CSS__/good.css">
 </block>
 <block name="body">
 <div id="main-container" class="container">
 <div class="common_box">
 <header class="color-main vertical-box">
-    <h3 class="header-title">提交订单</h3>
+    <h3 class="header-title">填写并核对订单信息</h3>
 </header>
-<article class="makeorder-section btn-footer-margin">
-    <php>
-    if(!empty($address[0])){
-        </php>
-        <section class="address-section linear-section margin-top-section margin-bottom last-liner-section"
-                 onclick="window.location.href='{:U("Wshop/address/address")}&type=select'"
-                 data-id="<php> echo $address[0]['id'] </php>">
-            <div class="linear-address-section border-box">
-                <p class="big-text">
-                    <span class="detail-icon-user active-font"></span><span class="address-user"><php> echo $address[0]['name'] </php></span>
-                    <span class="detail-icon-phone2 active-font"></span><php> echo $address[0]['phone'] </php>
-                </p>
-                <p class="small-text tips-font">
-                    <php>
-                    $full_address='';
-                    if(!empty($address[0]['province'])) $full_address.=$address[0]['province'];
-                    if(!empty($address[0]['town'])) $full_address.=$address[0]['town'];
-                    if(!empty($address[0]['city'])) $full_address.=$address[0]['city'];
-                    if(!empty($address[0]['address'])) $full_address.=$address[0]['address'];
-                    echo $full_address;
-                    </php>
-                </p>
+
+<div class="makeorder-section">
+
+        <section class="linear-section">
+        <h3 class="linear-title vertical-box"><span>收货地址</span></h3>
+            <div class="clearfix">
+                <volist name="listAddress" id="listAddress">
+                <div class="address-section">
+                <div class="address-info clearfix">
+                    <span class="title" data-id="{$listAddress.id}">
+                        <span class="address-user">{$listAddress.name}</span>
+                        {$listAddress.phone}
+                        <i></i>
+                    </span>
+                    <span class="info">
+                        {$listAddress.province} {$listAddress.town} {$listAddress.city} {$listAddress.address}
+                    </span>
+                </div>
+                </div>
+                </volist>
             </div>
-        <span class="linear-right vertical-box"><span>
-            <img src="__IMG__/go.png">
-        </span></span>
-        </section>
-    <php>
-    }
-    else{
-        </php>
-        <section class="address-section linear-section margin-top-section margin-bottom last-liner-section" onclick="window.location.href='{:U('wshop/address/address')}&type=select'">
-            <div class="linear-address-section border-box">
-                <h3 class="big-text">请选择您的收货信息</h3>
+            <div class="linear-address-section border-box" onclick="window.location.href='{:U('wshop/address/address')}&type=select'">
+                <h5 class="big-text">添加新的收货信息</h5>
             </div>
-        <span class="linear-right vertical-box"><span>
-            <img src="__IMG__/go.png">
-        </span></span>
         </section>
-    <php>
-    }
-    </php>
+
+
     <!--立即购买模式-->
     <notempty name="product">
-        <section class="good-section linear-section">
+        <section class="good-section linear-section" >
+        <div class="good-list-box" data-id="{$product['id']}">
             <div class="good-section-left">
                 <img class="good-section-img" src="{$product['main_img']|getThumbImageById=200,200}">
             </div>
             <div class="good-section-right border-box">
                 <p class="good-section-title">{$product['title']}</p>
-                <notempty name="sku">
-                    <p class="good-section-option small-text tips-font">{$sku}</p>
-                </notempty>
+                
+                    <p class="good-section-option small-text tips-font">{$product['sku']}</p>
+                
                 <p class="good-section-option small-text tips-font clearfix">
-                    ￥{$product['price']} x {$quantity}
-                    <span class="big-text good-section-price secondary-font">￥{$product['total_price']}</span>
+                    ￥{$product['price']} x {$product['sku_quantity']}
+                    <span class="big-text good-section-price">
+                    ￥{$product['total_price']}
+                    </span>
                 </p>
             </div>
+        </div>
         </section>
     </notempty>
-
+    <!--购物车购买-->
     <notempty name="cart_list_products">
+        <section class="good-section linear-section">
         <volist name="cart_list_products" id="data">
-            <section class="good-section linear-section">
+            <div class="good-list-box clearfix" data-id="{$data['id']}">
+
                 <div class="good-section-left">
                     <img class="good-section-img" src="{$data['product']['main_img']|getThumbImageById=200,200}">
                 </div>
+
                 <div class="good-section-right border-box">
                     <p class="good-section-title">{$data['product']['title']}</p>
-                    <php>
-                    if(!empty($cart_product['sku_id'][1])){
-                    </php>
-                        <p class="good-section-option small-text tips-font">{$data['product']['sku_id'][1]}</p>
-                    <php>
-                    }
-                    </php>
+
+                    <p class="good-section-option small-text tips-font">{$data['product']['sku_id'][1]}</p>
+
                     <p class="good-section-option small-text tips-font clearfix">
                         ￥{$data['product']['price']} x {$data['quantity']}
-                        <span class="big-text good-section-price secondary-font">
+                        <span class="big-text good-section-price">
                         ￥{$data['total_price']}
                         </span>
                     </p>
                 </div>
-            </section>
+            </div>
         </volist>
+        </section>
     </notempty>
 
-    <section class="delivery-section linear-section last-liner-section">
-        <h3 class="linear-title vertical-box"><span>配送方式</span></h3>
-        <p class="linear-input border-box small-text tips-font">快递费：<span class="delivery-fee"></span></p>
+    <section class="pay-section linear-section">
+        <h3 class="linear-title vertical-box">支付方式</h3>
+        <div class="clearfix">
+            <span class="linear-input pay-type" data-id=1>货到付款<i></i></span>
+            <span class="linear-input pay-type selected" data-id=11>在线支付<i></i></span>
+        </div>
     </section>
 
-    <php>
-    $real_price = 0;
-    if(!empty($product)){
-        $real_price =  sprintf("%.2f", ($product['price']*$quantity)/100);
-    }
-    elseif(!empty($cart_list_products)){
-        $real_price =  sprintf("%.2f", $cart_price/100);
-    }
-    </php>
+    <section class="delivery-section linear-section">
+        <h3 class="linear-title vertical-box">配送方式</h3>
+        <p class="linear-input border-box small-text tips-font">快递费：<span class="delivery-fee"></span></p>
+    </section>
 
     <section class="linear-section margin-top-section"
              onclick="window.location.href='/index.php?s=wshop/index/user_coupon&type=select&paid_fee=<php> echo $real_price*100 </php>'"
@@ -125,22 +112,18 @@
 
 
 
-    <php>
-    if(!empty($vipcard_discount)&&$vipcard_discount!=1){
-        </php>
+    <php>if(!empty($vipcard_discount)&&$vipcard_discount!=1){</php>
         <!--会员卡优惠-->
         <section class="linear-section">
             <span class="linear-title vertical-box"><span>会员优惠</span></span>
             <input class="linear-input border-box tips-font" type="text" value="<php> echo ($vipcard_discount*10).'折优惠：减免￥'.$real_price*$vipcard_discount </php>" readonly placeholder="">
         </section>
-    <php>
-    }
-    </php>
+    <php>}</php>
 
 
     <section class="linear-section last-liner-section">
         <h3 class="linear-title vertical-box"><span>备注</span></h3>
-        <input class="remark-input linear-input border-box tips-font" type="text" value="" placeholder="请填写您的留言">
+        <input class="remark-input linear-input" type="text" value="" placeholder="请填写您的留言">
     </section>
     <!---->
 <!--    <section class="linear-section margin-top-section linear-noinput">-->
@@ -158,164 +141,111 @@
 <!--            <img style="margin: 0" src="__IMG__/check.png">-->
 <!--        </span></span>-->
 <!--    </section>-->
-</article>
+</div>
+
+
 <footer class="btn-footer">
 
     <div class="makeorder-footer-left color-main big-text border-box">
-        实付款：￥
-        <span id="real-pay"
-              data-price="<php> echo $real_price </php>"
-              data-coupon="<php> if(!empty($coupon['info']['rule']['discount'])) echo $coupon['info']['rule']['discount']/100 </php>"
-              data-discount="<php> if(!empty($vipcard_discount)&&$vipcard_discount!=1) echo $vipcard_discount </php>">
-            <php> echo $real_price </php>
-        </span>
+        <h3>实付款：￥<span id="real-pay" data-price="{$real_price}">{$real_price}</span></h3>
     </div>
-    <div class="makeorderBtn makeorder-footer-right btn btn-lg">提交订单</div>
+    <button class="makeorderBtn btn btn-lg btn-warning">提交订单</button>
 </footer>
 </div>
 </div>
 <script>
-    var product_data = '{$product}';
-    //var address_data = <php> echo(!empty($address[0])? json_encode($address[0]):"null")</php>;//useful
-    //var quantity_data = <php> echo(!empty($quantity)? json_encode($quantity):"null")</php>;//useful
-    //var sku_data = <php> echo(!empty($sku)? json_encode($sku):"null")</php>;//useful
-    //var cart_data = <php> echo(!empty($cart_list_products)? json_encode($cart_list_products):"null")</php>;//useful
-    //var cart_id = <php> echo(!empty($cart_id)? json_encode($cart_id):"null")</php>;//useful
-    //var coupon_data = <php> echo(!empty($coupon)? json_encode($coupon):"null")</php>;
+    //var product_data = <php>echo json_encode($product)</php>;
+    var cart_id = '{$cart_id}';
 
-    //'jquery' or 'zepto' 脚本入口,按情况选择加载
-
-        $(document).ready(function () {
-                /*
-                    下单,下单完清楚优惠券信息
-                */
-                $(".makeorderBtn").click(function () {
-                    var address_id = $('.address-section').data('id');//
-                    if(!address_id){
-                        alert('请选择地址');
-                        return
-                    }
-                    var delivery = $('.delivery-section').data('type');
-                    var pay_type = 11;//微信支付
-                    var data = {
+        $(function(){
+            $('.address-section .title').click(function(){
+                $('.address-section .title').removeClass('selected');
+                $(this).addClass('selected');
+            });
+            /*支付方式选择*/
+            $('.pay-type').click(function(){
+                var _this = $(this);
+                $('.pay-type').removeClass('selected');
+                _this.addClass('selected');
+            });
+            /*下单,下单完清楚优惠券信息*/
+            $(".makeorderBtn").click(function () {
+                var address_id = $('.address-section .title.selected').data('id');//
+                if(!address_id){
+                    alert('请选择地址');
+                    return
+                }
+                var delivery = $('.delivery-section').data('type');
+                var payType = $('.pay-type.selected').data('id');
+                var data = {
                         address_id:address_id,
                         delivery:delivery,//不传就包邮
-                        pay_type:pay_type,
+                        pay_type:payType,
                         info:{
                             remark:$('.remark-input').val()
                         }
-                    };
-                    /*立即购买*/
-                    if(product_data){
-                        var products = {
-                            "0":{
-                                sku_id:product_data['id'],
-                                quantity:quantity_data
-                            }
-                        };
-                        if(sku_data){
-                            products['0']['sku_id'] += ';'+sku_data
-                        }
-                        data['products'] = products
-                    }
-                    /*购物车*/
-                    else if(cart_data){
-                        data['cart_id'] = cart_id
-                    }
-                    /*优惠券*/
-                    if(coupon_data){
-                        data['coupon_id'] = coupon_data['id'];
-                    }
-                    $.post('{:U('wshop/index/makeorder')}',data,function (ret) {
-                        ret = JSON.parse(ret);
-                        if(ret.status==1){
-                            $.fn.cookie('coupon_id',null);//清除
-                            showTip('','下单成功','1000');
-                            window.location.replace('/index.php/wshop/index/jsApiPay/order_id/'+ret.info);
-                        }
-                        else
-                        {
-                            showTip('',ret.info,'1000');
-//                            history.back();
-                            setTimeout(function () {
-
-                            },1000);
-                        }
-
-                    })
-                });
-
-            /*付款数整合计算*/
-            function countPrice(ele){
-                var base_price = parseFloat(ele.data('price'));
-                if(!base_price){return NaN}
-                /*折扣先算*/
-                var discount_price = parseFloat(ele.data('discount'));
-                if(discount_price){
-                    base_price*=discount_price
-                }
-                /*加减类优惠券*/
-                var coupon_price = parseFloat(ele.data('coupon'));
-                if(coupon_price){
-                    base_price-=coupon_price
-                }
-                /*最后算邮费*/
-                /*邮费*/
-                var delivery_price = parseFloat(ele.data('delivery'));
-                if(delivery_price){
-                    base_price+=delivery_price
-                }
-                return Math.max(0,base_price);
-            }
-            $('#real-pay').text(countPrice($('#real-pay')).toFixed(2));//自调用初始化一次
-            /*
-                获取邮费信息,也需要刷新页面更新地址产品信息
-            */
-            if(address_data){
-                /*地址信息*/
-                var data = {
-                    province:address_data.province,
-                    city:address_data.city,
-                    town:address_data.town
                 };
-                /*单物品信息*/
-                if(product_data){
-                    data['id'] = product_data.id;
-                    data['quantity'] = quantity_data
-                }
-                /*购物车多物品信息*/
-                else if(cart_data){
-                    var products = {};
-                    $.each(cart_data, function (index) {
-                        products[index] = {
-                            id:this.product.id,
-                            quantity:this.quantity
+                
+                if(cart_id){
+                    /*购物车*/
+                    data['cart_id'] = cart_id;
+                }else{
+                    /*立即购买*/
+                    var products = {
+                        "0":{
+                            sku_id:'{$product["id"]};{$product["sku"]}',
+                            quantity:'{$product["sku_quantity"]}',
                         }
-                    });
-                    console.log(products);
-                    data['products'] = products
+                    };
+                    data['products'] = products;
                 }
-                $.post('{:U('wshop/index/preview_delivery')}', data, function (ret) {
-                    ret = JSON.parse(ret);
-//                    console.log(ret.status);
+                /*优惠券*/
+                //if(coupon_data){
+                //    data['coupon_id'] = coupon_data['id'];
+                //}
+                $.post('{:U("wshop/order/makeorder")}',data,function (ret) {
+                        //ret = JSON.parse(ret);
                     if(ret.status==1){
-                        /*配送方式显示数据*/
-                        var delivery_fee = (ret.info.express)? (ret.info.express/100).toFixed(2)+'元':'包邮';
-                        $('.delivery-fee').text(delivery_fee);
-                        /*为提交的数据记录一下*/
-                        $('.delivery-section').data('type',(ret.info.express)?'express':'');
-                        /*old:实付款更新
-                        var old_price = parseInt($('#real-pay').text());
-                        var delivery_price = ret.data.mail ? (ret.data.mail/100):0;
-                        var new_price = old_price + delivery_price;
-                        $('#real-pay').text(new_price.toFixed(2))*/
-                        /*整合计算*/
-                        $('#real-pay')
-                            .data('delivery',ret.info.express ? (ret.info.express/100):0)
-                            .text(countPrice($('#real-pay')).toFixed(2));
+                        toast.success(ret.info, '温馨提示');
+                        //window.location.replace('/index.php/wshop/index/jsApiPay/order_id/'+ret.info);
+                    }else{
+                        toast.error(ret.info, '温馨提示');
+                        setTimeout(function () {
+                        },1000);
                     }
                 })
-            }
+            });
+
+            
+            $('#real-pay').text(countPrice($('#real-pay')).toFixed(2));//自调用初始化一次
+            /*
+            获取邮费信息,也需要刷新页面更新地址产品信息
+            */
         })
+
+/*付款数整合计算*/
+    function countPrice(ele){
+        var base_price = parseFloat(ele.data('price'));
+        if(!base_price){return NaN}
+        /*折扣先算*/
+        var discount_price = parseFloat(ele.data('discount'));
+        if(discount_price){
+            base_price*=discount_price
+        }
+        /*加减类优惠券*/
+        var coupon_price = parseFloat(ele.data('coupon'));
+        if(coupon_price){
+            base_price-=coupon_price
+        }
+        /*最后算邮费*/
+        /*邮费*/
+        var delivery_price = parseFloat(ele.data('delivery'));
+        if(delivery_price){
+            base_price+=delivery_price
+        }
+        return Math.max(0,base_price);
+    }
+
+
 </script>
 </block>
