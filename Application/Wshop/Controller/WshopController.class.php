@@ -112,26 +112,18 @@ class WshopController extends AdminController
 						$this->error('不要选择自己分类或自己的子分类');
 					}
 					$ret = $this->product_cats_model->add_or_edit_product_cats($product_cats);
-					if ($ret)
-					{
+					if ($ret){
 
 						$this->success('操作成功。', U('wshop/product_cats',array('parent_id'=>I('parent_id',0))));
-					}
-					else
-					{
+					}else{
 						$this->error('操作失败。');
 					}
-				}
-				else
-				{
+				}else{
 					$builder       = new AdminConfigBuilder();
 					$id = I('id');
-					if(!empty($id))
-					{
+					if(!empty($id)){
 						$product_cats = $this->product_cats_model->get_product_cat_by_id($id);
-					}
-					else
-					{
+					}else{
 						$product_cats = array();
 					}
 
@@ -214,7 +206,6 @@ class WshopController extends AdminController
 			case 'add':
 				if(IS_POST)
 				{
-
 					$product = $this->product_model->create();
 					if (!$product){
 						$this->error($this->product_model->getError());
@@ -228,33 +219,23 @@ class WshopController extends AdminController
 					}else{
 						$this->error('操作失败。');
 					}
-				}
-				else
-				{
+				}else{
 					$builder       = new AdminConfigBuilder();
 					$id = I('id');
-					if(!empty($id))
-					{
+					if(!empty($id)){
 						$product = $this->product_model->get_product_by_id($id);
 						$product['price'] = sprintf("%.2f",$product['price']/100);
 						$product['ori_price'] = sprintf("%.2f",$product['ori_price']/100);
-					}
-					else
-					{
+					}else{
 						$product = array();
 					}
 
-
 					$select = $this->product_cats_model->get_produnct_cat_config_select('选择分类');
-					if(count($select)==1)
-					{
+					if(count($select)==1){
 						$this->error('先添加一个商品分类吧',U('wshop/product_cats',array('action'=>'add')),2);
 					}
-
-
 					$delivery_select = $this->delivery_model->getfield('id,title');
-					empty($delivery_select) && $delivery_select=array();
-					array_unshift($delivery_select,'不需要运费');
+					
 					$info_array = array(
 					//'不货到付款','不包邮','不开发票','不保修','不退换货','不是新品',
 					                    '6'=>'热销','7'=>'推荐');
@@ -269,9 +250,9 @@ class WshopController extends AdminController
 						->keyInteger('price', '价格/元','交易价格')
 						->keyInteger('ori_price', '原价/元','显示被划掉价格')
 						->keyInteger('quantity', '库存')
-//						->keyText('product_code', '商家编码,可用于搜索')
+						->keyText('product_code', '商家编码,可用于搜索')
 						->keyCheckBox('info','其他配置','',$info_array)
-//						->keyInteger('back_point', '购买返还积分')
+						->keyInteger('back_point', '购买返还积分')
 //						->keyInteger('point_price', '积分换购所需分数')
 //						->keyInteger('buy_limit', '限购数,0不限购')
 //						->keyText('sku_table','商品sku')
@@ -281,7 +262,7 @@ class WshopController extends AdminController
 						->keyRadio('status','状态','',array('1'=>'正常','0'=>'下架'))
 						->keyEditor('content', '商品详情','','all')
 
-						->keyCreateTime()
+						//->keyCreateTime()
 //						->keytime('modify_time','编辑时间')
 						->data($product)
 						->buttonSubmit(U('wshop/product',array('action'=>'add')))
@@ -292,13 +273,9 @@ class WshopController extends AdminController
 			case 'delete':
 				$ids = I('ids');
 				$ret = $this->product_model->delete_product($ids);
-				if ($ret)
-				{
-
+				if ($ret){
 					$this->success('操作成功。', U('wshop/product'));
-				}
-				else
-				{
+				}else{
 					$this->error('操作失败。');
 				}
 				break;
@@ -604,7 +581,7 @@ class WshopController extends AdminController
 								if($product['sku_id'] = explode(';',$product['sku_id']))
 								{
 									unset($product['sku_id'][0]);
-									$order[$name] =(empty($product['sku_id'])?'无':implode(',',$product['sku_id'])) ;
+									$order[$name] =(empty($product['sku_id'])?'无':implode(',',$product['sku_id']));
 								}
 							}else{
 								$order[$name] = $product[$k];
@@ -785,6 +762,53 @@ class WshopController extends AdminController
 	 */
 	public function delivery($action = '')
 	{
+		//计件数据结构
+		$de_array = array(
+			"express"=>array(
+				"name"=>"普通快递",
+				"normal"=>array(
+						"start"=>1,
+						"start_fee"=>10,
+						"add"=>1,
+						"add_fee"=>8
+						),
+				"custom"=>array(
+					array(
+						"area"=>array(
+								1000,
+								2000
+								),
+						"cost"=>array(
+								"start"=>1,
+								"start_fee"=>10,
+								"add"=>1,
+								"add_fee"=>8
+								)
+					),
+					array(
+						"area"=>array(
+							1000,
+							2000
+								),
+						"cost"=>array(
+								"start"=>1,
+								"start_fee"=>10,
+								"add"=>1,
+								"add_fee"=>8
+								)
+					)
+				)
+			)
+		);
+		//固定运费数据结构
+		$normal_array = array(
+						"express"=>array(
+								"name"=>"普通快递",
+								"cost"=>10	
+						)
+		);
+		//$json = json_encode($de_array);
+		//echo $json;exit;
 		switch($action)
 		{
 			case 'add':
@@ -795,57 +819,28 @@ class WshopController extends AdminController
 
 						$this->error($this->delivery_model->getError());
 					}
-//					isset($_REQUEST['express_enable']) && empty($_REQUEST['express_enable']) || $rule['express'] = I('express',0);
-//					isset($_REQUEST['mail_enable']) && empty($_REQUEST['mail_enable']) ||$rule['mail'] = I('mail',0);
-//					isset($_REQUEST['ems_enable']) && empty($_REQUEST['ems_enable']) ||$rule['ems'] =I('ems',0);
 					isset($rule) && $delivery['rule'] =json_encode($rule);
 					$ret = $this->delivery_model->add_or_edit_delivery($delivery);
-					if ($ret)
-					{
-						$this->success('操作成功。', U('shop/delivery'),1);
-					}
-					else
-					{
+					if ($ret){
+						$this->success('操作成功。', U('wshop/delivery'),1);
+					}else{
 						$this->error('操作失败。');
 					}
-				}
-				else
-				{
-					$builder       = new AdminConfigBuilder();
-					$id = I('id');
-					if(!empty($id))
-					{
+				}else{
+					$id = I('get.id',0,'intval');
+					if(!empty($id)){
 						$delivery = $this->delivery_model->get_delivery_by_id($id);
-					}
-					else
-					{
+					}else{
 						$delivery = array();
 					}
+					//获取中国省份列表
+					$district = $this->District(1);
+
+					//dump($district);exit;
+					$this->setTitle('运费模板编辑');
+					$this->assign('district',$district);
 					$this->assign('delivery',$delivery);
 					$this->display('Wshop@Admin/adddelivery');exit;
-					if(!empty($delivery))
-					{
-						$delivery['express_enable'] = (isset($delivery['rule']['express'])?1:0);
-						$delivery['express'] = (empty($delivery['express_enable'])?'':$delivery['rule']['express']);
-						$delivery['mail_enable'] = (isset($delivery['rule']['mail'])?1:0);
-						$delivery['mail'] = (empty($delivery['mail_enable'])?'':$delivery['rule']['mail']);
-						$delivery['ems_enable'] = (isset($delivery['rule']['ems'])?1:0);
-						$delivery['ems'] = (empty($delivery['ems_enable'])?'':$delivery['rule']['ems']);
-					}
-
-//					$builder->title('新增/修改运费模板')
-//						->keyId()
-//						->keyText('title', '模板名称')
-////						->keyRadio('valuation','计费方式','',array(' 固定邮费','计件'))
-//						->keyMultiInput('express_enable|express','平邮','单位:分',array(array('type'=>'select','opt'=>array('不支持','支持'),'style'=>'width:95px;margin-right:5px'),array('type'=>'text','style'=>'width:95px;margin-right:5px')))
-//						->keyMultiInput('mail_enable|mail','普通快递','单位：分',array(array('type'=>'select','opt'=>array('不支持','支持'),'style'=>'width:95px;margin-right:5px'),array('type'=>'text','style'=>'width:95px;margin-right:5px')))
-//						->keyMultiInput('ems_enable|ems','EMS','单位：分',array(array('type'=>'select','opt'=>array('不支持','支持'),'style'=>'width:95px;margin-right:5px'),array('type'=>'text','style'=>'width:95px;margin-right:5px')))
-//						->keyEditor('brief', '模板说明')
-//						->keyCreateTime()
-//						->data($delivery)
-//						->buttonSubmit(U('shop/delivery',array('action'=>'add')))
-//						->buttonBack()
-//						->display();
 				}
 				break;
 			case 'delete':
@@ -877,97 +872,13 @@ class WshopController extends AdminController
 					->keyText('brief','模板说明')
 //					->keyMap('valuation','计费方式',array())
 					->keyTime('create_time','创建时间')
-					->keyDoAction('admin/shop/delivery/action/add/id/###','编辑')
+					->keyDoAction('admin/wshop/delivery/action/add/id/###','编辑')
 					->data($delivery['list'])
 					->pagination($totalCount, $option['r'])
 					->display();
 				break;
 		}
 	}
-
-	/*
-	 * 商城评论反馈
-	 */
-	public function message($action ='')
-	{
-		switch($action)
-		{
-			case 'review_message':
-				$ids  = I('ids');
-				is_array($ids) || $ids =array($ids);
-				$status = I('status','0','intval');
-				$ret = $this->message_model->where('id in('.implode(',',$ids).')')->save(array('status'=>$status));
-				if ($ret)
-				{
-					$this->success('操作成功。', U('wshop/message'));
-				}
-				else
-				{
-					$this->error('操作失败。');
-				}
-				break;
-			case 'message_detail':
-				$builder       = new AdminConfigBuilder();
-				$id = I('id');
-				if(!empty($id))
-				{
-					$message = $this->message_model->get_shop_message_by_id($id);
-				}
-				else
-				{
-					$message= array();
-				}
-				$builder->title('留言详情和回复')
-					->keyId()
-					->keyText('user_id','用户id')
-					->keyTextArea('brief', '用户留言')
-//					->keytext('rebrief','')
-					->data($message)
-//					->buttonSubmit(U('shop/message',array('action'=>'add')))
-//					->buttonBack()
-					->display();
-				break;
-			case 'delete':
-				$ids = I('ids');
-				$ret = $this->message_model->delete_shop_message($ids);
-				if ($ret)
-				{
-					$this->success('操作成功。', U('wshop/message'));
-				}
-				else
-				{
-					$this->error('操作失败。');
-				}
-				break;
-			default :
-				$option['page'] = I('page',1);
-				$option['r'] = I('r',10);
-				$message = $this->message_model->get_shop_message_list($option);
-				$totalCount = $message['count'];
-
-				$builder = new AdminListBuilder();
-				$builder
-					->title('商城反馈')
-					->ajaxButton(U('wshop/message',array('action'=>'review_message','status'=>1)),'','通过审核')
-					->ajaxButton(U('wshop/message',array('action'=>'review_message','status'=>2)),'','不通过审核')
-					->ajaxButton(U('wshop/message',array('action'=>'delete')),'','删除')
-					->keyText('id','id')
-					->keyText('reply_cnt','评论数')
-					->keyText('user_id','用户id')
-					->keyTruncText('brief','留言内容',25)
-					->keyTime('create_time','创建时间')
-					->keyMap('status','状态',array('未审核','通过审核','不通过审核'))
-					->keyDoAction('admin/wshop/message/action/message_detail/id/###','详情')
-					->keyDoAction('admin/wshop/message/action/review_message/ids/###/status/1','通过审核')
-					->keyDoAction('admin/wshop/message/action/review_message/ids/###/status/2','不通过审核')
-					->data($message['list'])
-					->pagination($totalCount, $option['r'])
-					->display();
-				break;
-		}
-	}
-
-
 	/*
 	 * 优惠券
 	 */
@@ -976,54 +887,41 @@ class WshopController extends AdminController
 		switch($action)
 		{
 			case 'add':
-				if(IS_POST)
-				{
+				if(IS_POST){
 					$coupon = $this->coupon_model->create();
-					if(!$coupon)
-					{
+					if(!$coupon){
 						$this->error($this->coupon_model->getError());
 					}
 					empty($_REQUEST['max_cnt_enable']) || $rule['max_cnt'] =I('max_cnt',0,'intval');
 					empty($_REQUEST['max_cnt_day_enable']) || $rule['max_cnt_day'] =I('max_cnt_day',0,'intval');
 					empty($_REQUEST['min_price_enable']) || $rule['min_price'] =I('min_price',0,'intval');
-					if(empty($_REQUEST['discount']))
-					{
+					if(empty($_REQUEST['discount'])){
 						$this->error('请设置优惠金额');
-					}
-					else
-					{
+					}else{
 						$rule['discount'] =I('discount',0,'intval');
 					}
 					empty($rule) || $coupon['rule'] = json_encode($rule);
 
 					$ret = $this->coupon_model->add_or_edit_coupon($coupon);
-					if ($ret)
-					{
+					if ($ret){
 						$this->success('操作成功。', U('wshop/coupon'));
-					}
-					else
-					{
+					}else{
 						$this->error('操作失败。');
 					}
-				}
-				else
-				{
+				}else{
 					$id = I('id');
-					if(!empty($id))
-					{
+					if(!empty($id)){
 						$coupon = $this->coupon_model->get_coupon_by_id($id);
-						if(!empty($coupon['rule']))
-						{
+						if(!empty($coupon['rule'])){
 							$coupon['rule']['max_cnt_enable'] = (empty($coupon['rule']['max_cnt'])?0:1);
 							$coupon['rule']['max_cnt_day_enable'] = (empty($coupon['rule']['max_cnt_day'])?0:1);
 							$coupon['rule']['min_price_enable'] = (empty($coupon['rule']['min_price'])?0:1);
 							$coupon = array_merge($coupon,$coupon['rule']);
 						}
-					}
-					else
-					{
+					}else{
 						$coupon =array();
 					}
+					
 					$builder       = new AdminConfigBuilder();
 					$builder->title('优惠券详情')
 						->keyId()
@@ -1110,32 +1008,24 @@ class WshopController extends AdminController
 
 			case 'add':
 				//派优惠券
-				if(IS_POST)
-				{
+				if(IS_POST){
 					$coupon_id       = I('coupon_id', '', 'intval');
 					$uid     = I('uid', '', 'trim');
 					if(empty($coupon_id) || !($coupon = $this->coupon_model->get_coupon_by_id($coupon_id)))
 						$this->error('请选择一个优惠券');
 					if(empty($uid)) $this->error('请选择一个用户');
 					$ret =$this->coupon_logic->add_a_coupon_to_user($coupon_id,$uid);
-					if($ret)
-					{
+					if($ret){
 						$this->success('操作成功。', U('wshop/user_coupon'));
-					}
-					else
-					{
+					}else{
 						$this->error('操作失败。'.$this->coupon_logic->error_str);
 					}
-				}
-				else
-				{
+				}else{
 					$all_coupon_select = $this->coupon_model->getfield('id,title');
-					if(empty($all_coupon_select))
-					{
+					if(empty($all_coupon_select)){
 						redirect(U('wshop/coupon',array('action'=>'add')));
 					}
-//					var_dump(__file__.' line:'.__line__,$user_list);exit;
-					$builder       = new AdminConfigBuilder();
+					$builder = new AdminConfigBuilder();
 					$builder
 						->title('手动发放优惠券')
 						->keySelect('coupon_id','优惠券','要发放的优惠券',$all_coupon_select)
@@ -1145,8 +1035,6 @@ class WshopController extends AdminController
 						->buttonBack()
 						->display();
 				}
-
-
 				break;
 			case 'delete':
 				$ids= I('ids');
@@ -1176,7 +1064,6 @@ class WshopController extends AdminController
 						$a['coupon_min_price'] = (empty($a['info']['rule']['min_price'])?'':$a['info']['rule']['min_price']);
 					});
 				$totalCount = $user_coupon['count'];
-//				var_dump(__file__.' line:'.__line__,$user_coupon['list']);exit;
 
 				$builder = new AdminListBuilder();
 				$builder
@@ -1184,9 +1071,8 @@ class WshopController extends AdminController
 					->buttonnew(U('wshop/user_coupon',array('action'=>'add')),'派发优惠券')
 					->ajaxButton(U('wshop/user_coupon',array('action'=>'delete')),'','删除')
 					->keyId()
-					->keyText('user_id','用户id')
-//					->keyText('coupon_title','优惠劵名称')
-					->keyLinkByFlag('coupon_title','优惠券','admin/shop/coupon/id/###','coupon_id')
+					->keyUid('user_id')
+					->keyLinkByFlag('coupon_title','优惠券','admin/wshop/coupon/id/###','coupon_id')
 					->keyImage('coupon_img','优惠券图片')
 					->keytext('coupon_discount','折扣,单位:分')
 					->keytext('coupon_min_price','满多少可用,单位:分')
@@ -1261,6 +1147,15 @@ class WshopController extends AdminController
 				break;
 		}
 
+	}
+	/*
+	获取中国省份、城市
+	 */
+	private function District($level=1){
+			$map['level'] = $level;
+			$map['upid'] = 0;
+			$list = D('Addons://ChinaCity/District')->_list($map);
+			return $list;
 	}
 
 }

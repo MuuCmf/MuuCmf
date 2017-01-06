@@ -18,32 +18,6 @@ class CouponController extends BaseController {
 		$this->coupon_model       = D('Wshop/WshopCoupon');
 		$this->user_coupon_model  = D('Wshop/WshopUserCoupon');
 		$this->coupon_logic       = D('Wshop/WshopCoupon', 'Logic');
-
-		//分类
-		$items = $this->product_cats_model->select();
-		$cats = array();
-		foreach ($items as $v) {
-		    $cats[$v['id']] = $v;
-		    $cats[$v['id']]['link'] = U('Wshop/index/cats',array('id'=>$v['id']));
-		    $cats[$v['id']]['items'] = array();//items存放当前节点的所有子节点。
-		    if($v['parent_id'] != 0) {
-		    	$cats[$v['parent_id']]['items'][$v['id']] = &$cats[$v['id']];
-		   	}
-		 }
-		unset($v);
-		foreach ($cats as $k=>$v) {
-		    if($v['parent_id'] != 0) {
-		        unset($cats[$k]);
-		    } 
-		}
-		$this->assign('cats',$cats);
-		//商城菜单
-		$menu = array(
-			array('title'=>'购物车','link'=>U('Wshop/cart/index'),'tab'=>'cart'),
-			array('title'=>'我的','link'=>U('Wshop/user/index'),'tab'=>'user')
-		);
-		$this->assign('menu',$menu);
-
 	}
 
 	/*
@@ -86,19 +60,15 @@ class CouponController extends BaseController {
 		if (
 			empty($coupon_id)
 			|| !($coupon = $this->coupon_model->get_coupon_by_id($coupon_id))
-		)
-		{
+		){
 			$this->error('优惠券不存在');//id 解密对不上
 		}
 
 		$ret = $this->coupon_logic->add_a_coupon_to_user($coupon['id'], $this->uid);
 
-		if ($ret)
-		{
+		if ($ret){
 			$this->success('领取成功');
-		}
-		else
-		{
+		}else{
 			$this->error('领取失败，' . $this->coupon_logic->error_str);
 		}
 	}

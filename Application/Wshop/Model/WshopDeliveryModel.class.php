@@ -20,24 +20,21 @@ class WshopDeliveryModel extends Model{
 	);
 	protected $_auto     = array(
 		array('create_time', NOW_TIME, self::MODEL_INSERT),
+		array('update_time', NOW_TIME, self::MODEL_UPDATE),
 	);
 
 	public function add_or_edit_delivery($delivery)
 	{
-		if(empty($delivery['id']))
-		{
+		if(empty($delivery['id'])){
 			$ret = $this->add($delivery);
-		}
-		else
-		{
+		}else{
 			$ret = $this->where('id='.$delivery['id'])->save($delivery);
 		}
 		return $ret;
 	}
 
 	public function delete_delivery($ids){
-		if(!is_array($ids))
-		{
+		if(!is_array($ids)){
 			$ids = array($ids);
 		}
 		$ret = $this->where('id in ('.implode(',',$ids).')')->delete();

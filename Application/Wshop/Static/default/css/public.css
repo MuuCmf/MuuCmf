@@ -1,5 +1,17 @@
-.container {
+.container-fixed {
 	position:relative;
+    width: 1260px !important;
+}
+.common_box {
+	padding:5px;
+	background: #fff;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    border-radius: 2px;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+}
+.common_box h3 {
+	margin:10px auto;
 }
 .wshop_topic {
   background:#607D8B;

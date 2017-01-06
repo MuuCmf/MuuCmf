@@ -35,13 +35,10 @@ function _initialize()
 		if (IS_POST)
 		{
 			$select = I('select','','intval');
-			if($select && ($id =I('id','','intval') ))
-			{
+			if($select && ($id =I('id','','intval') )){
 				empty($id) || $user_address = $this->user_address_model->get_user_address_by_id($id);
 				$user_address = $this->user_address_model->create($user_address);
-			}
-			else
-			{
+			}else{
 				$user_address = $this->user_address_model->create();
 			}
 			if (!$user_address)

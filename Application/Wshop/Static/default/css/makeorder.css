@@ -104,3 +104,42 @@
 .good-status-text{
     float: left;
 }
+
+.order-summary .list {
+    padding:5px;
+    text-align:right;
+}
+.order-summary .list em{
+    font-style:normal;
+    color:#000;
+}
+.order-summary .list span{
+    text-indent: none;
+    color:#999;
+}
+
+
+.btn-footer {
+    border-top:2px solid #ddd;
+}
+.btn-footer .makeorder_fee_box {
+    text-align: right;
+    padding:2px;
+}
+.btn-footer .makeorder_fee_box .real-pay {
+    font-size:28px;
+    color:#ff6600;
+}
+.btn-footer .makeorder_address_box {
+    text-align: right;
+    padding:2px;
+}
+.makeorder_address_box span{
+    display: inline-block;
+    color:#999;
+    margin-left:30px;
+}
+.btn-footer .makeorder_submit_box {
+    text-align: right;
+    padding:2px;
+}
