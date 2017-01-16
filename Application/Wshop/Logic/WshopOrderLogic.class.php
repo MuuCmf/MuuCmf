@@ -48,10 +48,11 @@ class WshopOrderLogic extends Model{
 	 */
 	public function make_order($order)
 	{
-		if (!isset($order['pay_type']) || $order['pay_type'] ==  WshopOrderModel::PAY_TYPE_FREE) {
+		if ($order['pay_type'] ==  0) {
 			//禁止设为 免费
-			$order['pay_type'] = WshopOrderModel::PAY_TYPE_NULL;
+			$this->error_str = '支付方式未设置或出错！';
 		}
+		//$order['pay_type']=$order['pay_type'];
 
 		//记录下单时的商品价格
 		//减库存, [在取消订单的时候加库存]
@@ -59,13 +60,16 @@ class WshopOrderLogic extends Model{
 		//计算各种优惠, 满100减5元, 满100包邮 等
 
 		$opaid_fee = 0; //最终应付总价
-		$opoint_fee = 0; //应付积分数
 		$oback_point = 0; //应返还积分数
+		$total_count = 0;//商品的总件数
 		$ops = array(); //保存到order中
 		$lps = array(); //检查购买限制, 更新库存
-		$dps = array(); //计算运费
+		
+		$tmp_price=0;//单个临时商品价格变量
 		foreach ($order['products'] as $p) {
-			if (!($sp = $this->product_model->get_product_by_sku_id($p['sku_id']))) {
+			$sp = $this->product_model->get_product_by_sku_id($p['sku_id']);
+			
+			if (!$sp){
 				$this->error_str = '系统错误';
 				return false;
 			}
@@ -74,62 +78,41 @@ class WshopOrderLogic extends Model{
 				$this->error_str = '木有库存了';
 				return false;
 			}
-
 			/*
-				同一个商品不同sku, 进行同样的限购处理
-				todo 应该把历史购买过的数目也加上
+			计算运费，多加商品运费模版取单价最高商品运费模版
 			*/
-			if (isset($lps[$sp['id']])) {
-				$lps[$sp['id']]['quantity'] += $p['quantity'];
-			} else {
-				$lps[$sp['id']] = array('buy_limit' => $sp['buy_limit'],
-				                         'quantity' => $p['quantity'],
-				                         'sku_id' => $p['sku_id'],
-				                         'quantity_total' => $sp['quantity_total']);
-			}
-
-			/*
-				计算运费,相同运费模板的商品以件数算一次运费
-			*/
-			if (isset($dps[$sp['delivery_id']])) {
-				$dps[$sp['delivery_id']]['count'] += $p['quantity'];
-			} else {
-				$dps[$sp['delivery_id']] = array('count' => $p['quantity']);
-			}
-
+			//获得商品总件数
+			$total_count += $p['quantity'];
+			//保存到订单表中products的数据
 			$ops[] = array('sku_id' => $p['sku_id'],
 			               'quantity' => $p['quantity'],
 			               'paid_price' => $sp['price'],
 			               'title' => $sp['title'],
-			               'main_img' => $sp['main_img']);
-			$opaid_fee += $sp['price'] * $p['quantity'];
-			$opoint_fee += $sp['point_price'] * $p['quantity'];
-			$oback_point += $sp['back_point'] * $p['quantity'];
-		}
+			               'main_img' => $sp['main_img']
+			               );
 
-		foreach ($lps as $l) {
-			if (($l['buy_limit'] > 0) && ($l['buy_limit'] < $l['quantity'])) {
-				$this->error_str = '超过限制购买数量';
-				return false;
-			}
+			$opaid_fee += $sp['price'] * $p['quantity'];//应付总价
+			//$opoint_fee += $sp['point_price'] * $p['quantity'];//积分购买所需要积分数
+			$oback_point += $sp['back_point'] * $p['quantity'];//返还积分
 		}
+		
+		//根据运费模版id 地址 商品数量获取计算最终运费价格
+		$odelivery_fee = $this->calc_delivery_fee($order['delivery_id'], $order['address'], $total_count);
+		$odelivery_fee = $odelivery_fee*100;//将价格单位转为分
 
-		//根据$dps, $address计算运费
-		$odelivery_fee = 0;
-		if (!empty($order['address'])) {
-			foreach ($dps as $k => $v) {
-				$odelivery_fee += $this->calc_delivery_fee($k, $order['address'], $v);
-				$odelivery_fee +=0;
-			}
+		if(isset($odelivery_fee)){
+
+		}else{
+			$this->error_str = '运费计算出错！';
+			return false;
 		}
-
 		//计算各种优惠信息
-		$odiscount_fee = 0;
+		$odiscount_fee = 0; //初始化已优惠价格为0
 		//取优惠券优惠信息
 		if (!empty($order['coupon_id'])) {
-			$order_info = array('user_id' => $order['user_id'],
+			$order_info = array('user_id' => is_login(),
 			                    'opaid_fee' => $opaid_fee,
-			                    'odelivery_fee' => $odiscount_fee,
+			                    'odelivery_fee' => $odelivery_fee,
 			                    'products' => $order['products']);
 			$ret = $this->coupon_logic->calc_coupon_fee($order['coupon_id'], $order_info);
 			if(!$ret){
@@ -138,15 +121,16 @@ class WshopOrderLogic extends Model{
 			}
 			$odiscount_fee += $ret;
 		}
-
-		//如果>0认为是一个积分换购商品, 此时不收商品费而只收运费. 并且不再返还积分
-		if ($opoint_fee > 0) {
-			$discount_fee = $opaid_fee;
-			$oback_point = 0;
+		//获取积分使用总抵用金额
+		foreach($order['use_point'] as $key =>$val){
+			//获取该积分兑换比例
+			$score_id = intval($key);
+			$exchange = D('Pingpay/pingpay')->getScoreExchangebyid($score_id);//获取兑换比例
+			$ret = $val/$exchange; //该积分抵用金额
+			$ret = $ret*100;//金额转化成分
+			$odiscount_fee += $ret;
 		}
-		$order['use_point'] = $opoint_fee;
 		$order['back_point'] = $oback_point;
-
 		$opaid_fee = max(0, $opaid_fee + $odelivery_fee - $odiscount_fee);
 		//or ?
 		//$opaid_fee = max(0, $opaid_fee - $odiscount_fee) + $odelivery_fee;
@@ -154,27 +138,23 @@ class WshopOrderLogic extends Model{
 			$order['pay_type'] = WshopOrderModel::PAY_TYPE_FREE;
 		}
 		//免费或货到付款时把订单状态改为待发货
-		if (($order['pay_type'] == WshopOrderModel::PAY_TYPE_FREE) ||
-			($order['pay_type'] == WshopOrderModel::PAY_TYPE_CACHE)
-		) {
-
-			//某些订单(如外卖订单)需要等待买家确认
-			$order['status'] = !empty($GLOBALS['_TMP']['on_free_status']) ? $GLOBALS['_TMP']['on_free_status']
-				: WshopOrderModel::ORDER_WAIT_FOR_DELIVERY;
+		if (($order['pay_type'] == WshopOrderModel::PAY_TYPE_FREE) || ($order['pay_type'] == WshopOrderModel::PAY_TYPE_CACHE)) {
+			$order['status'] = WshopOrderModel::ORDER_WAIT_FOR_DELIVERY;
 		}
+		
+		$order['user_id'] = is_login();//用户名获取
+		$order['client_ip'] = $_SERVER["REMOTE_ADDR"];
+		$order['order_no'] = date('YmdHis').rand(100000, 999999);//自动生成商家唯一订单号
 		$order['create_time'] = $_SERVER['REQUEST_TIME'];
-		$order['paid_fee'] = $opaid_fee;
-		$order['discount_fee'] = $odiscount_fee;
-		$order['delivery_fee'] = $odelivery_fee;
-
+		$order['paid_fee'] = $opaid_fee;//应付总金额
+		$order['use_point'] = json_encode($order['use_point']); //抵用积分数据
+		$order['discount_fee'] = $odiscount_fee;//返现金额
+		$order['delivery_fee'] = $odelivery_fee;//运费价格
 		$order['products'] = json_encode($ops);
-		if (!empty($order['address'])) {
-			$order['address'] = json_encode($order['address']);
-		}
+		$order['address'] = json_encode($order['address']);
 		$order['info'] = json_encode($order['info']);
 
-
-		$this->startTrans();
+		//$this->startTrans();
 		//根据$lps减库存
 		//foreach ($lps as $l) {
 		//	if (!$this->decrease_product_quantity($l['sku_id'], $l['quantity'])) {
@@ -183,39 +163,42 @@ class WshopOrderLogic extends Model{
 		//		return false;
 		//	}
 		//}
-
-		if(!$this->order_model->add_or_edit_order($order))
-		{
-			$this->rollback();
+		
+		$order['id'] = $this->order_model->add_or_edit_order($order);//写入订单数据
+		if(!$order['id']){
 			$this->error_str = '增加订单失败';
 			return false;
 		}
 
-		$order['id'] = $this->getLastInsID();
+		//标记优惠券为已使用
+		if(!empty($order['coupon_id'])){
 
-		if ($order['use_point'] > 0) {
-		//处理积分的
-		}
-
-		//标记优惠券
-		if(!empty($order['coupon_id']))
-		{
-			if(!$this->user_coupon_logic->where('order_id = 0 and id ='.$order['coupon_id'])->save(array('order_id'=>$order['id'])))
-			{
+			if(!$this->user_coupon_logic->where('order_id = 0 and id ='.$order['coupon_id'])->save(array('order_id'=>$order['id']))){
 				$this->rollback();
 				return false;
 			}
 		}
 		//删除购物车
-		if ((!empty($GLOBALS['_TMP']['cart_id']))) {
-			$cart_ids = $GLOBALS['_TMP']['cart_id'];
+		if ((!empty($GLOBALS['_POST']['cart_id']))) {
+			$cart_ids = $GLOBALS['_POST']['cart_id'];
 			is_numeric($cart_ids) && $cart_ids = array($cart_ids);
 			$this->cart_model->delete_shop_cart($cart_ids, $order['user_id']);
 		}
+		//如果使用积分抵用扣除相应积分
+		$use_point= json_decode($order['use_point'],true);
+		
+		foreach($use_point as $key =>$val){
+			if($val==0 || empty($val)) continue;
+			$score_id = substr($key,5);
+			$type['id'] = $score_id;
+			$scoreType = D('Ucenter/Score')->getType($type);//根据ID获取积分类型详细
+            $remark = '商城订单[ID:'.$order['id'].']抵用'.$scoreType['title'].'：-'.$val.$scoreType['unit'];
+			$ress = D('Ucenter/Score')->setUserScore($order['user_id'],$val,$score_id,'dec','Wshop',0,$remark);//减少积分
+		}
+
 		//下单以后事件
 		Hook('AfterMakeOrder',$order);
-		$this->commit();
-
+		//$this->commit();
 		return $order['id'];
 	}
 
@@ -309,7 +292,7 @@ class WshopOrderLogic extends Model{
 		}
 		Hook('AfterCancalOrder',$order);
 
-		$this->commit();
+		//$this->commit();
 
 //		$order = $this->order_model->get_order_by_id($order['id']);
 		return true;
@@ -339,9 +322,6 @@ class WshopOrderLogic extends Model{
 	/*
 	 * 收货
 	 */
-	/*
-	  收货
-  */
 	public  function recv_goods($order)
 	{
 		if ($order['status'] != WshopOrderModel::ORDER_WAIT_USER_RECEIPT) {
@@ -527,66 +507,56 @@ class WshopOrderLogic extends Model{
 		return $ret;
 	}
 
-	/*
-		计算运费
-		$d 运费模板参数, 也可以是运费模板id
-		$address 送货地址  'address' => array(
-							'province' => '广东省',
-							'city' => '深圳市',
-							'town' => '南山区',
-
+	/**
+	*	计算运费
+	*	$delivery_id int 运费模版id
+	*	$address 送货地址 'address' => array(
+	*					'province' => '广东省',
+	*						'city' => '深圳市',
+	*						'district' => '南山区',
 							'delivery' => '' //运送方式, 可以为空,或 express ems mail self 自提
-							)
-		$goods 货物信息 array(
-							'count' => 2
 						)
+	* $totalcount 商品总数
 
 	*/
-	public  function calc_delivery_fee($d, $address, $goods) {
-		if(!$d || (is_numeric($d) && !($d = $this->delivery_model->get_delivery_by_id($d)))) {
+	public function calc_delivery_fee($delivery_id,$address, $totalcount) {
+
+		if($delivery_id==0) {
 			return 0;
+		}else{
+			$delivery = $this->delivery_model->get_delivery_by_id($delivery_id);
 		}
-
-		//如果address中没有指定运送方式则以规则第一个为准,快递
+		//dump($delivery);exit;
+		//如果address中没有指定运送方式[delivery]则以规则第一个为准,快递
 		$way = isset($address['delivery']) ? $address['delivery'] : '';
-		if(!isset($d['rule'][$way])) $way = key($d['rule']);
-
-		switch($d['valuation']) {
-			//固定运费
-			case 0: {
-				return $d['rule'][$way];
-			}
-
-			//计件
-			case 1:
-			default: {
-				if(!empty($d['rule'][$way]['customer'])) {
-					$rule = $this->array_usearch($address, $d['rule'][$way]['customer'], function($a, $as){
-						foreach($as['location'] as $l) {
-							if(isset($l['city'])) {
-								if(($l['city'] == $a['city']) && ($l['province'] == $a['province'])) {
-									return true;
-								}
-							}
-							else {
-								//var_export($l);
-								//var_export($a);
-								if(($l['province'] == $a['province'])) {
-									return true;
-								}
-							}
-						}
-						return false;
-					});
-				}
-				if(empty($rule)) {
-					$rule = $d['rule'][$way]['normal'];
-				}
-
-				return $goods['count'] <= $rule['start'] ? $rule['start_fee'] :
-					($rule['start_fee'] + ceil((float)($goods['count'] - $rule['start'])/$rule['add']) * $rule['add_fee']);
-			}
+		if(!isset($delivery['rule'][$way])){
+			$way = key($delivery['rule']);
 		}
+		if($delivery['valuation']==0) {
+			//固定运费
+			return sprintf("%01.2f", $delivery['rule'][$way]['cost']/100);
+		}
+		if($delivery['valuation']==1) {
+			if(!empty($delivery['rule'][$way]['custom'])) {
+	            foreach($delivery['rule'][$way]['custom'] as $val){
+					foreach($val['area'] as $v){
+						if($address['province'] == $v['id']){
+							$cost = $val['cost'];
+						}
+					}
+				}
+				if(empty($cost)){
+					$cost = $delivery['rule'][$way]['normal'];
+				}
+			}
+			if($totalcount<=$cost['start']){
+				$totalPrice = $cost['start_fee'];
+			}else{
+				$totalPrice = ($cost['start_fee'] + ceil((float)($totalcount - $cost['start'])/$cost['add']) * $cost['add_fee']);
+			}
+			return sprintf("%01.2f", $totalPrice/100);
+		}				
+
 	}
 
 	/*

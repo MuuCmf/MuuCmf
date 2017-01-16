@@ -61,10 +61,20 @@ class IndexController extends BaseController
             $data['channel'] = I('post.channel','','text'); //订单支付渠道
             $data['amount'] = I('post.amount','','floatval'); //订单金额，单位：元
             $data['amount'] = sprintf("%.2f",$data['amount'])*100;//将金额单位转成分
+            $data['quantity'] =I('post.quantity',0,'intval');//将金额单位转成分
             $data['metadata'] = I('post.metadata','','text');//订单元数据，要求JSON字符串
-            $data['metadata'] = serialize($data['metadata']);
             $data['description'] = I('post.description','','text');//订单附加说明
             $data['client_ip'] = $_SERVER['REMOTE_ADDR']; // 发起支付请求客户端的 IP 地址，格式为 IPV4，如: 127.0.0.1
+            //判断充值数与价格是否匹配
+            $score_id = $data['metadata']['score_id'];
+            $exchange = $this->pingpayModel->getScoreExchangebyid($score_id);
+            $trueAmount = $data['quantity']/$exchange;
+            //dump($trueAmount);exit;
+            //真实应付价格与输入的价格比较，不相等就抛出错误
+            if(intval($trueAmount*100)!=intval($data['amount'])){
+                $this->error('少年~输入的数值错误');
+            }
+            $data['metadata'] = serialize($data['metadata']);
 
             $result_url=think_encrypt(modC('PINGPAY_CONFIG_RESULTURL','','Pingpay'));//支付成功后跳转回的地址
             
@@ -92,12 +102,15 @@ class IndexController extends BaseController
             $map['id'] = array('in',$score_ids);
             $map['status'] = 1;
             $score_list = D('Ucenter/Score')->getTypeList($map);
-
+            //写入积分兑换比例
+            foreach($score_list as &$val){
+                $val['exchange'] = $this->pingpayModel->getScoreExchangebyid($val['id']);
+            }
+            unset($val);
             //获取支付方式
-            $payChannel = D('Pingpay')->channel();
+            //$payChannel = D('Pingpay')->channel();
             $this->assign('min_money',$min_money);
             $this->assign('score',$score_list);
-            $this->assign('payChannel',$payChannel);
             $this->display();
         }
     }
@@ -303,6 +316,30 @@ class IndexController extends BaseController
             $this->error('系统未开通提现功能');
         }
         $this->display();
+    }
+
+    /**
+     * 获取积分兑换比例
+     */
+    public function score_exchange(){
+        $id = I('get.id',0,'intval');
+        $map['id'] = $id;
+        $map['status'] = 1;
+        $score_list = D('Ucenter/Score')->getType($map);
+        //写入积分兑换比例
+        $score_list['exchange'] = $this->pingpayModel->getScoreExchangebyid($id);
+        
+        unset($val);
+        //组装JSON返回数据
+        if(isset($score_list)){
+            $result['status']=1;
+            $result['info'] = 'success';
+            $result['data'] = $score_list;
+        }else{
+            $result['status']=0;
+            $result['info'] = 'error';
+        }
+        $this->ajaxReturn($result,'JSON');
     }
 
     private function extra($channelName,$arr)

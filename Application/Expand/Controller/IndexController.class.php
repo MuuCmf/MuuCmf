@@ -277,13 +277,9 @@ class IndexController extends Controller
             
             //是否启用在线支付
             $onlinePay=modC('EXPAND_CONFIG_ONLINEPAY','','Expand');
-            //获取在线支付渠道
-            $payChannel = D('Pingpay/Pingpay')->channel();
-
             //dump($score_list);exit;
             $this->assign('ableScore',$score_list);
             $this->assign('onlinePay',$onlinePay);
-            $this->assign('payChannel',$payChannel);
             $this->assign('result',$result);
             $this->display();
         }

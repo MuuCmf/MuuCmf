@@ -9,8 +9,8 @@ class WshopOrderModel extends Model {
 	const PAY_TYPE_NULL      = 0; //未设置付款方式
 	const PAY_TYPE_FREE      = 1; //免费无需付款
 	const PAY_TYPE_CACHE     = 2; //货到付款
-	const PAY_TYPE_ALIPAY    = 10; //支付宝
-	const PAY_TYPE_WEIXINPAY = 11; //微信支付
+	const PAY_TYPE_LINEPAY    = 10; //在线支付
+	//const PAY_TYPE_WEIXINPAY = 11; //微信支付
 
 
 	const ORDER_WAIT_USER_PAY     = 1; //待付款

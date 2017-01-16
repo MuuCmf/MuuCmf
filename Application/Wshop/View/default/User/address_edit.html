@@ -1,5 +1,5 @@
 <div class="address-edit-form">
-  <form class="form-horizontal" action="__SELF__">
+  <form class="form-horizontal" data-type="addaddress" action="__SELF__">
   <input type="hidden" name="id" value="{$address.id}">
     <div class="form-group">
       <label for="" class="col-sm-2">收货人</label>
@@ -31,27 +31,29 @@
     </div>
   </div>
   </form>
+<script>
+(function($){
+
+  $('form[data-type="addaddress"]').submit(function (e) {
+      e.preventDefault();
+      toast.showLoading();
+      var self = $(this);
+      $.post(self.attr("action"), self.serialize(), callback, "json");
+      return false;
+  });
+  
+  function callback(data) {
+    if (data.status) {
+        toast.success(data.info, '温馨提示');
+        setTimeout(function () {
+            window.location.href = data.url
+        }, 1000);
+    }else{
+        toast.error(data.info, '温馨提示');
+    }
+    toast.hideLoading();
+  }
+})(jQuery);
+</script>
 </div>
 
-<script>
-$(function(){
-	$("form").submit(function () {
-        toast.showLoading();
-        var self = $(this);
-        $.post(self.attr("action"), self.serialize(), success, "json");
-        return false;
-
-        function success(data) {
-            if (data.status) {
-                toast.success(data.info, '温馨提示');
-                setTimeout(function () {
-                    window.location.href = data.url
-                }, 1000);
-            } else {
-                toast.error(data.info, '温馨提示');
-            }
-            toast.hideLoading();
-        }
-    });
-})
-</script>

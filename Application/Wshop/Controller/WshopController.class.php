@@ -61,15 +61,23 @@ class WshopController extends AdminController
 			'3'=>'认证服务号'
 		);
 		$apiUrl = 'http://'.$_SERVER['HTTP_HOST'].'/index.php?s=/wshop/api';
-
+		//允许抵用的积分类型
+		$score_list = D('Ucenter/Score')->getTypeList(array('status' => 1));
+        $score_type=array();
+        foreach($score_list as $val){
+            $score_type=array_merge($score_type,array('score'.$val['id']=>$val['title']));
+        }
 		$builder = new AdminConfigBuilder();
 		$data = $builder->handleConfig();
 		$builder->title('商城基本设置')
 			->data($data)
 			->keyText('WSHOP_SHOW_TITLE', '商城名称', '在首页的商场名称')->keyDefault('WSHOP_SHOW_TITLE','MuuCmf轻量级商场解决方案')
 			->keySingleImage('WSHOP_SHOW_LOGO','商场logo')
-			->keyEditor('WSHOP_SHOW_DESC', '商城简介','','all',array('width' => '700px', 'height' => '400px'))
 			->keyBool('WSHOP_SHOW_STATUS', '商城状态','默认正常')
+			->keyCheckBox('WSHOP_SHOW_PAYTYPE','支付方式','请选择启用的支付方式',array('1'=>'货到付款','10'=>'在线支付'))
+			->keyCheckBox('WSHOP_SHOW_SCORE','允许抵用现金的积分类型','积分比例请在Pingpay模块配置',$score_type)
+			->keyEditor('WSHOP_SHOW_DESC', '商城简介','','all',array('width' => '800px', 'height' => '300px'))
+
 			->keySelect('WSHOP_WX_TYPE','类型','',$wxType)
 			->keyText('WSHOP_WX_APPID', 'appID', '微信公众号的appID')
 			->keyText('WSHOP_WX_APPSECRET', 'appsecret', '微信公众号的appsecret')
@@ -78,9 +86,7 @@ class WshopController extends AdminController
 			->keyText('WSHOP_WX_TOKEN', 'Token', '微信公众号的Token')
 			->keyText('WSHOP_WX_ENCODINGAESKEY', 'EncodingAESKey', '微信公众号的EncodingAESKey')
 
-
-
-			->group('商城基本配置', 'WSHOP_SHOW_TITLE,WSHOP_SHOW_LOGO,WSHOP_SHOW_DESC,WSHOP_SHOP_STATUS')
+			->group('商城基本配置', 'WSHOP_SHOW_TITLE,WSHOP_SHOW_LOGO,WSHOP_SHOP_STATUS,WSHOP_SHOW_PAYTYPE,WSHOP_SHOW_SCORE,WSHOP_SHOW_DESC,')
 			->group('微信配置','WSHOP_WX_TYPE,WSHOP_WX_APPID,WSHOP_WX_APPSECRET,WSHOP_WX_OAUTH,WSHOP_WX_URL,WSHOP_WX_TOKEN,WSHOP_WX_ENCODINGAESKEY')
 			->buttonSubmit('', '保存')
 			->display();
@@ -551,9 +557,8 @@ class WshopController extends AdminController
 				$builder
 					->title('订单详情')
 					->keyReadOnly('id','订单id')
-//					->keytext('')
 //					->keyText('use_point','使用积分')
-//					->keyText('back_point','返回积分')
+					->keyText('back_point','返回积分')
 					->keytext('create_time','创建时间')
 					;
 //				$product_input_list = array(
@@ -711,8 +716,9 @@ class WshopController extends AdminController
 
 				foreach($order['list'] as &$val){
 					$val['paid_fee']='¥ '.sprintf("%01.2f", $val['paid_fee']/100);
+					$val['delivery_fee']='¥ '.sprintf("%01.2f", $val['delivery_fee']/100);
+					$val['discount_fee']='- ¥ '.sprintf("%01.2f", $val['discount_fee']/100);
 				}
-				//dump($order);exit;
 
 				$status_select = $this->order_model->get_order_status_config_select();
 				$status_select2 = $this->order_model->get_order_status_list_select();
@@ -741,8 +747,8 @@ class WshopController extends AdminController
 					->keyText('paid_fee','总价/元')
 					->keyText('discount_fee','已优惠的价格')
 					->keyText('delivery_fee','邮费')
-					->keyText('product_cnt','商品种数')
-					->keyText('product_quantity','商品总数');
+					->keyText('product_cnt','种类')
+					->keyText('product_quantity','总数');
 
 				$builder->keyDoAction('admin/wshop/order/action/order_detail/id/###','订单详情')
 					->keyDoAction('admin/wshop/order/action/order_address/id/###','地址等信息')
@@ -762,64 +768,37 @@ class WshopController extends AdminController
 	 */
 	public function delivery($action = '')
 	{
-		//计件数据结构
-		$de_array = array(
-			"express"=>array(
-				"name"=>"普通快递",
-				"normal"=>array(
-						"start"=>1,
-						"start_fee"=>10,
-						"add"=>1,
-						"add_fee"=>8
-						),
-				"custom"=>array(
-					array(
-						"area"=>array(
-								1000,
-								2000
-								),
-						"cost"=>array(
-								"start"=>1,
-								"start_fee"=>10,
-								"add"=>1,
-								"add_fee"=>8
-								)
-					),
-					array(
-						"area"=>array(
-							1000,
-							2000
-								),
-						"cost"=>array(
-								"start"=>1,
-								"start_fee"=>10,
-								"add"=>1,
-								"add_fee"=>8
-								)
-					)
-				)
-			)
-		);
-		//固定运费数据结构
-		$normal_array = array(
-						"express"=>array(
-								"name"=>"普通快递",
-								"cost"=>10	
-						)
-		);
-		//$json = json_encode($de_array);
-		//echo $json;exit;
 		switch($action)
 		{
 			case 'add':
 				if(IS_POST)
-				{
+				{	
 					$delivery = $this->delivery_model->create();
+					$delivery['rule'] = json_decode($delivery['rule'],true);
+					if($delivery['valuation']==0){
+						foreach($delivery['rule'] as &$val){
+							$val['cost']=$val['cost']*100;
+						}
+						unset($val);
+					}else{
+						foreach($delivery['rule'] as &$val){
+								$val['normal']['start_fee']=$val['normal']['start_fee']*100;
+								$val['normal']['add_fee']=$val['normal']['add_fee']*100;
+							foreach($val["custom"] as &$c){
+								$c['cost']['start_fee']=$c['cost']['start_fee']*100;
+								$c['cost']['add_fee']=$c['cost']['add_fee']*100;
+							}
+							unset($c);
+						}
+						unset($val);
+					}
+					$delivery['rule'] = json_encode($delivery['rule']);
+					//dump($delivery);exit;
 					if (!$delivery){
-
 						$this->error($this->delivery_model->getError());
 					}
-					isset($rule) && $delivery['rule'] =json_encode($rule);
+
+					//isset($rule) && $delivery['rule'] =json_encode($rule);
 					$ret = $this->delivery_model->add_or_edit_delivery($delivery);
 					if ($ret){
 						$this->success('操作成功。', U('wshop/delivery'),1);
@@ -830,14 +809,30 @@ class WshopController extends AdminController
 					$id = I('get.id',0,'intval');
 					if(!empty($id)){
 						$delivery = $this->delivery_model->get_delivery_by_id($id);
+						if($delivery['valuation']==0){
+							foreach($delivery['rule'] as &$val){
+								$val['cost']=$val['cost']/100;
+							}
+							unset($val);
+						}else{
+							foreach($delivery['rule'] as &$val){
+									$val['normal']['start_fee']=sprintf("%01.2f",$val['normal']['start_fee']/100);
+									$val['normal']['add_fee']=sprintf("%01.2f",$val['normal']['add_fee']/100);
+								foreach($val["custom"] as &$c){
+									$c['cost']['start_fee']=sprintf("%01.2f",$c['cost']['start_fee']/100);
+									$c['cost']['add_fee']=sprintf("%01.2f",$c['cost']['add_fee']/100);
+								}
+								unset($c);
+							}
+							unset($val);
+						}
 					}else{
 						$delivery = array();
 					}
 					//获取中国省份列表
 					$district = $this->District(1);
 
-					//dump($district);exit;
-					$this->setTitle('运费模板编辑');
+					$this->meta_title = '运费模板编辑';
 					$this->assign('district',$district);
 					$this->assign('delivery',$delivery);
 					$this->display('Wshop@Admin/adddelivery');exit;

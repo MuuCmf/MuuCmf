@@ -8,42 +8,35 @@
 		<form class="" role="form" action="__SELF__" method="post">
 			<input type="hidden" name="body" value="在线积分充值">
 
-			<div class="form-group">
-	    	<label for="amount" >充值金额</label>
-			    <div class="amount-input">
-			    	<input type="text" name="amount" class="form-control form_check" check-type="Num" check-type="IntNum" check-value="{$min_money},99999" id="amount" placeholder="请输入充值金额，如：100.00（单位：元）">
-			  	</div>
-		  	</div>
 			<div class="form-group clearfix">
 		    <label for="channel">充值类型</label>
 			    <div class="row">
 				    <volist name="score" id="score">
-				    	<div class="col-xs-3">
-						    <div class="subject" data-id="{$score.id}" data-type="{$score.title}">
-							  <input type="hidden" name="subject" value="[{$score.id}]{$score.title}-充值"> {$score.title}
-							  <span class="selected hidden">
-							  	<i class="icon-check"></i>
-							  </span>
-							</div>
-						</div>
+					    <span class="subject" data-id="{$score.id}" data-type="{$score.title}">
+						  <input type="hidden" name="subject" value="[{$score.id}]{$score.title}-充值"> {$score.title} 
+						  <i></i>
+						</span>
 					</volist>
+					
 			    </div>
 		  </div>
-		  
+
+		  <div class="form-group">
+	    	<label for="amount" >充值</label>
+			    <div class="amount-input">
+			    	<input type="number" name="quantity" class="form-control form_check" check-type="Num" check-type="IntNum" check-value="{$min_money},*" id="quantity" placeholder="请输入充值数量">
+			  	</div>
+			  	<p id="exchange"></p>
+		  	</div>
+		  <div class="form-group">
+		   <label for="price">应付总额</label>
+		   		
+		   		<div class="totalprice">￥<span></span><input type="hidden" name="amount"></div>
+		  </div>
 		  <div class="form-group clearfix">
 		    <label for="channel" class="">选择支付方式</label>
 		    <div class="row">
-		    <volist name="payChannel" id="channel">
-			    <div class="col-md-3">
-				    <div class="paychannel">
-						<input type="hidden" name="channel" value="{$channel.name}">
-						<img src="__IMG__/{$channel.icon}" /> {$channel.stitle} 
-						<span class="selected hidden">
-							<i class="icon-check"></i>
-						</span>
-					</div>
-				</div>
-			</volist>
+		    {:W('Paychannel/render')}
 		    </div>
 		  </div>
 
@@ -62,26 +55,37 @@
     <script src="__PUBLIC__/js/form_check.js"></script>
     <script>
         $(function () {
-        	var score_id,subject,paychannel;
+        	var score_id,exchange,subject;
     		//充值类型
         	$(".subject").click(function(){
-        		$(".subject").removeClass("click");
-        		$(".subject").children(".selected").addClass("hidden");
-				$(this).addClass("click");
-				$(this).children(".selected").removeClass("hidden");
+        		$(".subject").removeClass("selected");
+				$(this).addClass("selected");
 				subject = $(this).children("input").val();
 				score_id = $(this).attr("data-id");
-        	});
-        	//支付方式
-        	$(".paychannel").click(function(){
-        		$(".paychannel").removeClass("click");
-        		$(".paychannel").children(".selected").addClass("hidden");
-				$(this).addClass("click");
-				$(this).children(".selected").removeClass("hidden");
-				paychannel = $(this).children("input").val();
+				$.get('{:U("index/score_exchange")}',{id:score_id},function(ret){
+					if(ret.status==1){
+						exchange = ret.data.exchange;
+						var txt = '提示：'+ret.data.exchange+ret.data.unit+ret.data.title+'=1元RMB';
+						$('#exchange').text(txt);
+						totalPrice(ret.data.exchange);
+	            	}
+				});
+				
         	});
         	$(".subject:first").click();//执行一次充值类型点击
-        	$(".paychannel:first").click();//执行一次支付方式选择点击
+
+        	$(".amount-input input").bind('input propertychange',function(){
+        		totalPrice(exchange);
+        	});
+
+        	function totalPrice(exchange){
+        		var inputNum = $(".amount-input input").val();
+        		var ex = exchange;
+        		var totalprice = inputNum/ex;
+				$('.totalprice span').text(totalprice);
+				$('.totalprice input').val(totalprice);
+			}
+        	
         	//表单提交
 	        $("form").submit(function(e) {
 	        	e.preventDefault();
@@ -91,15 +95,15 @@
 	            var _data = {
 	            	"subject":subject,
 	            	"body":$("input[name='body']").val(),
+	            	"quantity":$("input[name='quantity']").val(),
 	            	"amount":$("input[name='amount']").val(),
-	            	"channel":paychannel,
+	            	"channel":$.fn.payChannel.channelName(),
 	            	"description":$("input[name='description']").val(),
 	            	"metadata": {
 	            		"module":"Pingpay",
 	            		"score_id":score_id,
 	            	},
 	            };
-
 			    $.post(self.attr("action"),_data, function(data) {
 			    	//alert(data);
 		            if (!data.status) {

@@ -43,7 +43,13 @@ class PingPayController extends AdminController
         foreach($score_list as $val){
             $score_type=array_merge($score_type,array('score'.$val['id']=>$val['title']));
         }
-        //dump($score_type);exit;
+        //积分兑换比例
+        $group_exchange = '';
+        foreach($score_list as $val){
+            $name='PINGPAY_CONFIG_EXCHANGE_'.$val['id'];
+            $admin_config->keyText($name,$val['title'],'如输入100，即100'.$val['title'].'=1元RMB');
+            $group_exchange.=$name.',';
+        }
 
         $admin_config
             ->title('Ping++支付中心基本设置')
@@ -63,12 +69,13 @@ class PingPayController extends AdminController
             //提现设置
             ->keyRadio('PINGPAY_CONFIG_TOPEN','是否开通提现功能','',array('1'=>'是','0'=>'否'))
             ->keyText('PINGPAY_CONFIG_TMINMONEY','最小提现金额','请填写允许提现的最小额度，单位（元）,默认或0为不限制')
-
-
+            
+            
             ->group('ping++ 接口设置','PINGPAY_CONFIG_APIKEY,PINGPAY_CONFIG_APPID,PINGPAY_CONFIG_PUBLICKEY,PINGPAY_CONFIG_PUBLISHABLEKEY,PINGPAY_CONFIG_PRIVATEKEY,PINGPAY_CONFIG_WEBHOOKS')
             ->group('充值设置','PINGPAY_CONFIG_OPEN,PINGPAY_CONFIG_RESULTURL,PINGPAY_CONFIG_SCORE,PINGPAY_CONFIG_MINMONEY,PINGPAY_CONFIG_ORDERPX')
             ->group('提现设置','PINGPAY_CONFIG_TOPEN,PINGPAY_CONFIG_TMINMONEY')
-            ->group('第三方模块支付配置','')
+            ->group('积分兑换比例',$group_exchange)
+            ->group('第三方模块支付说明','')
 
             ->buttonSubmit('', '保存')
             ->data($data);
@@ -127,7 +134,8 @@ class PingPayController extends AdminController
         ->keyText('order_no','商户订单号')
         ->keyText('subject','商品名')
         ->keyText('amount','金额(单位：元)')
-        ->keyText('channel','支付渠道')
+        ->keyText('quantity','充值数量')
+        //->keyText('channel','支付渠道')
         ->keyText('paid','状态')
         ->keyCreateTime('created','订单创建时间')
         ->keyCreateTime('time_paid','订单支付时间')

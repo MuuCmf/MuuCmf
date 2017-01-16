@@ -28,6 +28,7 @@ return array(
         '__STATIC__' => __ROOT__ . '/Public/static',
         '__ZUI__' => __ROOT__ . '/Public/zui',
         '__ADDONS__' => __ROOT__ . '/Public/'. MODULE_NAME.'/Addons',
+        '__COMMON__'=>__ROOT__ . '/Application/'.MODULE_NAME. '/Static/common',
         '__IMG__'    => __ROOT__ . '/Application/'.MODULE_NAME. '/Static/'.DEFAULT_THEME.'/images',
         '__CSS__'    => __ROOT__ . '/Application/'.MODULE_NAME. '/Static/'.DEFAULT_THEME.'/css',
         '__JS__'     => __ROOT__ . '/Application/'.MODULE_NAME. '/Static/'.DEFAULT_THEME.'/js',

@@ -6,69 +6,73 @@
 </block>
 <block name="body">
 <div id="main-container" class="container">
-
+<!--隐藏区域 以便js调用-->
+<input type="hidden" data-type="cart_id" data-value="{$cart_id}"/>
+<input type="hidden" data-type="product_skuid" data-value="{$product.id};{$product.sku}"/>
+<input type="hidden" data-type="product_quantity" data-value="{$product.sku_quantity}"/>
+<!--隐藏区域end-->
 <header class="color-main common_box vertical-box">
     <h3 class="header-title">填写并核对订单信息</h3>
 </header>
-
 <div class="makeorder-section">
-
-    <section class="common_box margin-top-10">
-    <h3 class="linear-title"><span>收货地址</span></h3>
-        <div class="clearfix">
-            <volist name="listAddress" id="listAddress">
-            <div class="address-section">
-                <div class="address-info" data-type="address">
-                    <span class="title" data-id="{$listAddress.id}">
-                        <span class="address-user">{$listAddress.name}</span>
-                        {$listAddress.phone}
-                        <i></i>
-                    </span>
-                    <span class="info">
-                        {$listAddress.province} {$listAddress.city} {$listAddress.district} {$listAddress.address}
-                    </span>
-                </div>
-            </div>
-            </volist>
+    <section class="address-section common_box margin-top-10">
+    <h3 class="linear-title">
+        <span>收货地址</span>
+        <a class="edit-address pull-right" data-toggle="modal" data-target="#edit-address-modal">
+            添加新的收货信息
+        </a>
+    </h3>
+        <div class="address-main clearfix">
+            <div class="address-list"></div>
         </div>
-        <div class="linear-address-section" onclick="window.location.href='{:U('wshop/address/address')}&type=select'">
-            <h5 class="big-text">添加新的收货信息</h5>
+        <div class="more-address">
+            <span>更多地址</span> <span><i class="icon icon-double-angle-down"></i></span>
         </div>
     </section>
-
-
     <!--立即购买模式-->
     <notempty name="product">
-        <section class="good-section common_box margin-top-10">
-        <div class="good-list-box" data-id="{$product['id']}">
-            <div class="good-section-left">
+    <section class="good-section common_box margin-top-10" data-type="product" >
+    <h3 class="linear-title">产品信息</h3>
+    <div class="good-list-box clearfix" data-id="{$product['id']}">
+        <div class="good-section-left">
+            <a href="{:U('index/product',array('id'=>$product['id']))}" target="_black">
                 <img class="good-section-img" src="{$product['main_img']|getThumbImageById=200,200}">
-            </div>
-            <div class="good-section-right border-box">
-                <p class="good-section-title">{$product['title']}</p>
-                
-                    <p class="good-section-option">{$product['sku']}</p>
-                
-                <p class="good-section-option">
-                    ￥{$product['price']} x {$product['sku_quantity']}
-                    <span data-type="p_total_price" data-value="{$data['total_price']}" class="good-section-price">
-                    ￥{$product['total_price']}
-                    </span>
-                </p>
-            </div>
+            </a>
         </div>
-        </section>
+        <div class="good-section-right border-box">
+            <h5 class="good-section-title">
+                <a href="{:U('index/product',array('id'=>$product['id']))}" target="_black">
+                    {$product['title']}
+                </a>
+            </h5>
+            <p class="good-section-option">{$product['sku']}</p>
+            <p class="good-section-option">
+                ￥{$product['price']} x {$product['sku_quantity']}
+                <span data-type="p_total_price" data-value="{$data['total_price']}" class="good-section-price">
+                ￥{$product['total_price']}
+                </span>
+            </p>
+        </div>
+    </div>
+    </section>
     </notempty>
     <!--购物车购买-->
     <notempty name="cart_list_products">
         <section class="good-section common_box margin-top-10">
+        <h3 class="linear-title">产品信息</h3>
         <volist name="cart_list_products" id="data">
             <div class="good-list-box clearfix" data-id="{$data['id']}">
                 <div class="good-section-left">
-                    <img class="good-section-img" src="{$data['product']['main_img']|getThumbImageById=200,200}">
+                    <a href="{:U('index/product',array('id'=>$data['product']['id']))}" target="_black">
+                        <img class="good-section-img" src="{$data['product']['main_img']|getThumbImageById=200,200}">
+                    </a>
                 </div>
                 <div class="good-section-right border-box">
-                    <p class="good-section-title">{$data['product']['title']}</p>
+                    <h5 class="good-section-title">
+                        <a href="{:U('index/product',array('id'=>$data['product']['id']))}" target="_black">
+                            {$data['product']['title']}
+                        </a>
+                    </h5>
 
                     <p class="good-section-option">{$data['product']['sku_id'][1]}</p>
 
@@ -88,31 +92,70 @@
         <h3 class="linear-title vertical-box">支付方式</h3>
         <div class="clearfix">
             <span class="linear-input pay-type" data-id=1>货到付款<i></i></span>
-            <span class="linear-input pay-type selected" data-id=10>在线支付<i></i></span>
+            <span class="linear-input pay-type" data-id=10>在线支付<i></i></span>
+           
+        </div>
+        <div class="inline-pay-type hidden">
+            <h4>在线支付选择</h4>
+            {:W('Pingpay/Paychannel/render')}
         </div>
     </section>
 
-    <section class="common_box margin-top-10"
-             data-id="<php> if(!empty($coupon['id'])) echo $coupon['id'] </php>">
-        <h3 class="linear-title vertical-box"><span>优惠券</span></h3>
-        
-        <div class="coupon-list clearfix" style="display:none">
-            <notempty name="enable_coupon.list">
-                <volist name="enable_coupon.list" id="coupon">
-                <div class="coupon-list-box" data-id="{$coupon.id}">
-                    <div class="info">
-                        <h3 class="discount">￥ {$coupon.info.rule.discount}<small>【满{$coupon.info.rule.min_price}可用】</small></h3>
-                        <span>有效期至{$coupon.expire_time|date='Y-m-d',###}</span>
+    <section class="coupon-section common_box margin-top-10">
+        <h3 class="linear-title">使用优惠/积分/余额 <span><i class="icon icon-double-angle-down"></i></span></h3>
+        <div class="coupon-main hidden">
+            <div class="panel-group" id="accordionPanels" aria-multiselectable="true">
+              <div class="panel panel-default">
+                <div class="panel-heading" id="headingOne">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordionPanels" href="#collapseCoupon">
+                      优惠卷
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseCoupon" class="panel-collapse collapse in">
+                  <div class="panel-body">
+                    <div class="coupon-list clearfix">
+                        <notempty name="enable_coupon.list">
+                            <volist name="enable_coupon.list" id="coupon">
+                            <div class="coupon-list-box" data-id="{$coupon.id}" data-value="{$coupon.info.rule.discount}">
+                                <div class="info">
+                                    <h3 class="discount">￥ {$coupon.info.rule.discount}<small>【满{$coupon.info.rule.min_price}可用】</small></h3>
+                                    <span>有效期至{$coupon.expire_time|date='Y-m-d',###}</span>
+                                </div>
+                                <div class="title">
+                                 <span>{$coupon.info.title}</span>
+                                </div>
+                                <i></i>
+                            </div> 
+                            </volist>
+                        <else />
+                            <span style="display:block;padding:50px 0;text-align:center">无可用优惠卷...</span>
+                        </notempty>
                     </div>
-                    <div class="title">
-                     <span>{$coupon.info.title}</span>
-                    </div>
-                    <i></i>
-                </div> 
-                </volist>
-            <else />
-                无可用优惠卷...
-            </notempty>
+                  </div>
+                </div>
+              </div>
+              <volist name="score_list" id="score_list">
+              <div class="panel panel-default" data-type="score" data-id="{$score_list.id}">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a class="collapsed" data-toggle="collapse" data-parent="#accordionPanels" href="#collapse{$score_list.id}">
+                      {$score_list.title}
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapse{$score_list.id}" class="panel-collapse collapse">
+                  <div class="panel-body data-id="{$score_list.id}">
+                      <span>账户共 <em>{$score_list.quantity}</em> {$score_list.unit}{$score_list.title}</span>
+                      <span>本次使用 <input type="number" class="form-control" data-exchange="{$score_list.exchange}" data-id="{$score_list.id}" style="display:inline-block;width:100px"></span>
+                      <span>(本次还可用<em class="ableScoreNum"></em> {$score_list.unit})</span>
+                      <span>抵扣 ￥<em class="return">0.00 </em></span>
+                  </div>
+                </div>
+              </div>
+              </volist>
+            </div>
         </div>
     </section>
 
@@ -133,147 +176,350 @@
     <section class="common_box margin-top-10 order-summary">
         <div class="list">
             <span>共 <em class="ftx-01">{$real_quantity}</em> 件商品，总商品金额：</span>
-            <em class="price" id="warePriceId" v="499">￥{$real_price}</em>
+            <em class="price" id="warePriceId" v="499">￥<i>{$real_price}</i></em>
         </div>
         <div class="list">
             <span>返现：</span>
-            <em class="price" id="cachBackId" v="-0"> -￥0.00</em>
+            <em class="price" id="cachBackId" v="-0">-￥<i> 0.00</i></em>
         </div>
         <div class="list">
-            <span>运送方式：<em class="price" id="deliveryId" v="普通快递">快递</em> 邮费：</span>
-            <em class="price" id="freightPriceId" v="0">￥0.00</em>
+            <span>运送方式：<em class="price" id="deliveryId" v="普通快递" data-id="{$delivery_id}">快递</em> 邮费：</span>
+            <em class="price" id="freightPriceId" v="0">￥<i>0.00</i></em>
         </div>
-        
     </section>
-
 </div>
 <footer class="btn-footer common_box margin-top-10">
     <div class="makeorder_fee_box">
-        <span>应付总额：￥<span class="real-pay" data-type="total_price" data-value="{$real_price}">{$real_price}</span></span>
+        <span>应付总额：￥<span class="real-pay" data-type="total_price" data-value="{$real_price}"></span></span>
     </div>
     <div class="makeorder_address_box">
-        
     </div>
     <div class="makeorder_submit_box">
         <button class="makeorderBtn btn btn-lg btn-warning">提交订单</button>
     </div>
 </footer>
 </div>
+
+<!--添加新地址模态框-->
+<div class="modal fade" id="edit-address-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+            <h4 class="modal-title">新增/编辑 收货地址</h4>
+        </div>
+        <div class="modal-body">
+        <div class="address-edit-form">
+          <form class="form-horizontal" data-type="addaddress">
+          <input type="hidden" name="id" value="{$address.id}">
+            <div class="form-group">
+              <label for="" class="col-sm-2">收货人</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="name" placeholder="输入收货人姓名" value="{$address.name}">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="" class="col-sm-2">手机</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="phone" placeholder="收货人手机号码" value="{$address.phone}">
+              </div>
+            </div>
+            <div class="form-group position">
+              <label for="" class="col-sm-2">所在地区</label>
+              <div class="col-sm-10">
+                {:hook('J_China_City',array('province'=>$address['province'],'city'=>$address['city'],'district'=>$address['district'],'community'=>$address['community']))}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="" class="col-sm-2">详细地址</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="address" placeholder="详细的收货地址" value="{$address.address}">
+              </div>
+            </div>
+            <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-default">确 认</button>
+            </div>
+          </div>
+          </form>
+        </div>
+        </div>
+    </div>
+  </div>
+</div>
+<!--添加新地址模态框END-->
+</block>
+<block name="script">
 <script>
-    //var product_data = <php>echo json_encode($product)</php>;
-    $(function(){
-        var cart_id = '{$cart_id}';
-        //收货地址选择
-        $('.address-section').click(function(){
-            $('.address-section .title').removeClass('selected');
-            $(this).find('.title').addClass('selected');
-            confirmAddress('.address-section','.makeorder_address_box');
-        });
-        $('.address-section .title:first').trigger("click");
-
-        /*支付方式选择*/
-        $('.pay-type').click(function(){
-            var _this = $(this);
-            $('.pay-type').removeClass('selected');
-            _this.addClass('selected');
-        });
-
-        /*优惠卷选择*/
-        $('.coupon-list-box').click(function(){
-            var _this = $(this);
-            $('.coupon-list-box.selected').removeClass('selected');
-            _this.addClass('selected');
-        });
-        /*确认下单,下单完清除优惠券信息*/
-        $(".makeorderBtn").click(function () {
-            var address_id = $('.address-section .title.selected').data('id');//
-            if(!address_id){
-                toast.error('收货地址未选择', '温馨提示');
-                return
-            }
-            var delivery_fee = $('.delivery-section').data('value');
-            var payType = $('.pay-type.selected').data('id');
-            var data = {
-                    address_id:address_id,
-                    delivery_fee:delivery_fee,//不传就包邮
-                    pay_type:payType,
-                    info:{
-                        remark:$('.remark-input').val()
-                    }
-            };
-            
-            if(cart_id){
-                /*购物车*/
-                data['cart_id'] = cart_id;
-            }else{
-                /*立即购买*/
-                var products = {
-                    "0":{
-                        sku_id:'{$product["id"]};{$product["sku"]}',
-                        quantity:'{$product["sku_quantity"]}',
-                    }
-                };
-                data['products'] = products;
-            }
-            /*优惠券*/
-            //if(coupon_data){
-            //    data['coupon_id'] = coupon_data['id'];
-            //}
-            $.post('{:U("wshop/order/makeorder")}',data,function (ret) {
-                    //ret = JSON.parse(ret);
-                if(ret.status==1){
-                    toast.success(ret.info, '温馨提示');
-                    //window.location.replace('/index.php/wshop/index/jsApiPay/order_id/'+ret.info);
-                }else{
-                    toast.error(ret.info, '温馨提示');
-                    setTimeout(function () {
-                    },1000);
-                }
-            })
-        });
-        $('#real-pay').text(countPrice($('#real-pay')).toFixed(2));//自调用初始化一次
-
-
-        //最终确认地址显示
-        function confirmAddress(oldEle,newEle){
-            var oBox = $(oldEle).find('.selected').parents('.address-section');
-            //获取寄送地址信息
-            var address = $.trim($(oBox).find('.info').text());
-            var user = $.trim($(oBox).find('.title').text());
-            var confirmAddress = '<span>寄送至：'+address+'</span><span>收件人：'+user+'</span>';
-            $(newEle).html(confirmAddress);
+(function($){
+    loadAddressData();
+  $('form[data-type="addaddress"]').submit(function () {
+      toast.showLoading();
+      var self = $(this);
+      $.post('/wshop/user/address/action/edit.html', self.serialize(), callback, "json");
+      toast.hideLoading();
+      return false;
+  });
+  
+  function callback(data) {
+    if (data.status) {
+        toast.success(data.info, '温馨提示');
+            $('[data-dismiss="modal"]').trigger('click');
+            loadAddressData();
+    }else{
+        toast.error(data.info, '温馨提示');
+    }
+  }
+  //重新加载用户收货地址列表
+  function loadAddressData(){
+    //toast.showLoading();
+    $.get('{:U("api/address")}','', function(data){
+        if(data.status){
+            var list = data.data;
+            var _html='';
+            $.each(list,function(index,value){
+                _html +='<div class="address-box" data-id="'+value.id+'">'+
+                '<div class="address-info" data-type="address">'+
+                    '<span class="title" data-id="'+value.id+'">'+
+                        '<span class="address-user">'+value.name+'</span>'+' '+value.phone+'<i></i>'+
+                    '</span>'+
+                    '<span class="info">'+value.province+' '+value.city+' '+value.district+' '+value.address+'</span>'+
+                    '</div>'+
+                '</div>';
+            });
+            $('.address-main .address-list').html(_html);
+            $('.address-box .title:first').trigger("click");
+        }else{
+            toast.error(data.info, '温馨提示');
         }
-
-        /*付款数整合计算*/
-        function countPrice(ele){
-            var base_price = parseFloat(ele.data('price'));
-            if(!base_price){return NaN}
-            /*折扣先算*/
-            var discount_price = parseFloat(ele.data('discount'));
-            if(discount_price){
-                base_price*=discount_price
-            }
-            /*加减类优惠券*/
-            var coupon_price = parseFloat(ele.data('coupon'));
-            if(coupon_price){
-                base_price-=coupon_price
-            }
-            /*最后算邮费*/
-            /*邮费*/
-            var delivery_price = parseFloat(ele.data('delivery'));
-            if(delivery_price){
-                base_price+=delivery_price
-            }
-            return Math.max(0,base_price);
-        }
-    });
-
+    }, "json");
+    //toast.hideLoading();
+  }
+})(jQuery);
 
 $(function(){
+    //收货地址选择
+    var delivery_id = {$delivery_id};
+    var real_quantity = {$real_quantity};
+    $('.address-list').on('click','.address-box',function(){
+        $('.address-box .title').removeClass('selected');
+        $(this).find('.title').addClass('selected');
+        var areaid = $(this).data('id');
+        confirmAddress('.address-box','.makeorder_address_box');
+        delivery_fee(delivery_id,areaid,real_quantity,'express',function(){
+            //总价格修改
+            var tPrice = totalPrice();
+            $('span[data-type="total_price"]').attr('data-value',tPrice).text(tPrice);
+        });
+    });
+    //获取运费价格
+    function delivery_fee(id,areaid,quantity,express,callback){
+        var data={
+            "id":id,
+            "areaid":areaid,
+            "quantity":quantity,
+            "express":express
+        }
 
-        
+        $.get('{:U("wshop/api/delivery")}',data,function(ret){
+            if(ret.status==1){
+                var delivery_fee = ret['data']['delivery_fee'];
+                $('#freightPriceId i').text(delivery_fee);
+                callback();
+            }
+        });
+    }
+
+    //最终确认地址显示
+    function confirmAddress(oldEle,newEle){
+        var oBox = $(oldEle).find('.selected').parents('.address-box');
+        //获取寄送地址信息
+        var address = $.trim($(oBox).find('.info').text());
+        var user = $.trim($(oBox).find('.title').text());
+        var confirmAddress = '<span>寄送至：'+address+'</span><span>收件人：'+user+'</span>';
+        $(newEle).html(confirmAddress);
+    }
+
+    //收起展开收货地址
+    $('.more-address').on('click',function(){
+        if($('.address-list').hasClass('in')){
+            $('.address-list').removeClass('in');
+            $(this).find('span:first').text('更多地址');
+            $(this).find('span:eq(1)').html('<i class="icon icon-double-angle-down"></i>');
+        }else{
+            $('.address-list').addClass('in');
+            $(this).find('span:first').text('收起地址');
+            $(this).find('span:eq(1)').html('<i class="icon icon-double-angle-up"></i>');
+        };
+    })
 });
-    
 
+$(function(){
+    /*支付方式选择*/
+    $('.pay-type').click(function(){
+        var _this = $(this);
+        $('.pay-type').removeClass('selected');
+        _this.addClass('selected');
+        if(_this.data('id')==10){
+            $('.inline-pay-type').removeClass('hidden');
+            $('.inline-pay-type').addClass('display');
+        }else{
+            $('.inline-pay-type').removeClass('display');
+            $('.inline-pay-type').addClass('hidden');
+        }
+    });
+    //模拟一次点击
+    $('.pay-section .pay-type:first').trigger("click");
+});
+
+$(function(){
+    /*优惠券展开收起*/
+    $('.coupon-section h3 span').on('click',function(e){
+        e.stopPropagation();
+        var couponMain = $('.coupon-main');
+        if(couponMain.hasClass('hidden')){
+            couponMain.removeClass('hidden');
+            couponMain.addClass('display');
+        }else{
+            couponMain.addClass('hidden');
+            couponMain.removeClass('display');
+        }
+    });
+    /*优惠卷选择*/
+    $('.coupon-list-box').click(function(){
+        var _this = $(this);
+        $('.coupon-list-box.selected').removeClass('selected');
+        _this.addClass('selected');
+        cachBack();
+        var tPrice = totalPrice();
+        $('span[data-type="total_price"]').attr('data-value',tPrice).text(tPrice);
+        //var data = {
+        //    id:$(this).data('id')
+        //};
+        //$.get('{:U("wshop/api/coupon")}',data,function(ret){
+        //    if(ret.status==1){
+        //        $('#cachBackId i').text(ret.data.info.rule.discount);
+        //        var tPrice = totalPrice();
+        //        $('span[data-type="total_price"]').attr('data-value',tPrice).text(tPrice);
+        //    }
+        //});
+    });
+});
+
+//抵用积分选择与计算
+$(function(){
+    $(".panel-body input").bind('input propertychange',function(){
+        var num = $(this).val();
+        var exchange = $(this).data('exchange');
+        var queryprice = num/exchange;
+        $(this).parent().parent().find('.return').text(queryprice);
+        //console.log($(this).val());
+        cachBack();
+        var tPrice = totalPrice();
+        $('span[data-type="total_price"]').attr('data-value',tPrice).text(tPrice);
+        //可使用总数量
+        var ableScoreNum = tPrice*exchange;
+        console.log(ableScoreNum);
+        $(this).parent().parent().find('.ableScoreNum').text(ableScoreNum);
+    });
+});
+//计算返现总金额
+function cachBack(){
+    var cachBackPrice = 0; //初始化总优惠价
+    var couponPrice=0; //选中的优惠卷的价格
+    //优惠券使用的价格
+    if($('.coupon-list-box.selected').data('value')){
+        couponPrice = parseFloat($('.coupon-list-box.selected').data('value'));
+    }
+    //积分抵用的价格
+    var scoreReturn = $(".panel-body .return");
+    var scoreTotal=0; //积分抵用总额初始化
+    scoreReturn.each(function(){
+        scoreTotal += parseFloat($(this).text());
+    });
+
+    cachBackPrice=couponPrice+parseFloat(scoreTotal);
+    
+    $('#cachBackId i').text(cachBackPrice);
+    return cachBackPrice;
+}
+//确认下单
+$(function(){
+    var delivery_id = {$delivery_id};
+    //$('#real-pay').text(countPrice($('#real-pay')).toFixed(2));
+    /*确认下单,下单完清除优惠券信息*/
+    $(".makeorderBtn").click(function () {
+        var address_id = $('.address-section .title.selected').data('id');//
+        if(!address_id){
+            toast.error('收货地址未选择', '温馨提示');
+            return
+        }
+        var payType = $('.pay-type.selected').data('id');
+        var coupon_id = $('.coupon-list-box.selected').data('id');
+        //获取组装积分使用数据
+        var use_point={};
+        var scoreele = $('[data-type="score"] input');
+        scoreele.each(function(){
+            var scoreId = $(this).data('id');
+            if(scoreId){
+                use_point['score'+scoreId] = $(this).val();
+            }
+        });
+        //提交的通用数据
+        var data = {
+                address_id:address_id,
+                pay_type:payType,
+                delivery_id:delivery_id,
+                use_point:use_point,
+                coupon_id:coupon_id,
+                info:{
+                    remark:$('.remark-input').val()
+                }
+        };
+        var cart_id = $('[data-type="cart_id"]').data('value');
+        if(cart_id){
+            /*购物车*/
+            data['cart_id'] = cart_id;
+        }else{
+            /*立即购买*/
+            var sku_id = $('[data-type="product_skuid"]').data('value');
+            var quantity = $('[data-type="product_quantity"]').data('value');
+            var products = {
+                "0":{
+                    sku_id:sku_id,
+                    quantity:quantity,
+                }
+            };
+            data['products'] = products;
+        }
+        /*优惠券*/
+        
+        $.post('{:U("wshop/order/makeorder")}',data,function (ret) {
+                //ret = JSON.parse(ret);
+            if(ret.status==1){
+                toast.success(ret.info, '温馨提示');
+                //window.location.replace('/index.php/wshop/index/jsApiPay/order_id/'+ret.info);
+            }else{
+                toast.error(ret.info, '温馨提示');
+                setTimeout(function () {
+                },1000);
+            }
+        })
+    });
+});
+
+/*总付款数整合计算*/
+function totalPrice(){
+    var totalPrice = parseFloat($('#warePriceId i').text());
+    var cachBackId = parseFloat($('#cachBackId i').text());
+    var freightPriceId = parseFloat($('#freightPriceId i').text());
+
+    totalPrice = totalPrice-cachBackId+freightPriceId;
+    if(totalPrice<=0){
+        return 0.00;
+    }else{
+        return totalPrice.toFixed(2);
+    }
+}
 </script>
 </block>

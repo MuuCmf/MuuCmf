@@ -70,5 +70,18 @@ class PingpayModel extends Model{
         $config = load_config($path);
         return $config[$channel];
     }
+    /**
+     * 更加积分id获取积分兑换比例,如果不填默认1：1
+     * @param  [type] $scoreid [description]
+     * @return [type]          [description]
+     */
+    public function getScoreExchangebyid($scoreid){
+        $ret = modC('PINGPAY_CONFIG_EXCHANGE_'.$scoreid,'','Pingpay');
+        if($ret){
+            return $ret;
+        }else{
+            return 1;
+        }
+    }
 
 }

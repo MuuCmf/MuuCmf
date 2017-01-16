@@ -13,13 +13,14 @@
 				    <h2>订单已提交，请尽快完成付款</h2>
 				</div>
 				<div class="pay_box_body">
-					<h4>支付金额</h4>
-				    <p>￥{$ch_y}</p>
-				    <hr>
 				    <h4>商品信息</h4>
 				    <p>{$ch.subject}</p>
 				    <p>{$ch.body}</p>
 				    <hr>
+				    <h4>数量</h4>
+				    <p>{$order.quantity}</p>
+				    <h4>支付金额</h4>
+				    <p>￥{$ch_y}</p>
 				    <h4>支付方式</h4>
 				    
 				    <div class="paychannel"><img src='__IMG__/{$channel.icon}' /> {$channel.stitle} </div>

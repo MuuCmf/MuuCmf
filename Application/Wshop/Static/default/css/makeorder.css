@@ -4,18 +4,36 @@
     padding:10px;
     margin-bottom: 10px;
 }
-.address-section {
-    
-
+.address-section h3 a.edit-address{
+    font-size:12px;
+    font-weight: 200;
+    color:#F1A325;
 }
-.address-section .address-info {
-    margin:5px;
+.address-section .more-address {
+    margin:5px 0;
+    cursor:pointer;
 }
-.address-section .address-info.selected {
+.address-section .address-list {
+    height:50px;
+    overflow:hidden;
+}
+.address-section .address-list.in {
+    height:auto;
+}
+.address-section .more-address:hover {
+    color:#F1A325;
+}
+.address-box .address-info {
+    margin:5px 0;
+}
+.address-box .address-info:hover {
+    background:#FFF0D5;
+}
+.address-box .address-info.selected {
     border: 2px solid #e4393c;
     line-height: 38px;
 }
-.address-section .address-info .title{
+.address-box .address-info .title{
     position: relative;
     display: block;
     width:150px;
@@ -25,12 +43,13 @@
     line-height: 38px;
     text-align: center;
     cursor:pointer;
+    background:#fff;
 }
-.address-section .address-info .title.selected {
+.address-box .address-info .title.selected {
     border: 2px solid #e4393c;
     line-height: 38px;
 }
-.address-section .address-info .title i {
+.address-box .address-info .title i {
     position: absolute;
     width: 10px;
     height: 10px;
@@ -42,14 +61,20 @@
     z-index: 99;
     display: none;
 }
-.address-section .address-info .title.selected i {
+.address-box .address-info .title.selected i {
     display:block;
 }
-.address-section .address-info .info{
+.address-box .address-info .info{
     display: block;
     height:40px;
     line-height: 40px;
     margin-left:160px;
+}
+.address-edit-form .position select {
+    width: auto;
+    float: left;
+    max-width: 120px;
+    margin-right: 10px;
 }
 .pay-section .linear-input {
     position:relative;
@@ -82,10 +107,18 @@
 .pay-section .linear-input.selected i {
     display:block;
 }
+.pay-section .inline-pay-type {
+
+}
+
 .good-section{
     position: relative;
     min-height: 7.1rem;
 }
+.good-section .good-list-box {
+    margin:5px 0;
+}
+
 .good-section-left{
     float:left;
     width:100px;
@@ -93,6 +126,7 @@
 .good-section-img{
     width: 100px;
     height: 100px;
+    border:1px solid #ddd;
 }
 .good-section-right{
     padding:0.834rem;
@@ -103,6 +137,14 @@
 }
 .good-status-text{
     float: left;
+}
+/*优惠抵用区*/
+.coupon-section h3 span{
+    cursor:pointer;
+}
+.coupon-section .panel-body span {
+    display:inline-block;
+    color:#666;
 }
 
 .order-summary .list {

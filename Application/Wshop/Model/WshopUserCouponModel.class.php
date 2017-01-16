@@ -80,8 +80,12 @@ class WshopUserCouponModel extends Model{
 
 	public function get_user_coupon_by_id($id)
 	{
-		$ret = $this->where('id='.$id)->find($id);
-		$ret = $this->func_get_user_coupon($ret);
+		$map['id']=$id;
+		$map['user_id']=is_login();
+		$ret = $this->where($map)->find();
+		if($ret){
+			$ret['info'] = json_decode($ret['info'], true);
+		}
 		return $ret;
 	}
 
@@ -94,15 +98,11 @@ class WshopUserCouponModel extends Model{
 		{
 			$item['out_limit_price'] = true;
 		}
-		if( empty($item['order_id']) && $item['expire_time']!=0 && $item['expire_time']<time())
-		{
+		if( empty($item['order_id']) && $item['expire_time']!=0 && $item['expire_time']<time()){
 			$item['status'] = 2;
-		}
-		else
-		{
+		}else{
 			$item['status'] = (empty($item['order_id'])?0:1);
 		}
-
 	}
 
 }

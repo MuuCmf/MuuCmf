@@ -138,7 +138,6 @@ class IndexController extends BaseController {
 			$product['ori_price'] = sprintf("%.2f",$product['ori_price']/100);
 		}
 
-
 		$product_sku = json_encode($product['sku_table']);
 		//dump($product);exit;
 		$this->assign('product',$product);

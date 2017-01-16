@@ -20,7 +20,6 @@ class WshopUserAddressModel extends Model{
 	protected $_auto = array(
 		array('modify_time', NOW_TIME, 3),
 		array('status', '1', self::MODEL_INSERT),
-//		array('parent_id', '0', self::MODEL_INSERT),
 	);
 
 	public function add_or_edit_user_address($user_address)

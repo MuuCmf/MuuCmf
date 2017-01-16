@@ -32,51 +32,46 @@ function _initialize()
 	{
 		$this->init_user();
 		if (IS_POST){
-			$products = I('post.products');
-			$cart_id = I('cart_id','','text');
-			//todo 也可以通过购物车id来取, 下单完成后可以清除下购物车
+			$products = I('post.products','','text');
+			$cart_id = I('post.cart_id','','text');
+			$address_id = I('post.address_id',0,'intval');
+			$delivery_id = I('post.delivery_id',0,'intval');
+			$use_point = I('post.use_point','','text');
 			//购物车 cart_id = array(1,2,3)
 			if ($cart_id){
 				$products = $this->cart_model->get_shop_cart_by_ids($cart_id, $this->uid);
 			}
-
-			foreach ($products as $k => $p)
-			{
-				if (!is_string($p['sku_id']) || !is_numeric($p['quantity'])){
+			//直接购买
+			if($products){
+				if (!is_string($products[0]['sku_id']) || !is_numeric($products[0]['quantity'])){
 					$this->error('参数错误');
 				}
-				$products[$k] = array(
-					'sku_id'   => $products[$k]['sku_id'],
-					'quantity' => $products[$k]['quantity']);
+				$products = $products;
 			}
-			$order['user_id'] = $this->uid;
-			$order['order_no'] = date('YmdHis').rand(100000, 999999);//自动生成商家唯一订单号
-			$order['products'] = $products;
-
-			//收货地址, 虚拟物品不要收货地址
-			if (isset($_REQUEST['address_id'])){
-				if (!($aid = I('address_id', false, 'intval')) || !($address = $this->user_address_model->get_user_address_by_id($aid))){
+			//收货地址
+			if ($address_id){
+				$address = $this->user_address_model->get_user_address_by_id($address_id);
+				if(!$address){
 					$this->error('地址参数错误');
+				}else{
+				//运送方式 express, ems, mail, self, virtual 暂时只支持普通快递，将express写死到变量中
+				$address['delivery'] = 'express';
 				}
-			}else{
-				$address['name'] = I('name','','text');
-				$address['phone']  = preg_match('/^([0-9\-\+]{3,16})$/',I('phone', '', 'text'),$ret)?'':$ret[0];
-				$address['province'] = I('province','','text');
-				$address['city'] = I('city','','text');
-				$address['district'] = I('district','','text');
-				$address['address'] = I('address','','text');
 			}
-			//运送方式 express, ems, mail, self, virtual
-			$address['delivery'] = I('delivery','','text');
-
+			//组装要提交的数据
+			$order['delivery_id'] = $delivery_id;
+			//用户地址
 			$order['address'] = $address;
-			//邮费价格
-			$order['delivery_fee'] = I('delivery_fee','','intval');
+			//商品信息
+			$order['products'] = $products;
+			//支付方式获取
+			$order['pay_type'] = I('post.pay_type',0,'intval');
 			//使用优惠劵
 			$order['coupon_id'] = I('coupon_id', '', 'intval');
+			//使用的积分抵用数据
+			$order['use_point'] = $use_point;
 			//留言 发票 提货时间 等其他信息
 			$order['info'] = I('info', '', 'text');
-			//dump($order);exit;
 			//增加下单后的钩子
 			\Think\Hook::add('AfterMakeOrder', '\Wshop\Logic\WshopOrderLogic');
 			$ret = $this->order_logic->make_order($order);
@@ -89,7 +84,7 @@ function _initialize()
 			//购物车提交
 			$cart_id = I('cart_id','','text');
 			//直接购买
-			$id = I('id','','intval');
+			$id = I('id',0,'intval');
 			$quantity =I('quantity',0,'intval');
 			$sku = I('sku','','text');
 			//初始化总价格为0
@@ -151,6 +146,23 @@ function _initialize()
 		            $val['info']['rule']['discount'] = sprintf("%01.2f", $val['info']['rule']['discount']/100);
 		    }
 		    unset($val);
+		    //允许抵用消费的积分类型
+		    //允许充值的积分类型
+            $able_score=modC('WSHOP_SHOW_SCORE','','Wshop');
+            $able_score = explode(',',$able_score);
+            $score_ids = array();
+            foreach($able_score as $val){
+                $score_ids[] = substr($val,-1);
+            }
+            $map['id'] = array('in',$score_ids);
+            $map['status'] = 1;
+            $score_list = D('Ucenter/Score')->getTypeList($map);
+            foreach($score_list as &$val){
+            	$val['exchange'] = D('Pingpay/Pingpay')->getScoreExchangebyid($val['id']);
+            	$val['quantity'] = D('Ucenter/Score')->getUserScore($this->uid, $val['id']);
+            }
+            unset($val);
+            //dump($score_list);exit;
 		    //获取收货地址列表
 			list($listAddress,$totalCount) = $this->user_address_model->get_user_address_list($this->uid);
 			foreach($listAddress as &$val){
@@ -159,20 +171,20 @@ function _initialize()
 		            $val['district'] = D('district')->where(array('id' => $val['district']))->getField('name');
 			}
 			unset($val);
+			//获取运费价格
 			//$delivery_id值为空即包邮
 			if(!empty($product)){
 		        $real_price =  $product['total_price'];//获取商品总价格
 		        $real_quantity = $quantity; //获取商品总数量
 		        $delivery_id = $product['delivery_id'];//获取配送方式及运费ID
-		        $way = 'product';
 		    }
 		    if(!empty($cart_list_products)){
 		        $real_price =  $real_price;//获取商品总价格
 		        $real_quantity = $real_quantity;//获取商品总数量
 		        $delivery_id = $delivery_id;//获取配送方式及运费ID
-		        $way = 'cart';
 		    }
 		    
+		    $this->assign('score_list',$score_list);//允许抵用的积分类型
 			$this->assign('delivery_id', $delivery_id);
 			$this->assign('product', $product);
 			$this->assign('cart_list_products', $cart_list_products);

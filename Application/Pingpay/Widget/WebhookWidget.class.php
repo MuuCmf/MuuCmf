@@ -9,7 +9,6 @@ use Think\Controller;
 
 class WebhookWidget extends Controller{
 	
-	/* 显示指定分类的同级分类或子分类列表 */
 	public function charge($data){
 		$id = $data['id'];
         $moduleName = $data['metadata']['module'];//支付的模块
@@ -28,8 +27,8 @@ class WebhookWidget extends Controller{
                         $amount = $amount/100;
                         $type['id'] = $score_id;
         				$scoreType = D('Ucenter/Score')->getType($type);//根据ID获取积分类型详细
-                        $remark = '在线充值'.$scoreType['title'].'：+'.$amount.$scoreType['unit'];
-        				$ress = D('Ucenter/Score')->setUserScore($order['uid'],$amount,$score_id,'inc','Pingpay',0,$remark);//增加积分
+                        $remark = '在线充值'.$scoreType['title'].'：+'.$order['quantity'].$scoreType['unit'];
+        				$ress = D('Ucenter/Score')->setUserScore($order['uid'],$order['quantity'],$score_id,'inc','Pingpay',0,$remark);//增加积分
         				if($ress){
         					echo '积分调整成功';
         					http_response_code(200); // PHP 5.4 or greater
@@ -44,20 +43,6 @@ class WebhookWidget extends Controller{
             }
 
 	}
-	/**
-     * 订单成功后增加积分
-     * @param  [type] $id [ping++订单id]
-     * @param  [type] $score_id [积分类型id]
-     * @return [type] $amount   [支付金额]
-     */
-    private function scoreAdd($id,$score_id,$amount)
-    {
-        $type['id'] = $score_id;
-        $scoreType = D('Ucenter/Score')->getType($type);//根据ID获取积分类型详细
-        $score_num = $amount/100;
-
-        $remark = '在线充值'.$scoreType['title'].'：+'.$score_num.$scoreType['unit'];
-        $res = D('Ucenter/Score')->setUserScore($res['uid'], $score_num,$score_id,'inc','Pingpay',0,$remark);//增加积分
-    }
+	
 	
 }
