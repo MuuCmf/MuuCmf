@@ -188,17 +188,19 @@
         </div>
     </section>
 </div>
+</div>
 <footer class="btn-footer common_box margin-top-10">
-    <div class="makeorder_fee_box">
-        <span>应付总额：￥<span class="real-pay" data-type="total_price" data-value="{$real_price}"></span></span>
-    </div>
-    <div class="makeorder_address_box">
-    </div>
-    <div class="makeorder_submit_box">
-        <button class="makeorderBtn btn btn-lg btn-warning">提交订单</button>
+    <div class="container">
+        <div class="makeorder_fee_box">
+            <span>应付总额：￥<span class="real-pay" data-type="total_price" data-value="{$real_price}"></span></span>
+        </div>
+        <div class="makeorder_address_box">
+        </div>
+        <div class="makeorder_submit_box">
+            <button class="makeorderBtn btn btn-lg btn-warning">提交订单</button>
+        </div>
     </div>
 </footer>
-</div>
 
 <!--添加新地址模态框-->
 <div class="modal fade" id="edit-address-modal">
@@ -424,13 +426,13 @@ $(function(){
                 num = 0;
             }
             //求最终可以使用的积分数
-            if(totalQuantity>ableScoreNum){
+            if(totalQuantity-num>ableScoreNum){
                 ableScoreNum=ableScoreNum;
             }else{
                 ableScoreNum = totalQuantity-num;
             }
             //写入还可以使用的积分数
-            _this.find('.ableScoreNum').text(ableScoreNum);
+            _this.find('.ableScoreNum').text(parseInt(ableScoreNum));
             //console.log('score:'+ableScoreNum);
         });
     };
@@ -451,40 +453,53 @@ $(function(){
         if(isNaN(num)){
             num=0;
         }
-        if(totalPrice()==0){
-            $(this).val(0);
-            num=0;
-        }
-        if(num>trueTotalPrice*exchange){
-            num=trueTotalPrice*exchange;
-        }
+        //if(totalPrice()==0){
+        //    $(this).val(0);
+         //   num=0;
+        //}
         //超过该积分总数设置为总数
         var totalQuantity = parseInt($(this).parent().parent().find('[data-type="quantity"]').text());
-        if(num>totalQuantity){
+        if(num>parseFloat(totalQuantity)){
             $(this).val(totalQuantity);
-            num = totalQuantity;
+            //num = totalQuantity;
         }
+        console.log('总积分：'+totalQuantity+'|输入值:'+num);
         //总金额减去同级元素抵用金额乘以兑换比例之和
         //获取同级元素之和即已抵用的金额
-        //计算该积分可用的总数
+        //计算该积分还可用的总数
+        var otherInput = $(this).parents().siblings('[data-type="score"]');
+        var otherScoreTotal = 0;
+        otherInput.each(function(){
+            var _tmpNum = $(this).find('input').val();
+            if(_tmpNum==''){
+                _tmpNum=0;
+            }
+            //var _tmpPrice = _tmpNum/_tmpExchange;
+            var _tmpExchange = $(this).find('input').data('exchange');
+            var _tmpThisScoreTotal = _tmpNum/_tmpExchange;//该积分已抵用的金额
+            otherScoreTotal += _tmpThisScoreTotal;
+        });
         
-        
-        ////if(num>trueTotalPrice-num*exchange){
-            //$(this).val(trueTotalPrice-num*exchange);
-        //}
-        //if(num>total){
-        //    $(this).val(initializeNum);
-        //}
-        
+        var thisAbleScore = trueTotalPrice-otherScoreTotal;//该积分可使用的积分抵用总金额数
+        thisAbleScore = thisAbleScore*exchange;//转成可使用的总积分数
+        if(thisAbleScore>totalQuantity){
+            thisAbleScore=totalQuantity;
+        }
+
+        if(parseFloat(num)>parseFloat(thisAbleScore)){
+            //输入值超出可用积分数后设置为可用积分数
+            $(this).val(parseInt(thisAbleScore));
+            num = thisAbleScore;
+        }
+        console.log(thisAbleScore);
         //抵用金额
         var queryprice = num/exchange;
-        $(this).parent().parent().find('.return').text(queryprice);
+        $(this).parent().parent().find('.return').text(queryprice.toFixed(2));
         cachBack();//计算返现总金额
-        //if(queryprice>=trueTotalPrice*exchange){
-        //    $(this).val(trueTotalPrice*exchange);
-        //}
-        ableScoreMore();//重载各积分可使用数量
-        cachBack();//计算返现总金额
+
+        //重载各积分可使用数量
+        ableScoreMore();
+        //cachBack();//计算返现总金额
         //重新计算并写入订单总金额
         $('span[data-type="total_price"]').attr('data-value',totalPrice()).text(totalPrice());
     });

@@ -162,7 +162,11 @@
 
 
 .btn-footer {
+    position:fixed;
+    width:100%;
+    bottom:0;
     border-top:2px solid #ddd;
+    z-index: 99999;
 }
 .btn-footer .makeorder_fee_box {
     text-align: right;
