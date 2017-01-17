@@ -183,6 +183,7 @@ function _initialize()
 		        $real_quantity = $real_quantity;//获取商品总数量
 		        $delivery_id = $delivery_id;//获取配送方式及运费ID
 		    }
+		    $real_price = sprintf("%01.2f", $real_price);
 		    
 		    $this->assign('score_list',$score_list);//允许抵用的积分类型
 			$this->assign('delivery_id', $delivery_id);
