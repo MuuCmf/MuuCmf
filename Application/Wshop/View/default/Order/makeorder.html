@@ -310,6 +310,7 @@ $(function(){
             //总价格修改
             var tPrice = totalPrice();
             $('span[data-type="total_price"]').attr('data-value',tPrice).text(tPrice);
+            ableScoreMore();//执行积分抵用默认值
         });
     });
     //获取运费价格
@@ -405,10 +406,39 @@ $(function(){
         //});
     });
 });
+    //默认载入可用积分数量
+    var ableScoreMore = function(){
+        var scoreEle = $('[data-type="score"]');
+        scoreEle.each(function(){
+            var _this = $(this);
+            //积分总数量
+            var totalQuantity = _this.find('[data-type="quantity"]').text();
+            var exchange = _this.find('[data-exchange]').data('exchange');
+            
+            //初始载入时可用的积分数量
+            var initializeNum;
+            var ableScoreNum = initializeNum = totalPrice()*exchange;
+            //已输入的积分数量
+            var num = parseInt(_this.find('input').val());
+            if(num=='' || isNaN(num)){
+                num = 0;
+            }
+            //求最终可以使用的积分数
+            if(totalQuantity>ableScoreNum){
+                ableScoreNum=ableScoreNum;
+            }else{
+                ableScoreNum = totalQuantity-num;
+            }
+            //写入还可以使用的积分数
+            _this.find('.ableScoreNum').text(ableScoreNum);
+            //console.log('score:'+ableScoreNum);
+        });
+    };
 
-//抵用积分选择与计算
 $(function(){
+    //写入积分数量事件
     $(".panel-body input").bind('input propertychange',function(){
+        var _this = $(this);
         var productPrice = $('#warePriceId i').text();
         var deliveryPrice = $('#freightPriceId i').text();
         var trueTotalPrice = parseInt(productPrice)+parseInt(deliveryPrice);
@@ -428,29 +458,34 @@ $(function(){
         if(num>trueTotalPrice*exchange){
             num=trueTotalPrice*exchange;
         }
-
-        
-        //超过某积分总数设置为总数
+        //超过该积分总数设置为总数
         var totalQuantity = parseInt($(this).parent().parent().find('[data-type="quantity"]').text());
         if(num>totalQuantity){
             $(this).val(totalQuantity);
             num = totalQuantity;
         }
+        //总金额减去同级元素抵用金额乘以兑换比例之和
+        //获取同级元素之和即已抵用的金额
+        //计算该积分可用的总数
+        
+        
+        ////if(num>trueTotalPrice-num*exchange){
+            //$(this).val(trueTotalPrice-num*exchange);
+        //}
+        //if(num>total){
+        //    $(this).val(initializeNum);
+        //}
         
         //抵用金额
         var queryprice = num/exchange;
         $(this).parent().parent().find('.return').text(queryprice);
         cachBack();//计算返现总金额
-        //可使用总数量
-        var ableScoreNum = totalPrice()*exchange;
-        $(this).parent().parent().find('.ableScoreNum').text(ableScoreNum);
+        //if(queryprice>=trueTotalPrice*exchange){
+        //    $(this).val(trueTotalPrice*exchange);
+        //}
+        ableScoreMore();//重载各积分可使用数量
         cachBack();//计算返现总金额
-        if(queryprice>=trueTotalPrice*exchange){
-            $(this).val(trueTotalPrice*exchange);
-        }
-        cachBack();//计算返现总金额
-
-        //计算总金额
+        //重新计算并写入订单总金额
         $('span[data-type="total_price"]').attr('data-value',totalPrice()).text(totalPrice());
     });
 });
