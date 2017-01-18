@@ -46,13 +46,6 @@ class IndexController extends BaseController {
 		    } 
 		}
 		$this->assign('cats',$cats);
-		//商城菜单
-		$menu = array(
-			array('title'=>'购物车','link'=>U('Wshop/cart/index'),'tab'=>'cart'),
-			array('title'=>'我的','link'=>U('Wshop/user/index'),'tab'=>'user')
-		);
-		$this->assign('menu',$menu);
-
 	}
 
 	public function index($page = 1, $r = 20)

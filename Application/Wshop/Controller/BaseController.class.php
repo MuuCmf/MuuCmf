@@ -38,6 +38,12 @@ class BaseController extends Controller {
 		);
 		$this->assign('shopConfig',$shopConfig);
 
+		//商城用户菜单
+		$menu = array(
+			array('title'=>'购物车','link'=>U('Wshop/cart/index'),'tab'=>'mycart'),
+		);
+		$this->assign('menu',$menu);
+
 		set_theme();
 	}
 

@@ -1,7 +1,6 @@
 <extend name="Public/base"/>
 
 <block name="body">
-    <script src="__ZUI__/js/zui.min.js"></script>
     <link type="text/css" rel="stylesheet" href="__PUBLIC__/js/ext/magnific/magnific-popup.css"/>
     <script type="text/javascript" charset="utf-8" src="__PUBLIC__/js/ext/webuploader/js/webuploader.js"></script>
     <link href="__PUBLIC__/js/ext/webuploader/css/webuploader.css" type="text/css" rel="stylesheet">
@@ -86,7 +85,7 @@
 
             <ul id="data-table">
                 <volist name="list" id="vo">
-                    <li class="line row">
+                    <li class="line clearfix">
                         <div class="col-xs-2">
                             <span id="web_uploader_wrapper_{$i}">选择图片</span>
                             <input id="web_uploader_input_{$i}" name="pic[]" type="hidden" value="{$vo.pic}"
@@ -97,66 +96,64 @@
                             </div>
                         </div>
                         <div class="col-xs-10">
-                        <div class="row">
-                        <div class="col-xs-2">标题 
-                            <input type="text" name="title[]" value="{$vo.title}"
-                                   class="text input-large form-control" style="width: 100%"/>
-                        </div>
-                        <div class="col-xs-2">Url
-                            <input type="text" name="url[]" value="{$vo.url}"
-                                   class="text input-large form-control" style="width:  100%"/>
-                        </div>
-                        <div class="col-xs-2">生效时间
-                            <input type="hidden" name="start_time[]" value="{$vo.start_time}"/>
+                            <div class="row">
+                            <div class="col-xs-2">标题 
+                                <input type="text" name="title[]" value="{$vo.title}"
+                                       class="text input-large form-control" style="width: 100%"/>
+                            </div>
+                            <div class="col-xs-2">Url
+                                <input type="text" name="url[]" value="{$vo.url}"
+                                       class="text input-large form-control" style="width:  100%"/>
+                            </div>
+                            <div class="col-xs-2">生效时间
+                                <input type="hidden" name="start_time[]" value="{$vo.start_time}"/>
 
-                            <input type="text" data-field-name="start_time"
-                                   class="text input-large form-datetime time form-control"
-                                   style="width: 130px" value="{$vo.start_time|date='Y-m-d H:i',###}"
-                                   placeholder="请选择时间"/>
+                                <input type="text" data-field-name="start_time"
+                                       class="text input-large form-datetime time form-control"
+                                       style="width: 130px" value="{$vo.start_time|date='Y-m-d H:i',###}"
+                                       placeholder="请选择时间"/>
 
-                        </div>
-                        <div class="col-xs-2">失效时间
-                            <input type="hidden" name="end_time[]" value="{$vo.end_time}"/>
-                            <input type="text" data-field-name="end_time"
-                                   class="text input-large form-datetime time form-control"
-                                   style="width: 130px" value="{$vo.end_time|date='Y-m-d H:i',###}"
-                                   placeholder="请选择时间"/>
-                        </div>
-                        <div class="col-xs-2">打开方式
-                            <select id="target_{$vo.id}" name="target[]" class="form-control" style="width: 100%">
-                                <option value="_blank" selected>新窗口:_blank</option>
-                                <option value="_self">当前层:_self</option>
-                                <option value="_parent">父框架:_parent</option>
-                                <option value="_top">整个框架:_top</option>
-                            </select>
-                            <script>
-                                $('#target_{$vo.id}').val("{$vo.target}")
-                            </script>
-                        </div>
+                            </div>
+                            <div class="col-xs-2">失效时间
+                                <input type="hidden" name="end_time[]" value="{$vo.end_time}"/>
+                                <input type="text" data-field-name="end_time"
+                                       class="text input-large form-datetime time form-control"
+                                       style="width: 130px" value="{$vo.end_time|date='Y-m-d H:i',###}"
+                                       placeholder="请选择时间"/>
+                            </div>
+                            <div class="col-xs-2">打开方式
+                                <select id="target_{$vo.id}" name="target[]" class="form-control" style="width: 100%">
+                                    <option value="_blank" selected>新窗口:_blank</option>
+                                    <option value="_self">当前层:_self</option>
+                                    <option value="_parent">父框架:_parent</option>
+                                    <option value="_top">整个框架:_top</option>
+                                </select>
+                                <script>
+                                    $('#target_{$vo.id}').val("{$vo.target}")
+                                </script>
+                            </div>
 
-                        <div class="col-xs-2">
-                            排序
-                            <input type="text" name="sort[]" value="{$vo.sort}"
-                                   class=" text input-large form-control" style="width: 80px"/>
-                        </div>
+                            <div class="col-xs-2">
+                                排序
+                                <input type="text" name="sort[]" value="{$vo.sort}"
+                                       class=" text input-large form-control" style="width: 80px"/>
+                            </div>
 
-                        <div class="col-xs-6"><div>描述</div>
-                            <textarea name="description[]" class="form-control" rows="3" placeholder="广告描述">{$vo.description}</textarea>
-                        </div>
-                        <div class="col-xs-6">
-                        <div class="editBtn">
-                            <a class="btn btn-success btn-xs" onclick="builder.add(this)"><i
-                                    class="icon-plus"></i> 添加</a>
-                            <a class="btn btn-danger btn-xs" onclick="builder.remove(this)"><i
-                                    class="icon-trash"></i> 删除</a>
-                            <a href="javascript:" class="btn btn-warning sort-handle btn-xs"><i class="icon-move"></i>
-                                移动
-                            </a>
-                        </div>
-                        </div>
-
-
-                        </div>
+                            <div class="col-xs-6"><div>描述</div>
+                                <textarea name="description[]" class="form-control" rows="3" placeholder="广告描述">{$vo.description}</textarea>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="editBtn">
+                                    <a class="btn btn-success btn-xs" onclick="builder.add(this)"><i
+                                            class="icon-plus"></i> 添加</a>
+                                    <a class="btn btn-danger btn-xs" onclick="builder.remove(this)"><i
+                                            class="icon-trash"></i> 删除</a>
+                                    <a href="javascript:" class="btn btn-warning sort-handle btn-xs"><i class="icon-move"></i>
+                                        移动
+                                    </a>
+                                </div>
+                            </div>
+                            </div>
                         </div>
                     </li>
                 </volist>
@@ -173,58 +170,71 @@
     </div>
 
     <script id="line-tpl" style="display: none" type="text/html">
-        <li class="line row">
-            <div class="col-xs-2">
-            </div>
-            <div class="col-xs-1">
-                <input type="text" name="title[]" value=""
-                       class="text input-large form-control" style="width: 100%"/>
-            </div>
-            <div class="col-xs-2">
-                <input type="text" name="url[]" value=""
-                       class="text input-large form-control" style="width:  100%"/>
-            </div>
-            <div class="col-xs-1">
-                <php>$start=time();</php>
-                <input type="hidden" name="start_time[]" value="{$start}"/>
+        <li class="line clearfix">
+        <div class="col-xs-2">
+        </div>
+        <div class="col-xs-10">
+            <div class="row">
+                <div class="col-xs-2">标题 
+                    <input type="text" name="title[]" value="{$data.title}"
+                           class="text input-large form-control" style="width: 100%"/>
+                </div>
+                <div class="col-xs-2">Url
+                    <input type="text" name="url[]" value="{$data.url}"
+                           class="text input-large form-control" style="width:  100%"/>
+                </div>
+                <div class="col-xs-2">生效时间
+                    <php>$start=time();</php>
+                    <input type="hidden" name="start_time[]" value="{$start}"/>
 
-                <input type="text" data-field-name="start_time"
-                       class="text input-large form-datetime time form-control"
-                       style="width: 130px" value="{$start|date='Y-m-d H:i',###}"
-                       placeholder="请选择时间"/>
+                    <input type="text" data-field-name="start_time"
+                           class="text input-large form-datetime time form-control"
+                           style="width: 130px" value="{$start|date='Y-m-d H:i',###}"
+                           placeholder="请选择时间"/>
 
-            </div>
-            <div class="col-xs-1">
+                </div>
+
+                <div class="col-xs-2">失效时间
                 <php>$end=time()+7*60*60*24;</php>
-                <input type="hidden" name="end_time[]" value="{$end}"/>
-                <input type="text" data-field-name="end_time"
-                       class="text input-large form-datetime time form-control"
-                       style="width: 130px" value="{$end|date='Y-m-d H:i',###}"
-                       placeholder="请选择时间"/>
-            </div>
-            <div class="col-xs-1">
-                <select name="target[]" class="form-control" style="width: 100%">
-                    <option value="_blank" selected>新窗口:_blank</option>
-                    <option value="_self">当前层:_self</option>
-                    <option value="_parent">父框架:_parent</option>
-                    <option value="_top">整个框架:_top</option>
-                </select>
-            </div>
+                    <input type="hidden" name="end_time[]" value="{$end}"/>
+                    <input type="text" data-field-name="end_time"
+                           class="text input-large form-datetime time form-control"
+                           style="width: 130px" value="{$end|date='Y-m-d H:i',###}"
+                           placeholder="请选择时间"/>
+                </div>
 
-            <div class="col-xs-1">
+                <div class="col-xs-2">打开方式
+                    <select id="target_{$data.id}" name="target[]" class="form-control" style="width: 100%">
+                        <option value="_blank" selected>新窗口:_blank</option>
+                        <option value="_self">当前层:_self</option>
+                        <option value="_parent">父框架:_parent</option>
+                        <option value="_top">整个框架:_top</option>
+                    </select>
 
-                <input type="text" name="sort[]" value="{$data.sort}"
-                       class=" text input-large form-control" style="width: 80px"/>
+                </div>
+
+                <div class="col-xs-2">
+                    排序
+                    <input type="text" name="sort[]" value="{$data.sort}"
+                           class=" text input-large form-control" style="width: 80px"/>
+                </div>
+                <div class="col-xs-6">
+                <div>描述</div>
+                    <textarea name="description[]" class="form-control" rows="3" placeholder="广告描述">{$data.description}</textarea>
+                </div>
+                <div class="col-xs-6">
+                    <div class="editBtn">
+                        <a class="btn btn-success btn-xs" onclick="builder.add(this)"><i
+                                class="icon-plus"></i> 添加</a>
+                        <a class="btn btn-danger btn-xs" onclick="builder.remove(this)"><i
+                                class="icon-trash"></i> 删除</a>
+                        <a href="javascript:" class="btn btn-warning sort-handle btn-xs"><i class="icon-move"></i>
+                            移动
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div class="col-xs-3">
-                <a class="btn btn-success btn-xs" onclick="builder.add(this)"><i
-                        class="icon-plus"></i> 添加</a>
-                <a class="btn btn-danger btn-xs" onclick="builder.remove(this)"><i
-                        class="icon-trash"></i> 删除</a>
-                <a href="javascript:" class="btn btn-warning sort-handle btn-xs"><i class="icon-move"></i>
-                    移动
-                </a>
-            </div>
+        </div>
         </li>
     </script>
 
@@ -232,17 +242,22 @@
     <!-- 分页 -->
     <link href="__ZUI__/lib/datetimepicker/datetimepicker.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="__ZUI__/lib/datetimepicker/datetimepicker.min.js"></script>
+    <script type="text/javascript" src="__ZUI__/lib/droppable/droppable.min.js"></script>
+    <script type="text/javascript" src="__ZUI__/lib/sortable/zui.sortable.min.js"></script>
 
     <script>
+
         var builder = {
             'uploaders': [],
             'index': 1,
             'sortable': function () {
                 $('#data-table').sortable({
-                    trigger: '.sort-handle', selector: 'li', dragCssClass: '', finish: function () {
+                    trigger: '.sort-handle', 
+                    selector: 'li',
+                    dragCssClass: '',
+                    finish: function () {
                         // builder.sortable();
                         builder.refresh_order();
-
                     }
                 });
             },
@@ -264,8 +279,8 @@
             'add': function (obj) {
                 var $this = $(obj);
                 var $html = $($('#line-tpl').html());
-                $html.insertAfter($this.parent().parent());
-                builder.createWebUpload($html, $this.parent().parent());
+                $html.insertAfter($this.parent().parent().parent().parent().parent());
+                builder.createWebUpload($html, $this.parent().parent().parent().parent().parent());
                 initTimePicker();
 
                 builder.sortable();
@@ -274,7 +289,7 @@
 
             },
             'remove': function (obj) {
-                $(obj).parent().parent().remove();
+                $(obj).parent().parent().parent().parent().parent().remove();
                 builder.sortable();
                 builder.refresh_order();
 
@@ -297,7 +312,7 @@
                     // swf文件路径
                     swf: 'Uploader.swf',
                     // 文件接收服务端。
-                    server: U('Core/File/uploadPicture'),
+                    server: U('Home/File/uploadPicture'),
                     fileNumLimit: 5,
                     // 选择文件的按钮。可选。
                     // 内部根据当前运行是创建，可能是input元素，也可能是flash.
@@ -325,7 +340,7 @@
                 builder.uploaders.push(uploader);
             }
         };
-
+        builder.sortable();//默认执行一次
 
         function initTimePicker() {
             $('.form-datetime').datetimepicker({

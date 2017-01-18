@@ -10,6 +10,7 @@ class CartController extends BaseController {
 	{
 		parent::_initialize();
 		$this->cart_model = D('Wshop/WshopCart');
+		parent::init_user();
 
 	}
 
@@ -27,10 +28,25 @@ class CartController extends BaseController {
 		$this->assign('cart', $cart);
 		$this->display();
 	}
+	/**
+	 * ajax获取用户购物车数量
+	 * @return [type] [description]
+	 */
+	public function count(){
+			$totalCount = $this->cart_model->get_shop_cart_count_by_user_id($this->uid);
+			if($totalCount){
+				$result['status']=1;
+				$result['info']='success';
+				$result['data']=$totalCount;
+			}else{
+				$result['status']=0;
+				$result['info']='error';
+			}
+			$this->ajaxReturn($result);
+	}
 
 	public function add_to_cart()
 	{
-		parent::init_user();
 		if (!($shop_cart = $this->cart_model->create())){
 			$this->error($this->cart_model->getError());
 		}
@@ -44,7 +60,6 @@ class CartController extends BaseController {
 	}
 	public function delete_cart()
 	{
-		parent::init_user();
 		$ids = I('ids','');
 		$ret = $this->cart_model->delete_shop_cart($ids, $this->user_id);
 		if ($ret){
@@ -56,7 +71,6 @@ class CartController extends BaseController {
 
 	public function edit_to_cart()
 	{
-		parent::init_user();
 		if(IS_POST){
 			$data = I('post.data','','text');
 			if (!($shop_cart = $this->cart_model->create())){

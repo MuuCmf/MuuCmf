@@ -1,5 +1,4 @@
         <div class="all-cats-list">
-        <div class="item-head">全部分类</div>
             <volist name="cats" id="cats"> 
             <div class="item">
                 <h3>
@@ -17,30 +16,53 @@
                         </volist>
                     </div>
                     <div class="cat-right">
-                        <dl class="categorys-promotions" clstag="homepage|keycount|home2013|0601c">
-                            <dd>
-                            <ul>
-                                <li><a href="#"><img src="images/rBEhWFJTydgIAAAAAAAiD8_1J3AAAD5mAMC0SYAACIn230.jpg" width="194" height="70" title="特价书满减"></a></li>
-                                <li><a href="#"><img src="images/rBEhVlJTyt8IAAAAAAAiq1D-0D8AAD7_gIE2KUAACLD102.jpg" width="194" height="70" title="重磅独家"></a></li>
-                            </ul>
-                            </dd>
-                        </dl>
-                        <dl class="categorys-brands" clstag="homepage|keycount|home2013|0601d">
-                            <dt>推荐品牌出版商</dt>
-                            <dd>
-                            <ul>
-                                <li><a href="#">中华书局</a></li>
-                                <li><a href="#">人民邮电出版社</a></li>
-                                <li><a href="#">上海世纪出版股份有限公司</a></li>
-                                <li><a href="#">电子工业出版社</a></li>
-                                <li><a href="#">三联书店</a></li>
-                                <li><a href="#">浙江少年儿童出版社</a></li>
-                            </ul>
-                            </dd>
-                        </dl>
+
                     </div>
                 </div>
                 </if>
             </div>
             </volist>
         </div>
+
+        <script type="text/javascript">
+        (function($){
+            $('.all-cats-list > .item').hover(function(){
+            var eq = $('.all-cats-list > .item').index(this),               //获取当前滑过是第几个元素
+                h = $('.all-cats-list').offset().top,                       //获取当前下拉菜单距离窗口多少像素
+                s = $(window).scrollTop(),                                  //获取游览器滚动了多少高度
+                i = $(this).offset().top,                                   //当前元素滑过距离窗口多少像素
+                item = $(this).children('.item-list').height(),             //下拉菜单子类内容容器的高度
+                sort = $('.all-cats-list').height();                        //父类分类列表容器的高度
+            
+            if ( item < sort ){                                             //如果子类的高度小于父类的高度
+                if ( eq == 0 ){
+                    $(this).children('.item-list').css('top', (i-h));
+                } else {
+                    $(this).children('.item-list').css('top', (i-h)+1);
+                }
+            } else {
+                if ( s > h ) {                                              //判断子类的显示位置，如果滚动的高度大于所有分类列表容器的高度
+                    if ( i-s > 0 ){                                         //则 继续判断当前滑过容器的位置 是否有一半超出窗口一半在窗口内显示的Bug,
+                        $(this).children('.item-list').css('top', (s-h)+2 );
+                    } else {
+                        $(this).children('.item-list').css('top', (s-h)-(-(i-s))+2 );
+                    }
+                } else {
+                    $(this).children('.item-list').css('top', 3 );
+                }
+            }   
+
+            $(this).addClass('hover');
+            $(this).children('.item-list').css('display','block');
+            },function(){
+                $(this).removeClass('hover');
+                $(this).children('.item-list').css('display','none');
+            });
+
+            $('.item > .item-list > .close').click(function(){
+                $(this).parent().parent().removeClass('hover');
+                $(this).parent().hide();
+            });
+        })(jQuery);
+        
+    </script>

@@ -5,24 +5,64 @@
     <link type="text/css" rel="stylesheet" href="__CSS__/product.css"/>
 </block>
 <block name="body">
-    <div class="wshop_topic">
+    <div class="wshop_topmain">
         <div class="container">
-            <div class="wshop_cats_box">
-                <include file="Public/_cats"/>
+            <div class="wshop_index_topmain">
+                
+                <div class="wshop_main_nav">
+                    <nav class="">
+                      <div class="container-fluid">
+                        <ul class="nav navbar-nav">
+                          <li id="main-cats"><a href="javascript::void(0)">全部分类</a></li>
+                          <li><a href="your/nice/url/2">优惠卷</a></li>
+                        </ul>
+                        <ul class="cart_btn nav navbar-nav navbar-right">
+                            <li data-type="cart_count" data-url="/wshop/cart/count">
+                            <img src="__COMMON__/cart2-2.png" /><a href="{:U('Wshop/Cart/index')}">购物车 <span class="label label-danger cart_count">0</span></a> 
+                            </li>
+                        </ul>
+                        </div>
+                        <!--分类导航-->
+                        <div class="wshop_cats_box hidden">
+                            <include file="Public/_cats"/>
+                        </div>
+                    </nav>
+                    
+                </div>  
             </div>
-            
-            <div class="menu">
-
-            </div>
-            <div class="wshop_my">
-            <ul class="nav nav-primary">
-                <volist name="menu" id="menu">
-                    <li><a href="{$menu.link}">{$menu.title} <span class="label label-badge label-success">4</span></a> </li>
-               </volist>
-            </ul>
-            </div>
-            <div class="pic">
-                轻量级PC+APP+微信商城解决方案
+        </div>
+        <div class="pic">
+            {:W('Common/Adv/render',array(array('name'=>'slider','type'=>2,'width'=>'100%','height'=>'auto','margin'=>'0 0 15px 0','title'=>'首页轮播图','data'=>array('style'=>1))))}
+        </div>
+    </div>
+    <div class="promo-area">
+        <div class="zigzag-bottom"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    <div class="single-promo promo1">
+                        <i class="fa fa-refresh"></i>
+                        <p>30 Days return</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="single-promo promo2">
+                        <i class="fa fa-truck"></i>
+                        <p>Free shipping</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="single-promo promo3">
+                        <i class="fa fa-lock"></i>
+                        <p>Secure payments</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="single-promo promo4">
+                        <i class="fa fa-gift"></i>
+                        <p>New products</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -75,45 +115,38 @@
     </div>
 </block>
 <block name="script">
-<script type="text/javascript">
-        $('.all-cats-list > .item').hover(function(){
-            var eq = $('.all-cats-list > .item').index(this),               //获取当前滑过是第几个元素
-                h = $('.all-cats-list').offset().top,                       //获取当前下拉菜单距离窗口多少像素
-                s = $(window).scrollTop(),                                  //获取游览器滚动了多少高度
-                i = $(this).offset().top,                                   //当前元素滑过距离窗口多少像素
-                item = $(this).children('.item-list').height(),             //下拉菜单子类内容容器的高度
-                sort = $('.all-cats-list').height();                        //父类分类列表容器的高度
-            
-            if ( item < sort ){                                             //如果子类的高度小于父类的高度
-                if ( eq == 0 ){
-                    $(this).children('.item-list').css('top', (i-h));
-                } else {
-                    $(this).children('.item-list').css('top', (i-h)+1);
-                }
-            } else {
-                if ( s > h ) {                                              //判断子类的显示位置，如果滚动的高度大于所有分类列表容器的高度
-                    if ( i-s > 0 ){                                         //则 继续判断当前滑过容器的位置 是否有一半超出窗口一半在窗口内显示的Bug,
-                        $(this).children('.item-list').css('top', (s-h)+2 );
-                    } else {
-                        $(this).children('.item-list').css('top', (s-h)-(-(i-s))+2 );
-                    }
-                } else {
-                    $(this).children('.item-list').css('top', 3 );
-                }
-            }   
-
-            $(this).addClass('hover');
-            $(this).children('.item-list').css('display','block');
-        },function(){
-            $(this).removeClass('hover');
-            $(this).children('.item-list').css('display','none');
+<script>
+    +(function($){
+        //商品分类导航事件
+        $('#main-cats').mouseover(function(){
+            $('.wshop_cats_box').removeClass('hidden');
         });
 
-        $('.item > .item-list > .close').click(function(){
-            $(this).parent().parent().removeClass('hover');
-            $(this).parent().hide();
+        $('#main-cats').mouseout(function(){
+            //setTimeout(function(){
+                $('.wshop_cats_box').addClass('hidden');
+            //},500)
         });
-    </script>
 
+        $('.wshop_cats_box').mouseover(function(){
+            $(this).removeClass('hidden');
+        });
+
+        $('.wshop_cats_box').mouseout(function(){
+            $(this).addClass('hidden');
+        });
+    })(jQuery);
+
++(function($){
+    //购物车产品数
+    var url = $('[data-type="cart_count"]').data('url');
+    $.get(url,'',function(ret){
+        if(ret.status == 1){
+            $('[data-type="cart_count"] .cart_count').text(ret.data)
+        }
+    });
+})(jQuery);
+
+</script>
 
 </block>

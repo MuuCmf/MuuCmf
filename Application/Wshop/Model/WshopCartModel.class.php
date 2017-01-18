@@ -38,9 +38,15 @@ class WshopCartModel extends Model{
 	}
 
 
+
 	public function get_shop_cart_by_user_id($user_id)
 	{
 		return $this->where('user_id = '.$user_id)->select();
+	}
+
+	public function get_shop_cart_count_by_user_id($user_id)
+	{
+		return $this->where('user_id = '.$user_id)->count();
 	}
 
 	public function get_shop_cart_by_ids($ids,$user_id)
