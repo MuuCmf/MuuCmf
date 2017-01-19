@@ -29,8 +29,8 @@ abstract class Controller
      */
     protected $config = array();
 
-    /*OpenSNS新增部分*/
-    /**seo参数  陈一枭  OpenSNS
+    /**
+     * openCenter增加的功能 更新框架时要添加上
      * @var array
      */
     public $_seo = array();
@@ -52,12 +52,9 @@ abstract class Controller
         $this->_seo['description'] = $description;
         $this->assign('seo', $this->_seo);
     }
-
-
-
-
-    /*OpenSNS新增部分end*/
-
+    /**
+     * openCenter增加的功能 更新框架时要添加上 END
+     */
 
     /**
      * 架构函数 取得模板对象实例

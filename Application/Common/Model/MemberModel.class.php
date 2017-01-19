@@ -265,7 +265,7 @@ class MemberModel extends Model
         $map['uid'] = $cookie[1];
         $user = D('user_token')->where($map)->find();
         $cookie_uid = ($cookie[0] != $this->change()) || ($cookie[2] != $user['token']) ? false : $cookie[1];
-        $cookie_uid = $user['time'] - time() >= 3600 * 24 * 7 ? false : $cookie_uid;
+        $cookie_uid = $user['time'] - time() >= 3600 * 24 * 7 ? false : $cookie_uid;//过期时间7天
         return $cookie_uid;
     }
 
