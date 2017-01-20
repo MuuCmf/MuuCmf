@@ -128,7 +128,7 @@ function getThumbImageById($cover_id, $width = 100, $height = 'auto', $type = 0,
         S('picture_' . $cover_id, $picture);
     }
     if (empty($picture)) {
-        $attach = getThumbImage('Public/images/nopic.png', $width, $height, $type, $replace);
+        $attach = getThumbImage('Uploads/Picture/nopic.png', $width, $height, $type, $replace);
         return get_pic_src($attach['src']);
     }
 
