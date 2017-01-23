@@ -1,0 +1,115 @@
+.js .animate-box {
+    opacity: 0;
+}
+nav.bootsnav {
+	background: rgba(0,0,0,0.3)!important;
+}
+nav.bootsnav li a{
+	color:#fff!important;
+}
+nav.bootsnav li.active a{
+	color:#fff!important;
+	background:none!important;
+}
+.cover {
+	margin-top:-70px;
+}
+.fh5co-cover {
+    background-size: cover;
+    position: relative;
+}
+.fh5co-cover, .fh5co-hero {
+    position: relative;
+    height: 800px;
+}
+.fh5co-overlay {
+    position: absolute !important;
+    width: 100%;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    background: rgba(41, 34, 43, 0.5);
+}
+.fh5co-cover .desc {
+    top: 50%;
+    position: absolute;
+    width: 100%;
+    margin-top: -80px;
+    z-index: 2;
+    color: #fff;
+}
+.fh5co-cover .desc h2 {
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 55px;
+    margin-bottom: 10px;
+    font-weight: 300 !important;
+}
+.fh5co-cover .desc span {
+    display: block;
+    margin-bottom: 30px;
+    font-size: 24px;
+    letter-spacing: 1px;
+}
+
+.fh5co-cover .desc span a.fh5co-site-name {
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.fh5co-cover .desc span a {
+    color: #fff;
+}
+
+.fh5co-cover .desc .btn.btn-learn {
+    background: rgba(239, 98, 73, 0.7);
+    border: none;
+}
+
+.fh5co-cover .desc .btn {
+    border: none;
+}
+
+.btn.btn-lg {
+    padding: 18px 36px !important;
+}
+
+.btn-primary {
+    background: #ef6249;
+    color: #fff;
+    border: 2px solid #ef6249;
+}
+
+.btn {
+    margin-right: 4px;
+    margin-bottom: 4px;
+    font-family: "Open Sans", Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    -ms-border-radius: 30px;
+    border-radius: 30px;
+    -webkit-transition: 0.5s;
+    -o-transition: 0.5s;
+    transition: 0.5s;
+    padding: 8px 20px;
+}
+
+
+/*1P*/
+.developer .desc h2 {
+    color: #666;
+    text-transform: uppercase;
+    font-size: 36px;
+    margin-bottom: 10px;
+    font-weight: 300 !important;
+}
+.developer .desc span {
+    display: block;
+    margin-bottom: 30px;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
