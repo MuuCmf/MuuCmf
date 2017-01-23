@@ -98,18 +98,100 @@ nav.bootsnav li.active a{
     padding: 8px 20px;
 }
 
-
-/*1P*/
-.developer .desc h2 {
+/*common*/
+.home_section .desc {
+	margin:30px auto;
+}
+.home_section .desc h2 {
     color: #666;
     text-transform: uppercase;
     font-size: 36px;
     margin-bottom: 10px;
     font-weight: 300 !important;
 }
-.developer .desc span {
+.home_section .desc span {
     display: block;
     margin-bottom: 30px;
     font-size: 14px;
     letter-spacing: 1px;
+    color:#999;
+}
+/*1P*/
+
+
+
+/*appstroe*/
+.services {
+    background: #66D37E;
+    padding: 40px 20px 20px 20px;
+    margin-bottom: 30px;
+}
+.services span {
+    margin-bottom: 30px;
+    display: block;
+    width: 100%;
+}
+.services span i {
+    font-size: 40px;
+    color: #fff !important;
+}
+.services h3 {
+    font-size: 20px;
+    font-weight: 400;
+    color: #fff;
+    color: #FBFFA3;
+}
+.services p {
+    font-size: 16px;
+    color: #C6E872;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+
+/*we try updata everday*/
+.fh5co-cta {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    padding: 7em 0;
+    position: relative;
+}
+.fh5co-cta .overlay {
+    background: rgba(0, 0, 0, 0.7);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    position: absolute;
+    z-index: 1;
+}
+.fh5co-cta .container {
+    position: relative;
+    z-index: 2;
+}
+
+.fh5co-cta p, .fh5co-cta h3 {
+    color: #fff;
+}
+
+.fh5co-cta .btn {
+    color: #fff;
+}
+.btn.with-arrow {
+    position: relative;
+    -webkit-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+}
+.btn-primary.btn-outline {
+    background: transparent;
+    color: #00B906;
+    border: 2px solid #00B906;
+}
+/*页脚*/
+.footer-bar {
+    background: #252c34;
+    margin-top: 0;
+    padding: 35px 0;
 }
