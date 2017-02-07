@@ -1,5 +1,11 @@
-.js .animate-box {
+.animate-box {
     opacity: 0;
+}
+nav.bootsnav {
+transition: background 1s;
+-moz-transition: background 1s;	/* Firefox 4 */
+-webkit-transition: background 1s;	/* Safari 和 Chrome */
+-o-transition: background 1s;	/* Opera */
 }
 nav.bootsnav {
 	background: rgba(0,0,0,0.3)!important;
@@ -11,6 +17,26 @@ nav.bootsnav li.active a{
 	color:#fff!important;
 	background:none!important;
 }
+nav.bootsnav li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    color: #ff9900!important;
+    background: none!important;
+}
+
+nav.white_nav {
+	background: #ffffff!important;
+}
+nav.white_nav li a{
+	color:#000!important;
+}
+nav.white_nav li.active a{
+	color:#000!important;
+	background:none!important;
+}
+nav.white_nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    color: #ff9900;
+    background-color: none;
+}
+
 .cover {
 	margin-top:-70px;
 }
@@ -99,11 +125,14 @@ nav.bootsnav li.active a{
 }
 
 /*common*/
+section {
+	margin:0;
+}
 .home_section .desc {
 	margin:30px auto;
 }
 .home_section .desc h2 {
-    color: #666;
+    color: #333;
     text-transform: uppercase;
     font-size: 36px;
     margin-bottom: 10px;
@@ -119,7 +148,113 @@ nav.bootsnav li.active a{
 /*1P*/
 
 
+/*生态*/
+.ecology {
+	background:#fff;
+	padding:30px 0;
+}
+.ecology .info{
+	text-align: center;
+}
+.ecology .info .con{
+	position:relative;
+	box-sizing:content-box;
+	padding:60px;
+	width:505px;
+	height:505px;
+	margin:0 auto;
+}
+.ecology .info .con .spanele {
+	width:160px;
+	height:160px;
+	border-radius: 50%;
+	z-index: 5;
+	color:#fff;
+}
+.ecology .info .con .spanele .box {
+	color:#fff;
+	display:table-cell;
+	vertical-align:middle;
+	text-align: center;
+	font-size:16px;
+	width:160px;
+	height:160px;
+}
+.ecology .info .con .spanele .box i{
+	font-size:36px;
+}
+.ecology .info .con .muu {
+	position:absolute;
+	top:0;
+	left:50%;
+	background:#03B8CF;
+	margin-left:-80px;
+}
+.ecology .info .con .deve {
+	position:absolute;
+	left:0;
+	top:250px;
+	background:#38B03F;
+}
 
+.ecology .info .con .store {
+	position:absolute;
+	right:0;
+	top:250px;
+	background:#F1A325;
+}
+.ecology .info .con .need {
+	position:absolute;
+	left:50%;
+	bottom:0;
+	margin-left:-80px;
+	background:#8666B8;
+}
+
+.ecology .info .con .center {
+	position:absolute;
+	margin-top:-130px;
+	margin-left:-130px;
+	width:260px;
+	height:260px;
+	top:50%;
+	left:50%;
+	background:#EA644A;
+	font-size:24px;
+	z-index: 3;
+}
+.ecology .info .con .center .ecosystom {
+	color:#fff;
+	display:table-cell;
+	vertical-align:middle;
+	text-align: center;
+	font-size:26px;
+	width:260px;
+	height:260px;
+}
+
+.ecology .info .con .round {
+	position:absolute;
+	left:50%;
+	background-image: url('../images/static_home/ecology_bg.png');
+	background-position:center center;
+	background-repeat:no-repeat;
+	background-size: 99%;
+	width:505px;
+	height:505px;
+	margin-left:-253px;
+	overflow:hidden;
+	z-index: 1;
+	-webkit-transform: rotate(360deg);
+	animation: rotation 5s linear infinite;
+	-moz-animation: rotation 5s linear infinite;
+	-webkit-animation: rotation 5s linear infinite;
+	-o-animation: rotation 5s linear infinite;
+}
+@-webkit-keyframes rotation{
+	from {-webkit-transform: rotate(0deg);}
+	to {-webkit-transform: rotate(360deg);}
+}
 /*appstroe*/
 .services {
     background: #66D37E;
@@ -145,6 +280,109 @@ nav.bootsnav li.active a{
     font-size: 16px;
     color: #C6E872;
     color: rgba(255, 255, 255, 0.8);
+}
+/*develope*/
+
+.developer .fh5co-section-with-image {
+    position: relative;
+}
+.developer .img-responsive {
+	width:100%;
+}
+@media screen and (max-width: 992px){
+	.developer .fh5co-section-with-image .fh5co-box {
+	    position: relative;
+	    right: auto;
+	    bottom: auto;
+	    width: 100%;
+	    margin-top: auto !important;
+	}
+}
+.developer .fh5co-section-with-image .fh5co-box {
+    padding: 50px;
+    background: rgba(255, 255, 255, 0.9);
+    position: absolute;
+    z-index: 990;
+    width: 40%;
+    right: 10%;
+    top: 50%;
+}
+.developer .fh5co-section-with-image h2 {
+    font-size: 50px;
+    margin-bottom: 20px;
+}
+.developer .fh5co-section-with-image p:last-child {
+    margin-bottom: 0;
+}
+.developer .fh5co-section-with-image p {
+    font-size: 20px;
+}
+.developer .btn.with-arrow {
+    position: relative;
+    -webkit-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+}
+.developer .btn-primary.btn-outline {
+    background: transparent;
+    color: #00B906;
+    border: 2px solid #00B906;
+}
+
+/*scheme 方案*/
+.scheme {
+	padding:30px 0 0 0;
+	background:#fff;
+}
+.scheme .ts-box_d {
+    width: 100%;
+}
+.scheme .ts-d_ul {
+    width: 100%;
+    margin:0;
+}
+.scheme .ts-d_ul li {
+	list-style: none;
+    width: 16.6666666%;
+    height: 500px;
+    float: left;
+    position: relative;
+}
+.scheme .ts-d_ul .rsp {
+    background: #000;
+    width: 100%;
+    height: 500px;
+    opacity: 0.3;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+}
+.scheme .ts-d_ul .text {
+    padding-top: 150px;
+    text-align: center;
+    color: #ffffff;
+    width: 100%;
+    height: 100%;
+    z-index: 99;
+    position: absolute;
+    top: 0px;
+}
+.scheme .ts-d_ul .text b {
+    display: block;
+    font-size: 30px;
+    margin-bottom: 20px;
+    font-weight: normal;
+}
+.scheme .ts-d_ul .text a {
+    color: #ffffff;
+    display: block;
+    margin-top: 100px;
+    width: 135px;
+    height: 47px;
+    line-height: 47px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #ffffff;
 }
 
 
