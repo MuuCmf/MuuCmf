@@ -150,7 +150,7 @@ section {
 
 /*生态*/
 .ecology {
-	background:#fff;
+    background: #fbfbfb url(../images/static_home/intro-rel-bg.png) center 85px/1335px auto no-repeat;
 	padding:30px 0;
 }
 .ecology .info{
@@ -383,6 +383,13 @@ section {
     margin-left: auto;
     margin-right: auto;
     border: 1px solid #ffffff;
+}
+/*start-join*/
+.start-join .user-signup {
+    margin:60px auto;
+}
+.start-join .user-signup .btn{
+    padding: 16px 30px;
 }
 
 
