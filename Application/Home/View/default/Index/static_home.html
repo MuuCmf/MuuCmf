@@ -31,21 +31,21 @@
 			<div class="con">
 				<div class="round"></div>
 
-				<span class="spanele muu animate-box animated">
+				<span class="level spanele muu animate-box animated">
 					<div class="box">
 						<i class="icon icon-code"></i>
 						<br />
 						MuuCmf
 					</div>
 				</span>
-				<span class="spanele deve animate-box animated">
+				<span class="level spanele deve animate-box animated">
 					<div class="box">
 						<i class="icon icon-user"></i>
 						<br />
 						开发者
 					</div>
 				</span>
-				<span class="spanele store animate-box animated">
+				<span class="level spanele store animate-box animated">
 					<div class="box">
 						<i class="icon-cloud-download"></i> 
 						<br />
@@ -53,7 +53,7 @@
 					</div>
 				</span>
 
-				<span class="spanele need animate-box animated">
+				<span class="level spanele need animate-box animated">
 					<div class="box">
 						<i class="icon icon-cogs"></i>
 						<br />
@@ -61,7 +61,7 @@
 					</div>
 				</span>
 
-				<span class="spanele center">
+				<span class="main spanele center">
 					<div class="ecosystom">
 						<b>生态模型</b>
 						<br />
@@ -70,6 +70,113 @@
 				</span>
 
 			</div>
+		</div>
+		<div class="canvas">
+			<canvas id="Mycanvas" width="1600" height="855"></canvas>
+			<script>
+		//定义画布宽高和生成点的个数
+		var WIDTH = window.innerWidth, HEIGHT = window.innerHeight, POINT = 35;
+		
+		var canvas = document.getElementById('Mycanvas');
+		canvas.width = WIDTH,
+		canvas.height = HEIGHT;
+		var context = canvas.getContext('2d');
+		context.strokeStyle = 'rgba(0,0,0,0.2)',
+		context.strokeWidth = 1,
+		context.fillStyle = 'rgba(0,0,0,0.1)';
+		var circleArr = [];
+
+		//线条：开始xy坐标，结束xy坐标，线条透明度
+		function Line (x, y, _x, _y, o) {
+			this.beginX = x,
+			this.beginY = y,
+			this.closeX = _x,
+			this.closeY = _y,
+			this.o = o;
+		}
+		//点：圆心xy坐标，半径，每帧移动xy的距离
+		function Circle (x, y, r, moveX, moveY) {
+			this.x = x,
+			this.y = y,
+			this.r = r,
+			this.moveX = moveX,
+			this.moveY = moveY;
+		}
+		//生成max和min之间的随机数
+		function num (max, _min) {
+			var min = arguments[1] || 0;
+			return Math.floor(Math.random()*(max-min+1)+min);
+		}
+		// 绘制原点
+		function drawCricle (cxt, x, y, r, moveX, moveY) {
+			var circle = new Circle(x, y, r, moveX, moveY)
+			cxt.beginPath()
+			cxt.arc(circle.x, circle.y, circle.r, 0, 2*Math.PI)
+			cxt.closePath()
+			cxt.fill();
+			return circle;
+		}
+		//绘制线条
+		function drawLine (cxt, x, y, _x, _y, o) {
+			var line = new Line(x, y, _x, _y, o)
+			cxt.beginPath()
+			cxt.strokeStyle = 'rgba(0,0,0,'+ o +')'
+			cxt.moveTo(line.beginX, line.beginY)
+			cxt.lineTo(line.closeX, line.closeY)
+			cxt.closePath()
+			cxt.stroke();
+
+		}
+		//初始化生成原点
+		function init () {
+			circleArr = [];
+			for (var i = 0; i < POINT; i++) {
+				circleArr.push(drawCricle(context, num(WIDTH), num(HEIGHT), num(15, 2), num(10, -10)/40, num(10, -10)/40));
+			}
+			draw();
+		}
+
+		//每帧绘制
+		function draw () {
+			context.clearRect(0,0,canvas.width, canvas.height);
+			for (var i = 0; i < POINT; i++) {
+				drawCricle(context, circleArr[i].x, circleArr[i].y, circleArr[i].r);
+			}
+			for (var i = 0; i < POINT; i++) {
+				for (var j = 0; j < POINT; j++) {
+					if (i + j < POINT) {
+						var A = Math.abs(circleArr[i+j].x - circleArr[i].x),
+							B = Math.abs(circleArr[i+j].y - circleArr[i].y);
+						var lineLength = Math.sqrt(A*A + B*B);
+						var C = 1/lineLength*7-0.009;
+						var lineOpacity = C > 0.03 ? 0.03 : C;
+						if (lineOpacity > 0) {
+							drawLine(context, circleArr[i].x, circleArr[i].y, circleArr[i+j].x, circleArr[i+j].y, lineOpacity);
+						}
+					}
+				}
+			}
+		}
+
+		//调用执行
+		window.onload = function () {
+			init();
+			setInterval(function () {
+				for (var i = 0; i < POINT; i++) {
+					var cir = circleArr[i];
+					cir.x += cir.moveX;
+					cir.y += cir.moveY;
+					if (cir.x > WIDTH) cir.x = 0;
+					else if (cir.x < 0) cir.x = WIDTH;
+					if (cir.y > HEIGHT) cir.y = 0;
+					else if (cir.y < 0) cir.y = HEIGHT;
+					
+				}
+				draw();
+			}, 16);
+		}
+
+	</script>
 		</div>
 	</div>
 </section>
@@ -99,7 +206,7 @@
 					</div>
 					<div class="col-md-4 col-sm-4">
 						<div class="services animate-box animated">
-							<span><i class="icon-apple"></i></span>
+							<span><i class="icon-layout"></i></span>
 							<h3>模板主题</h3>
 							
 						</div>
@@ -140,7 +247,7 @@
 		<div class="info">
 			<div class="ts-box_d">
 				<ul class="ts-d_ul clearfix">
-					<li>
+					<li class="animate-box animated">
 						<img src="__IMG__/static_home/medical.jpg">
 						<div class="rsp"></div>
 						<div class="text">
@@ -149,7 +256,7 @@
 							<a href="#" title="">查看详情</a>
 						</div>
 					</li>
-					<li>
+					<li class="animate-box animated">
 						<img src="__IMG__/static_home/newmedia.jpg">
 						<div class="rsp"></div>
 						<div class="text">
@@ -158,7 +265,7 @@
 							<a href="#" title="">查看详情</a>
 						</div>
 					</li>
-					<li>
+					<li class="animate-box animated">
 						<img src="__IMG__/static_home/education.jpg">
 						<div class="rsp"></div>
 						<div class="text">
@@ -167,7 +274,7 @@
 							<a href="#" title="">查看详情</a>
 						</div>
 					</li>
-					<li>
+					<li class="animate-box animated">
 						<img src="__IMG__/static_home/fans.jpg">
 						<div class="rsp"></div>
 						<div class="text">
@@ -176,7 +283,7 @@
 							<a href="#" title="">查看详情</a>
 						</div>
 					</li>
-					<li>
+					<li class="animate-box animated">
 						<img src="__IMG__/static_home/business.jpg">
 						<div class="rsp"></div>
 						<div class="text">
@@ -185,7 +292,7 @@
 							<a href="#" title="">查看详情</a>
 						</div>
 					</li>
-					<li>
+					<li class="animate-box animated">
 						<img src="__IMG__/static_home/others.jpg">
 						<div class="rsp"></div>
 						<div class="text">
@@ -246,7 +353,6 @@
 		<div class="container">
 			<div class="col-md-12 text-center animate-box fadeInUp animated">
 				<h3>We Try To Update The Site Everyday</h3>
-				<p><a href="#" class="btn btn-primary btn-outline with-arrow">Get started now! <i class="icon-arrow-right"></i></a></p>
 			</div>
 		</div>
 	</div>
@@ -267,45 +373,12 @@ $(function(){
 		}else{
 			$('.bootsnav').removeClass('white_nav');
 		}
-	  	console.log(nowTop);
+	  	//console.log(nowTop);
 	});
-	
-
 });
 </script>
 </block>
-<!--首页思路
+<!--
 更有效 更有效率
-
-重新定义互联网产品开发流程
-
-
-HooMuu希望解决后端逻辑重复开发和维护问题
-
-
-每支技术团队或每位开发者都有其擅长的领域和研发方向，我们希望让一流的开发者做一流的项目
-
-
-云应用商店 扩展应用随心配
-
-
-火+木 与众多开发者的激情碰撞 为各行业提供优质解决方案
-
-
-What we do
-为传统企业转型、中小企业互联网产品需求和创业公司提供技术支持平台
-
-
-火木动态
-
-
-
-
-
-
-
-
-
-
 -->
 
