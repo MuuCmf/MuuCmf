@@ -76,17 +76,19 @@ class IndexController extends Controller{
                 $this->assign('top_id',0);
                 $this->assign('id',$aId);
             }
+            $data=$this->aboutModel->getData($aId);
         }
-        $data=$this->aboutModel->getData($aId);
+        
         /* 获取模板 */
         if (!empty($data['template'])) { //已定制模板
             $tmpl = 'Index/'.$data['template'];
         } else { //使用默认模板
             $tmpl = 'Index/index';
         }
-        $this->setTitle($data['title']);
-        $this->setDescription('北京火木科技有限公司简介');
+        
         $this->assign('data',$data);
+        $this->setTitle('{$data.title|text}');
+        $this->setDescription('北京火木科技有限公司简介');
         $this->display($tmpl);
     }
     /**
