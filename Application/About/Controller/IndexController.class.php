@@ -118,9 +118,10 @@ class IndexController extends Controller{
         }
         unset($val);
         /* 模板赋值并渲染模板 */
-        $this->setTitle($cates['title']);
+        
         $this->assign('list', $list);
         $this->assign('cates', $cates);
+        $this->setTitle('{$cates.title|text}');
         $this->assign('totalCount',$totalCount);
         $this->display();
     }
