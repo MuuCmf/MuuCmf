@@ -32,7 +32,7 @@ function seo_replace_variables($string, $vars)
 
     //调用ThinkPHP中的解析引擎解析变量
     $view = new Think\View();
-    $view->assign('website_name',modC('WEB_SITE_NAME','OpenSNS','Config'));
+    $view->assign('website_name',modC('WEB_SITE_NAME','MuuCmf','Config'));
     $view->assign($vars);
     $result = $view->fetch('', $string);
 
