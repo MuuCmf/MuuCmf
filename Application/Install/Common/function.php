@@ -34,11 +34,11 @@ function check_env()
 
     //数据库检测
     // if(function_exists('mysql_get_server_info')){
-    // 	$items['mysql'][3] = mysql_get_server_info();
-    // 	if($items['mysql'][3] < $items['mysql'][1]){
-    // 		$items['mysql'][4] = 'error';
-    // 		session('error', true);
-    // 	}
+    //  $items['mysql'][3] = mysql_get_server_info();
+    //  if($items['mysql'][3] < $items['mysql'][1]){
+    //      $items['mysql'][4] = 'error';
+    //      session('error', true);
+    //  }
     // }
 
     //附件上传检测
@@ -133,11 +133,17 @@ function check_dirfile()
 function check_func()
 {
     $items = array(
-        array('mysql_connect', '支持', 'ok'),
         array('file_get_contents', '支持', 'ok'),
         array('mb_strlen', '支持', 'ok'),
         array('curl_init', '支持', 'ok'),
     );
+
+    if(function_exists('mysqli_connect')){
+        $items[] =  array('mysqli_connect', '支持', 'ok');
+    }else{
+        $items[] = array('mysql_connect', '支持', 'ok');
+    }
+
 
     foreach ($items as &$val) {
         if (!function_exists($val[0])) {
@@ -173,9 +179,9 @@ function write_config($config, $auth)
         //写入应用配置文件
         if (!IS_WRITE) {
             return '由于您的环境不可写，请复制下面的配置文件内容覆盖到相关的配置文件，然后再登录后台。<p>' . realpath('') . './Conf/common.php</p>
-			<textarea name="" style="width:650px;height:185px">' . $conf . '</textarea>
-			<p>' . realpath('') . './Conf/user.php</p>
-			<textarea name="" style="width:650px;height:125px">' . $user . '</textarea>';
+            <textarea name="" style="width:650px;height:185px">' . $conf . '</textarea>
+            <p>' . realpath('') . './Conf/user.php</p>
+            <textarea name="" style="width:650px;height:125px">' . $user . '</textarea>';
         } else {
             if (file_put_contents('./Conf/common.php', $conf) &&
                 file_put_contents('./Conf/user.php', $user)

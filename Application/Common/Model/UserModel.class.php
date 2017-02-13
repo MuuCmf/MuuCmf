@@ -68,6 +68,7 @@ class UserModel
         if (!empty($need_query)) {
             $db_prefix=C('DB_PREFIX');
             $query_results = D('')->query('select ' . implode(',', $need_query) . " from `{$db_prefix}member`,`{$db_prefix}ucenter_member` where uid=id and uid={$uid} limit 1");
+            
             $query_result = $query_results[0];
             $user_data = $this->combineUserData($user_data, $query_result);
             $fields = $this->popGotFields($fields, $need_query);
