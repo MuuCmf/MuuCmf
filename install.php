@@ -39,7 +39,7 @@ define ('APP_PATH', './Application/');
  *  主题目录 OpenSNS模板地址 （与ThinkPHP中的THEME_PATH不同）
  * @author 郑钟良<zzl@ourstu.com>
  */
-define ('OS_THEME_PATH', './Theme/');
+define ('MUU_THEME_PATH', './Theme/');
 
 /**
  * 缓存目录设置

@@ -63,23 +63,6 @@
     RewriteRule ^/?forum/lists_/(.*)?$                                    index.php?s=/forum/index/lists/$1 [L]
     RewriteRule ^/?forum/lists$                                           index.php?s=/forum/index/lists [L]
 
-    #动弹
-    RewriteRule ^/?weibo/t_([a-z]+)/p_([0-9]+)(([/|.]+).*)?$            index.php?s=/weibo/index/index/type/$1/page/$2$3 [L]
-    RewriteRule ^/?weibo/t_([a-z]+)(([/|.]+).*)?$                       index.php?s=/weibo/index/index/type/$1$2 [L]
-    RewriteRule ^/?weibo/p_([0-9]+)(([/|.]+).*)?$                       index.php?s=/weibo/index/index/page/$1$2 [L]
-    RewriteRule ^/?weibo_/(.*)?$                                        index.php?s=/weibo/index/index/$1 [L]
-    RewriteRule ^/?weibo$                                               index.php?s=/weibo/index/index [L]
-    RewriteRule ^/?weibo/detail_([0-9]+)(([/|.]+).*)?$                  index.php?s=/weibo/index/weibodetail/id/$1$2 [L]
-    RewriteRule ^/?weibo/detail_/(.*)?$                                 index.php?s=/weibo/index/weibodetail/$1 [L]
-    RewriteRule ^/?weibo/detail$                                        index.php?s=/weibo/index/weibodetail [L]
-    RewriteRule ^/?weibo/concerned_/(.*)?$                              index.php?s=/weibo/index/myconcerned/$1 [L]
-    RewriteRule ^/?weibo/concerned$                                     index.php?s=/weibo/index/myconcerned [L]
-    RewriteRule ^/?weibo/search_/(.*)?$                                 index.php?s=/weibo/index/search/$1 [L]
-    RewriteRule ^/?weibo/search$                                        index.php?s=/weibo/index/search [L]
-    RewriteRule ^/?topic_([0-9]+)(([/|.]+).*)?$                         index.php?s=/weibo/topic/topic/type/$1$2 [L]
-    RewriteRule ^/?topic_/(.*)?$                                        index.php?s=/weibo/topic/topic/$1 [L]
-    RewriteRule ^/?topic$                                               index.php?s=/weibo/topic/topic [L]
-
     #群组
     RewriteRule ^/?group/p_([0-9]+)(([/|.]+).*)?$                               index.php?s=/group/index/index/page/$1$2 [L]
     RewriteRule ^/?group_/(.*)?$                                                index.php?s=/group/index/index/$1 [L]
@@ -197,10 +180,10 @@
     RewriteRule ^/?register_/(.*)?$                                          index.php?s=/ucenter/member/register/$1 [L]
     RewriteRule ^/?register$                                                  index.php?s=/ucenter/member/register [L]
 
-    #文章
-    RewriteRule ^/?paper_([0-9]+)(([/|.]+).*)?$                                 index.php?s=/paper/index/index/id/$1$2 [L]
-    RewriteRule ^/?paper_/(.*)?$                                             index.php?s=/paper/index/index/$1 [L]
-    RewriteRule ^/?paper$                                                     index.php?s=/paper/index/index [L]
+    #关于我们
+    RewriteRule ^/?about_([0-9]+)(([/|.]+).*)?$                              index.php?s=/about/index/index/id/$1$2 [L]
+    RewriteRule ^/?about_/(.*)?$                                             index.php?s=/about/index/index/$1 [L]
+    RewriteRule ^/?about$                                                    index.php?s=/about/index/index [L]
 
     #默认情况
     RewriteCond %{REQUEST_FiLENAME} !-d
