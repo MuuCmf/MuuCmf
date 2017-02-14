@@ -55,8 +55,7 @@ class InstallController extends Controller{
                 $this->error('确认密码和密码不一致');
             } else {
                 $info = array();
-                list($info['username'], $info['password'], $info['repassword'], $info['email'])
-                    = $admin;
+                list($info['username'], $info['password'], $info['repassword'], $info['email']) = $admin;
                 //缓存管理员信息
                 session('admin_info', $info);
             }

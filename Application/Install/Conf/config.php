@@ -33,7 +33,7 @@ return array(
     /* URL配置 */
     'URL_MODEL' => 3, //URL模式
     'DEFAULT_THEME' =>  'default',  // 默认模板主题名称
-    'SESSION_PREFIX' => 'muucmf', //session前缀
     'COOKIE_PREFIX' => 'muucmf_', // Cookie前缀 避免冲突
 
+    'SESSION_PREFIX' => 'muucmf', //session前缀
 );

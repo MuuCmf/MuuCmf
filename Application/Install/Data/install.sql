@@ -22,13 +22,7 @@ INSERT INTO `muucmf_action` (`id`, `name`, `title`, `remark`, `rule`, `log`, `ty
 (3, 'user_login', '用户登录', '积分+10，每天一次', 'a:1:{i:0;a:5:{s:5:"table";s:6:"member";s:5:"field";s:1:"1";s:4:"rule";s:2:"10";s:5:"cycle";s:2:"24";s:3:"max";s:1:"1";}}', '[user|get_nickname]在[time|time_format]登录了账号', 1, 1, 1428397656, ''),
 (4, 'update_config', '更新配置', '新增或修改或删除配置', '', '', 1, 1, 1383294988, ''),
 (7, 'update_channel', '更新导航', '新增或修改或删除导航', '', '', 1, 1, 1383296301, ''),
-(8, 'update_menu', '更新菜单', '新增或修改或删除菜单', '', '', 1, 1, 1383296392, ''),
-(10001, 'add_weibo', '发布微博', '新增微博', 'a:1:{i:0;a:5:{s:5:"table";s:6:"member";s:5:"field";s:1:"1";s:4:"rule";s:2:"+1";s:5:"cycle";s:2:"24";s:3:"max";s:2:"10";}}', '[user|get_nickname]在[time|time_format]发布了新微博：[record|intval]', 1, 1, 1437116716, 'Weibo'),
-(10002, 'add_weibo_comment', '添加微博评论', '添加微博评论', 'a:1:{i:0;a:5:{s:5:"table";s:6:"member";s:5:"field";s:1:"1";s:4:"rule";s:2:"+1";s:5:"cycle";s:2:"24";s:3:"max";s:2:"10";}}', '[user|get_nickname]在[time|time_format]添加了微博评论：[record|intval]', 1, 1, 1437116734, 'Weibo'),
-(10003, 'del_weibo_comment', '删除微博评论', '删除微博评论', '', '[user|get_nickname]在[time|time_format]删除了微博评论：[record|intval]', 1, 1, 1428399164, 'Weibo'),
-(10004, 'del_weibo', '删除微博', '删除微博', '', '[user|get_nickname]在[time|time_format]删除了微博：[record|intval]', 1, 1, 1428461334, 'Weibo'),
-(10005, 'set_weibo_top', '置顶微博', '置顶微博', '', '[user|get_nickname]在[time|time_format]置顶了微博：[record|intval]', 1, 1, 1428399164, 'Weibo'),
-(10006, 'set_weibo_down', '取消置顶微博', '取消置顶微博', '', '[user|get_nickname]在[time|time_format]取消置顶了微博：[record|intval]', 1, 1, 1428462983, 'Weibo');
+(8, 'update_menu', '更新菜单', '新增或修改或删除菜单', '', '', 1, 1, 1383296392, '');
 
 DROP TABLE IF EXISTS `muucmf_action_limit`;
 CREATE TABLE IF NOT EXISTS `muucmf_action_limit` (
@@ -87,10 +81,7 @@ CREATE TABLE IF NOT EXISTS `muucmf_addons` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='插件表' AUTO_INCREMENT=15 ;
 
 INSERT INTO `muucmf_addons` (`id`, `name`, `title`, `description`, `status`, `config`, `author`, `version`, `create_time`, `has_adminlist`) VALUES
-(7, 'CheckIn', '签到', '签到插件', 1, '{"random":"1"}', 'xjw129xjt(肖骏涛)', '0.1', 1432791968, 0),
-(8, 'Support', '赞', '赞的功能', 1, 'null', '嘉兴想天信息科技有限公司', '0.1', 1432792013, 0),
 (9, 'SuperLinks', '合作单位', '合作单位', 1, '{"random":"1"}', '苏南 newsn.net', '0.1', 1432792019, 1),
-(10, 'Report', '举报后台', '可举报不法数据', 1, '{"meta":""}', '想天科技xuminwei', '0.1', 1432792026, 1),
 (11, 'LocalComment', '本地评论', '本地评论插件，不依赖社会化评论平台', 1, '{"can_guest_comment":"0"}', 'caipeichao', '0.1', 1432792035, 0),
 (12, 'ChinaCity', '中国省市区三级联动', '每个系统都需要的一个中国省市区三级联动插件。想天-駿濤修改，将镇级地区移除', 1, 'null', 'i友街', '2.0', 1432792040, 0),
 (13, 'Recommend', '推荐关注', '可选择多种方法推荐用户', 1, '{"howToRecommend":"1","howManyRecommend":"1","recommendUser":"1"}', '嘉兴想天信息科技有限公司', '0.1', 1432792055, 1),
@@ -604,9 +595,8 @@ CREATE TABLE IF NOT EXISTS `muucmf_channel` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 INSERT INTO `muucmf_channel` (`id`, `pid`, `title`, `url`, `sort`, `create_time`, `update_time`, `status`, `target`, `color`, `band_color`, `band_text`, `icon`) VALUES
-(1, 0, '首页', 'Home/Index/index', 1, 0, 0, 1, 0, '#000000', '#000000', '', 'home'),
-(2, 0, '微博', 'Weibo/index/index', 2, 0, 0, 1, 0, '#000000', '#000000', '', 'quote-left'),
-(3, 0, '会员展示', 'People/index/index', 3, 0, 0, 1, 0, '#000000', '#000000', '', 'group');
+(1, 0, '首页', 'Home/Index/index', 1, 0, 0, 1, 0, '#000000', '#000000', '', ''),
+(2, 0, '文章', 'Articles/index/index', 2, 0, 0, 1, 0, '#000000', '#000000', '', '');
 
 DROP TABLE IF EXISTS `muucmf_user_nav`;
 CREATE TABLE `muucmf_user_nav` (
@@ -698,13 +688,13 @@ INSERT INTO `muucmf_config` (`id`, `name`, `type`, `title`, `group`, `extra`, `r
 (140, 'MAIL_SMTP_CE', 1, '邮件发送测试', 5, '', '填写测试邮件地址', 1388334529, 1388584028, 1, '', 11),
 
 (1000, '_USERCONFIG_REG_SWITCH', 0, '', 0, '', '', 1427094903, 1427094903, 1, 'username', 0),
-(1001, '_CONFIG_WEB_SITE_NAME', 0, '', 0, '', '', 1427339647, 1427339647, 1, 'OpenSNS v2开源社交系统', 0),
-(1002, '_CONFIG_ICP', 0, '', 0, '', '', 1427339647, 1427339647, 1, '沪ICP备12007XXX号', 0),
+(1001, '_CONFIG_WEB_SITE_NAME', 0, '', 0, '', '', 1427339647, 1427339647, 1, 'MuuCmf内容管理框架V1', 0),
+(1002, '_CONFIG_ICP', 0, '', 0, '', '', 1427339647, 1427339647, 1, '京ICP备12345XXX号', 0),
 (1003, '_CONFIG_LOGO', 0, '', 0, '', '', 1427339647, 1427339647, 1, '', 0),
 (1004, '_CONFIG_QRCODE', 0, '', 0, '', '', 1427339647, 1427339647, 1, '', 0),
-(1005, '_CONFIG_ABOUT_US', 0, '', 0, '', '', 1427339647, 1427339647, 1, '<p>&nbsp; 嘉兴想天信息科技有限公司是一家专注于为客户提供专业的社交方案。公司秉持简洁、高效、创新，不断为客户创造奇迹。旗下产品有OpenSNS开源社交系统和OpenCenter开源用户和后台管理系统。</p>', 0),
-(1006, '_CONFIG_SUBSCRIB_US', 0, '', 0, '', '', 1427339647, 1427339647, 1, '<p>业务QQ：276905621</p><p>联系地址：浙江省桐乡市环城南路1号电子商务中心</p><p>联系电话：0573-88037510</p>', 0),
-(1007, '_CONFIG_COPY_RIGHT', 0, '', 0, '', '', 1427339647, 1427339647, 1, '<p>Copyright ©2013-2014 <a href="http://www.ourstu.com" target="_blank">嘉兴想天信息科技有限公司</a></p>', 0),
+(1005, '_CONFIG_ABOUT_US', 0, '', 0, '', '', 1427339647, 1427339647, 1, '<p>&nbsp; 北京火木科技有限公司</p>', 0),
+(1006, '_CONFIG_SUBSCRIB_US', 0, '', 0, '', '', 1427339647, 1427339647, 1, '<p>联系地址：北京市朝阳区青年沟路23号安源大厦411室</p><p>联系电话：010-84286121</p>', 0),
+(1007, '_CONFIG_COPY_RIGHT', 0, '', 0, '', '', 1427339647, 1427339647, 1, '<p>Copyright ©2013-2014 <a href="http://www.hoomuu.cn" target="_blank">北京火木科技有限公司</a></p>', 0),
 (1008, '_HOME_LOGO', 0, '', 0, '', '', 1432791820, 1432791820, 1, '', 0),
 (1009, '_HOME_ENTER_URL', 0, '', 0, '', '', 1432791820, 1432791820, 1, '', 0),
 (1010, '_HOME_BLOCK', 0, '', 0, '', '', 1432791820, 1432791820, 1, '[{"data-id":"disable","title":"禁用","items":[]},{"data-id":"enable","title":"启用","items":[{"data-id":"slider","title":"轮播"},{"data-id":"Weibo","title":"微博"},{"data-id":"People","title":"会员展示"}]}]', 0),
@@ -4623,12 +4613,12 @@ INSERT INTO `muucmf_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `
 (79, '新增', 76, 0, 'Config/add', 0, '新增配置', '', 0, '', ''),
 (80, '保存', 76, 0, 'Config/save', 0, '保存配置', '', 0, '', ''),
 (81, '排序', 76, 0, 'Config/sort', 1, '', '', 0, '', ''),
-(82, '后台菜单管理', 2, 6, 'Menu/index', 0, '', '权限管理', 0, '', ''),
+(82, '后端导航', 74, 6, 'Menu/index', 0, '', '导航管理', 0, '', ''),
 (83, '新增', 82, 0, 'Menu/add', 0, '', '系统设置', 0, '', ''),
 (84, '编辑', 82, 0, 'Menu/edit', 0, '', '', 0, '', ''),
 (85, '导入', 82, 0, 'Menu/import', 0, '', '', 0, '', ''),
 (86, '排序', 82, 0, 'Menu/sort', 1, '', '', 0, '', ''),
-(87, '顶部导航', 74, 3, 'Channel/index', 0, '', '导航管理', 0, '', ''),
+(87, '前端导航', 74, 3, 'Channel/index', 0, '', '导航管理', 0, '', ''),
 (88, '新增', 87, 0, 'Channel/add', 0, '', '', 0, '', ''),
 (89, '编辑', 87, 0, 'Channel/edit', 0, '', '', 0, '', ''),
 (90, '删除', 87, 0, 'Channel/del', 0, '', '', 0, '', ''),
@@ -4646,42 +4636,37 @@ INSERT INTO `muucmf_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `
 (102, 'SEO规则回收站', 74, 9, 'SEO/ruleTrash', 0, '', 'SEO规则', 0, '', ''),
 (103, '全部补丁', 74, 16, 'Update/quick', 1, '', '升级补丁', 0, '', ''),
 (104, '新增补丁', 74, 15, 'Update/addpack', 1, '', '升级补丁', 0, '', ''),
-(105, '扩展', 0, 11, 'Cloud/index', 0, '', '', 0, 'cloud', ''),
+(105, '扩展', 0, 11, 'module/lists', 0, '', '', 0, 'cloud', ''),
 (106, '模块安装', 105, 3, 'module/install', 1, '', '本地', 0, '', ''),
 (107, '模块管理', 105, 5, 'module/lists', 0, '', '本地', 0, '', ''),
 (108, '卸载模块', 105, 7, 'module/uninstall', 1, '', '本地', 0, '', ''),
-(109, '授权', 0, 6, 'authorize/ssoSetting', 0, '', '', 0, 'lock', ''),
-(110, '单点登录配置', 109, 0, 'Authorize/ssoSetting', 0, '', '单点登录', 0, '', ''),
-(111, '应用列表', 109, 0, 'Authorize/ssolist', 0, '', '单点登录', 0, '', ''),
-(112, '新增/编辑应用', 109, 0, 'authorize/editssoapp', 1, '', '单点登录', 0, '', ''),
 (113, '安全', 0, 5, 'ActionLimit/limitList', 0, '', '', 0, 'shield', ''),
 (114, '行为限制列表', 113, 6, 'ActionLimit/limitList', 0, '', '行为限制', 0, '', ''),
 (115, '新增/编辑行为限制', 113, 7, 'ActionLimit/editLimit', 1, '', '行为限制', 0, '', ''),
-(116, '身份', 0, 3, 'Role/index', 0, '', '', 0, 'group', ''),
-(117, '身份列表', 116, 1, 'Role/index', 0, '', '身份管理', 0, '', ''),
-(118, '编辑身份', 116, 2, 'Role/editRole', 1, '', '', 0, '', ''),
-(119, '启用、禁用、删除身份', 116, 3, 'Role/setStatus', 1, '', '', 0, '', ''),
-(120, '身份排序', 116, 4, 'Role/sort', 1, '', '', 0, '', ''),
+(117, '身份列表', 2, 8, 'Role/index', 0, '', '身份管理', 0, '', ''),
+(118, '编辑身份', 2, 8, 'Role/editRole', 1, '', '', 0, '', ''),
+(119, '启用、禁用、删除身份', 2, 8, 'Role/setStatus', 1, '', '', 0, '', ''),
+(120, '身份排序', 2, 8, 'Role/sort', 1, '', '', 0, '', ''),
 (121, '默认积分配置', 117, 0, 'Role/configScore', 1, '', '', 0, '', ''),
 (122, '默认权限配置', 117, 0, 'Role/configAuth', 1, '', '', 0, '', ''),
 (123, '默认头像配置', 117, 0, 'Role/configAvatar', 1, '', '', 0, '', ''),
 (124, '默认头衔配置', 117, 0, 'Role/configRank', 1, '', '', 0, '', ''),
 (125, '默认字段管理', 117, 0, 'Role/configField', 1, '', '', 0, '', ''),
-(126, '身份分组', 116, 5, 'Role/group', 0, '', '身份管理', 0, '', ''),
+(126, '身份分组', 2, 8, 'Role/group', 0, '', '身份管理', 0, '', ''),
 (127, '编辑分组', 126, 0, 'Role/editGroup', 1, '', '', 0, '', ''),
 (128, '删除分组', 126, 0, 'Role/deleteGroup', 1, '', '', 0, '', ''),
-(129, '身份基本信息配置', 116, 6, 'Role/config', 1, '', '身份管理', 0, '', ''),
-(130, '用户列表', 116, 7, 'Role/userList', 0, '', '身份用户管理', 0, '', ''),
+(129, '身份基本信息配置', 2, 8, 'Role/config', 1, '', '身份管理', 0, '', ''),
+(130, '用户列表', 2, 10, 'Role/userList', 0, '', '身份用户管理', 0, '', ''),
 (131, '设置用户状态', 130, 0, 'Role/setUserStatus', 1, '', '', 0, '', ''),
 (132, '审核用户', 130, 0, 'Role/setUserAudit', 1, '', '', 0, '', ''),
 (133, '迁移用户', 130, 0, 'Role/changeRole', 1, '', '', 0, '', ''),
 (134, '上传默认头像', 123, 0, 'Role/uploadPicture', 1, '', '', 0, '', ''),
-(135, '类型管理', 116, 8, 'Invite/index', 0, '', '邀请注册管理', 0, '', ''),
-(136, '邀请码管理', 116, 9, 'Invite/invite', 0, '', '邀请注册管理', 0, '', ''),
-(137, '基础配置', 116, 10, 'Invite/config', 0, '', '邀请注册管理', 0, '', ''),
-(138, '兑换记录', 116, 11, 'Invite/buyLog', 0, '', '邀请注册管理', 0, '', ''),
-(139, '邀请记录', 116, 12, 'Invite/inviteLog', 0, '', '邀请注册管理', 0, '', ''),
-(140, '用户信息', 116, 13, 'Invite/userInfo', 0, '', '邀请注册管理', 0, '', ''),
+(135, '类型管理', 197, 8, 'Invite/index', 0, '', '邀请注册管理', 0, '', ''),
+(136, '邀请码管理', 197, 9, 'Invite/invite', 0, '', '邀请注册管理', 0, '', ''),
+(137, '基础配置', 197, 10, 'Invite/config', 0, '', '邀请注册管理', 0, '', ''),
+(138, '兑换记录', 197, 11, 'Invite/buyLog', 0, '', '邀请注册管理', 0, '', ''),
+(139, '邀请记录', 197, 12, 'Invite/inviteLog', 0, '', '邀请注册管理', 0, '', ''),
+(140, '用户信息', 197, 13, 'Invite/userInfo', 0, '', '邀请注册管理', 0, '', ''),
 (141, '编辑邀请注册类型', 135, 0, 'Invite/edit', 1, '', '', 0, '', ''),
 (142, '删除邀请', 135, 0, 'Invite/setStatus', 1, '', '', 0, '', ''),
 (143, '删除邀请码', 136, 0, 'Invite/delete', 1, '', '', 0, '', ''),
@@ -4710,7 +4695,7 @@ INSERT INTO `muucmf_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `
 (166, '设置分类、标签状态', 164, 0, 'UserTag/setStatus', 1, '', '', 0, '', ''),
 (167, '分类、标签回收站', 164, 0, 'UserTag/tagTrash', 1, '', '', 0, '', ''),
 (168, '测底删除回收站内容', 164, 0, 'UserTag/userTagClear', 1, '', '', 0, '', ''),
-(169, '可拥有标签配置', 116, 14, 'role/configusertag', 1, '', '', 0, '', ''),
+(169, '可拥有标签配置', 2, 14, 'Role/configusertag', 1, '', '', 0, '', ''),
 (170, '编辑模块', 107, 0, 'Module/edit', 1, '', '模块管理', 0, '', ''),
 (171, '网站信息', 74, 2, 'Config/website', 0, '', '系统设置', 0, '', ''),
 (172, '主题管理', 105, 6, 'Theme/tpls', 0, '', '本地', 0, '', ''),
@@ -4719,69 +4704,58 @@ INSERT INTO `muucmf_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `
 (175, '主题打包下载', 105, 10, 'Theme/packageDownload', 1, '', '本地', 0, '', ''),
 (176, '卸载删除主题', 105, 11, 'Theme/delete', 1, '', '本地', 0, '', ''),
 (177, '上传安装主题', 105, 12, 'Theme/add', 1, '', '本地', 0, '', ''),
-(178, '云市场', 105, 1, 'Cloud/index', 0, '', '云市场', 0, '', ''),
 (197, '运营', 0, 4, 'Operation/index', 0, '', '', 0, 'laptop', ''),
 (198, '群发消息用户列表', 197, 4, 'message/userList', 0, '', '群发消息', 0, '', ''),
 (199, '群发消息', 197, 5, 'message/sendMessage', 1, '', '群发消息', 0, '', ''),
-(200, '在线安装', 178, 0, 'Cloud/install', 1, '', '', 0, '', ''),
 (201, '重置用户密码', 3, 0, 'User/initpass', 1, '', '', 0, '', ''),
-(202, '自动升级', 105, 2, 'Cloud/update', 0, '', '云市场', 0, '', ''),
-(203, '获取版本信息', 202, 0, 'Cloud/version', 1, '', '', 0, '', ''),
-(204, '获取文件列表', 202, 0, 'Cloud/getFileList', 1, '', '', 0, '', ''),
-(205, '比较本地文件', 202, 0, 'Cloud/compare', 1, '', '', 0, '', ''),
-(206, '覆盖文件', 202, 0, 'Cloud/cover', 1, '', '', 0, '', ''),
-(207, '更新数据库', 202, 0, 'Cloud/updb', 1, '', '', 0, '', ''),
-(208, '更新完成', 202, 0, 'Cloud/finish', 1, '', '', 0, '', ''),
-(209, '表情设置', 74, 4, 'Expression/index', 0, '', '表情设置', 0, '', ''),
-(210, '添加表情包', 74, 5, 'Expression/add', 1, '', '表情设置', 0, '', ''),
-(211, '表情包列表', 74, 6, 'Expression/package', 0, '', '表情设置', 0, '', ''),
-(212, '表情列表', 74, 7, 'Expression/expressionList', 1, '', '表情设置', 0, '', ''),
-(213, '删除表情包', 74, 8, 'Expression/delPackage', 1, '', '表情设置', 0, '', ''),
-(214, '编辑表情包', 74, 9, 'Expression/editPackage', 1, '', '表情设置', 0, '', ''),
-(215, '删除表情', 74, 10, 'Expression/delExpression', 1, '', '表情设置', 0, '', ''),
-(216, '上传表情包', 74, 11, 'Expression/upload', 1, '', '表情设置', 0, '', ''),
 (217, '用户头衔审核', 47, 2, 'Rank/setVerifyStatus', 1, '', '头衔管理', 0, '', ''),
 (218, '获取扩展升级列表', 106, 0, 'Cloud/getVersionList', 1, '', '', 0, '', ''),
-(219, '自动升级', 178, 0, 'Cloud/updateGoods', 1, '', '', 0, '', ''),
-(220, '自动升级1-获取文件列表', 178, 0, 'Cloud/Updating1', 1, '', '', 0, '', ''),
-(221, '自动升级2-比较文件', 178, 0, 'Cloud/Updating2', 1, '', '', 0, '', ''),
-(222, '自动升级3-升级代码', 178, 0, 'Cloud/updating3', 1, '', '', 0, '', ''),
-(223, '自动升级4-导入数据库', 178, 0, 'Cloud/updating4', 1, '', '', 0, '', ''),
-(224, '自动升级5-重置版本号', 178, 0, 'Cloud/updating5', 1, '', '', 0, '', ''),
-(225, '广告位', 197, 0, 'Adv/pos', '0', '', '广告配置', '0', '', ''),
-(226, '广告管理', 197, 0, 'Adv/adv', '0', '', '广告配置', '0', '', ''),
-(227, '新增广告', 226, 0, 'Adv/editAdv', '1', '', '', '0', '', ''),
-(228, '编辑广告位', 225, 0, 'Adv/editPos', '1', '', '', '0', '', ''),
-(229, '设置广告位状态', 225, 0, 'Adv/setPosStatus', '1', '', '', '0', '', ''),
-(230, '广告排期', 226, 0, 'Adv/schedule', '1', '', '', '0', '', ''),
+(225, '广告位', 197, 0, 'Adv/pos', 0, '', '广告配置', 0, '', ''),
+(226, '广告管理', 197, 0, 'Adv/adv', 0, '', '广告配置', 0, '', ''),
+(227, '新增广告', 226, 0, 'Adv/editAdv', 1, '', '', 0, '', ''),
+(228, '编辑广告位', 225, 0, 'Adv/editPos', 1, '', '', 0, '', ''),
+(229, '设置广告位状态', 225, 0, 'Adv/setPosStatus', 1, '', '', 0, '', ''),
+(230, '广告排期', 226, 0, 'Adv/schedule', 1, '', '', 0, '', ''),
 (231, '用户导航', 74, 0, 'Channel/user', 0, '', '导航管理', 0, '', 'Core'),
-(232, '积分日志', '113', '0', 'Action/scoreLog', '0', '', '积分管理', '0', '', ''),
+(232, '积分日志', 113, 0, 'Action/scoreLog', 0, '', '积分管理', 0, '', ''),
+(233, '在线用户', 2, 0, 'User/online', 0, '', '用户管理', 0, '', ''),
+(234, '公告列表', 197, 0, 'announce/announcelist', 0, '', '公告管理', 0, '', ''),
+(235, '发布公告', 197, 0, 'announce/add', 0, '', '公告管理', 0, '', ''),
+(236, '应用商店', 105, 0, '＃', 0, '', '云端', 0, '', ''),
+(237, '系统升级', 105, 0, 'Update/index', 0, '', '云端', 0, '', ''),
+(238, '系统升级流程', 237, 0, 'Update/startupdate', 0, '', '', 0, '', ''),
+(239, '消息类型列表', 197, 0, 'message/messagetypelist', 0, '', '消息设置', 0, '', ''),
+(240, '消息设置', 197, 0, 'message/config', 0, '', '消息设置', 0, '', ''),
 
 (10000, '网站主页', 0, 0, 'Home/config', 1, '', '', 0, 'home', 'Home'),
 (10001, '基本设置', 10000, 0, 'Home/config', 0, '', '设置', 0, '', 'Home'),
-(10002, '微博', 0, 8, 'Weibo/weibo', 1, '', '', 0, '', 'Weibo'),
-(10003, '微博管理', 10002, 1, 'Weibo/weibo', 0, '', '微博', 0, '', 'Weibo'),
-(10004, '回复管理', 10002, 3, 'Weibo/comment', 0, '', '回复', 0, '', 'Weibo'),
-(10005, '编辑微博', 10002, 0, 'Weibo/editWeibo', 1, '', '', 0, '', 'Weibo'),
-(10006, '编辑回复', 10002, 0, 'Weibo/editComment', 1, '', '', 0, '', 'Weibo'),
-(10007, '微博回收站', 10002, 2, 'Weibo/weiboTrash', 0, '', '微博', 0, '', 'Weibo'),
-(10008, '回复回收站', 10002, 4, 'Weibo/commentTrash', 0, '', '回复', 0, '', 'Weibo'),
-(10009, '微博设置', 10002, 0, 'Weibo/config', 0, '微博的基本配置', '设置', 0, '', 'Weibo'),
-(10010, '话题管理', 10002, 0, 'Weibo/topic', 0, '微博的话题', '话题管理', 0, '', 'Weibo'),
-(10011, '置顶微博', 10002, 0, 'Weibo/setWeiboTop', 1, '', '', 0, '', 'Weibo'),
-(10012, '设置微博状态', 10002, 0, 'Weibo/setWeiboStatus', 1, '', '', 0, '', 'Weibo'),
-(10013, '设置微博评论状态', 10002, 0, 'Weibo/setCommentStatus', 1, '', '', 0, '', 'Weibo'),
-(10014, '设置置顶话题', 10002, 0, 'Weibo/setTopicTop', 1, '', '', 0, '', 'Weibo'),
-(10015, '删除话题', 10002, 0, 'Weibo/delTopic', 1, '', '', 0, '', 'Weibo'),
-(10016, '会员展示', 0, 22, 'People/config', 1, '', '', 0, '', 'People'),
-(10017, '基本设置', 10016, 0, 'People/config', 0, '', '配置', 0, '', 'People');
-
-
+(10266, '文章', 0, 0, 'Articles/index', 1, '', '', 0, '', 'Articles'),
+(10267, '文章列表', 10266, 0, 'Articles/index', 0, '', '文章管理', 0, '', 'Articles'),
+(10268, '编辑、添加文章', 10267, 0, 'Articles/editArticles', 0, '', '', 0, '', 'Articles'),
+(10269, '设为到期', 10267, 0, 'Articles/setDead', 0, '', '', 0, '', 'Articles'),
+(10270, '审核列表', 10266, 0, 'Articles/audit', 0, '', '文章管理', 0, '', 'Articles'),
+(10271, '审核通过', 10270, 0, 'Articles/setArticlesStatus', 0, '', '', 0, '', 'Articles'),
+(10272, '审核失败', 10270, 0, 'Articles/doAudit', 0, '', '', 0, '', 'Articles'),
+(10273, '回收站', 10266, 0, 'Articles/recycle', 0, '', '文章管理', 0, '', 'Articles'),
+(10274, '基础配置', 10266, 0, 'Articles/config', 0, '', '文章配置', 0, '', 'Articles'),
+(10275, '分类管理', 10266, 0, 'Articles/articlesCategory', 0, '', '文章管理', 0, '', 'Articles'),
+(10276, '设置分类状态', 10275, 0, 'Articles/setStatus', 0, '', '', 0, '', 'Articles'),
+(10277, '编辑、添加分类', 10275, 0, 'Articles/add', 0, '', '', 0, '', 'Articles'),
+(10278, '开发者工具', 0, 0, 'Devtool/module', 1, '', '', 0, '', 'Devtool'),
+(10279, '模块打包向导', 10278, 0, 'Devtool/module', 0, '', '模块工具', 0, '', 'Devtool'),
+(10280, '替换文件', 10279, 0, 'Devtool/replace', 1, '', '', 0, '', 'Devtool'),
+(10281, '下载压缩包', 10279, 0, 'Devtool/download', 1, '', '', 0, '', 'Devtool'),
+(10282, '获取表记录脚本', 10279, 0, 'Devtool/backup_rows', 1, '', '', 0, '', 'Devtool'),
+(10283, '第五步', 10279, 0, 'Devtool/module5', 1, '', '', 0, '', 'Devtool'),
+(10284, '第四步', 10279, 0, 'Devtool/module4', 1, '', '', 0, '', 'Devtool'),
+(10285, '第二步', 10279, 0, 'Devtool/module2', 1, '', '', 0, '', 'Devtool'),
+(10286, '第三步', 10279, 0, 'Devtool/module3', 1, '', '', 0, '', 'Devtool'),
+(10287, '第一步', 10279, 0, 'Devtool/module1', 1, '', '', 0, '', 'Devtool');
 
 
 DROP TABLE IF EXISTS `muucmf_message`;
 CREATE TABLE IF NOT EXISTS `muucmf_message` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `content_id` int(11) NOT NULL,
   `from_uid` int(11) NOT NULL,
   `to_uid` int(11) NOT NULL,
@@ -4789,8 +4763,10 @@ CREATE TABLE IF NOT EXISTS `muucmf_message` (
   `is_read` tinyint(4) NOT NULL,
   `last_toast` int(11) NOT NULL,
   `status` tinyint(4) NOT NULL,
+  `type` varchar(25) NOT NULL COMMENT '类型',
+  `tpl` varchar(255) NOT NULL COMMENT '消息模板',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='消息表' AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='消息表';
 
 DROP TABLE IF EXISTS `muucmf_message_content`;
 CREATE TABLE IF NOT EXISTS `muucmf_message_content` (
@@ -4805,6 +4781,15 @@ CREATE TABLE IF NOT EXISTS `muucmf_message_content` (
   `status` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `muucmf_message_type`;
+CREATE TABLE IF NOT EXISTS `muucmf_message_type` (
+  `id` int(11) NOT NULL,
+  `uid` int(11) NOT NULL COMMENT '用户id',
+  `type` varchar(25) NOT NULL COMMENT '消息类型',
+  `status` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户消息类型表';
 
 DROP TABLE IF EXISTS `muucmf_module`;
 CREATE TABLE IF NOT EXISTS `muucmf_module` (
@@ -4829,10 +4814,11 @@ CREATE TABLE IF NOT EXISTS `muucmf_module` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='模块管理表' AUTO_INCREMENT=12 ;
 
 INSERT INTO `muucmf_module` (`id`, `name`, `alias`, `version`, `is_com`, `show_nav`, `summary`, `developer`, `website`, `entry`, `is_setup`, `sort`, `icon`, `can_uninstall`, `admin_entry`) VALUES
-(1, 'Home', '网站主页', '2.0.0', 0, 1, '首页模块，主要用于展示网站内容', '嘉兴想天信息科技有限公司', 'http://www.ourstu.com', 'Home/index/index', 1, 0, 'home', 1, 'Admin/Home/config'),
-(2, 'Ucenter', '用户中心', '2.0.0', 0, 1, '用户中心模块，系统核心模块', '嘉兴想天信息科技有限公司', 'http://www.ourstu.com', 'Ucenter/index/index', 1, 0, 'user', 0, 'Admin/User/index'),
-(3, 'People', '会员展示', '2.0.0', 0, 1, '会员展示模块，可以用于会员的查找', '嘉兴想天信息科技有限公司', 'http://www.ourstu.com', 'People/index/index', 1, 0, 'group', 1, 'People/config'),
-(4, 'Weibo', '微博', '2.0.0', 0, 1, '微博模块，用户可以发布微博', '嘉兴想天信息科技有限公司', 'http://www.ourstu.com', 'Weibo/index/index', 1, 0, 'quote-left', 1, 'Admin/Weibo/weibo');
+(1, 'Home', '主页', '1.0.0', 0, 1, '通用首页模块，系统共用控制器放置于该模块下', '北京火木科技有限公司', 'http://www.hoomuu.cn', 'Home/index/index', 1, 0, 'home', 0, 'Admin/Home/config'),
+(34, 'Ucenter', '用户中心', '1.0.0', 0, 0, '用户中心模块，系统核心模块', '北京火木科技有限公司', 'http://www.hoomuu.cn', 'Ucenter/index/index', 1, 0, 'user', 0, ''),
+(26, 'Articles', '文章', '1.0.0', 0, 1, '增强版文章模块，用户可前台投稿', '北京火木科技有限公司', 'http://www.hoomuu.cn', 'Articles/index/index', 1, 0, 'th-list', 1, 'Admin/Articles/index'),
+(27, 'Devtool', '开发者工具', '2.0.2', 0, 1, '开发者工具，主要提供给开发者使用，包含了模块打包工具', '嘉兴想天信息科技有限公司', 'http://www.ourstu.com', '', 1, 0, 'wrench', 1, 'Admin/Devtool/module'),
+(42, 'About', '关于我们', '1.0.0', 0, 1, '关于我们模块，可以用于展示公司介绍等', '北京火木科技有限公司', 'http://www.hoomuu.cn', 'About/Index/index', 1, 0, 'file-text', 1, 'Admin/About/index');
 
 DROP TABLE IF EXISTS `muucmf_picture`;
 CREATE TABLE IF NOT EXISTS `muucmf_picture` (
@@ -4955,53 +4941,7 @@ CREATE TABLE IF NOT EXISTS `muucmf_seo_rule` (
 INSERT INTO `muucmf_seo_rule` (`id`, `title`, `app`, `controller`, `action`, `status`, `seo_keywords`, `seo_description`, `seo_title`, `sort`, `summary`) VALUES
 (1000, '整站标题', '', '', '', 1, '', '', '', 7, '-'),
 (1001, '用户中心', 'Ucenter', 'index', 'index', 1, '{$user_info.username|text}的个人主页', '{$user_info.username|text}的个人主页', '{$user_info.nickname|op_t}的个人主页', 3, '-'),
-(1002, '网站首页', 'Home', 'Index', 'index', 1, '', '', '', 0, '-'),
-(1003, '积分商城首页', 'Shop', 'Index', 'index', 1, '', '', '', 0, '-'),
-(1004, '商品列表', 'Shop', 'Index', 'goods', 1, '', '', '', 0, 'category_name：当前分类名\nchild_category_name：子分类名'),
-(1005, '商品详情', 'Shop', 'Index', 'goodsdetail', 1, '', '', '', 0, 'content：商品变量集\n   content.goods_name 商品名\n   content.goods_introduct 商品简介\n   content.goods_detail 商品详情'),
-(1006, '活动主页', 'Event', 'Index', 'index', 1, '', '', '', 0, '-'),
-(1007, '活动详情', 'Event', 'Index', 'detail', 1, '', '', '', 0, 'content：活动变量集\n   content.title 活动名称\n   content.type.title 活动分类名\n   content.user.nickname 发起人昵称\n   content.address 活动地点\n   content.limitCount 人数限制'),
-(1008, '活动成员', 'Event', 'Index', 'member', 1, '', '', '', 0, '-'),
-(1009, '专辑首页', 'Issue', 'Index', 'index', 1, '', '', '', 0, '-'),
-(1010, '专辑详情', 'Issue', 'Index', 'issuecontentdetail', 1, '', '', '', 0, 'content：专辑内容变量集\n   content.user.nickname 内容发布者昵称\n   content.user.signature 内容发布者签名\n   content.url 内容的Url\n   content.title 内容标题\n   content.create_time|friendlyDate 发布时间\n   content.update_time|friendlyDate 更新时间'),
-(1011, '论坛主页', 'Forum', 'Index', 'index', 1, '', '', '', 0, '-'),
-(1012, '某个版块的帖子列表', 'Forum', 'Index', 'forum', 1, '', '', '', 0, 'forum：版块变量集\n   forum.description 版块描述\n   forum.title 版块名称\n   forum.topic_count 主题数\n   forum.total_count 帖子数'),
-(1013, '帖子详情', 'Forum', 'Index', 'detail', 1, '', '', '', 0, 'post：帖子变量集\n   post.title 帖子标题\n   post.content 帖子详情\n   post.forum.title 帖子所在版块标题\n   '),
-(1014, '搜索帖子', 'Forum', 'Index', 'search', 1, '', '', '', 0, 'keywords：搜索的关键词，2.4.0以后版本提供'),
-(1015, '随便看看', 'Forum', 'Index', 'look', 1, '', '', '', 0, '-'),
-(1016, '全部版块', 'Forum', 'Index', 'lists', 1, '', '', '', 0, '-'),
-(1017, '资讯首页/某个分类下的文章列表', 'News', 'Index', 'index', 1, '', '', '', 0, 'now_category.title 当前分类的名称'),
-(1018, '某篇文章的内容页', 'News', 'Index', 'detail', 1, '', '', '', 0, 'now_category.title 当前分类的名称\ninfo：文章变量集\n   info.title 文章标题\n   info.description 文章摘要\n   info.source 文章来源\n   info.detail.content 文章内容\nauthor.nickname 作者昵称\nauthor.signature 作者签名\n   '),
-(1019, '微博首页', 'Weibo', 'Index', 'index', 1, '{$MODULE_ALIAS}', '{$MODULE_ALIAS}首页', '{$MODULE_ALIAS}-{$website_name}', 0, 'title：我关注的、热门微博、全站关注'),
-(1020, '某条微博的详情页', 'Weibo', 'Index', 'weibodetail', 1, '{$weibo.title|text},{$website_name},{$MODULE_ALIAS}', '{$weibo.content|text}', '{$weibo.content|text}——{$MODULE_ALIAS}', 0, 'weibo:微博变量集\n   weibo.user.nickname 发布者昵称\n   weibo.content 微博内容'),
-(1021, '微博搜索页面', 'Weibo', 'Index', 'search', 1, '', '', '', 0, 'search_keywords：搜索关键词'),
-(1022, '热门话题列表', 'Weibo', 'Topic', 'topic', 1, '', '', '', 0, '-'),
-(1023, '某个话题的话题页', 'Weibo', 'Topic', 'index', 1, '', '', '', 0, 'topic：话题变量集\n   topic.name 话题名称\nhost：话题主持人变量集\n   host.nickname 主持人昵称'),
-(1024, '自动跳转到我的群组', 'Group', 'Index', 'index', 1, '', '', '', 0, '-'),
-(1025, '全部群组', 'Group', 'Index', 'groups', 1, '', '', '', 0, '-'),
-(1026, '我的群组-帖子列表', 'Group', 'Index', 'my', 1, '', '', '', 0, '-'),
-(1027, '我的群组-全部关注的群组列表', 'Group', 'Index', 'mygroup', 1, '', '', '', 0, '-'),
-(1028, '某个群组的帖子列表页面', 'Group', 'Index', 'group', 1, '', '', '', 0, 'search_key：如果查找帖子，则是关键词\ngroup：群组变量集\n   group.title 群组标题\n   group.user.nickname 创始人昵称\n   group.member_count 群组人数'),
-(1029, '某篇帖子的内容页', 'Group', 'Index', 'detail', 1, '', '', '', 0, 'group：群组变量集\n   group.title 群组标题\n   group.user.nickname 创始人昵称\n   group.member_count 群组人数\npost：帖子变量集\n   post.title 帖子标题\n   post.content 帖子内容'),
-(1030, '创建群组', 'Group', 'Index', 'create', 1, '', '', '', 0, '-'),
-(1031, '发现', 'Group', 'Index', 'discover', 1, '', '', '', 0, '-'),
-(1032, '精选', 'Group', 'Index', 'select', 1, '', '', '', 0, '-'),
-(1033, '找人首页', 'People', 'Index', 'index', 1, '{$MODULE_ALIAS}', '{$MODULE_ALIAS}', '{$MODULE_ALIAS}', 0, '-'),
-(1034, '微店首页', 'Store', 'Index', 'index', 1, '', '', '', 0, '-'),
-(1035, '某个分类下的商品列表页', 'Store', 'Index', 'li', 1, '', '', '', 0, 'type：当前分类变量集\n   type.title 分类名称'),
-(1036, '搜索商品列表页', 'Store', 'Index', 'search', 1, '', '', '', 0, 'searchKey：搜索关键词'),
-(1037, '单个商品的详情页', 'Store', 'Index', 'info', 1, '', '', '', 0, 'info：商品变量集\n   info.title 商品标题\n   info.des 商品描述\n   info.shop：店铺变量集\n       info.shop.title 店铺名称\n       info.shop.summary 店铺简介\n       info.shop.position 店铺所在地\n       info.shop.user.nickname 店主昵称'),
-(1038, '店铺街', 'Store', 'Index', 'lists', 1, '', '', '', 0, '-'),
-(1039, '某个店铺的首页', 'Store', 'Index', 'detail', 1, '', '', '', 0, 'shop：店铺变量集\n   shop.title 店铺名称\n   shop.summary 店铺简介\n   shop.position 店铺所在地\n   shop.user.nickname 店主昵称'),
-(1040, '某个店铺下的商品列表页', 'Store', 'Index', 'goods', 1, '', '', '', 0, 'shop：店铺变量集\n   shop.title 店铺名称\n   shop.summary 店铺简介\n   shop.position 店铺所在地\n   shop.user.nickname 店主昵称'),
-(1041, '分类信息首页', 'Cat', 'Index', 'index', 1, '', '', '', 0, '-'),
-(1042, '某个模型下的列表页', 'Cat', 'Index', 'li', 1, '', '', '', 0, 'entity：当前模型变量集\n   entity.alias 模型名'),
-(1043, '某条信息的详情页', 'Cat', 'Index', 'info', 1, '', '', '', 0, 'entity：当前模型变量集\n   entity.alias 模型名\ninfo：当前信息\n   info.title 信息名称\nuser.nickname 发布者昵称'),
-(1044, '待回答页面', 'Question', 'Index', 'waitanswer', 1, '', '', '', 0, '-'),
-(1045, '热门问题', 'Question', 'Index', 'goodquestion', 1, '', '', '', 0, '-'),
-(1046, '我的回答', 'Question', 'Index', 'myquestion', 1, '', '', '', 0, '-'),
-(1047, '全部问题', 'Question', 'Index', 'questions', 1, '', '', '', 0, '-'),
-(1048, '详情', 'Question', 'Index', 'detail', 1, '', '', '', 0, 'question：问题变量集\n   question.title 问题标题\n   question.description 问题描述\n   question.answer_num 回答数\nbest_answer：最佳回答\n   best_answer.content 最佳答案内容');
+(1002, '网站首页', 'Home', 'Index', 'index', 1, '', '', '', 0, '-');
 
 
 DROP TABLE IF EXISTS `muucmf_sso_app`;
@@ -5015,6 +4955,14 @@ CREATE TABLE IF NOT EXISTS `muucmf_sso_app` (
   `config` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `muucmf_session`;
+CREATE TABLE IF NOT EXISTS `muucmf_session` (
+  `session_id` varchar(225) NOT NULL,
+  `session_expire` int(11) NOT NULL,
+  `session_data` text NOT NULL,
+  PRIMARY KEY (`session_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `muucmf_super_links`;
 CREATE TABLE IF NOT EXISTS `muucmf_super_links` (
@@ -5220,6 +5168,7 @@ CREATE TABLE IF NOT EXISTS `muucmf_verify` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+DROP TABLE IF EXISTS `muucmf_version`;
 CREATE TABLE IF NOT EXISTS `muucmf_version` (
   `title` varchar(50) NOT NULL COMMENT '版本名',
   `create_time` int(11) NOT NULL COMMENT '发布时间',
@@ -5232,58 +5181,6 @@ CREATE TABLE IF NOT EXISTS `muucmf_version` (
   PRIMARY KEY (`name`),
   KEY `id` (`number`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='自动更新表';
-
-DROP TABLE IF EXISTS `muucmf_weibo`;
-CREATE TABLE IF NOT EXISTS `muucmf_weibo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uid` int(11) NOT NULL,
-  `content` text NOT NULL,
-  `create_time` int(11) NOT NULL,
-  `comment_count` int(11) NOT NULL,
-  `status` int(11) NOT NULL,
-  `is_top` tinyint(4) NOT NULL,
-  `type` varchar(255) NOT NULL,
-  `data` text NOT NULL,
-  `repost_count` int(11) NOT NULL,
-  `from` varchar(40) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
-DROP TABLE IF EXISTS `muucmf_weibo_comment`;
-CREATE TABLE IF NOT EXISTS `muucmf_weibo_comment` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uid` int(11) NOT NULL,
-  `weibo_id` int(11) NOT NULL,
-  `content` text NOT NULL,
-  `create_time` int(11) NOT NULL,
-  `status` int(11) NOT NULL,
-  `to_comment_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
-DROP TABLE IF EXISTS `muucmf_weibo_top`;
-CREATE TABLE IF NOT EXISTS `muucmf_weibo_top` (
-  `weibo_id` int(11) NOT NULL DEFAULT '0',
-  `create_time` int(11) NOT NULL,
-  PRIMARY KEY (`weibo_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='置顶微博表';
-
-DROP TABLE IF EXISTS `muucmf_weibo_topic`;
-CREATE TABLE IF NOT EXISTS `muucmf_weibo_topic` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL COMMENT '话题名',
-  `logo` varchar(255) NOT NULL DEFAULT '/topicavatar.jpg' COMMENT '话题logo',
-  `intro` varchar(255) NOT NULL COMMENT '导语',
-  `qrcode` varchar(255) NOT NULL COMMENT '二维码',
-  `uadmin` int(11) NOT NULL DEFAULT '0' COMMENT '话题管理   默认无',
-  `read_count` int(11) NOT NULL DEFAULT '0' COMMENT '阅读',
-  `is_top` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
-
-
-
 
 DROP TABLE IF EXISTS `muucmf_score_log`;
 CREATE TABLE IF NOT EXISTS `muucmf_score_log` (
@@ -5310,18 +5207,6 @@ CREATE TABLE IF NOT EXISTS `muucmf_ucenter_user_link` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-
---话题链接表
-CREATE TABLE IF NOT EXISTS `muucmf_topic_link` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `topic_id` int(11) NOT NULL COMMENT '话题ID',
-  `link_to_id` int(11) NOT NULL COMMENT '链接到的ID',
-  `create_time` int(11) NOT NULL COMMENT '创建时间',
-  `link_mark` varchar(20) NOT NULL COMMENT '链接标识',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='话题关联表' AUTO_INCREMENT=1 ;
-
-
 DROP TABLE IF EXISTS `muucmf_adv_pos`;
 CREATE TABLE `muucmf_adv_pos` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -5338,17 +5223,6 @@ CREATE TABLE `muucmf_adv_pos` (
   `theme` varchar(50) NOT NULL DEFAULT 'all' COMMENT '适用主题，默认为all，通用',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='广告位置表';
-INSERT INTO `muucmf_adv_pos` VALUES ('1', 'right_below_all', '右侧底部广告', 'Weibo/Index/index', '1', '1', '0', '280px', '100px', '', '', 'all');
-INSERT INTO `muucmf_adv_pos` VALUES ('2', 'below_checkrank', '签到下方广告', 'Weibo/Index/index', '1', '1', '0', '280px', '100px', '0 0 10px 0', '', 'all');
-INSERT INTO `muucmf_adv_pos` VALUES ('3', 'filter_right', '过滤右方', 'Weibo/Index/index', '3', '1', '0', '300px', '30px', '', '', 'all');
-INSERT INTO `muucmf_adv_pos` VALUES ('10', 'below_post_content', '帖子主题下方广告1', 'Forum/Index/index', '1', '1', '0', '680px', '100px', '', '', 'all');
-INSERT INTO `muucmf_adv_pos` VALUES ('11', 'below_post_content', '论坛帖子主题下方广告', 'Forum/Index/detail', '1', '1', '', '680px', '100px', '', '', 'all');
-INSERT INTO `muucmf_adv_pos` VALUES ('4', 'below_self_info', '个人资料下方', 'Weibo/Index/index', '1', '1', '', '280px', '100px', '0 0 10px 0', '', 'all');
-INSERT INTO `muucmf_adv_pos` VALUES ('5', 'index_top', '资讯首页顶部广告', 'News/Index/index', '2', '1', '', '738px', '240px', '', '', 'all');
-INSERT INTO `muucmf_adv_pos` VALUES ('6', 'index_bottom_top', '资讯首页右侧最底部广告', 'News/Index/index', '1', '1', '', '360px', '120px', '10px 0 0 0', '', 'all');
-INSERT INTO `muucmf_adv_pos` VALUES ('9', 'slider', '首页轮播图', 'Home/Index/index', '2', '1', '{\"style\":1}', '1120px', '300px', '0 0 15px 0', '', 'all');
-INSERT INTO `muucmf_adv_pos` VALUES ('7', 'index_right_top', '资讯首页右侧最顶部广告', 'News/Index/index', '1', '1', '[]', '360px', '120px', '0 0 10px 0', '', 'all');
-INSERT INTO `muucmf_adv_pos` VALUES ('8', 'below_article_content', '资讯文章内容下方广告', 'News/Index/detail', '1', '1', '', '690px', '100px', '', '', 'all');
 
 DROP TABLE IF EXISTS `muucmf_adv`;
 CREATE TABLE `muucmf_adv` (
