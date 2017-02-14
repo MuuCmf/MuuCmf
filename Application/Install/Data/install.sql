@@ -44,9 +44,7 @@ CREATE TABLE IF NOT EXISTS `muucmf_action_limit` (
 
 INSERT INTO `muucmf_action_limit` (`id`, `title`, `name`, `frequency`, `time_number`, `time_unit`, `punish`, `if_message`, `message_content`, `action_list`, `status`, `create_time`, `module`) VALUES
 (1, 'reg', '注册限制', 1, 1, 'minute', 'warning', 0, '', '[reg]', 1, 0, ''),
-(2, 'input_password', '输密码', 3, 1, 'minute', 'warning', 0, '', '[input_password]', 1, 0, ''),
-(3, 'add_weibo', '新增微博', 1, 10, 'second', 'warning', 0, '', '[add_weibo]', 1, 0, 'Weibo'),
-(4, 'add_weibo_comment', '添加微博评论', 1, 10, 'second', 'warning', 0, '', '[add_weibo_comment]', 1, 0, 'Weibo');
+(2, 'input_password', '输密码', 3, 1, 'minute', 'warning', 0, '', '[input_password]', 1, 0, '');
 
 DROP TABLE IF EXISTS `muucmf_action_log`;
 CREATE TABLE IF NOT EXISTS `muucmf_action_log` (
@@ -399,26 +397,12 @@ INSERT INTO `muucmf_auth_rule` (`id`, `module`, `type`, `name`, `title`, `status
 (232, 'admin', 1, 'Admin/Rank/userRankList', '用户头衔列表', 1, ''),
 (233, 'admin', 1, 'Admin/Rank/userAddRank', '关联新头衔', 1, ''),
 (234, 'admin', 1, 'Admin/Rank/userChangeRank', '编辑头衔关联', 1, ''),
-(235, 'admin', 1, 'Admin/Issue/add', '编辑专辑', -1, ''),
-(236, 'admin', 1, 'Admin/Issue/issue', '专辑管理', -1, ''),
-(237, 'admin', 1, 'Admin/Issue/operate', '专辑操作', -1, ''),
-(238, 'admin', 1, 'Admin/Weibo/weibo', '微博管理', 1, ''),
+
 (239, 'admin', 1, 'Admin/Rank/index', '头衔列表', 1, ''),
-(240, 'admin', 1, 'Admin/Forum/forumTrash', '板块回收站', -1, ''),
-(241, 'admin', 1, 'Admin/Weibo/weiboTrash', '微博回收站', 1, ''),
 (242, 'admin', 1, 'Admin/Rank/editRank', '添加头衔', 1, ''),
-(243, 'admin', 1, 'Admin/Weibo/comment', '回复管理', 1, ''),
-(244, 'admin', 1, 'Admin/Forum/postTrash', '帖子回收站', -1, ''),
-(245, 'admin', 1, 'Admin/Weibo/commentTrash', '回复回收站', 1, ''),
-(246, 'admin', 1, 'Admin/Issue/issueTrash', '专辑回收站', -1, ''),
-(247, 'admin', 1, 'Admin//Admin/Forum/reply', '回复管理', -1, ''),
-(248, 'admin', 1, 'Admin/Forum/replyTrash', '回复回收站', -1, ''),
-(249, 'admin', 2, 'Admin/Forum/index', '贴吧', -1, ''),
-(250, 'admin', 2, 'Admin/Weibo/weibo', '微博', 1, ''),
+
 (251, 'admin', 2, 'Admin/SEO/index', 'SEO', -1, ''),
 (252, 'admin', 2, 'Admin/Rank/index', '头衔', -1, ''),
-(253, 'admin', 2, 'Admin/Issue/issue', '专辑', -1, ''),
-(254, 'admin', 1, 'Admin/Issue/contents', '内容管理', -1, ''),
 (255, 'admin', 1, 'Admin/User/profile', '扩展资料', 1, ''),
 (256, 'admin', 1, 'Admin/User/editProfile', '添加、编辑分组', 1, ''),
 (257, 'admin', 1, 'Admin/User/sortProfile', '分组排序', 1, ''),
@@ -429,39 +413,11 @@ INSERT INTO `muucmf_auth_rule` (`id`, `module`, `type`, `name`, `title`, `status
 (262, 'admin', 1, 'Admin/Update/addpack', '新增补丁', 1, ''),
 (263, 'admin', 1, 'Admin/User/expandinfo_select', '用户扩展资料列表', 1, ''),
 (264, 'admin', 1, 'Admin/User/expandinfo_details', '扩展资料详情', 1, ''),
-(265, 'admin', 1, 'Admin/Shop/shopLog', '商城信息记录', -1, ''),
-(266, 'admin', 1, 'Admin/Shop/setStatus', '商品分类状态设置', -1, ''),
-(267, 'admin', 1, 'Admin/Shop/setGoodsStatus', '商品状态设置', -1, ''),
-(268, 'admin', 1, 'Admin/Shop/operate', '商品分类操作', -1, ''),
-(269, 'admin', 1, 'Admin/Shop/add', '商品分类添加', -1, ''),
-(270, 'admin', 1, 'Admin/Shop/goodsEdit', '添加、编辑商品', -1, ''),
-(271, 'admin', 1, 'Admin/Shop/hotSellConfig', '热销商品阀值配置', -1, ''),
-(272, 'admin', 1, 'Admin/Shop/setNew', '设置新品', -1, ''),
-(273, 'admin', 1, 'Admin/EventType/index', '活动分类管理', -1, ''),
-(274, 'admin', 1, 'Admin/Event/event', '内容管理', -1, ''),
-(275, 'admin', 1, 'Admin/EventType/eventTypeTrash', '活动分类回收站', -1, ''),
-(276, 'admin', 1, 'Admin/Event/verify', '内容审核', -1, ''),
-(277, 'admin', 1, 'Admin/Event/contentTrash', '内容回收站', -1, ''),
+
 (278, 'admin', 1, 'Admin/Rank/rankVerify', '待审核用户头衔', 1, ''),
 (279, 'admin', 1, 'Admin/Rank/rankVerifyFailure', '被驳回的头衔申请', 1, ''),
-(280, 'admin', 1, 'Admin/Weibo/config', '微博设置', 1, ''),
-(281, 'admin', 1, 'Admin/Issue/verify', '内容审核', -1, ''),
-(282, 'admin', 1, 'Admin/Shop/goodsList', '商品列表', -1, ''),
-(283, 'admin', 1, 'Admin/Shop/shopCategory', '商品分类配置', -1, ''),
-(284, 'admin', 1, 'Admin/Shop/categoryTrash', '商品分类回收站', -1, ''),
-(285, 'admin', 1, 'Admin/Shop/verify', '待发货交易', -1, ''),
-(286, 'admin', 1, 'Admin/Issue/contentTrash', '内容回收站', -1, ''),
-(287, 'admin', 1, 'Admin/Shop/goodsBuySuccess', '交易成功记录', -1, ''),
-(288, 'admin', 1, 'Admin/Shop/goodsTrash', '商品回收站', -1, ''),
-(289, 'admin', 1, 'Admin/Shop/toxMoneyConfig', '货币配置', -1, ''),
-(290, 'admin', 2, 'Admin/Shop/shopCategory', '商城', -1, ''),
-(291, 'admin', 2, 'Admin/EventType/index', '活动', -1, ''),
-(340, 'Weibo', 1, 'Weibo/Index/doSend', '发微博', 1, ''),
+
 (297, 'Home', 1, 'deleteLocalComment', '删除本地评论', 1, ''),
-(306, 'Issue', 1, 'addIssueContent', '专辑投稿权限', 1, ''),
-(307, 'Issue', 1, 'editIssueContent', '编辑专辑内容（管理）', 1, ''),
-(339, 'Weibo', 1, 'Weibo/Index/doDelWeibo', '删除微博(管理)', 1, ''),
-(338, 'Weibo', 1, 'Weibo/Index/doSendRepost', '转发微博', 1, ''),
 (313, 'admin', 1, 'Admin/module/install', '模块安装', 1, ''),
 (315, 'admin', 1, 'Admin/module/lists', '模块管理', 1, ''),
 (316, 'admin', 1, 'Admin/module/uninstall', '卸载模块', 1, ''),
@@ -471,11 +427,7 @@ INSERT INTO `muucmf_auth_rule` (`id`, `module`, `type`, `name`, `title`, `status
 (320, 'admin', 1, 'Admin/AuthManager/deleteNode', '删除权限节点', 1, ''),
 (321, 'admin', 1, 'Admin/Issue/config', '专辑设置', -1, ''),
 (322, 'admin', 2, 'Admin/module/lists', '云平台', -1, ''),
-(341, 'Weibo', 1, 'Weibo/Index/doComment', '评论微博', 1, ''),
-(342, 'Weibo', 1, 'Weibo/Index/doDelComment', '删除评论微博(管理)', 1, ''),
-(343, 'Weibo', 1, 'Weibo/Index/setTop', '微博置顶(管理)', 1, ''),
-(344, 'Weibo', 1, 'Weibo/Topic/beAdmin', '抢先成为话题主持人', 1, ''),
-(345, 'Weibo', 1, 'Weibo/Topic/editTopic', '管理话题(管理)', 1, ''),
+
 (346, 'admin', 1, 'Admin/UserConfig/index', '用户注册配置', 1, ''),
 (347, 'admin', 1, 'Admin/User/scoreList', '积分类型列表', 1, ''),
 (348, 'admin', 1, 'Admin/user/editScoreType', '新增/编辑类型', 1, ''),
@@ -615,9 +567,8 @@ CREATE TABLE `muucmf_user_nav` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8;
 INSERT INTO `muucmf_user_nav` VALUES ('1', '个人主页', 'ucenter/Index/index', '0', '0', '0', '1', '0', '', '', '', '');
-INSERT INTO `muucmf_user_nav` VALUES ('2', '消息中心', 'ucenter/message/message', '0', '0', '0', '1', '0', '', '', '', '');
-INSERT INTO `muucmf_user_nav` VALUES ('3', '我的收藏', 'ucenter/Collection/index', '0', '0', '0', '1', '0', '', '', '', '');
-INSERT INTO `muucmf_user_nav` VALUES ('4', '我的头衔', 'ucenter/Index/rank', '0', '0', '0', '1', '0', '', '', '', '');
+INSERT INTO `muucmf_user_nav` VALUES ('2', '用户设置', 'ucenter/config/index', '0', '0', '0', '1', '0', '', '', '', '');
+
 
 DROP TABLE IF EXISTS `muucmf_checkin`;
 CREATE TABLE IF NOT EXISTS `muucmf_checkin` (
