@@ -1,16 +1,18 @@
 <extend name="Public/base"/>
 
 <block name="header">
-    <li class="active"><a href="javascript:;">安装协议</a></li>
-    <li class="active"><a href="javascript:;">环境检测</a></li>
-    <li class="active"><a href="javascript:;">创建数据库</a></li>
-    <li class="active"><a href="javascript:;">安装</a></li>
-    <li class="active"><a href="javascript:;">完成</a></li>
+    <li class="active"><span>1</span>安装协议</li>
+    <li class="active"><span>2</span>环境检测</li>
+    <li class="active"><span>3</span>创建数据库</li>
+    <li class="active"><span>4</span>安装</li>
+    <li class="active"><span>5</span>完成</li>
 </block>
 
 <block name="body">
-    <h1>完成</h1>
-    <p>安装完成！</p>
+    <div class="success">
+        <h1 class="text-center">安装完成</h1>
+        <p class="text-center">点击下方按钮即可进入相应页面</p>
+    </div>
 	<present name="info">
 	{$info}
 	</present>
@@ -18,5 +20,5 @@
 
 <block name="footer">
     <a class="btn btn-primary btn-primary btn-block btn-large" target="_blank" href="index.php?s=/Admin">登录后台</a>
-    <a class="btn btn-success btn-block btn-large" target="_blank" href="index.php">访问首页</a>
+    <a class="btn btn-warning btn-block btn-large" target="_blank" href="index.php">访问首页</a>
 </block>
