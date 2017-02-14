@@ -4701,7 +4701,15 @@ INSERT INTO `muucmf_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `
 (10284, '第四步', 10279, 0, 'Devtool/module4', 1, '', '', 0, '', 'Devtool'),
 (10285, '第二步', 10279, 0, 'Devtool/module2', 1, '', '', 0, '', 'Devtool'),
 (10286, '第三步', 10279, 0, 'Devtool/module3', 1, '', '', 0, '', 'Devtool'),
-(10287, '第一步', 10279, 0, 'Devtool/module1', 1, '', '', 0, '', 'Devtool');
+(10287, '第一步', 10279, 0, 'Devtool/module1', 1, '', '', 0, '', 'Devtool'),
+(10443, '关于我们', 0, 0, 'About/index', 1, '', '', 0, '', 'About'),
+(10444, '内容管理', 10443, 0, 'About/index', 0, '', '内容管理', 0, '', 'About'),
+(10445, '分类管理', 10443, 0, 'About/aboutCategory', 0, '', '内容管理', 0, '', 'About'),
+(10446, '反馈管理', 10443, 0, 'About/feedback', 0, '', '反馈管理', 0, '', 'About'),
+(10447, '编辑单页文章', 10444, 0, 'About/editAbout', 0, '', '内容管理', 0, '', 'About'),
+(10448, '设置内容状态', 10444, 0, 'setAboutStatus', 0, '', '内容管理', 0, '', 'About'),
+(10449, '编辑分类', 10445, 0, 'About/editCategory', 0, '', '', 0, '', 'About'),
+(10450, '设置分类状态', 10445, 0, 'About/setCategoryStatus', 0, '', '内容管理', 0, '', 'About');
 
 
 DROP TABLE IF EXISTS `muucmf_message`;
