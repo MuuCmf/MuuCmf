@@ -1,3 +1,0 @@
-<?php
-//000000000000a:15:{s:2:"id";s:2:"29";s:4:"name";s:9:"Portfolio";s:5:"alias";s:9:"作品集";s:7:"version";s:5:"1.0.0";s:6:"is_com";s:1:"0";s:8:"show_nav";s:1:"1";s:7:"summary";s:48:"作品案例展示模块，用户可前台发布";s:9:"developer";s:30:"北京火木科技有限公司";s:7:"website";s:20:"http://www.hoomuu.cn";s:5:"entry";s:21:"Portfolio/index/index";s:8:"is_setup";s:1:"1";s:4:"sort";s:1:"0";s:4:"icon";s:7:"th-list";s:13:"can_uninstall";s:1:"1";s:11:"admin_entry";s:21:"Admin/Portfolio/index";}
-?>
