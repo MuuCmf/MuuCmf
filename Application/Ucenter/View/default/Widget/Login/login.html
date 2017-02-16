@@ -114,12 +114,12 @@
     function change_show(obj) {
         if ($(obj).text().trim() == 'show') {
             var value = $('#inputPassword').val().trim();
-            var html = '<input type="text" value="' + value + '" id="inputPassword" class="form-control" placeholder="'+"{:L('_NEW_PW_INPUT_')}"+'" errormsg="'+"{:L('_PW_ERROR_')}"+'" nullmsg="'+"{:L('_PW_INPUT_ERROR_')}"+'" datatype="*6-30" name="password">' +
+            var html = '<input type="text" value="' + value + '" id="inputPassword" class="form-control input-lg new-input" placeholder="'+"{:L('_NEW_PW_INPUT_')}"+'" errormsg="'+"{:L('_PW_ERROR_')}"+'" nullmsg="'+"{:L('_PW_INPUT_ERROR_')}"+'" datatype="*6-30" name="password">' +
                     '<div class="input-group-addon"><a style="width: 100%;height: 100%" href="javascript:void(0);" onclick="change_show(this)">hide</a></div>';
             $('#password_block').html(html);
         } else {
             var value = $('#inputPassword').val().trim();
-            var html = '<input type="password" value="' + value + '" id="inputPassword" class="form-control" placeholder="'+"{:L('_NEW_PW_INPUT_')}"+'" errormsg="'+"{:L('_PW_ERROR_')}"+'" nullmsg="'+"{:L('_PW_INPUT_ERROR_')}"+'" datatype="*6-30" name="password">' +
+            var html = '<input type="password" value="' + value + '" id="inputPassword" class="form-control input-lg new-input" placeholder="'+"{:L('_NEW_PW_INPUT_')}"+'" errormsg="'+"{:L('_PW_ERROR_')}"+'" nullmsg="'+"{:L('_PW_INPUT_ERROR_')}"+'" datatype="*6-30" name="password">' +
                     '<div class="input-group-addon"><a style="width: 100%;height: 100%" href="javascript:void(0);" onclick="change_show(this)">show</a></div>';
             $('#password_block').html(html);
         }
