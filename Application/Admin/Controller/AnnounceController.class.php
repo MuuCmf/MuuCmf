@@ -69,7 +69,6 @@ class AnnounceController extends AdminController{
             ->keyTime('end_time','有效期至')
             ->keyText('arrive','已确认数')
             ->keyDoActionEdit('edit?id=###','设置')
-            ->keyDoAction('setStatus?ids=###&status=-1','删除')
             ->keyDoAction('arrive?announce_id=###','查看确认人')
             ->data($list)
             ->pagination($totalCount,$r)
