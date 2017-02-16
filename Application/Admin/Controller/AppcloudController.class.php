@@ -19,7 +19,7 @@ class AppcloudController extends AdminController
     }
 
     public function index(){
+    	$this->meta_title =('应用商店');
         $this->display();
     }
-
 } 
