@@ -20,19 +20,13 @@ nav.navbar.bootsnav.navbar-fixed {
   position: fixed;
   display: block;
   width: 100%;
+  min-width: 1160px;
 }
 nav.navbar.bootsnav.no-background {
   background-color: transparent;
   border: none;
 }
-@media (max-width: 992px) {
-  nav.navbar.bootsnav .navbar-header {
-    float: none;
-    display: block;
-    text-align: center;
-    padding-right: 30px;
-  }
-}
+
 @media (max-width: 992px){
   nav.navbar.bootsnav .navbar-brand {
     display: inline-block;
@@ -48,11 +42,11 @@ nav.navbar.bootsnav.no-background {
     margin-top: 15px;
   }
 }
-@media (max-width: 992px) {
-  .navbar-nav > li {
-    float: none;
-  }
+
+.navbar-nav > li {
+  float: left;
 }
+
 .navbar-toggle {
   position: relative;
   float: left;
@@ -64,14 +58,14 @@ nav.navbar.bootsnav.no-background {
   background-color: transparent;
   border: 0;
 }
-@media (min-width: 992px) {
+
 nav.navbar.bootsnav ul.nav > li > a {
   padding: 25px 15px;
   font-size: 16px;
   font-weight: 560;
   color:#666;
 }
-}
+
 nav.navbar.bootsnav .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
   color: #ff9900;
   background-color: #fff;
@@ -113,13 +107,13 @@ nav.navbar.bootsnav .navbar-collapse {
   right: 30px;
 }
 }
-@media (max-width: 992px) {
-  .attr-nav {
-    position: absolute;
-    top:0;
-    right: 15px;
-  }
+.navbar-header {
+    float: left;
 }
+.navbar-left {
+    float: left!important;
+}
+
 .attr-nav {
   float: right;
   display: inline-block;
