@@ -320,6 +320,7 @@ section {
 
 .developer .fh5co-section-with-image {
     position: relative;
+    min-width: 1160px;
 }
 .developer .img-responsive {
 	width:100%;
@@ -371,6 +372,7 @@ section {
 }
 .scheme .ts-box_d {
     width: 100%;
+    min-width: 1160px;
 }
 .scheme .ts-d_ul {
     width: 100%;
