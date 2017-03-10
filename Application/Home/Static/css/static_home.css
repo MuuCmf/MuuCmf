@@ -43,6 +43,17 @@ nav.white_nav .dropdown ul {
     background: #fff!important;
 }
 
+@media (max-width: 992px){
+    .white_nav .icon, [class*=" icon-"], [class^=icon-] {
+        font-size: 14px;
+        color:#000;
+    }
+    .icon, [class*=" icon-"], [class^=icon-] {
+        font-size: 14px;
+        color:#fff;
+    }
+}
+
 .cover {
 	margin-top:-70px;
 }
@@ -53,6 +64,12 @@ nav.white_nav .dropdown ul {
 .fh5co-cover, .fh5co-hero {
     position: relative;
     height: 800px;
+}
+@media(max-width:768px){
+    .fh5co-cover, .fh5co-hero {
+        position: relative;
+        height: 600px;
+    }
 }
 .fh5co-overlay {
     position: absolute !important;
@@ -72,6 +89,12 @@ nav.white_nav .dropdown ul {
     z-index: 2;
     color: #fff;
 }
+@media(max-width:768px){
+    .fh5co-cover .desc {
+        margin-top: -130px;
+
+    }
+}
 .fh5co-cover .desc h2 {
     color: #fff;
     text-transform: uppercase;
@@ -79,19 +102,26 @@ nav.white_nav .dropdown ul {
     margin-bottom: 10px;
     font-weight: 300 !important;
 }
-.fh5co-cover .desc span {
+@media(max-width:768px){
+    .fh5co-cover .desc h2 {
+        color: #fff;
+        font-size: 35px;
+        font-weight: 300 !important;
+    }
+}
+.fh5co-cover .desc .jj {
     display: block;
     margin-bottom: 30px;
     font-size: 24px;
     letter-spacing: 1px;
 }
 
-.fh5co-cover .desc span a.fh5co-site-name {
+.fh5co-cover .desc .jj a.fh5co-site-name {
     padding-bottom: 2px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.7);
 }
 
-.fh5co-cover .desc span a {
+.fh5co-cover .desc .jj a {
     color: #fff;
 }
 
@@ -172,6 +202,15 @@ section {
 	height:505px;
 	margin:0 auto;
 }
+
+@media (max-width: 768px){
+    .ecology .info .con{
+        width:100%;
+        width:280px;
+        height:280px;
+        padding:35px;
+    }
+}
 .ecology .info .con .spanele {
     position: relative;
     display:table;
@@ -211,12 +250,36 @@ section {
 .ecology .info .con .spanele .box i{
 	font-size:36px;
 }
+@media (max-width: 768px){
+    .ecology .info .con .spanele {
+        position: relative;
+        display:table;
+        width:80px;
+        height:80px;
+        border-radius: 50%;
+        z-index: 5;
+        color:#fff;
+    }
+    .ecology .info .con .spanele .box {
+        color:#fff;
+        display:table-cell;
+        vertical-align:middle;
+        text-align: center;
+        font-size:12px;
+        width:100%;
+        min-width:80px;
+        height:100%;
+        min-height:80px;
+    }
+
+}
+
 .ecology .info .con .muu {
-	position:absolute;
-	top:0;
-	left:50%;
-	background:#03B8CF;
-	margin-left:-80px;
+    position:absolute;
+    top:0;
+    left:50%;
+    background:#03B8CF;
+    margin-left:-80px;
 }
 .ecology .info .con .deve {
 	position:absolute;
@@ -251,14 +314,57 @@ section {
 	font-size:24px;
 	z-index: 3;
 }
+
+@media (max-width: 768px){
+    .ecology .info .con .muu {
+        position:absolute;
+        top:0;
+        left:50%;
+        background:#03B8CF;
+        margin-left:-40px;
+    }
+    .ecology .info .con .deve {
+        position:absolute;
+        left:0;
+        top:150px;
+        background:#66D37E;
+    }
+
+    .ecology .info .con .store {
+        position:absolute;
+        right:0;
+        top:150px;
+        background:#F1A325;
+    }
+    .ecology .info .con .need {
+        position:absolute;
+        left:50%;
+        bottom:0;
+        margin-left:-40px;
+        background:#8666B8;
+    }
+    .ecology .info .con .center {
+        position:absolute;
+        margin-top:-80px;
+        margin-left:-80px;
+        width:160px;
+        height:160px;
+        top:50%;
+        left:50%;
+        background:#EA644A;
+        font-size:18px;
+        z-index: 3;
+    }
+
+}
 .ecology .info .con .center .ecosystom {
 	color:#fff;
 	display:table-cell;
 	vertical-align:middle;
 	text-align: center;
 	font-size:26px;
-	width:260px;
-	height:260px;
+	max-width:260px;
+	max-height:260px;
 }
 
 .ecology .info .con .round {
@@ -278,6 +384,14 @@ section {
 	-moz-animation: rotation 5s linear infinite;
 	-webkit-animation: rotation 5s linear infinite;
 	-o-animation: rotation 5s linear infinite;
+}
+@media (max-width: 768px){
+    .ecology .info .con .round {
+        width:280px;
+        height:280px;
+        left:50%;
+        margin-left: -140px;
+    }
 }
 @-webkit-keyframes rotation{
 	from {-webkit-transform: rotate(0deg);}
@@ -320,7 +434,7 @@ section {
 
 .developer .fh5co-section-with-image {
     position: relative;
-    min-width: 1160px;
+    width:100%;
 }
 .developer .img-responsive {
 	width:100%;
@@ -372,7 +486,7 @@ section {
 }
 .scheme .ts-box_d {
     width: 100%;
-    min-width: 1160px;
+    overflow:hidden;
 }
 .scheme .ts-d_ul {
     width: 100%;
@@ -385,6 +499,15 @@ section {
     float: left;
     position: relative;
     overflow:hidden;
+}
+@media (max-width: 768px){
+    .scheme .ts-d_ul li {
+        list-style: none;
+        width: 50%;
+        float: left;
+        position: relative;
+        overflow:hidden;
+    }
 }
 .scheme .ts-d_ul .rsp {
     background: #000;
@@ -429,7 +552,12 @@ section {
 .start-join .user-signup .btn{
     padding: 16px 30px;
 }
-
+@media (max-width:768px){
+    .start-join .user-signup .btn{
+        display: block;
+        padding: 16px 30px;
+    }
+}
 
 /*we try updata everday*/
 .fh5co-cta {
