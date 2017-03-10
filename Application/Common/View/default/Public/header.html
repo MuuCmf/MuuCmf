@@ -13,10 +13,12 @@
             <php>$logo = get_cover(modC('LOGO',0,'Config'),'path');
                 $logo = $logo?$logo:'__ROOT__/Public/images/logo.png';
             </php>
-        <div class="container-fixed">
+        <div class="container">
             <!-- Start Header Navigation -->
             <div class="navbar-header">
-
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-menu" aria-expanded="false">
+                    <i class="icon icon-bars"></i>
+                </button>
                 <a class="navbar-brand" href="{:U('Home/Index/index')}"><img src="{$logo}" class="logo" alt=""></a>
             </div>
             <!-- End Header Navigation -->
@@ -100,7 +102,7 @@
                 </ul>
             </div>
             
-            <div class="">
+            <div class="collapse navbar-collapse" id="navbar-menu" aria-expanded="false">
                 <ul class="nav navbar-nav navbar-left">
                     <think:nav name="nav" tree="true">
                         <neq name="nav['_']" value="">
