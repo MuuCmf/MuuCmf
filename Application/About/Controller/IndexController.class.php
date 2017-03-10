@@ -19,10 +19,7 @@ class IndexController extends Controller{
         $this->aboutCategoryModel = D('About/AboutCategory');
 
         $catTitle=modC('PAPER_CATEGORY_TITLE','网站简介','About');
-    }
 
-    public function index()
-    {
         $catList=$this->aboutCategoryModel->getCategoryList(array('status'=>1));
         if(count($catList)){
             $cat_ids=array_column($catList,'id');
@@ -44,8 +41,12 @@ class IndexController extends Controller{
         }
         $catListSort=list_sort_by($catList,'sort');
         $this->assign('cat_list',$catListSort);
+    }
 
+    public function index()
+    {
         $aId=I('id',0,'intval');
+        $defaultId = modC('ABOUT_DEFAULT_ID','默认id','about');
         if($aId==0){
             /*
             foreach($catList as $val){
@@ -60,7 +61,7 @@ class IndexController extends Controller{
                 }
             }
             */
-            $aId = 3;
+            $aId = $defaultId;
         }
 
         if($aId){

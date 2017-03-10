@@ -6,17 +6,31 @@
     <div id="main-container" class="container">
         <div class="common_block_border">
             <div class="common_content_box">
+                <div class="category">
+                    <volist name="cat_list" id="cat_list">
+                        <span >
+                        <if condition="$cat_list.id eq 1 ">
+                            <a href="{:U('about/index/index')}" class="btn btn-lg btn-primary">
+                        <else />
+                            <a href="{:U('about/index/category',array('cid'=>$cat_list['id']))}" class="btn btn-lg btn-primary">
+                        </if>
+                            {$cat_list.title}
+                            </a>
+                        </span>
+                    </volist>
+                </div>
                 <section id="contents">
                     <notempty name="list">
                         <volist name="list" id="data">
-                        <div class="col-xs-6">
+                        <div class="col-md-6">
                             <div class="list-box">
-                                <a href="{:U('About/index/index',array('id'=>$data['id']))}">
+                                <a class="pic" href="{:U('About/index/index',array('id'=>$data['id']))}">
                                     <img src="{$data.cover|getThumbImageById=550,250}" title="{$data.title}" />
+                                    
                                 </a>
                             <div class="info">
                                 <a href="{:U('About/index/index',array('id'=>$data['id']))}">
-                                    <h3>{$data.title}</h3>
+                                    <h3 class="text-ellipsis">{$data.title}</h3>
                                 </a>
                                 <hr>
                                 <p class="time">{$data.create_time|date='Y/m/d H:i',###}</p>

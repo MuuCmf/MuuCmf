@@ -7,11 +7,13 @@
     <if condition="$data.cover neq 0">
         <div class="cover"><img src="{$data.cover|getThumbImageById=1600,500}" title="{$data.title}" /></div>
     </if>
+    <div class="title text-center">
+        <h2>{$data.title}</h2>
+    </div>
 </div>
 <div id="main-container" class="container">
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="category">
+    <div class="col-xs-12">
+        <div class="category">
             <volist name="cat_list" id="cat_list">
                 <span >
                 <if condition="$cat_list.id eq 1 ">
@@ -23,19 +25,15 @@
                     </a>
                 </span>
             </volist>
-            </div>
-            <div class="common_block_border">
+        </div>
+        <div class="common_block_border">
                 <div style="padding: 10px;">{$data.content}</div>
                 <div class="feedback">
                     <img src="__IMG__/share-idea.jpg" title="反馈" data-toggle="modal" data-target="#myModal"/>
                 </div>
-            </div>
         </div>
-        <div class="clearfix"></div>
-
     </div>
-    </div>
-
+        
     <div class="feedback-modal modal fade" id="myModal">
         <div class="modal-dialog">
           <div class="modal-content">
