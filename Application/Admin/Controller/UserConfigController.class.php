@@ -73,6 +73,11 @@ str;
             ->keyEditor('REG_EMAIL_VERIFY', L('_MAILBOX_VERIFICATION_TEMPLATE_'), L('_PLEASE_EMAIL_VERIFY_'),'all')
             ->keyEditor('REG_EMAIL_ACTIVATE', L('_MAILBOX_ACTIVATION_TEMPLATE_'), L('_PLEASE_USER_ACTIVE_'))
 
+            //短信验证内容
+            ->keyTextArea('SMS_CONTENT', L('_MESSAGE_CONTENT_'), L('_MSG_VERICODE_ACCOUNT_'))
+            ->keyDefault('SMS_CONTENT',L('_VERICODE_ACCOUNT_'))
+            ->keyDefault('SMS_RESEND','60')
+            ->keyText('SMS_RESEND', L('_THE_MESSAGE_RETRANSMISSION_TIME_'), L('_THE_MESSAGE_RETRANSMISSION_TIME_'))
             
 
             ->keyTextArea('LEVEL', L('_HIERARCHY_'), L('_ONE_PER_LINE_BETWEEN_THE_NAME_AND_THE_INTEGRAL_BY_A_COLON_'))
@@ -90,6 +95,7 @@ str;
             ->group(L('_LOGIN_CONFIGURATION_'), 'OPEN_QUICK_LOGIN,LOGIN_SWITCH')
             ->group(L('_MAILBOX_VERIFICATION_TEMPLATE_'), 'REG_EMAIL_VERIFY')
             ->group(L('_MAILBOX_ACTIVATION_TEMPLATE_'), 'REG_EMAIL_ACTIVATE')
+            ->group(L('_SMS_VERIFICATION_CONFIG_'), 'SMS_CONTENT,SMS_RESEND')
             
             ->group(L('_BASIC_SETTINGS_'), 'LEVEL,NICKNAME_MIN_LENGTH,NICKNAME_MAX_LENGTH,USERNAME_MIN_LENGTH,USERNAME_MAX_LENGTH')
             ->buttonSubmit('', L('_SAVE_'))

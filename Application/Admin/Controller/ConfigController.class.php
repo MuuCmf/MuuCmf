@@ -283,13 +283,9 @@ class ConfigController extends AdminController
             }
         }
         $builder->keySelect('SMS_HOOK', L('_SMS_SENDING_SERVICE_PROVIDER_'), L('_SMS_SEND_SERVICE_PROVIDERS_NEED_TO_INSTALL_THE_PLUG-IN_'), $opt)
-            ->keyText('SMS_RESEND', L('_THE_MESSAGE_RETRANSMISSION_TIME_'), L('_THE_MESSAGE_RETRANSMISSION_TIME_'))
             //->keyText('SMS_HTTP', L('_SMS_PLATFORM_HTTP_'), '短信平台HTTP，可用服务商：<a href="http://www.yunsms.cn/" target="_blank">云短信</a>，<a href="http://v2.opensns.cn/index.php?s=/news/index/detail/id/52.html" target="_blank">使用帮助</a>')
             ->keyText('SMS_UID', L('_SMS_PLATFORM_ACCOUNT_NUMBER_'), L('_SMS_PLATFORM_ACCOUNT_NUMBER_'))
-            ->keyText('SMS_PWD', L('_SMS_PLATFORM_PASSWORD_'), L('_SMS_PLATFORM_PASSWORD_'))
-            ->keyTextArea('SMS_CONTENT', L('_MESSAGE_CONTENT_'), L('_MSG_VERICODE_ACCOUNT_'))
-            ->keyDefault('SMS_CONTENT',L('_VERICODE_ACCOUNT_'))
-            ->keyDefault('SMS_RESEND','60');
+            ->keyText('SMS_PWD', L('_SMS_PLATFORM_PASSWORD_'), L('_SMS_PLATFORM_PASSWORD_'));
 
         $builder->group(L('_SMS_CONFIGURATION_'), 'SMS_HTTP,SMS_UID,SMS_PWD,SMS_CONTENT,SMS_HOOK,SMS_RESEND');
         unset($opt);

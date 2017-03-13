@@ -479,7 +479,7 @@ class MemberController extends Controller
     {
         switch ($type) {
             case 'mobile':
-                $content = modC('SMS_CONTENT', '{$verify}', 'CONFIG');
+                $content = modC('SMS_CONTENT', '{$verify}', 'USERCONFIG');
                 $content = str_replace('{$verify}', $verify, $content);
                 $content = str_replace('{$account}', $account, $content);
                 $res = sendSMS($account, $content);

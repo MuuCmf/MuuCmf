@@ -882,6 +882,7 @@ return array(
     '_CHECK_TO_SKIP_AND_YOU_CANT_SKIP_THE_DEFAULT_' => '勾选为可跳过，默认不可跳过',
     '_MAILBOX_VERIFICATION_TEMPLATE_' => '邮箱验证模版',
     '_MAILBOX_ACTIVATION_TEMPLATE_' => '邮箱激活模版',
+    '_SMS_VERIFICATION_CONFIG_' => '短信验证设置',
     '_SMS_SENDING_SERVICE_PROVIDER_' => '短信发送服务商',
     '_SMS_SEND_SERVICE_PROVIDERS_NEED_TO_INSTALL_THE_PLUG-IN_' => '短信发送服务商，需要安装插件',
     '_THE_MESSAGE_RETRANSMISSION_TIME_' => '短信重发时间',

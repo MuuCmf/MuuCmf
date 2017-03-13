@@ -789,6 +789,7 @@
 '_CHECK_TO_SKIP_AND_YOU_CANT_SKIP_THE_DEFAULT_' =>' Check to skip, default can not be skipped',
 '_MAILBOX_VERIFICATION_TEMPLATE_' =>' Mailbox verification template',
 '_MAILBOX_ACTIVATION_TEMPLATE_' =>' Mailbox activation template',
+'_SMS_VERIFICATION_CONFIG_' => 'Sms verfiiction config',
 '_SMS_SENDING_SERVICE_PROVIDER_' =>' SMS sending service provider',
 '_SMS_SEND_SERVICE_PROVIDERS_NEED_TO_INSTALL_THE_PLUG-IN_' =>' SMS sending service provider, need to install the plug-in',
 '_THE_MESSAGE_RETRANSMISSION_TIME_' =>' Message retransmission time',
