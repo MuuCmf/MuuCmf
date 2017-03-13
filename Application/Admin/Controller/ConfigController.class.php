@@ -222,6 +222,34 @@ class ConfigController extends AdminController
         $builder->keyEditor('SUBSCRIB_US', L('_CONTENT_FOLLOW_US_'), L('_CONTENT_FOLLOW_US_VICE_'));
         $builder->keyEditor('COPY_RIGHT', L('_INFO_COPYRIGHT_'), L('_INFO_COPYRIGHT_VICE_'));
 
+        
+        $builder->group(L('_BASIC_INFORMATION_'), array('WEB_SITE_NAME', 'ICP', 'LOGO', 'QRCODE', 'LANG'));
+
+        $builder->group(L('_THE_FOOTER_INFORMATION_'), array('ABOUT_US', 'SUBSCRIB_US', 'COPY_RIGHT'));
+
+        $builder->group(L('_JUMP_PAGE_'), array('JUMP_BACKGROUND', 'SUCCESS_WAIT_TIME', 'ERROR_WAIT_TIME'));
+        $builder->keyBool('GET_INFORMATION', L('_OPEN_INSTANT_ACCESS_TO_THE_MESSAGE_'),L('_OPEN_INSTANT_ACCESS_TO_THE_MESSAGE_VICE_'));
+        $builder->keyText('GET_INFORMATION_INTERNAL', L('_MESSAGE_POLLING_INTERVAL_'), L('_MESSAGE_POLLING_INTERVAL_VICE_'));
+        $builder->group(L('_PERFORMANCE_SETTINGS_'), array('GET_INFORMATION','GET_INFORMATION_INTERNAL'));
+        
+
+        $builder->data($data);
+        $builder->keyDefault('SUCCESS_WAIT_TIME', 2);
+        $builder->keyDefault('ERROR_WAIT_TIME', 5);
+        $builder->keyDefault('LANG', 'zh-cn');
+        $builder->keyDefault('GET_INFORMATION',1);
+        $builder->keyDefault('GET_INFORMATION_INTERNAL',10);
+
+        $builder->buttonSubmit();
+        $builder->display();
+    }
+
+    public function expandConfig(){
+        $builder = new AdminConfigBuilder();
+        $data = $builder->handleConfig();
+        $builder->title(L('_SITE_INFO_'))->suggest(L('_SITE_INFO_VICE_'));
+
+        //上传功能
         $addons = \Think\Hook::get('uploadDriver');
         $opt = array('local' => L('_LOCAL_'));
         foreach ($addons as $name) {
@@ -238,23 +266,35 @@ class ConfigController extends AdminController
         $builder->keySelect('PICTURE_UPLOAD_DRIVER', L('_PICTURE_UPLOAD_DRIVER_'), L('_PICTURE_UPLOAD_DRIVER_'), $opt);
         $builder->keySelect('DOWNLOAD_UPLOAD_DRIVER', L('_ATTACHMENT_UPLOAD_DRIVER_'), L('_ATTACHMENT_UPLOAD_DRIVER_'), $opt);
 
-        $builder->group(L('_BASIC_INFORMATION_'), array('WEB_SITE_NAME', 'ICP', 'LOGO', 'QRCODE', 'LANG'));
 
-        $builder->group(L('_THE_FOOTER_INFORMATION_'), array('ABOUT_US', 'SUBSCRIB_US', 'COPY_RIGHT'));
-
-        $builder->group(L('_JUMP_PAGE_'), array('JUMP_BACKGROUND', 'SUCCESS_WAIT_TIME', 'ERROR_WAIT_TIME'));
-        $builder->keyBool('GET_INFORMATION', L('_OPEN_INSTANT_ACCESS_TO_THE_MESSAGE_'),L('_OPEN_INSTANT_ACCESS_TO_THE_MESSAGE_VICE_'));
-        $builder->keyText('GET_INFORMATION_INTERNAL', L('_MESSAGE_POLLING_INTERVAL_'), L('_MESSAGE_POLLING_INTERVAL_VICE_'));
-        $builder->group(L('_PERFORMANCE_SETTINGS_'), array('GET_INFORMATION','GET_INFORMATION_INTERNAL'));
         $builder->group(L('_UPLOAD_CONFIGURATION_'), array('PICTURE_UPLOAD_DRIVER', 'DOWNLOAD_UPLOAD_DRIVER'));
+        unset($opt);
+        //短信验证
+        //
+        $addons = \Think\Hook::get('sms');
+        $opt = array('none' => L('_NONE_'));
+        foreach ($addons as $name) {
+            if (class_exists($name)) {
+                $class = new $name();
+                $config = $class->getConfig();
+                if ($config['switch']) {
+                    $opt[$class->info['name']] = $class->info['title'];
+                }
+            }
+        }
+        $builder->keySelect('SMS_HOOK', L('_SMS_SENDING_SERVICE_PROVIDER_'), L('_SMS_SEND_SERVICE_PROVIDERS_NEED_TO_INSTALL_THE_PLUG-IN_'), $opt)
+            ->keyText('SMS_RESEND', L('_THE_MESSAGE_RETRANSMISSION_TIME_'), L('_THE_MESSAGE_RETRANSMISSION_TIME_'))
+            //->keyText('SMS_HTTP', L('_SMS_PLATFORM_HTTP_'), '短信平台HTTP，可用服务商：<a href="http://www.yunsms.cn/" target="_blank">云短信</a>，<a href="http://v2.opensns.cn/index.php?s=/news/index/detail/id/52.html" target="_blank">使用帮助</a>')
+            ->keyText('SMS_UID', L('_SMS_PLATFORM_ACCOUNT_NUMBER_'), L('_SMS_PLATFORM_ACCOUNT_NUMBER_'))
+            ->keyText('SMS_PWD', L('_SMS_PLATFORM_PASSWORD_'), L('_SMS_PLATFORM_PASSWORD_'))
+            ->keyTextArea('SMS_CONTENT', L('_MESSAGE_CONTENT_'), L('_MSG_VERICODE_ACCOUNT_'))
+            ->keyDefault('SMS_CONTENT',L('_VERICODE_ACCOUNT_'))
+            ->keyDefault('SMS_RESEND','60');
+
+        $builder->group(L('_SMS_CONFIGURATION_'), 'SMS_HTTP,SMS_UID,SMS_PWD,SMS_CONTENT,SMS_HOOK,SMS_RESEND');
+        unset($opt);
 
         $builder->data($data);
-        $builder->keyDefault('SUCCESS_WAIT_TIME', 2);
-        $builder->keyDefault('ERROR_WAIT_TIME', 5);
-        $builder->keyDefault('LANG', 'zh-cn');
-        $builder->keyDefault('GET_INFORMATION',1);
-        $builder->keyDefault('GET_INFORMATION_INTERNAL',10);
-
         $builder->buttonSubmit();
         $builder->display();
     }

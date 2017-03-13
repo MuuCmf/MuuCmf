@@ -36,7 +36,7 @@ class VerifyController extends Controller
         check_username($cUsername, $cEmail, $cMobile);
         $time = time();
         if($aType == 'mobile'){
-            $resend_time =  modC('SMS_RESEND','60','USERCONFIG');
+            $resend_time =  modC('SMS_RESEND','60','CONFIG');
             if($time <= session('verify_time')+$resend_time ){
                 $this->error(L('_ERROR_WAIT_1_').($resend_time-($time-session('verify_time'))).L('_ERROR_WAIT_2_'));
             }

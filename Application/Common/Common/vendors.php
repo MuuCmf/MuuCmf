@@ -210,7 +210,7 @@ function modC($key, $default = '', $module = '')
 function sendSMS($mobile, $content)
 {
 
-    $sms_hook = modC('SMS_HOOK','none','USERCONFIG');
+    $sms_hook = modC('SMS_HOOK','none','CONFIG');
     $sms_hook =  check_sms_hook_is_exist($sms_hook);
 
     if($sms_hook == 'none'){

@@ -35,8 +35,8 @@ class YunSmsAddon extends Addon
         return true;
     }
     public function sendSms($mobile, $content){
-        $uid = modC('SMS_UID', '', 'USERCONFIG');
-        $pwd = modC('SMS_PWD', '', 'USERCONFIG');
+        $uid = modC('SMS_UID', '', 'CONFIG');
+        $pwd = modC('SMS_PWD', '', 'CONFIG');
         $http = 'http://http.yunsms.cn/tx/';
         if (empty($uid) || empty($pwd)) {
             return '管理员还未配置短信信息，请联系管理员配置';

@@ -56,17 +56,7 @@ str;
 
 
 
-        $addons = \Think\Hook::get('sms');
-        $opt = array('none' => L('_NONE_'));
-        foreach ($addons as $name) {
-            if (class_exists($name)) {
-                $class = new $name();
-                $config = $class->getConfig();
-                if ($config['switch']) {
-                    $opt[$class->info['name']] = $class->info['title'];
-                }
-            }
-        }
+        
 
         $admin_config->title(L('_USER_CONFIGURATION_'))->data($data)
             ->keyCheckBox('REG_SWITCH', L('_REGISTRATION_SWITCH_'), L('_THE_REGISTRATION_OPTION_THAT_ALLOWS_THE_USE_OF_THE_REGISTRATION_IS_CLOSED_'), array('username' => L('_USER_NAME_'),'email' => L('_MAILBOX_'), 'mobile' => L('_MOBILE_PHONE_')))
@@ -83,12 +73,8 @@ str;
             ->keyEditor('REG_EMAIL_VERIFY', L('_MAILBOX_VERIFICATION_TEMPLATE_'), L('_PLEASE_EMAIL_VERIFY_'),'all')
             ->keyEditor('REG_EMAIL_ACTIVATE', L('_MAILBOX_ACTIVATION_TEMPLATE_'), L('_PLEASE_USER_ACTIVE_'))
 
-            ->keySelect('SMS_HOOK', L('_SMS_SENDING_SERVICE_PROVIDER_'), L('_SMS_SEND_SERVICE_PROVIDERS_NEED_TO_INSTALL_THE_PLUG-IN_'), $opt)
-            ->keyText('SMS_RESEND', L('_THE_MESSAGE_RETRANSMISSION_TIME_'), L('_THE_MESSAGE_RETRANSMISSION_TIME_'))
-            //->keyText('SMS_HTTP', L('_SMS_PLATFORM_HTTP_'), '短信平台HTTP，可用服务商：<a href="http://www.yunsms.cn/" target="_blank">云短信</a>，<a href="http://v2.opensns.cn/index.php?s=/news/index/detail/id/52.html" target="_blank">使用帮助</a>')
-            ->keyText('SMS_UID', L('_SMS_PLATFORM_ACCOUNT_NUMBER_'), L('_SMS_PLATFORM_ACCOUNT_NUMBER_'))
-            ->keyText('SMS_PWD', L('_SMS_PLATFORM_PASSWORD_'), L('_SMS_PLATFORM_PASSWORD_'))
-            ->keyTextArea('SMS_CONTENT', L('_MESSAGE_CONTENT_'), L('_MSG_VERICODE_ACCOUNT_'))
+            
+
             ->keyTextArea('LEVEL', L('_HIERARCHY_'), L('_ONE_PER_LINE_BETWEEN_THE_NAME_AND_THE_INTEGRAL_BY_A_COLON_'))
             ->keyInteger('NICKNAME_MIN_LENGTH', L('_NICKNAME_LENGTH_MINIMUM_'))->keyDefault('NICKNAME_MIN_LENGTH',2)
             ->keyInteger('NICKNAME_MAX_LENGTH', L('_NICKNAME_LENGTH_MAXIMUM_'))->keyDefault('NICKNAME_MAX_LENGTH',32)
@@ -104,13 +90,12 @@ str;
             ->group(L('_LOGIN_CONFIGURATION_'), 'OPEN_QUICK_LOGIN,LOGIN_SWITCH')
             ->group(L('_MAILBOX_VERIFICATION_TEMPLATE_'), 'REG_EMAIL_VERIFY')
             ->group(L('_MAILBOX_ACTIVATION_TEMPLATE_'), 'REG_EMAIL_ACTIVATE')
-            ->group(L('_SMS_CONFIGURATION_'), 'SMS_HTTP,SMS_UID,SMS_PWD,SMS_CONTENT,SMS_HOOK,SMS_RESEND')
+            
             ->group(L('_BASIC_SETTINGS_'), 'LEVEL,NICKNAME_MIN_LENGTH,NICKNAME_MAX_LENGTH,USERNAME_MIN_LENGTH,USERNAME_MAX_LENGTH')
             ->buttonSubmit('', L('_SAVE_'))
             ->keyDefault('REG_EMAIL_VERIFY',L('_VERICODE_ACCOUNT_').L('_PERIOD_'))
-            ->keyDefault('REG_EMAIL_ACTIVATE',L('_LINK_ACTIVE_IS_'))
-            ->keyDefault('SMS_CONTENT',L('_VERICODE_ACCOUNT_'))
-            ->keyDefault('SMS_RESEND','60');
+            ->keyDefault('REG_EMAIL_ACTIVATE',L('_LINK_ACTIVE_IS_'));
+            
         $admin_config->display();
     }
 }

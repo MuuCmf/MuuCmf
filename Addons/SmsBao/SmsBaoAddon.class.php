@@ -37,8 +37,8 @@ class SmsBaoAddon extends Addon
 
 
     public function sendSms($mobile, $content){
-        $uid = modC('SMS_UID', 'faith', 'USERCONFIG');
-        $pwd = modC('SMS_PWD', 'dingjia', 'USERCONFIG');
+        $uid = modC('SMS_UID', 'faith', 'CONFIG');
+        $pwd = modC('SMS_PWD', 'dingjia', 'CONFIG');
 
         if (empty($uid) || empty($pwd)) {
             return '管理员还未配置短信信息，请联系管理员配置'. $uid .$pwd;
