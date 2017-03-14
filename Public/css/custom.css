@@ -40,6 +40,11 @@ nav.navbar.bootsnav.no-background {
     display: inline-block;
     float: none !important;
     margin: 0 !important;
+    padding-top:25px;
+  }
+
+  nav.navbar.bootsnav .navbar-brand img{
+    width:120px;
   }
 }
 @media (max-width: 992px) {
