@@ -1,3 +1,9 @@
+#main-container {
+  margin-top:0;
+}
+.container {
+  position:static;
+}
 .about-header {
   position:relative;
   display:table;
@@ -15,6 +21,8 @@
   width: 100%;
   vertical-align: middle;
   text-align: center;
+  color:#fff;
+  background:rgba(0,0,0,0.5);
 }
 .about-header .title h2 {
   font-size:36px;
@@ -37,19 +45,65 @@
 }
 @media (max-width: 768px){
   .about-header .cover {
-    height:180px;
+    height:auto;
+    width:900px;
+    left:50%;
+    margin-left:-450px;
   }
 }
 .about-header .cover img {
   width:100%;
 }
+.about-nav-box {
+  position:relative;
+  bottom:60px;
+  margin:10px 0;
+}
+.nav-justified>li>a {
+  margin-bottom:0;
+  border:0;
+  background:#fff;
+  margin:0 10px;
+  box-shadow:0 7px 20px rgba(0,0,0,0.1);
+}
+.nav-justified>li>a:focus,.nav-justified>li>a:hover {
+  background-color:#f90;
+  color:#fff;
+}
+
+.nav-justified>li:first-child>a {
+  margin-left:10px;
+}
+
+@media (max-width:768px) {
+  .about-nav-box {
+    position:fixed;
+    margin:0;
+    left:0;
+    bottom:0;
+    z-index: 999;
+  }
+  .nav-justified>li {
+    display:table-cell;
+    width:1%;
+  }
+  .nav-justified>li>a {
+    padding:15px;
+    background:#fff;
+    margin:0;
+  }
+  .nav-justified>li:first-child>a {
+    margin-left:0;
+  }
+}
+
 .btn-primary {
     background: #03B8CF;
     color: #fff;
     border: 2px solid #03B8CF;
 }
 .btn.btn-lg {
-    padding: 18px 36px !important;
+    padding: 18px 36px;
 }
 .btn {
     margin-right: 4px;
@@ -70,6 +124,9 @@
   .btn{
     display:block;
   }
+  .btn.btn-lg{
+    padding:8px 15px;
+  }
 }
 .category {
   text-align: center;
@@ -86,7 +143,7 @@
   }
 }
 .common_block_border {
-  margin-top:1px;
+  margin-top:20px;
   font-size:1.2em;
 }
 .common_block_border .feedback {
@@ -117,11 +174,12 @@
 
 .list-box a.pic {
   display:block;
-  height:200px;
+  min-height:160px;
   overflow:hidden;
 }
 .list-box .info {
   padding:30px;
+  padding-top:10px;
 }
 .list-box .info p {
 

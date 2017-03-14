@@ -12,22 +12,24 @@
     </div>
 </div>
 <div id="main-container" class="container">
-    <div class="col-xs-12">
-        <div class="category">
-            <volist name="cat_list" id="cat_list">
-                <span >
-                <if condition="$cat_list.id eq 1 ">
-                    <a href="{:U('about/index/index')}" class="btn btn-lg btn-primary">
-                <else />
-                    <a href="{:U('about/index/category',array('cid'=>$cat_list['id']))}" class="btn btn-lg btn-primary">
-                </if>
-                    {$cat_list.title}
-                    </a>
-                </span>
-            </volist>
+    <div class="">
+        <div class="about-nav-box">
+            <div class="nav nav-primary nav-justified">
+                <volist name="cat_list" id="cat_list">
+                    <li>
+                    <if condition="$cat_list.id eq 1 ">
+                        <a href="{:U('about/index/index')}" class="">
+                    <else />
+                        <a href="{:U('about/index/category',array('cid'=>$cat_list['id']))}" class="">
+                    </if>
+                        {$cat_list.title}
+                        </a>
+                    </li>
+                </volist>
+            </div>
         </div>
         <div class="common_block_border">
-                <div style="padding: 10px;">{$data.content}</div>
+                <div>{$data.content}</div>
                 <div class="feedback">
                     <img src="__IMG__/share-idea.jpg" title="反馈" data-toggle="modal" data-target="#myModal"/>
                 </div>
@@ -54,6 +56,8 @@
         </div>
     </div>
     </div>
+
+
     <link href="__PUBLIC__/css/form_check.css" rel="stylesheet" type="text/css">
     <script src="__PUBLIC__/js/form_check.js"></script>
     <script>

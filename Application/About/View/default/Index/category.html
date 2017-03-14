@@ -1,24 +1,32 @@
 <extend name="Base/common"/>
 <block name="style">
     <link href="__CSS__/about.css" type="text/css" rel="stylesheet">
+    <style>
+        .about-nav-box {
+          bottom:0;
+        }
+    </style>
 </block>
 <block name="body">
     <div id="main-container" class="container">
+        <div class="about-nav-box">
+            <div class="nav nav-primary nav-justified">
+                <volist name="cat_list" id="cat_list">
+                    <li>
+                    <if condition="$cat_list.id eq 1 ">
+                        <a href="{:U('about/index/index')}" class="">
+                    <else />
+                        <a href="{:U('about/index/category',array('cid'=>$cat_list['id']))}" class="">
+                    </if>
+                        {$cat_list.title}
+                        </a>
+                    </li>
+                </volist>
+            </div>
+        </div>
+
         <div class="common_block_border">
             <div class="common_content_box">
-                <div class="category">
-                    <volist name="cat_list" id="cat_list">
-                        <span >
-                        <if condition="$cat_list.id eq 1 ">
-                            <a href="{:U('about/index/index')}" class="btn btn-lg btn-primary">
-                        <else />
-                            <a href="{:U('about/index/category',array('cid'=>$cat_list['id']))}" class="btn btn-lg btn-primary">
-                        </if>
-                            {$cat_list.title}
-                            </a>
-                        </span>
-                    </volist>
-                </div>
                 <section id="contents">
                     <notempty name="list">
                         <volist name="list" id="data">

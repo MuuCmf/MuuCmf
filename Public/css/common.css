@@ -129,7 +129,7 @@ ul {
 }
 .tool {
   position: fixed;
-  bottom: 50px;
+  bottom: 60px;
   right: 50px;
   width: 46px;
   z-index: 999;
