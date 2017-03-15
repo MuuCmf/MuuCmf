@@ -101,6 +101,7 @@
 }
 
 @media (max-width:768px) {
+
   .about-nav-box {
     position:fixed;
     width:100%;
@@ -164,6 +165,7 @@
     padding:8px 15px;
   }
 }
+
 .category {
   text-align: center;
 }
@@ -211,10 +213,12 @@
   font-size:1.2em;
   color:#666;
 }
-
-.common_content_box .col-md-6 {
-  padding:0;
+@media (max-width:768px){
+  .common_content_box .col-md-6 {
+    padding:0;
+  }
 }
+
 
 /*分类列表 category*/
 .list-box {
@@ -232,8 +236,16 @@
 
 .list-box a.pic {
   display:block;
-  min-height:160px;
+  height:160px;
   overflow:hidden;
+}
+.list-box a.pic img {
+  width:100%;
+}
+@media (max-width:992px) {
+  .list-box a.pic {
+    height:auto;
+  }
 }
 .list-box .info {
   padding:30px;

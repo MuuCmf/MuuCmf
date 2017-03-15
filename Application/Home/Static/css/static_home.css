@@ -545,6 +545,11 @@ section {
     margin-right: auto;
     border: 1px solid #ffffff;
 }
+/*how*/
+.how {
+    padding:30px 0 0 0;
+    background:#fff;
+}
 /*start-join*/
 .start-join .user-signup {
     margin:60px auto;
