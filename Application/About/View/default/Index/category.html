@@ -1,24 +1,30 @@
 <extend name="Base/common"/>
 <block name="style">
     <link href="__CSS__/about.css" type="text/css" rel="stylesheet">
-    <style>
-        .about-nav-box {
-          bottom:0;
-        }
-    </style>
 </block>
 <block name="body">
+    <div class="category-box">
+        <div class="category-topic">
+            <h2>{$cates.title}</h2>
+        </div>
+    </div>
     <div id="main-container" class="container">
         <div class="about-nav-box">
-            <div class="nav nav-primary nav-justified">
+            <div class="nav nav-primary nav-justified-cum">
                 <volist name="cat_list" id="cat_list">
-                    <li>
+                    <if condition="$cat_list.id eq 1 ">
+                        <li class="active">
+                    <else />
+                        <li>
+                    </if>
                     <if condition="$cat_list.id eq 1 ">
                         <a href="{:U('about/index/index')}" class="">
+                        <i class="icon-group"></i>
                     <else />
                         <a href="{:U('about/index/category',array('cid'=>$cat_list['id']))}" class="">
+                        <i class="icon-chat-dot"></i>
                     </if>
-                        {$cat_list.title}
+                        <span>{$cat_list.title}</span>
                         </a>
                     </li>
                 </volist>

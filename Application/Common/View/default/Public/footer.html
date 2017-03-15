@@ -1,16 +1,24 @@
 <div class="footer-bar">
-    <div class="container text-center">
-        <div class="col-xs-12">
-                <p>
-                    {:modC('ABOUT_US',L('_NOT_SET_NOW_'),'Config')}
-                </p>
+    <div class="container">
+        <div class="col-md-8">
+            <div class="common-aboutus">
+                {:modC('ABOUT_US',L('_NOT_SET_NOW_'),'Config')}
+            </div>
         </div>
+        <div class="col-md-4">
+            <div class="common-followus">
+                {:modC('SUBSCRIB_US',L('_NOT_SET_NOW_'),'Config')}
+            </div>
+        </div>
+
+        <div class="col-md-12">
         <div class="text-center">
                 <h4> {:modC('COPY_RIGHT',L('_NOT_SET_NOW_'),'Config')}</h4>
                 <div class="col-xs-12">{:L('_RECORD_N_')}<a href="http://www.miitbeian.gov.cn/" target="_blank">
                     {:modC('ICP',L('_NOT_SET_NOW_'),'Config')} </a>
                 </div>
            		<div class="hidden">{$count_code}</div>
+        </div>
         </div>
     </div>
 </div>

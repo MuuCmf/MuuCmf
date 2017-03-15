@@ -218,9 +218,9 @@ class ConfigController extends AdminController
         $builder->keyText('SUCCESS_WAIT_TIME', L('_TIME_SUCCESS_WAIT_'), L('_TIME_SUCCESS_WAIT_VICE_'));
         $builder->keyText('ERROR_WAIT_TIME', L('_TIME_FAIL_WAIT_'), L('_TIME_FAIL_WAIT_VICE_'));
 
-        $builder->keyEditor('ABOUT_US', L('_CONTENT_ABOUT_US_'), L('_CONTENT_ABOUT_US_VICE_'));
-        $builder->keyEditor('SUBSCRIB_US', L('_CONTENT_FOLLOW_US_'), L('_CONTENT_FOLLOW_US_VICE_'));
-        $builder->keyEditor('COPY_RIGHT', L('_INFO_COPYRIGHT_'), L('_INFO_COPYRIGHT_VICE_'));
+        $builder->keyTextArea('ABOUT_US', L('_CONTENT_ABOUT_US_'), L('_CONTENT_ABOUT_US_VICE_'),'all');
+        $builder->keyTextArea('SUBSCRIB_US', L('_CONTENT_FOLLOW_US_'), L('_CONTENT_FOLLOW_US_VICE_'));
+        $builder->keyTextArea('COPY_RIGHT', L('_INFO_COPYRIGHT_'), L('_INFO_COPYRIGHT_VICE_'));
 
         
         $builder->group(L('_BASIC_INFORMATION_'), array('WEB_SITE_NAME', 'ICP', 'LOGO', 'QRCODE', 'LANG'));
