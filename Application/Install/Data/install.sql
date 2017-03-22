@@ -4332,9 +4332,7 @@ INSERT INTO `muucmf_hooks` (`id`, `name`, `description`, `type`, `update_time`, 
 (52, 'J_China_City', '每个系统都需要的一个中国省市区三级联动插件。', 1, 1403841931, 'ChinaCity'),
 (54, 'imageSlider', '图片轮播钩子', 1, 1407144022, ''),
 (55, 'friendLink', '友情链接插件', 1, 1407156413, 'SuperLinks'),
-(56, 'beforeSendWeibo', '在发微博之前预处理微博', 2, 1408084504, 'InsertFile'),
-(57, 'beforeSendRepost', '转发微博前的预处理钩子', 2, 1408085689, ''),
-(58, 'parseWeiboContent', '解析微博内容钩子', 2, 1409121261, ''),
+
 (59, 'userConfig', '用户配置页面钩子', 1, 1417137557, 'SyncLogin'),
 
 (61, 'personalMenus', '顶部导航栏个人下拉菜单', 1, 1417146501, ''),
@@ -4679,6 +4677,7 @@ INSERT INTO `muucmf_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `
 (242, '消息类型列表', 197, 0, 'message/messagetypelist', 0, '', '消息设置', 0, '', ''),
 (250, '应用商店', 105, 0, '＃', 0, '', '云端', 0, '', ''),
 (251, '系统升级', 105, 0, 'Update/index', 0, '', '云端', 0, '', ''),
+(252, '扩展设置', 74, 3, 'Config/expandConfig', 0, '', '系统设置', 0, '', '');
 
 (10000, '网站主页', 0, 0, 'Home/config', 1, '', '', 0, 'home', 'Home'),
 (10001, '基本设置', 10000, 0, 'Home/config', 0, '', '设置', 0, '', 'Home'),
