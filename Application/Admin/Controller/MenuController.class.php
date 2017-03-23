@@ -57,7 +57,7 @@ class MenuController extends AdminController {
             $Menu = D('Menu');
             $data = $Menu->create();
             if($data){
-                $id = $Menu->add();
+                $id = $Menu->editData($data);
                 if($id){
                     // S('DB_CONFIG_DATA',null);
                     //记录行为

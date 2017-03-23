@@ -24,11 +24,24 @@ class MenuModel extends Model {
 	//获取树的根到子节点的路径
 	public function getPath($id){
 		$path = array();
-		$nav = $this->where("id={$id}")->field('id,pid,title')->find();
+		$nav = $this->where("id='{$id}'")->field('id,pid,title')->find();
 		$path[] = $nav;
-		if($nav['pid'] >1){
+		if($nav['pid'] !='0'){
 			$path = array_merge($this->getPath($nav['pid']),$path);
 		}
 		return $path;
 	}
+
+
+	public function editData($data)
+    {
+        if($data['id']){
+            $res=$this->save($data);
+        }else{
+            $data['id']= create_guid();
+            $res=$this->add($data);
+        }
+        return $res;
+    }
 }
+

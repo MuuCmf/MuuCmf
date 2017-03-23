@@ -40,7 +40,7 @@
                     <th class="row-selected">
                         <input class="checkbox check-all" type="checkbox">
                     </th>
-                    <th>{:L('_ID_')}</th>
+                    <th class="hidden">{:L('_ID_')}</th>
                     <th>{:L('_NAME_')}</th>
                     <th>{:L('_MENU_SUPERIOR_')}</th>
                     <th>{:L('_GROUP_')}</th>
@@ -56,7 +56,7 @@
                     <volist name="list" id="menu">
                         <tr>
                             <td><input class="ids row-selected" type="checkbox" name="id[]" value="{$menu.id}"></td>
-                            <td>{$menu.id}</td>
+                            <td class="hidden">{$menu.id}</td>
                             <td>
                                 <a href="{:U('index?pid='.$menu['id'])}">{$menu.title}</a>
                             </td>

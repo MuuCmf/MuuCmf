@@ -280,7 +280,7 @@ class AdminController extends Controller
         // $menus  =   session('ADMIN_MENU_LIST'.$controller);
         if (empty($menus)) {
             // 获取主菜单
-            $where['pid'] = 0;
+            $where['pid'] = '0';
             //$where['hide'] = 0;
             if (!C('DEVELOP_MODE')) { // 是否开发者模式
                 $where['is_dev'] = 0;
@@ -297,6 +297,7 @@ class AdminController extends Controller
                 $nav = D('Menu')->getPath($current['id']);
                 $nav_first_title = $nav[0]['title'];
 
+
                 foreach ($menus['main'] as $key => $item) {
                     if (!is_array($item) || empty($item['title']) || empty($item['url'])) {
                         $this->error(L('_CLASS_CONTROLLER_ERROR_PARAM_',array('menus'=>$menus)));
@@ -309,11 +310,13 @@ class AdminController extends Controller
                         unset($menus['main'][$key]);
                         continue;//继续循环
                     }
+
                     // 获取当前主菜单的子菜单项
                     if ($item['title'] == $nav_first_title) {
+
                         $menus['main'][$key]['class'] = 'active';
                         //生成child树
-                        $groups = M('Menu')->where("pid = {$item['id']}")->distinct(true)->field("`group`")->order('sort asc')->select();
+                        $groups = M('Menu')->where("pid = '{$item['id']}'")->distinct(true)->field("`group`")->order('sort asc')->select();
 
                         if ($groups) {
                             $groups = array_column($groups, 'group');
@@ -362,6 +365,7 @@ class AdminController extends Controller
                             $menuList = M('Menu')->where($map)->field('id,pid,title,url,tip')->order('sort asc')->select();
                             $menus['child'][$g] = list_to_tree($menuList, 'id', 'pid', 'operater', $item['id']);
                         }
+                        //dump($menus['child']);exit;
                         if ($menus['child'] === array()) {
                             //$this->error('主菜单下缺少子菜单，请去系统=》后台菜单管理里添加');
                         }
@@ -370,6 +374,7 @@ class AdminController extends Controller
             }
             // session('ADMIN_MENU_LIST'.$controller,$menus);
         }
+
         return $menus;
     }
 
