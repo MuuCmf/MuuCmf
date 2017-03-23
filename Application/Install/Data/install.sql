@@ -4771,7 +4771,6 @@ INSERT INTO `muucmf_module` (`id`, `name`, `alias`, `version`, `is_com`, `show_n
 (1, 'Home', '主页', '1.0.0', 0, 1, '通用首页模块，系统共用控制器放置于该模块下', '北京火木科技有限公司', 'http://www.hoomuu.cn', 'Home/index/index', 1, 0, 'home', 0, 'Admin/Home/config'),
 (34, 'Ucenter', '用户中心', '1.0.0', 0, 0, '用户中心模块，系统核心模块', '北京火木科技有限公司', 'http://www.hoomuu.cn', 'Ucenter/index/index', 1, 0, 'user', 0, ''),
 (26, 'Articles', '文章', '1.0.0', 0, 1, '增强版文章模块，用户可前台投稿', '北京火木科技有限公司', 'http://www.hoomuu.cn', 'Articles/index/index', 1, 0, 'th-list', 1, 'Admin/Articles/index'),
-(27, 'Devtool', '开发者工具', '2.0.2', 0, 1, '开发者工具，主要提供给开发者使用，包含了模块打包工具', '嘉兴想天信息科技有限公司', 'http://www.ourstu.com', '', 1, 0, 'wrench', 1, 'Admin/Devtool/module'),
 (42, 'About', '关于我们', '1.0.0', 0, 1, '关于我们模块，可以用于展示公司介绍等', '北京火木科技有限公司', 'http://www.hoomuu.cn', 'About/Index/index', 1, 0, 'file-text', 1, 'Admin/About/index');
 
 DROP TABLE IF EXISTS `muucmf_picture`;
