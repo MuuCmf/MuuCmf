@@ -155,25 +155,7 @@ nav.navbar.bootsnav .navbar-collapse {
 /*顶部导航end*/
 
 
-/*赞、收藏按钮通用*/
-.supper,.favorites,.share {width:120px;margin:0 auto;display:inline-block;}
-.supper .supper-bt-btn,.favorites .favorites-bt-btn {text-align:center;}
-.supper .supper-bt-btn a,.favorites .favorites-bt-btn a {display:block;margin:0 auto;width:80px;height:80px;background:#eee;border-radius: 50%;text-align: center;}
-.supper .supper-bt-btn a i,.favorites .favorites-bt-btn a i {font-size:45px;line-height: 80px;}
-.supper .supper-bt-btn span,.favorites .favorites-bt-btn span {line-height:30px;}
-.supper p,.favorites p {text-align: center;}
 
-
-.share .share-bt-btn {text-align:center;}
-.share .share-bt-btn a {display:block;margin:0 auto;width:80px;height:80px;background:#eee;border-radius: 50%;text-align: center;}
-.share .share-bt-btn a i{font-size:45px;line-height: 80px;}
-.share .share-bt-btn span {line-height:30px;}
-
-.favorites-bt-btn a .icon-share {color:#ff6600;}
-.supper-bt-btn a .icon-heart {color:#ff6600;}
-.favorites-bt-btn a .icon-star {color:#ff6600;}
-
-/*赞、收藏按钮通用END*/
 
 
 /*footer通用*/
