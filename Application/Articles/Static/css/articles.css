@@ -13,6 +13,31 @@
   -webkit-transition: all 0.4s ease;
   transition: all 0.4s ease;
 }
+.common_content_box .news-list-box .topic {
+  display:block;
+}
+@media screen and (max-width:768px){
+  .common_content_box .news-list-box .topic {
+    display:block;
+    height:200px;
+    overflow:hidden;
+  }
+}
+.common_content_box .news-list-box .img-box {
+  display:table-cell;
+  height:auto;
+}
+@media screen and (max-width:768px){
+  .common_content_box .news-list-box .img-box {
+    display:table-cell;
+    vertical-align: middle;
+    text-align: center;
+    width:1%;
+  }
+}
+.common_content_box .news-list-box .img-box .img-md {
+  width:100%;
+}
 .common_content_box .news-list-box .con p {
   margin-top: 10px;
   color: #999;

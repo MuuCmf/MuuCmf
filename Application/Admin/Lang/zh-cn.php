@@ -163,6 +163,7 @@ return array(
     '_ERROR_MENU_INFO_GET_' => '获取后台菜单信息错误',
     '_MENU_BG_EDIT_' => '编辑后台菜单',
     '_ERROR_DATA_SELECT_' => '请选择要操作的数据',
+    '_SUCCESS_DELETE_' => '删除成功',
     '_FAIL_DELETE_' => '删除失败',
 
 ///    userConfig

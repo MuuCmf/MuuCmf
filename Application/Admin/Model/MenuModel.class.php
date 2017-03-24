@@ -32,7 +32,11 @@ class MenuModel extends Model {
 		return $path;
 	}
 
-
+    /**
+     * 写入、编辑方法
+     * @param  Array 写入数据的数组
+     * @return 写入数据库中的主键ID
+     */
 	public function editData($data)
     {
         if($data['id']){

@@ -34,7 +34,7 @@ class ArticlesController extends AdminController{
 
         $tree = $this->articlesCategoryModel->getTree(0, 'id,title,sort,pid,status');
 
-        $builder->title('资讯分类管理')
+        $builder->title('文章分类管理')
             ->suggest('禁用、删除分类时会将分类下的文章转移到默认分类下')
             ->buttonNew(U('Articles/add'))
             ->data($tree)
@@ -117,14 +117,14 @@ class ArticlesController extends AdminController{
 1:推荐
 str;
 
-        $builder->title('资讯基础设置')
+        $builder->title('文章基础设置')
             ->data($data);
 
         $builder->keyTextArea('ARTICLES_SHOW_POSITION','展示位配置')
             ->keyDefault('ARTICLES_SHOW_POSITION',$default_position)
             ->keyText('ARTICLES_SHOW_TITLE', '标题名称', '在首页展示块的标题')->keyDefault('ARTICLES_SHOW_TITLE','热门资讯')
             ->keyText('ARTICLES_SHOW_DESCRIPTION', '简短描述', '精简的描述模块内容')->keyDefault('ARTICLES_SHOW_DESCRIPTION','模块简单描述')
-            ->keyText('ARTICLES_SHOW_COUNT', '显示资讯的个数', '只有在网站首页模块中启用了资讯块之后才会显示')->keyDefault('ARTICLES_SHOW_COUNT',4)
+            ->keyText('ARTICLES_SHOW_COUNT', '显示文章的个数', '只有在网站首页模块中启用了资讯块之后才会显示')->keyDefault('ARTICLES_SHOW_COUNT',4)
             ->keyRadio('ARTICLES_SHOW_TYPE', '资讯的筛选范围', '', array('1' => '后台推荐', '0' => '全部'))->keyDefault('ARTICLES_SHOW_TYPE',0)
             ->keyRadio('ARTICLES_SHOW_ORDER_FIELD', '排序值', '展示模块的数据排序方式', array('view' => '阅读数', 'create_time' => '发表时间', 'update_time' => '更新时间'))->keyDefault('ARTICLES_SHOW_ORDER_FIELD','view')
             ->keyRadio('ARTICLES_SHOW_ORDER_TYPE', '排序方式', '展示模块的数据排序方式', array('desc' => '倒序，从大到小', 'asc' => '正序，从小到大'))->keyDefault('ARTICLES_SHOW_ORDER_TYPE','desc')
@@ -427,8 +427,8 @@ str;
             $messageModel=D('Common/Message');
             foreach($ids as $val){
                 $articles=$this->articlesModel->getData($val);
-                $tip = '你的资讯投稿【'.$articles['title'].'】被设为过期。';
-                $messageModel->sendMessage($articles['uid'],'资讯投稿被设为过期！',  $tip, 'Articles/Index/detail',array('id'=>$val), is_login(), 2);
+                $tip = '你的文章投稿【'.$articles['title'].'】被设为过期。';
+                $messageModel->sendMessage($articles['uid'],'文章投稿被设为过期！',  $tip, 'Articles/Index/detail',array('id'=>$val), is_login(), 2);
             }
             //发送消息 end
             S('articles_home_data',null);
