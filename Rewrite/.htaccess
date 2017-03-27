@@ -2,6 +2,10 @@
   Options +FollowSymlinks
   RewriteEngine On
 
+    #如果站点启用了HTTPS，做http至https的跳转，去掉前面#号
+    #RewriteCond %{SERVER_PORT} !^443$
+    #RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [L,R]
+
 
     #禁止访问 View
     RewriteRule (.*)/?View/(.*)?.html$                     - [F]
@@ -172,3 +176,4 @@ ExpiresByType application/vnd.ms-excel A31536000
 ExpiresByType application/zip A31536000
 </IfModule>
 ## EXPIRES CACHING ##
+
