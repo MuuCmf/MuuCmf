@@ -236,7 +236,7 @@ class uc_note {
 		return API_RETURN_SUCCEED;
 	}
 
-	function updateapps($get, $post) {
+	 function updateapps($get, $post) { if($post['UC_API']) { $post['UC_API'] = addslashes($post['UC_API']); } 
 		if(!API_UPDATEAPPS) {
 			return API_RETURN_FORBIDDEN;
 		}
