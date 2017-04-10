@@ -193,12 +193,13 @@ str;
             ->keyText('sort','排序')
             ->keyStatus()
             ->keyCreateTime()
-            ->keyUpdateTime()
-            ->keyDoActionEdit('Articles/editArticles?id=###');
+            ->keyUpdateTime();
 
-        $builder->ajaxButton(U('Articles/setDel'),'','回收站')->keyDoAction('Articles/setDel?ids=###','回收站');
-        $builder->pagination($totalCount,$r)
-        ->display();
+        $builder->keyDoActionEdit('Articles/editArticles?id=###');
+        $builder->keyDoAction('Articles/setDel?ids=###','回收站');
+
+        $builder->pagination($totalCount,$r);
+        $builder->display();
     }
 
     //待审核列表
