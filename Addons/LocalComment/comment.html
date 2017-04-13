@@ -9,7 +9,7 @@
 
         <div class="reply-form">
             <php>if(is_login()){</php>
-            <div class="col-xs-2" style="width:80px;">
+            <div class="col-md-2 col-xs-2" >
                 <a href="{$myInfo.space_url}" class="avatar"><img src="{$myInfo.avatar64}" ucard="{$myInfo.uid}"
                                                                   class="img-circle"/></a>
             </div>
@@ -23,7 +23,7 @@
             <php>if($can_guest || is_login()){</php>
 
             <div class="form col-xs-10">
-                <div style="border: 3px solid #ddd; " class="clearfix">
+                <div style="border: 1px solid #ddd; " class="clearfix">
                     <div class="form-group" style="margin-bottom: 0 ;">
                         <textarea style="height:70px;border: none" class="form-control new-comment-text "
                                   id="local_comment_textarea"
