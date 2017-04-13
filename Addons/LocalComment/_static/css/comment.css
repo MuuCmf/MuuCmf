@@ -18,6 +18,25 @@
 .comments > footer {
   padding-top: 10px;
 }
+.comments > footer > .reply-form > .avatar-box {
+  float:left;
+  width:80px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+@media (max-width:768px){
+  .comments > footer > .reply-form > .avatar-box {
+    width: 60px;
+  }
+}
+.comments > footer > .reply-form > .form {
+  margin-left:80px;
+}
+@media (max-width:768px){
+    .comments > footer > .reply-form > .form {
+      margin-left:60px;
+    }
+}
 .comments > footer > .reply-form > .avatar {
   display: block;
   width: 60px;
@@ -44,6 +63,17 @@
 .comment > .content {
   display: block;
 }
+.comment > .avatar-box {
+  float:left;
+  width:80px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+@media (max-width:768px){
+    .comment > .avatar-box {
+      width:60px;
+    }
+}
 .comment > .avatar {
   width: 60px;
   height: 60px;
@@ -51,7 +81,12 @@
   margin-top: 0px;
 }
 .comment > .avatar + .content {
-  padding-left: 75px;
+  margin-left: 80px;
+}
+@media (max-width:768px){
+  .comment > .avatar + .content {
+    margin-left: 60px;
+  }
 }
 .comment > .content > .text {
   padding-top: 5px;
