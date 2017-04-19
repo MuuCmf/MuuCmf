@@ -128,6 +128,9 @@ class IndexController extends Controller{
         }
 
         $info=$this->articlesModel->getData($aId);
+        if (empty($info)) {
+            $this->error('文档ID错误！');
+        }
         $author=query_user(array('uid','space_url','nickname','avatar32','avatar64','signature'),$info['uid']);
         $author['articles_count']=$this->articlesModel->where(array('uid'=>$info['uid']))->count();
         //关键字转化成数组
