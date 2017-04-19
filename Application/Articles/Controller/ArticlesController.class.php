@@ -341,10 +341,6 @@ str;
             $data['comment']=I('post.comment',0,'intval');
             $data['collection']=I('post.collection',0,'intval');
             $data['sort']=I('post.sort',0,'intval');
-            $data['dead_line']=I('post.dead_line',2147483640,'intval');
-            if($data['dead_line']==0){
-                $data['dead_line']=2147483640;
-            }
             $data['template']=I('post.template','','op_t');
             $data['status']=I('post.status',1,'intval');
             $data['source']=I('post.source','','op_t');
@@ -405,14 +401,13 @@ str;
                 ->keyInteger('comment','评论数')->keyDefault('comment',0)
                 ->keyInteger('collection','收藏量')->keyDefault('collection',0)
                 ->keyInteger('sort','排序')->keyDefault('sort',0)
-                ->keyTime('dead_line','有效期至')->keyDefault('dead_line',2147483640)
                 ->keyText('template','模板')
                 ->keyText('source','来源','原文地址')
                 ->keyCheckBox('position','推荐位','多个推荐，则将其推荐值相加',$position_options)
                 ->keyStatus()->keyDefault('status',1)
 
                 ->group('基础','id,uid,title,keywords,cover,content,category')
-                ->group('扩展','description,view,comment,sort,dead_line,position,source,template,status')
+                ->group('扩展','description,view,comment,sort,position,source,template,status')
 
                 ->buttonSubmit()->buttonBack()
                 ->display();

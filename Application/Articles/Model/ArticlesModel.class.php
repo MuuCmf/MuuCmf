@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 15-4-27
- * Time: 下午1:22
- * @author 郑钟良<zzl@ourstu.com>
- */
 
 namespace Articles\Model;
 
@@ -53,13 +46,6 @@ class ArticlesModel extends Model{
         return $lists;
     }
 
-    public function setDead($ids)
-    {
-        !is_array($ids)&&$ids=explode(',',$ids);
-        $map['id']=array('in',$ids);
-        $res=$this->where($map)->setField('dead_line',time());
-        return $res;
-    }
     /**
     *设置为删除状态
     **/
@@ -127,7 +113,6 @@ class ArticlesModel extends Model{
             $cates=array_column($cates,'id');
             $map['category']=array('in',array_merge(array($category),$cates));
         }
-        $map['dead_line'] = array('gt',time());
 
         /* 设置推荐位 */
         if(is_numeric($pos)){

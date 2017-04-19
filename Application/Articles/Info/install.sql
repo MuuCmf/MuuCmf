@@ -1,5 +1,5 @@
 -- -----------------------------
--- 表结构 `ocenter_news`
+-- 表结构 `muucmf_articles`
 -- -----------------------------
 CREATE TABLE IF NOT EXISTS `muucmf_articles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -16,7 +16,6 @@ CREATE TABLE IF NOT EXISTS `muucmf_articles` (
   `view` int(10) NOT NULL COMMENT '阅读量',
   `comment` int(10) NOT NULL COMMENT '评论量',
   `collection` int(10) NOT NULL COMMENT '收藏量',
-  `dead_line` int(11) NOT NULL COMMENT '有效期',
   `source` varchar(200) NOT NULL COMMENT '来源url',
   `create_time` int(11) NOT NULL,
   `update_time` int(11) NOT NULL,
@@ -25,9 +24,9 @@ CREATE TABLE IF NOT EXISTS `muucmf_articles` (
 
 
 -- -----------------------------
--- 表结构 `ocenter_news_category`
+-- 表结构 `muucmf_articles_category`
 -- -----------------------------
-CREATE TABLE IF NOT EXISTS `ocenter_articles_category` (
+CREATE TABLE IF NOT EXISTS `muucmf_articles_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(20) NOT NULL,
   `pid` int(11) NOT NULL,
@@ -40,9 +39,9 @@ CREATE TABLE IF NOT EXISTS `ocenter_articles_category` (
 
 
 -- -----------------------------
--- 表结构 `ocenter_news_detail`
+-- 表结构 `muucmf_articles_detail`
 -- -----------------------------
-CREATE TABLE IF NOT EXISTS `ocenter_articles_detail` (
+CREATE TABLE IF NOT EXISTS `muucmf_articles_detail` (
   `news_id` int(11) NOT NULL,
   `content` text NOT NULL COMMENT '内容',
   `template` varchar(50) NOT NULL COMMENT '模板',
@@ -50,6 +49,6 @@ CREATE TABLE IF NOT EXISTS `ocenter_articles_detail` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='文章详情';
 
 -- -----------------------------
--- 表内记录 `ocenter_news_category`
+-- 表内记录 `muucmf_articles_category`
 -- -----------------------------
-INSERT INTO `ocenter_news_category` VALUES ('1', '默认分类', '0', '1', '1', '1', '1');
+INSERT INTO `muucmf_articles_category` VALUES ('1', '默认分类', '0', '1', '1', '1', '1');

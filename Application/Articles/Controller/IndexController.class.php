@@ -74,7 +74,6 @@ class IndexController extends Controller{
                 $map['category']=$category;
             }
         }
-        $map['dead_line']=array('gt',time());
         $map['status']=1;
         /* 获取当前分类下资讯列表 */
         list($list,$totalCount) = $this->articlesModel->getListByPage($map,$page,'sort desc,update_time desc','*',$r);
