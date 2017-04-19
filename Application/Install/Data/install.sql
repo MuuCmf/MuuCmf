@@ -4415,6 +4415,25 @@ CREATE TABLE IF NOT EXISTS `muucmf_invite_user_info` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='邀请注册用户信息' AUTO_INCREMENT=1 ;
 
+DROP TABLE IF EXISTS `muucmf_keywords`;
+CREATE TABLE IF NOT EXISTS `muucmf_keywords` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL COMMENT '关键字',
+  `app` varchar(255) NOT NULL COMMENT '应用名称',
+  `row` int(11) NOT NULL COMMENT '所在应用ID',
+  `create_time` int(11) NOT NULL COMMENT '创建时间',
+  `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态'
+) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COMMENT='全部应用关键字表';
+
+DROP TABLE IF EXISTS `muucmf_keywords_count`;
+CREATE TABLE IF NOT EXISTS `muucmf_keywords_count` (
+  `id` int(11) NOT NULL,
+  `title` varchar(64) NOT NULL,
+  `num` int(11) NOT NULL DEFAULT '1' COMMENT '数量',
+  `tips` int(11) NOT NULL COMMENT '访问次数',
+  `create_time` int(11) NOT NULL COMMENT '创建时间'
+) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `muucmf_local_comment`;
 CREATE TABLE IF NOT EXISTS `muucmf_local_comment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -4674,6 +4693,7 @@ INSERT INTO `muucmf_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `
 ('10313', '应用商店', '105', 0, 'Appcloud/index', 0, '', '云端', 0, '', ''),
 ('10314', '系统升级', '105', 0, 'Update/index', 0, '', '云端', 0, '', ''),
 ('10315', '在线用户', '2', 0, 'User/online', 0, '', '用户管理', 0, '', ''),
+('10330', '关键字管理', '197', 0, 'Keywords/index', 0, '', '关键字管理', 0, '', ''),
 ('10332', '编辑、新增系统升级补丁', '10331', 0, 'Muucmf/editSysupdate', 0, '', '', 0, '', 'Expand'),
 ('10333', '系统升级流程', '10314', 0, 'Update/startupdate', 0, '', '', 0, '', ''),
 ('10337', '消息类型列表', '197', 0, 'message/messagetypelist', 0, '', '消息设置', 0, '', ''),
