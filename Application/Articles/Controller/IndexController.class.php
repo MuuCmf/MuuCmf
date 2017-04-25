@@ -64,7 +64,7 @@ class IndexController extends Controller{
         /* 分类信息 */
         $category = I('category',0,'intval');
         if($category){
-            $this->_category($category);
+            $categoryT = $this->_category($category);
             $cates=$this->articlesCategoryModel->getCategoryList(array('pid'=>$category));
             if(count($cates)){
                 $cates=array_column($cates,'id');
@@ -73,9 +73,12 @@ class IndexController extends Controller{
             }else{
                 $map['category']=$category;
             }
+        }else{
+            $categoryT = array('title'=>'文章','description'=>'文章列表');
         }
+        $map['dead_line']=array('gt',time());
         $map['status']=1;
-        /* 获取当前分类下资讯列表 */
+        /* 获取当前分类下文章列表 */
         list($list,$totalCount) = $this->articlesModel->getListByPage($map,$page,'sort desc,update_time desc','*',$r);
         foreach($list as &$val){
             $val['user']=query_user(array('space_url','avatar32','nickname'),$val['uid']);
@@ -84,6 +87,7 @@ class IndexController extends Controller{
         /* 模板赋值并渲染模板 */
         $this->assign('list', $list);
         $this->assign('category', $category);
+        $this->assign('categoryT',$categoryT);
         $this->assign('totalCount',$totalCount);
 
         $this->display();
@@ -93,7 +97,7 @@ class IndexController extends Controller{
     {
         $this->_needLogin();
         $map['uid']=get_uid();
-        /* 获取当前分类下资讯列表 */
+        /* 获取当前分类下文章列表 */
         list($list,$totalCount) = $this->articlesModel->getListByPage($map,$page,'update_time desc','*',$r);
         foreach($list as &$val){
              $val['user']=query_user(array('space_url','avatar32','nickname'),$val['uid']);
@@ -128,9 +132,6 @@ class IndexController extends Controller{
         }
 
         $info=$this->articlesModel->getData($aId);
-        if (empty($info)) {
-            $this->error('文档ID错误！');
-        }
         $author=query_user(array('uid','space_url','nickname','avatar32','avatar64','signature'),$info['uid']);
         $author['articles_count']=$this->articlesModel->where(array('uid'=>$info['uid']))->count();
         //关键字转化成数组
@@ -171,7 +172,7 @@ class IndexController extends Controller{
                 $data=$this->articlesModel->getData($aId);
                 $this->checkAuth(null,$data['uid'],'你没有编辑该资讯权限！');
                 if($data['status']==1){
-                    $this->error('该资讯已被审核，不能被编辑！');
+                    $this->error('该文章已被审核，不能被编辑！');
                 }
                 $this->assign('data',$data);
             }else{
@@ -260,12 +261,12 @@ class IndexController extends Controller{
             if(!$aId){
                 $aId=$res;
                 if($category['need_audit']){
-                    $this->success($title.'资讯成功！请等待审核~',U('Articles/Index/detail',array('id'=>$aId)));
+                    $this->success($title.'文章成功！请等待审核~',U('Articles/Index/detail',array('id'=>$aId)));
                 }
             }
-            $this->success($title.'资讯成功！',U('Articles/Index/detail',array('id'=>$aId)));
+            $this->success($title.'文章成功！',U('Articles/Index/detail',array('id'=>$aId)));
         }else{
-            $this->error($title.'资讯失败！'.$this->articlesModel->getError());
+            $this->error($title.'文章失败！'.$this->articlesModel->getError());
         }
     }
 
