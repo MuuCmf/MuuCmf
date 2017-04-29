@@ -74,7 +74,7 @@ abstract class Controller
             if (strtolower(MODULE_NAME) != 'install' && strtolower(MODULE_NAME) != 'admin') {
                 if (!C('WEB_SITE_CLOSE')) {
                     header("Content-Type: text/html; charset=utf-8");
-                    exit('站点已经关闭，请稍后访问~');
+                    echo C('WEB_SITE_CLOSE_HINT');exit;
                 }
 
                 if (strtolower(MODULE_NAME) != 'install' && strtolower(MODULE_NAME) != 'admin') {

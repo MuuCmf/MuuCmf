@@ -44,13 +44,4 @@ class IndexController extends Controller
         $this->assign('enter', get_nav_url($enter));
         $this->display();
     }
-
-    protected function _initialize()
-    {
-        if (!C('WEB_SITE_CLOSE')) {
-            $this->error(L('_ERROR_WEBSITE_CLOSED_'));
-        }
-    }
-
-
 }
