@@ -300,7 +300,7 @@ class MessageModel extends Model
                     $val['name'] = 'Common_' . $val['name'];
                 }
                 $val['module'] = 'Common';
-                $val['logo'] = './Public/images/message_logo/' . $val['logo'];
+                $val['logo'] = '/Public/images/message_logo/' . $val['logo'];
                 !isset($val['sort']) && $val['sort'] = 0;
                 $val['alias']='系统';
             }
