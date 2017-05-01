@@ -54,10 +54,12 @@ class ScheduleController extends AdminController
             ->keyText('type_value_text', '设定时间')
             ->keyTime('start_time', '开始时间')
             ->keyTime('end_time', '结束时间')
-            ->keyText('intro', '介绍')
+            //->keyText('intro', '介绍')
             ->keyTime('last_run', '上次执行时间')
             ->keyTime('next_run', '下次执行时间')
-            ->keyCreateTime()->keyStatus()->keyDoActionEdit('editSchedule?id=###')
+            ->keyCreateTime()
+            ->keyStatus()
+            ->keyDoActionEdit('editSchedule?id=###')
             ->keyDoActionModalPopup('showLog?id=###', '查看日志', '日志', array('data-title' => '日志'))
             ->data($list)
             ->display();
@@ -170,7 +172,7 @@ class ScheduleController extends AdminController
             }
             $builder->title($tip . '计划任务')
                 ->keyId()
-                ->keyText('method', "执行方法", "只能执行Model中的方法，如 <span style='color: red'>Weibo/Weibo->test</span> 则表示执行 D('Weibo/Weibo')->test();")
+                ->keyText('method', "执行方法", "只能执行Model中的方法，如 <span style='color: red'>Home/Index->test</span> 则表示执行 D('Home/Index')->test();")
                 ->keyText('args', "执行参数", "url的写法，如 <span style='color: red'>a=1&b=2</span> ")
 
                 ->keySelect('type_key', '类型', '计划任务的类型', array(1 => '执行一次', 2 => '每隔一段时间执行', 3 => '每个时间点执行'))
@@ -218,10 +220,11 @@ class ScheduleController extends AdminController
         $model = D('Common/Schedule');
         if ($model->checkIsRunning()) {
             $model->setStop();
+            $this->success('设置成功~已停止！');
         } else {
             $this->_run();
+            $this->success('设置成功~运行中！');
         }
-        $this->success('successfully');
     }
 
     /**
@@ -254,12 +257,12 @@ class ScheduleController extends AdminController
 
     /**
      * _run  运行计划任务
-     * @author:xjw129xjt(肖骏涛) xjt@ourstu.com
+     * @author:大蒙
      */
     private function _run()
     {
         $time = time();
-        $url = U('Core/Public/runSchedule', array('time' => $time, 'token' => md5($time . C('DATA_AUTH_KEY'))), true, true);
+        $url = U('Home/Public/runSchedule', array('time' => $time, 'token' => md5($time . C('DATA_AUTH_KEY'))), true, true);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_TIMEOUT, 1);  //设置过期时间为1秒，防止进程阻塞

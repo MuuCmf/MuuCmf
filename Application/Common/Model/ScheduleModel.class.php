@@ -19,7 +19,7 @@ class ScheduleModel extends Model
         array('status', '1', self::MODEL_INSERT),
     );
     public $lockFile = './Data/Schedule/lock.txt';
-    public $interval = 10;
+    public $interval = 15;
     protected $schedule_path = './Data/Schedule/';
 
     /**
@@ -73,6 +73,7 @@ class ScheduleModel extends Model
     {
         $lock_file = $this->lockFile;
         if ($this->checkLockFileExist() && $this->readFile($lock_file) == 'running' && (filemtime($lock_file) + $this->interval + 10 > $_SERVER['REQUEST_TIME'])) {
+
             return true;
         }
         $this->setStop('stop_abnormal');
@@ -459,7 +460,7 @@ class ScheduleModel extends Model
         if ($this->checkLockFileExist() && $this->readFile($lock_file) == 'stop_abnormal') {
             //异常停止则启动计划任务
             $time = time();
-            $url = U('Core/Public/runSchedule', array('time' => $time, 'token' => md5($time . C('DATA_AUTH_KEY'))), true, true);
+            $url = U('Home/Public/runSchedule', array('time' => $time, 'token' => md5($time . C('DATA_AUTH_KEY'))), true, true);
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_TIMEOUT, 1);  //设置过期时间为1秒，防止进程阻塞
