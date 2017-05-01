@@ -38,7 +38,6 @@ class CountModel extends Model
             $this->lostCount();
             $this->remainCount();
             $this->activeCount();
-            $this->consumptionCount();
         }
         return true;
     }
@@ -246,69 +245,6 @@ class CountModel extends Model
         $data['date']=$startTime+30;//月统计date偏移30，实现date唯一
         return $data;
     }
-
-    /**
-     * 每日执行消费用户统计
-     * @author 郑钟良<zzl@ourstu.com>
-     */
-    public function consumptionCount()
-    {
-        $time=time_format(time(),'Y-m-d 00:00');
-        $startTime=strtotime($time.' - 1 day');
-        $endTime=strtotime($time)-1;
-        $consumption=$this->consumptionModel->where(array('date'=>$startTime))->find();
-        if($consumption){
-            return true;//已经统计过昨日消费量
-        }
-        $data=$this->_doConsumptionCount($startTime,$endTime);
-        $this->consumptionModel->add($data);
-        return true;
-    }
-
-    /**
-     * 统计消费数据
-     * @param $startTime
-     * @param $endTime
-     * @return mixed
-     * @author 郑钟良<zzl@ourstu.com>
-     */
-    private function _doConsumptionCount($startTime,$endTime)
-    {
-        $data['date']=$startTime;
-        $pingxxOrderModel=M('PingxxCharge');//ping++模块消费用户统计
-        $rechargeOrderModel=M('RechargeRecordAlipay');//Recharge模块消费用户统计
-        $orderLinkModel=M('order_link');//订单关联记录表
-
-        $map_pingxx['time_paid']=array('between',array($startTime,$endTime));
-        $map_pingxx['paid']=1;
-        $pingxxList=$pingxxOrderModel->where($map_pingxx)->select();
-
-        $map_recharge['notify_time']=array('between',array($startTime,$endTime));
-        $map_recharge['trade_status']=array('in',array('TRADE_SUCCESS','TRADE_FINISHED'));
-        $rechargeList=$rechargeOrderModel->where($map_recharge)->select();
-
-        $data['total_fee']=0;
-        $order_ids=array();
-        foreach($pingxxList as $val){
-            $order_ids[]=$val['order_no'];
-            $data['total_fee']+=$val['amount'];
-        }
-
-        foreach($rechargeList as $val){
-            $order_ids[]=$val['out_trade_no'];
-            $data['total_fee']+=$val['total_fee'];
-        }
-
-        $data['user_num']=0;
-        if(count($order_ids)){
-            $uids=$orderLinkModel->where(array('order_id'=>array('in',$order_ids)))->field('uid')->select();
-            $uids=array_unique(array_column($uids,'uid'));
-            $data['user_num']=count($uids);
-        }
-        $data['total_fee']="".sprintf("%.2f",$data['total_fee']);
-        return $data;
-    }
-
 
     /*-----------------------统计数据展示start------------------------**/
     /**
