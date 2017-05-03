@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 15-1-26
- * Time: 下午4:29
- * @author:xjw129xjt(肖骏涛) xjt@ourstu.com
- */
 
 namespace Common\Model;
 
@@ -73,7 +66,6 @@ class ScheduleModel extends Model
     {
         $lock_file = $this->lockFile;
         if ($this->checkLockFileExist() && $this->readFile($lock_file) == 'running' && (filemtime($lock_file) + $this->interval + 10 > $_SERVER['REQUEST_TIME'])) {
-
             return true;
         }
         $this->setStop('stop_abnormal');
@@ -96,7 +88,7 @@ class ScheduleModel extends Model
 
     /**
      * run 执行计划任务
-     * @author:xjw129xjt(肖骏涛) xjt@ourstu.com
+     * @author :大蒙 <[<email address>]>
      */
     public function run()
     {
@@ -104,12 +96,13 @@ class ScheduleModel extends Model
         set_time_limit(0); // 执行时间为无限制，php默认的执行时间是30秒，通过set_time_limit(0)可以让程序无限制的执行下去
         $lock_txt = $this->lockFile;
         if ($this->checkIsRunning()) { //防止重复运行，判断是否在运行，是则退出
+            dump('文件生成成功');exit;
             exit();
         } else {
             touch($lock_txt); //重新生成锁文件，更新文件访问和修改时间
             $this->writeFile($lock_txt, 'running'); //重复写入一个文件，标志已经运行计划任务
+            dump('文件生成成功');exit;
         }
-        $this->setConfig(1);
         do {
             $this->runScheduleList(); //执行计划任务列表
             touch($lock_txt); //更新运行时间

@@ -218,6 +218,7 @@ class ScheduleController extends AdminController
     public function run()
     {
         $model = D('Common/Schedule');
+
         if ($model->checkIsRunning()) {
             $model->setStop();
             $this->success('设置成功~已停止！');
