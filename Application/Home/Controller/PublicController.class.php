@@ -127,7 +127,7 @@ class PublicController extends Controller
         if($aToken != md5($aTime.C('DATA_AUTH_KEY'))){
             exit('Error');
         }
-        D('Schedule')->run();
+        D('Common/Schedule')->run();
     }
 
     /**

@@ -262,15 +262,29 @@ class ScheduleController extends AdminController
      */
     private function _run()
     {
+        $cacert = '/cacert.pem'; //CA根证书  
+        $SSL = substr($url, 0, 8) == "https://" ? true : false;  
+        $CA = true; //HTTPS时是否进行严格认证 
         $time = time();
         $url = U('Home/Public/runSchedule', array('time' => $time, 'token' => md5($time . C('DATA_AUTH_KEY'))), true, true);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_TIMEOUT, 1);  //设置过期时间为1秒，防止进程阻塞
+
+        if ($SSL && $CA) {
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);   // 只信任CA颁布的证书  
+            curl_setopt($ch, CURLOPT_CAINFO, $cacert); // CA根证书（用来验证的网站证书是否是CA颁布）  
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2); // 检查证书中是否设置域名，并且是否与提供的主机名匹配  
+        } else if ($SSL && !$CA) {  
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // 信任任何证书  
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1); // 检查证书中是否设置域名  
+        }  
         curl_setopt($ch, CURLOPT_USERAGENT, '');
         curl_setopt($ch, CURLOPT_REFERER, 'b');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $content = curl_exec($ch);
+
+        //var_dump($content);  //查看报错信息 
         curl_close($ch);
     }
 }

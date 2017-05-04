@@ -12,7 +12,7 @@ class ScheduleModel extends Model
         array('status', '1', self::MODEL_INSERT),
     );
     public $lockFile = './Data/Schedule/lock.txt';
-    public $interval = 15;
+    public $interval = 10;
     protected $schedule_path = './Data/Schedule/';
 
     /**
@@ -96,16 +96,14 @@ class ScheduleModel extends Model
         set_time_limit(0); // 执行时间为无限制，php默认的执行时间是30秒，通过set_time_limit(0)可以让程序无限制的执行下去
         $lock_txt = $this->lockFile;
         if ($this->checkIsRunning()) { //防止重复运行，判断是否在运行，是则退出
-            dump('文件生成成功');exit;
             exit();
         } else {
             touch($lock_txt); //重新生成锁文件，更新文件访问和修改时间
             $this->writeFile($lock_txt, 'running'); //重复写入一个文件，标志已经运行计划任务
-            dump('文件生成成功');exit;
         }
         do {
-            $this->runScheduleList(); //执行计划任务列表
             touch($lock_txt); //更新运行时间
+            $this->runScheduleList(); //执行计划任务列表
             ob_flush();
             flush();
             sleep($this->interval); //程序暂停
