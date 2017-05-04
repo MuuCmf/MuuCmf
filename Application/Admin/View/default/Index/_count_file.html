@@ -1,11 +1,133 @@
 <block name="style">
     <link rel="stylesheet" href="__CSS__/count.css">
 </block>
-<div class="col-xs-6" data-id="count_lost">
+<div class="col-md-12">
+    <div class="count_common_box">
+        <div class="with-padding-lg" style="position: relative">
+            <button class="btn  pull-right" data-toggle="modal" data-target="#settingCount"
+                    style="position: absolute;right: 15px;z-index: 999">
+                <i class="icon-cog"></i>
+                {:L('_SETTINGS_')}
+            </button>
+            <div id="myChart" height="400"></div>
+        </div>
+    </div>
+</div>
+<!--ChartJS 图表 Start-->
+<div class="col-md-6" data-id="count_active_day">
+    <div class="count_common_box">
     <div class="portlet-title">
         <div class="caption">
-            <i class="icon-share font-blue"></i>
-            <span class="caption-subject font-blue bold uppercase">用户流失率统计</span>
+            <span class="caption-subject font-blue bold uppercase">日活跃用户统计</span>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="chart" style="height: 477px;">
+            <canvas id="dayActiveChart" style="width:100%;height:477px"></canvas>
+        </div>
+        <div class="scroller-footer">
+            <div class="btn-arrow-link pull-right">
+                <a href="{:U('Count/active',array('type'=>'day'))}">查看更多</a>
+                <i class="icon-arrow-right"></i>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    </div>
+</div>
+<div class="col-md-6" data-id="count_active_week">
+    <div class="count_common_box">
+    <div class="portlet-title">
+        <div class="caption">
+            <span class="caption-subject font-blue bold uppercase">周活跃用户统计</span>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="chart" style="height: 477px;">
+            <canvas id="weekActiveChart" style="width:100%;height:477px"></canvas>
+        </div>
+        <!--图标插入位置-->
+        <div class="scroller-footer">
+            <div class="btn-arrow-link pull-right">
+                <a href="{:U('Count/active',array('type'=>'week'))}">查看更多</a>
+                <i class="icon-arrow-right"></i>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    </div>
+</div>
+<div class="col-md-6" data-id="count_active_month">
+    <div class="count_common_box">
+    <div class="portlet-title">
+        <div class="caption">
+            <span class="caption-subject font-blue bold uppercase">月活跃用户统计</span>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="chart" style="height: 477px;">
+            <canvas id="monthActiveChart" style="width:100%;height:477px"></canvas>
+        </div>
+        <!--图标插入位置-->
+        <div class="scroller-footer">
+            <div class="btn-arrow-link pull-right">
+                <a href="{:U('Count/active',array('type'=>'month'))}">查看更多</a>
+                <i class="icon-arrow-right"></i>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    </div>
+</div>
+
+<div class="col-md-6 remain" data-id="count_remain">
+    <div class="count_common_box">
+    <div class="portlet-title">
+        <div class="caption">
+            <span class="caption-subject font-blue bold uppercase">新注册用户前8日留存率统计</span>
+        </div>
+        <div class="actions">
+            <div class="checkbox_block">
+                <label class="day1_label"><input type="checkbox" name="day_show[]" value="day1" checked/>次日</label>
+                <label class="day2_label"><input type="checkbox" name="day_show[]" value="day2" checked/>2日</label>
+                <label class="day3_label"><input type="checkbox" name="day_show[]" value="day3" checked/>3日</label>
+                <label class="day4_label"><input type="checkbox" name="day_show[]" value="day4" checked/>4日</label>
+                <label class="day5_label"><input type="checkbox" name="day_show[]" value="day5" checked/>5日</label>
+                <label class="day6_label"><input type="checkbox" name="day_show[]" value="day6" checked/>6日</label>
+                <label class="day7_label"><input type="checkbox" name="day_show[]" value="day7" checked/>7日</label>
+                <label class="day8_label"><input type="checkbox" name="day_show[]" value="day8" checked/>8日</label>
+            </div>
+        </div>
+    </div>
+    <div class="portlet-body" style="height: 498px;">
+        <table class="remain-table">
+            <thead>
+            <tr>
+                <th style="width: 80px;">日期</th>
+                <th style="width: 80px;">注册人数</th>
+                <th>留存率</th>
+            </tr>
+            </thead>
+            <tbody id="remain_data">
+                <include file="Count/_remain_data"/>
+            </tbody>
+        </table>
+        <div class="scroller-footer">
+            <div class="btn-arrow-link pull-right">
+                <a href="{:U('Count/remain')}">查看更多</a>
+                <i class="icon-arrow-right"></i>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    </div>
+</div>
+
+<div class="col-xs-12" data-id="count_lost">
+    <div class="count_common_box">
+    <div class="portlet-title">
+        <div class="caption text-center">
+            <span class="caption-subject">用户流失率统计</span>
         </div>
     </div>
     <div class="portlet-body">
@@ -43,110 +165,6 @@
         </div>
         <div class="clearfix"></div>
     </div>
-</div>
-<!--ChartJS 图表 Start-->
-<div class="col-xs-6" data-id="count_active_day">
-    <div class="portlet-title">
-        <div class="caption">
-            <i class="icon-share font-blue"></i>
-            <span class="caption-subject font-blue bold uppercase">日活跃用户统计</span>
-        </div>
-    </div>
-    <div class="portlet-body">
-        <div class="chart" style="height: 365px;">
-            <canvas id="dayActiveChart" style="width:100%;height:355px"></canvas>
-        </div>
-        <div class="scroller-footer">
-            <div class="btn-arrow-link pull-right">
-                <a href="{:U('Count/active',array('type'=>'day'))}">查看更多</a>
-                <i class="icon-arrow-right"></i>
-            </div>
-        </div>
-        <div class="clearfix"></div>
-    </div>
-</div>
-<div class="col-xs-6" data-id="count_active_week">
-    <div class="portlet-title">
-        <div class="caption">
-            <i class="icon-share font-blue"></i>
-            <span class="caption-subject font-blue bold uppercase">周活跃用户统计</span>
-        </div>
-    </div>
-    <div class="portlet-body">
-        <div class="chart" style="height: 365px;">
-            <canvas id="weekActiveChart" style="height:355px"></canvas>
-        </div>
-        <!--图标插入位置-->
-        <div class="scroller-footer">
-            <div class="btn-arrow-link pull-right">
-                <a href="{:U('Count/active',array('type'=>'week'))}">查看更多</a>
-                <i class="icon-arrow-right"></i>
-            </div>
-        </div>
-        <div class="clearfix"></div>
-    </div>
-</div>
-<div class="col-xs-6" data-id="count_active_month">
-    <div class="portlet-title">
-        <div class="caption">
-            <i class="icon-share font-blue"></i>
-            <span class="caption-subject font-blue bold uppercase">月活跃用户统计</span>
-        </div>
-    </div>
-    <div class="portlet-body">
-        <div class="chart" style="height: 365px;">
-            <canvas id="monthActiveChart" style="height:355px"></canvas>
-        </div>
-        <!--图标插入位置-->
-        <div class="scroller-footer">
-            <div class="btn-arrow-link pull-right">
-                <a href="{:U('Count/active',array('type'=>'month'))}">查看更多</a>
-                <i class="icon-arrow-right"></i>
-            </div>
-        </div>
-        <div class="clearfix"></div>
-    </div>
-</div>
-
-<div class="col-xs-6 remain" data-id="count_remain">
-    <div class="portlet-title">
-        <div class="caption">
-            <i class="icon-share font-blue"></i>
-            <span class="caption-subject font-blue bold uppercase">新注册用户前8日留存率统计</span>
-        </div>
-        <div class="actions">
-            <div class="checkbox_block">
-                <label class="day1_label"><input type="checkbox" name="day_show[]" value="day1" checked/>次日</label>
-                <label class="day2_label"><input type="checkbox" name="day_show[]" value="day2" checked/>2日</label>
-                <label class="day3_label"><input type="checkbox" name="day_show[]" value="day3" checked/>3日</label>
-                <label class="day4_label"><input type="checkbox" name="day_show[]" value="day4" checked/>4日</label>
-                <label class="day5_label"><input type="checkbox" name="day_show[]" value="day5" checked/>5日</label>
-                <label class="day6_label"><input type="checkbox" name="day_show[]" value="day6" checked/>6日</label>
-                <label class="day7_label"><input type="checkbox" name="day_show[]" value="day7" checked/>7日</label>
-                <label class="day8_label"><input type="checkbox" name="day_show[]" value="day8" checked/>8日</label>
-            </div>
-        </div>
-    </div>
-    <div class="portlet-body">
-        <table class="remain-table">
-            <thead>
-            <tr>
-                <th style="width: 80px;">日期</th>
-                <th style="width: 80px;">注册人数</th>
-                <th>留存率</th>
-            </tr>
-            </thead>
-            <tbody id="remain_data">
-                <include file="Count/_remain_data"/>
-            </tbody>
-        </table>
-        <div class="scroller-footer">
-            <div class="btn-arrow-link pull-right">
-                <a href="{:U('Count/remain')}">查看更多</a>
-                <i class="icon-arrow-right"></i>
-            </div>
-        </div>
-        <div class="clearfix"></div>
     </div>
 </div>
 <!-- ChartJS 1.0.1 -->

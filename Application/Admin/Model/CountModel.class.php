@@ -1,28 +1,17 @@
 <?php
-/**
- * 数据统计模型
- * Created by PhpStorm.
- * User: Administrator
- * Date: 16-7-22
- * Time: 上午11:23
- * @author 郑钟良<zzl@ourstu.com>
- */
-
 namespace Admin\Model;
-
 
 use Think\Model;
 
 class CountModel extends Model
 {
 
-    protected $lostModel,$remainModel,$consumptionModel,$activeModel;
+    protected $lostModel,$remainModel,$activeModel;
     public function _initialize()
     {
         parent::_initialize();
         $this->lostModel=M('CountLost');
         $this->remainModel=M('CountRemain');
-        $this->consumptionModel=M('CountConsumption');
         $this->activeModel=M('CountActive');
     }
 
@@ -400,7 +389,7 @@ class CountModel extends Model
             case 'week':
                 $away=7;//周统计date偏移7，实现date唯一
                 $range=' + 7 day';
-                $format='W周(Y-m-d)';
+                $format='W周(m-d)';
                 if(strtotime(date('Y-m-d').' - '.date('w').' day')<=$endTime){//本周实时统计
                     $next=strtotime(date('Y-m-d').' - '.date('w').' day + 7 day');
                 }

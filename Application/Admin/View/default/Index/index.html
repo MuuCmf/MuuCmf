@@ -1,5 +1,14 @@
 <extend name="Public/base"/>
-
+<block name="style">
+<style>
+    #main-content {
+        background: none;
+    }
+    .index-block-box {
+        padding:15px;
+    }
+</style>
+</block>
 <block name="script">
     <script type="text/javascript" src="__JS__/highcharts.js"></script>
 </block>
@@ -9,7 +18,7 @@
         <div class="with-padding-lg">
             <div class="count clearfix">
                 <div class="col-xs-3 text-center">
-                    <a href="{:U('action/actionlog')}" class="with-padding-lg bg-special">
+                    <a href="{:U('action/actionlog')}" class="with-padding-lg bg-special index-block-box">
                         <i class="icon-tasks"></i>
                         {$count.today_action_log}
                         <br/>
@@ -17,14 +26,14 @@
                     </a>
                 </div>
                 <div class="col-xs-3 text-center">
-                    <a class="with-padding-lg bg-info" href="{:U('user/index')}">
+                    <a class="with-padding-lg bg-info index-block-box" href="{:U('user/index')}">
                         <i class="icon-user"></i>
                         {$count.today_user} 
                         <br/>
                         {:L('_USER_INCREASE_TODAY_')}</a>
                 </div>
                 <div class="col-xs-3 text-center">
-                    <a class="with-padding-lg bg-danger" href="{:U('user/index')}">
+                    <a class="with-padding-lg bg-danger index-block-box" href="{:U('user/index')}">
                         <i class="icon-group">
                         </i>
                         {$count.total_user}
@@ -33,7 +42,7 @@
                     </a>
                 </div>
                 <div class="col-xs-3 text-center">
-                    <a class="with-padding-lg bg-success"  href="{:U('user/online')}">
+                    <a class="with-padding-lg bg-success index-block-box"  href="{:U('user/online')}">
                         <i class="icon-group">
                         </i>
                         {$count.total_online}
@@ -44,16 +53,6 @@
             </div>
         </div>
 
-        <div class="with-padding-lg" style="position: relative">
-            <div class="col-xs-12">
-            <button class="btn  pull-right" data-toggle="modal" data-target="#settingCount"
-                    style="position: absolute;right: 15px;z-index: 999">
-                <i class="icon-cog"></i>
-                {:L('_SETTINGS_')}
-            </button>
-            <div id="myChart" height="400"></div>
-            </div>
-        </div>
 
     </div>
     <div class="index-content-box">
@@ -62,15 +61,12 @@
             <div class="count clearfix">
                 <include file="_count_file"/>
                 <div class="col-xs-6 text-center">
-                    <a class="with-padding-lg bg-info" target="_blank" href="https://github.com/sky3936/MuuCmf_doc">
-                        <i class="icon-book"></i>  {:L('_DOCUMENT_CENTER_')}</a>
+                    <a class="with-padding-lg bg-info index-block-box" target="_blank" href="https://github.com/sky3936/MuuCmf_doc">
+                        <i class="icon-book"></i> {:L('_DOCUMENT_CENTER_')}</a>
                 </div>
                 <div class="col-xs-6 text-center">
-                    <a class="with-padding-lg bg-warning" target="_blank" href="http://www.muucmf.cn/forum/Index/index">
-                        <i class="icon-chrome">
-                        </i>
-
-                        {:L('_OFFICIAL_GROUP_')}
+                    <a class="with-padding-lg bg-warning index-block-box" target="_blank" href="https://www.hoomuu.cn/forum">
+                        <i class="icon-chrome"></i> {:L('_OFFICIAL_GROUP_')}
                     </a>
                 </div>
             </div>
@@ -79,12 +75,16 @@
             <div class="col-xs-12">
                 <div class="hd cf">
                     <h5>{$addons_config.title}</h5>
-
-                    <div class="title-opt">
-                    </div>
+                    <div class="title-opt"></div>
                 </div>
                 <div class="bd">
-                    <div class="">
+                <div class="count_common_box">
+                    <div class="portlet-title">
+                        <div class="caption text-center">
+                            <span class="caption-subject">系统信息</span>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
                         <table class="table table-bordered table-striped ">
                             <tr>
                                 <th style="width: 200px">{:L('_SERVER_OS_')}</th>
@@ -117,6 +117,7 @@
                             </tr>
                         </table>
                     </div>
+                </div>
                 </div>
             </div>
 

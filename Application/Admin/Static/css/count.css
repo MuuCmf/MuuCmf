@@ -136,3 +136,24 @@
 .consumption .checkbox_block label squre.user_num {
   background: #BBB;
 }
+.count_common_box {
+  margin:10px auto;
+  padding:10px;
+  border:1px solid #ddd;
+  background:#fff;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  border-radius: 2px;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+.count_common_box .caption {
+  padding:15px 0;
+}
+.count_common_box .caption-subject {
+  font-size:16px;
+  font-weight: bold;
+}
+.count_common_box .scroller-footer a{
+  font-size:14px;
+  padding:5px 0;
+}
