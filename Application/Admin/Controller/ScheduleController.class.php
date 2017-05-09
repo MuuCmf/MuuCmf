@@ -29,8 +29,8 @@ class ScheduleController extends AdminController
         }
         unset($v);
         //显示页面
-        $btn_attr = $model->checkIsRunning() ? array('style' => 'color:green;font-weight:700') : array('style' => 'color:red;font-weight:700');
-        $btn_attr['class'] = 'ajax-post ';
+        $btn_attr = $model->checkIsRunning() ? array('style' => 'font-weight:700') : array('style' => 'font-weight:700');
+        $btn_attr['class'] = 'ajax-post btn-info';
         $btn_attr[' hide-data'] = 'true';
         $btn_attr['href'] = U('Schedule/run');
         $builder = new AdminListBuilder();
@@ -40,14 +40,16 @@ class ScheduleController extends AdminController
             ->setStatusUrl(U('setScheduleStatus'));
 
 
-        $btn_attr['style'] = 'color:blue;font-weight:700';
+        $btn_attr['style'] = 'font-weight:700';
         $btn_attr['href'] = U('Schedule/reRun');
-        $btn_attr['class'] = 'ajax-post re_run';
+        $btn_attr['class'] = 'btn-warning ajax-post re_run';
         $btn_attr['onclick'] = 'javascript:$(this).text("重启中，请不要做其他操作...")';
         $builder->button('重启计划任务', $btn_attr);
 
 
-        $builder->buttonNew(U('Schedule/editSchedule')) ->buttonEnable()->buttonDisable()->buttonDelete()
+        $builder
+            ->buttonNew(U('Schedule/editSchedule'))
+            ->buttonDelete()
             ->keyId()->keyText('method', '执行方法')
             ->keyText('args', '参数')
             ->keyText('type_text', '类型')
