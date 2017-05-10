@@ -104,4 +104,105 @@ class PublicController extends Controller
         $this->ajaxReturn(array('data'=>D('ContentHandler')->getVideoInfo($aLink)));
     }
 
+    public function assignUser(){
+        $aIds = I('post.ids','','text');
+        $ids = explode(',',$aIds);
+        foreach($ids as $v){
+            $friends[] = query_user(array('avatar32', 'avatar64', 'space_url', 'nickname', 'uid', 'signature'), $v);
+        }
+        $this->ajaxReturn($friends);
+    }
+
+    /**
+     * runSchedule 执行计划任务请求地址。
+     * @author:xjw129xjt(肖骏涛) xjt@ourstu.com
+     */
+    public function runSchedule(){
+
+        $aToken = I('get.token','','text');
+        $aTime = I('get.time',0,'intval');
+        if($aTime + 30  < time()){
+            exit('Error');
+        }
+        if($aToken != md5($aTime.C('DATA_AUTH_KEY'))){
+            exit('Error');
+        }
+        D('Common/Schedule')->run();
+    }
+
+    /**
+     * firstUserRun 每日第一位访问的用户调用该函数（用于执行数据统计、连签重置等操作）
+     * @author 郑钟良<zzl@ourstu.com> 大蒙<59262424@qq.com>
+     */
+    public function firstUserRun(){
+        $aToken = I('get.token','','text');
+        $aTime = I('get.time',0,'intval');
+        if($aTime + 30  < time()){
+            exit('Error');
+        }
+        if($aToken != md5($aTime.C('DATA_AUTH_KEY'))){
+            exit('Error');
+        }
+        ignore_user_abort(true); //即使Client断开(如关掉浏览器)，PHP脚本也可以继续执行.
+        set_time_limit(0); // 执行时间为无限制，php默认的执行时间是30秒，通过set_time_limit(0)可以让程序无限制的执行下去
+        $this->_setConfig('_CONFIG_FIRST_USER_RUN',time_format(time(),'Y-m-d'));
+        //执行操作start
+        if(method_exists(D('Common/Schedule'), 'dealAbnormalStop')){
+            D('Schedule')->dealAbnormalStop();
+        }
+        if(method_exists(D('Admin/Count'), 'dayCount')){
+            D('Admin/Count')->dayCount();
+        }
+        if(method_exists(D('Addons://CheckIn/CheckIn'), 'resetConCheck')){
+            D('Addons://CheckIn/CheckIn')->resetConCheck();
+        }
+        if(method_exists(A('Home/AutoExport'),'autoExportLog')){
+            A('Home/AutoExport')->autoExportLog();
+        }
+        if(method_exists(A('Ucenter/Index'),'ranking')){
+            A('Ucenter/Index')->ranking();
+        }
+        exit;
+        //执行操作end
+    }
+
+    /**
+     * 设置config
+     * @author 郑钟良<zzl@ourstu.com>
+     */
+    private function _setConfig($name,$value)
+    {
+        $config['name'] =$name;// '_' . strtoupper(CONTROLLER_NAME) . '_' . strtoupper($k);
+        $config['type'] = 0;
+        $config['title'] = '';
+        $config['group'] = 0;
+        $config['extra'] = '';
+        $config['remark'] = '';
+        $config['create_time'] = time();
+        $config['update_time'] = time();
+        $config['status'] = 1;
+        $config['value'] = is_array($value) ? implode(',', $value) : $value;
+        $config['sort'] = 0;
+        $configModel=M('Config');
+        if ($configModel->add($config, null, true)) {
+            $tag = 'conf' . $name;
+            S($tag, null);
+        }
+        return true;
+    }
+
+    public function pushing()
+    {
+
+        $aToken = I('get.token', '', 'text');
+        $aTime = I('get.time', 0, 'intval');
+        if ($aTime + 30 < time()) {
+            exit('Error');
+        }
+        if ($aToken != md5($aTime . C('DATA_AUTH_KEY'))) {
+            exit('Error');
+        }
+        D('Pushing')->run();
+    }
+
 }

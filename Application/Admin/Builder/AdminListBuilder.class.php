@@ -7,6 +7,7 @@ class AdminListBuilder extends AdminBuilder
 {
     private $_title;
     private $_suggest;
+    private $_tips;
     private $_keyList = array();
     private $_buttonList = array();
     private $_pagination = array();
@@ -41,6 +42,12 @@ class AdminListBuilder extends AdminBuilder
     public function suggest($suggest)
     {
         $this->_suggest = $suggest;
+        return $this;
+    }
+
+    public function tips($content)
+    {
+        $this->_tips = $content;
         return $this;
     }
 

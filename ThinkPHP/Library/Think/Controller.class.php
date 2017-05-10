@@ -74,7 +74,7 @@ abstract class Controller
             if (strtolower(MODULE_NAME) != 'install' && strtolower(MODULE_NAME) != 'admin') {
                 if (!C('WEB_SITE_CLOSE')) {
                     header("Content-Type: text/html; charset=utf-8");
-                    exit('站点已经关闭，请稍后访问~');
+                    echo C('WEB_SITE_CLOSE_HINT');exit;
                 }
 
                 if (strtolower(MODULE_NAME) != 'install' && strtolower(MODULE_NAME) != 'admin') {
@@ -91,10 +91,38 @@ abstract class Controller
             $this->view->assign('MODULE_INFO', $module);
             $this->view->assign('MODULE_ALIAS', $module['alias']);
         }
-
+        if (MODULE_NAME !== 'Install') {
+            $this->_firstUserRun();
+        }
         //控制器初始化
         if (method_exists($this, '_initialize'))
             $this->_initialize();
+    }
+
+    /**
+     * 发起每日第一位访问的用户执行计划（用于执行数据统计、连签重置等操作）
+     * @return bool
+     */
+    private function _firstUserRun()
+    {
+        $first_user_run_time=S('FIRST_USER_RUN_ONCE');
+        if(intval($first_user_run_time)+60<time()){
+            $lastRunTime=modC('FIRST_USER_RUN',null,'Config');
+            $today=time_format(time(),'Y-m-d');
+            if($lastRunTime!=$today){
+                S('FIRST_USER_RUN_ONCE',time());
+                $time = time();
+                $url = U('Home/Public/firstUserRun', array('time' => $time, 'token' => md5($time . C('DATA_AUTH_KEY'))), true, true);
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 1);  //设置过期时间为1秒，防止进程阻塞
+                curl_setopt($ch, CURLOPT_USERAGENT, '');
+                curl_setopt($ch, CURLOPT_REFERER, 'b');
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                $content = curl_exec($ch);
+                curl_close($ch);
+            }
+        }
     }
 
     /**
