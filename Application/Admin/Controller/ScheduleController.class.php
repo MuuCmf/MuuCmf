@@ -14,7 +14,7 @@ class ScheduleController extends AdminController
 {
     /**
      * scheduleList  计划任务列表
-     * @author:xjw129xjt(肖骏涛) xjt@ourstu.com
+     * @author:59262424@qq.com（大蒙）
      */
     public function scheduleList()
     {
@@ -33,12 +33,18 @@ class ScheduleController extends AdminController
         $btn_attr['class'] = 'ajax-post btn-info';
         $btn_attr[' hide-data'] = 'true';
         $btn_attr['href'] = U('Schedule/run');
+        //控制运行按钮文字
+        if($model->checkIsRunning()){
+            $btn_info = 'Running（点击停止）';
+        }else{
+            $btn_info = 'Stop（点击运行）';
+        }
         $builder = new AdminListBuilder();
+
         $builder->title('计划任务')
             ->tips('Tips：执行时间较长的计划任务会影响到其他计划任务时间的计算；')
-            ->button($model->checkIsRunning() ? 'Running （点击停止）' : 'Stop（点击运行）', $btn_attr)
+            ->button($btn_info, $btn_attr)
             ->setStatusUrl(U('setScheduleStatus'));
-
 
         $btn_attr['style'] = 'font-weight:700';
         $btn_attr['href'] = U('Schedule/reRun');
@@ -59,7 +65,7 @@ class ScheduleController extends AdminController
             //->keyText('intro', '介绍')
             ->keyTime('last_run', '上次执行时间')
             ->keyTime('next_run', '下次执行时间')
-            ->keyCreateTime()
+            //->keyCreateTime()
             ->keyStatus()
             ->keyDoActionEdit('editSchedule?id=###')
             ->keyDoActionModalPopup('showLog?id=###', '查看日志', '日志', array('data-title' => '日志'))
