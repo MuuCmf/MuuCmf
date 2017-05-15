@@ -4907,7 +4907,13 @@ INSERT INTO `muucmf_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `
 ('57D2577F-543B-2D2F-7073-E5EFB6855421', '编辑单页文章', '6E3C9358-EEDB-509D-2D5D-E2A9BCE28E91', 0, 'About/editAbout', 0, '', '内容管理', 0, '', 'About'),
 ('EEDFF208-5CFE-2AF3-3D36-77F53F200D03', '设置内容状态', '6E3C9358-EEDB-509D-2D5D-E2A9BCE28E91', 0, 'setAboutStatus', 0, '', '内容管理', 0, '', 'About'),
 ('06EAD4C7-4A84-DE2F-6464-11D025F83EF1', '编辑分类', '227CFD90-8C97-7EA8-D317-C45B1E4B24EF', 0, 'About/editCategory', 0, '', '内容管理', 0, '', 'About'),
-('21C795A0-3D56-D4CB-9FB4-7774F488CD35', '设置分类状态', '227CFD90-8C97-7EA8-D317-C45B1E4B24EF', 0, 'About/setCategoryStatus', 0, '', '内容管理', 0, '', 'About');
+('21C795A0-3D56-D4CB-9FB4-7774F488CD35', '设置分类状态', '227CFD90-8C97-7EA8-D317-C45B1E4B24EF', 0, 'About/setCategoryStatus', 0, '', '内容管理', 0, '', 'About'),
+
+('8C87F66E-4A84-7A4F-0B80-BA6A4A4C87C7', '计划任务', '74', 0, 'schedule/schedulelist', 0, '', '计划任务', 0, '', ''),
+('321A7323-8C14-D79D-9AE6-5F57F1CAB212', '查看日志', '8C87F66E-4A84-7A4F-0B80-BA6A4A4C87C7', 0, 'Schedule/showLog', 0, '', '计划任务', 0, '', ''),
+('3DB48266-6033-AA7D-3127-2E9F8618D05E', '清空日志', '8C87F66E-4A84-7A4F-0B80-BA6A4A4C87C7', 0, 'admin/schedule/clearLog', 0, '', '计划任务', 0, '', ''),
+('4EF3A41F-05CE-A63A-56DF-97304225216E', '重启计划任务', '8C87F66E-4A84-7A4F-0B80-BA6A4A4C87C7', 0, 'Schedule/reRun', 0, '', '计划任务', 0, '', ''),
+('69735C59-69D8-0040-0905-3C48453C644A', '设置计划任务状态', '8C87F66E-4A84-7A4F-0B80-BA6A4A4C87C7', 0, 'Schedule/setScheduleStatus', 0, '', '计划任务', 0, '', '');
 
 
 DROP TABLE IF EXISTS `muucmf_message`;
