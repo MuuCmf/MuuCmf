@@ -42,12 +42,12 @@
                     </a>
                 </div>
                 <div class="col-xs-3 text-center">
-                    <a class="with-padding-lg bg-success index-block-box"  href="{:U('user/online')}">
+                    <a class="with-padding-lg bg-success index-block-box"  href="{:U('count/nowuserlist')}">
                         <i class="icon-group">
                         </i>
-                        {$count.total_online}
+                        {$count.now_inline}
                         <br/>
-                        在线人数
+                        {:L('_USER_ONLINE_')}
                     </a>
                 </div>
             </div>

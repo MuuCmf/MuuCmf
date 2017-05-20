@@ -57,6 +57,7 @@
 '_USER_ACTION_TODAY_' =>' User behavior today',
 '_USER_INCREASE_TODAY_' =>' Number of new users today',
 '_USER_COUNT_' =>' Total user number',
+'_USER_ONLINE_' =>'Online user',
 '_SETTINGS_' =>' Set up',
 '_DOCUMENT_CENTER_' =>' Document Center',
 '_OFFICIAL_GROUP_' =>' Official Community',
