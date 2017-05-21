@@ -136,14 +136,13 @@ class InstallController extends Controller{
 
 
         if(session('error')){
-            //show_msg();
+            show_msg();
         } else {
             session('step', 3);
 
             echo "<script type=\"text/javascript\">setTimeout(function(){location.href='".U('Index/complete')."'},5000)</script>";
             ob_flush();
             flush();
-           //$this->redirect('Index/complete');
         }
     }
 

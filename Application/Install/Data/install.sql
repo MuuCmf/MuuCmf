@@ -1,42 +1,6 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
-DROP TABLE IF EXISTS `muucmf_about`;
-CREATE TABLE IF NOT EXISTS `muucmf_about` (
-  `id` int(11) NOT NULL,
-  `uid` int(11) NOT NULL,
-  `title` varchar(25) NOT NULL,
-  `cover` int(11) NOT NULL COMMENT '顶图',
-  `content` text NOT NULL,
-  `status` tinyint(2) NOT NULL,
-  `sort` int(6) NOT NULL,
-  `update_time` int(11) NOT NULL,
-  `create_time` int(11) NOT NULL,
-  `category` int(11) NOT NULL COMMENT '分类id',
-  `template` varchar(255) NOT NULL COMMENT '模板路径',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='文章文章表';
-
-INSERT INTO `muucmf_about` (`id`, `uid`, `title`, `cover`, `content`, `status`, `sort`, `update_time`, `create_time`, `category`, `template`) VALUES
-(3, 1, '关于我们', 36, '<p style="text-align: left;">火木科技是一家互联网创新型企业，火木科技希望能为传统企业和创业公司提供更快，更好，更专业的互联网技术解决方案提供助力。<br style="font-family: &#39;Helvetica Neue&#39;, Arial, sans; font-size: 16px; text-align: left;"/>&nbsp;<br style="font-family: &#39;Helvetica Neue&#39;, Arial, sans; font-size: 16px; text-align: left;"/>火木科技强调 创新、整合和开放，技术实力并非火木科技的至高追求，而是通过对互联网的理解为合作伙伴提供更有效解决切实问题的方法为价值所在。</p><p><br style="text-align: left;"/></p><p style="text-align: left;">火木来源于古代中国哲学五行理论&quot;木、火、土、金、水&quot;五大元素之火与木构成。之所以选择“火”与“木”，是期望能帮助个别领域达到一种动态平衡。后人根据对五行的认识，又创造了五行相生相克理论，而火与木又正是彼此相生之两大元素。而根据五行学说之季节关系，春天属木，代表气体向四周扩散的运动方式。春天，花草树木生长茂盛，树木的枝条向四周伸展，养料往枝头输送。夏天属火，代表气体向上的运动方式。火的特点就是向上，夏天各种植物向上生长，长势迅猛。</p><p><br style="text-align: left;"/></p><p style="text-align: left;">火木科技将专注基于互联网的技术解决方案，目前的产品体系也正是基于此逻辑开发。</p><p><br style="text-align: left;"/></p><p style="text-align: left;">其“木”系列产品MuuCmf内容管理框架，是基于后端的数据处理方案。开发思想是将功能模块完全分离，随着模块数量和功能的不断增加和完善，在高速发展的互联网时代，MuuCmf将满足企业各项业务需求。“木”系列产品更强调的是横向发展和输出。</p><p><br style="text-align: left;"/></p><p style="text-align: left;">其“火”系列产品是基于MuuCmf的前端解决方案，是通过MuuCmf强大的数据处理能力将数据呈现在Pc,手机和其他智能终端上的用户交互设计能力。“火”系列产品更强调的是纵向发展和专注。</p><p style="text-align: center;"><br/></p>', 1, 0, 1469675011, 1468587608, 1, ''),
-(4, 1, '招募人马', 0, '<p>招募人马</p><p><br/></p><p>PHP开发工程师</p><p><br/></p><p>前端开发工程师</p><p><br/></p><p><br/></p>', 1, 0, 1469542084, 1469179295, 1, ''),
-(6, 1, '联系我们', 0, '<p>联系我们</p>', 1, 0, 1469541490, 1469541490, 1, ''),
-(7, 1, '合作伙伴', 0, '<p>合作伙伴</p>', 1, 0, 1469541553, 1469541542, 1, '');
-
-DROP TABLE IF EXISTS `muucmf_about_category`;
-CREATE TABLE IF NOT EXISTS `muucmf_about_category` (
-  `id` int(11) NOT NULL,
-  `title` varchar(25) NOT NULL,
-  `sort` int(6) NOT NULL,
-  `status` tinyint(2) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='文章分类';
-
-INSERT INTO `muucmf_about_category` (`id`, `title`, `sort`, `status`) VALUES
-(1, '关于我们', 1, 1),
-(2, 'BLOG', 2, 1),
-(3, '媒体报道', 3, 1);
-
 DROP TABLE IF EXISTS `muucmf_action`;
 CREATE TABLE IF NOT EXISTS `muucmf_action` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -167,8 +131,7 @@ DROP TABLE IF EXISTS `muucmf_articles_detail`;
 CREATE TABLE IF NOT EXISTS `muucmf_articles_detail` (
   `articles_id` int(11) NOT NULL,
   `content` text NOT NULL COMMENT '内容',
-  `template` varchar(50) NOT NULL COMMENT '模板',
-  PRIMARY KEY (`id`)
+  `template` varchar(50) NOT NULL COMMENT '模板'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='文章详情';
 
 DROP TABLE IF EXISTS `muucmf_attachment`;
@@ -637,7 +600,7 @@ INSERT INTO `muucmf_channel` (`id`, `pid`, `title`, `url`, `sort`, `create_time`
 (2, 0, '文章', 'Articles/index/index', 2, 0, 0, 1, 0, '#000000', '#000000', '', '');
 
 DROP TABLE IF EXISTS `muucmf_user_nav`;
-CREATE TABLE `muucmf_user_nav` (
+CREATE TABLE IF NOT EXISTS `muucmf_user_nav` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '频道ID',
   `title` char(30) NOT NULL COMMENT '频道标题',
   `url` char(100) NOT NULL COMMENT '频道连接',
@@ -4999,8 +4962,12 @@ INSERT INTO `muucmf_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `
 ('321A7323-8C14-D79D-9AE6-5F57F1CAB212', '查看日志', '8C87F66E-4A84-7A4F-0B80-BA6A4A4C87C7', 0, 'Schedule/showLog', 0, '', '计划任务', 0, '', ''),
 ('3DB48266-6033-AA7D-3127-2E9F8618D05E', '清空日志', '8C87F66E-4A84-7A4F-0B80-BA6A4A4C87C7', 0, 'admin/schedule/clearLog', 0, '', '计划任务', 0, '', ''),
 ('4EF3A41F-05CE-A63A-56DF-97304225216E', '重启计划任务', '8C87F66E-4A84-7A4F-0B80-BA6A4A4C87C7', 0, 'Schedule/reRun', 0, '', '计划任务', 0, '', ''),
-('69735C59-69D8-0040-0905-3C48453C644A', '设置计划任务状态', '8C87F66E-4A84-7A4F-0B80-BA6A4A4C87C7', 0, 'Schedule/setScheduleStatus', 0, '', '计划任务', 0, '', '');
+('69735C59-69D8-0040-0905-3C48453C644A', '设置计划任务状态', '8C87F66E-4A84-7A4F-0B80-BA6A4A4C87C7', 0, 'Schedule/setScheduleStatus', 0, '', '计划任务', 0, '', ''),
 
+('A6E049E7-F99F-5FF2-1D4F-5AA242E3F6C8', '流失率数据', '197', 0, 'count/lost', 0, '', '数据统计', 0, '', ''),
+('A985703F-0F39-F114-5784-A693F55D5310', '留存率数据', '197', 0, 'count/remain', 0, '', '数据统计', 0, '', ''),
+('0AAED4DF-55D3-03DA-5860-3ABAEC00096D', '活跃用户数据', '197', 0, 'count/active', 0, '', '数据统计', 0, '', ''),
+('CCAE3F89-4E09-1912-9F3B-453E0A265A62', '在线用户', '197', 0, 'count/nowuserlist', 0, '', '数据统计', 0, '', '');
 
 DROP TABLE IF EXISTS `muucmf_message`;
 CREATE TABLE IF NOT EXISTS `muucmf_message` (
@@ -5479,7 +5446,7 @@ CREATE TABLE IF NOT EXISTS `muucmf_ucenter_user_link` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `muucmf_adv_pos`;
-CREATE TABLE `muucmf_adv_pos` (
+CREATE TABLE IF NOT EXISTS `muucmf_adv_pos` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(50) NOT NULL,
   `title` char(80) NOT NULL DEFAULT '' COMMENT '广告位置名称',
@@ -5496,7 +5463,7 @@ CREATE TABLE `muucmf_adv_pos` (
 ) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='广告位置表';
 
 DROP TABLE IF EXISTS `muucmf_adv`;
-CREATE TABLE `muucmf_adv` (
+CREATE TABLE IF NOT EXISTS `muucmf_adv` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `title` char(80) NOT NULL DEFAULT '' COMMENT '广告名称',
   `pos_id` int(11) NOT NULL COMMENT '广告位置',
