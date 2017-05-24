@@ -1,6 +1,8 @@
 <?php
 return array(
     '_MUUCMF_' => 'MuuCmf开源内容管理框架',
+    '_HOOMUU_WANTS_TO_DAY_MDT_INFOTECH_LTD_' => '北京火木科技有限公司',
+    '_BUILT_IN_MUUCMF_' => 'MuuCmf开源内容管理框架',
 
     '_FOLLOWERS_' => '关注',
     '_SELF_' => '自己',

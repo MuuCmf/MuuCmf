@@ -1,6 +1,9 @@
 <?php
 return array(
     '_MUUCMF_' => ' MuuCmf Content Management Framework',
+    '_HOOMUU_WANTS_TO_DAY_MDT_INFOTECH_LTD_' => 'Beijing HooMuu technology Co., Ltd. ',
+    '_BUILT_IN_MUUCMF_' => 'MuuCmf Content Management Framework',
+
     '_FOLLOWERS_' => ' Pay attention to',
     '_SELF_' => ' Own',
     '_FOLLOWED_' => ' Has been concerned',

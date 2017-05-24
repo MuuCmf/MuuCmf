@@ -1,6 +1,43 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
+DROP TABLE IF EXISTS `muucmf_about`;
+CREATE TABLE IF NOT EXISTS `muucmf_about` (
+  `id` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `title` varchar(25) NOT NULL,
+  `cover` int(11) NOT NULL COMMENT '顶图',
+  `content` text NOT NULL,
+  `status` tinyint(2) NOT NULL,
+  `sort` int(6) NOT NULL,
+  `update_time` int(11) NOT NULL,
+  `create_time` int(11) NOT NULL,
+  `category` int(11) NOT NULL COMMENT '分类id',
+  `template` varchar(255) NOT NULL COMMENT '模板路径',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='文章表';
+
+INSERT INTO `muucmf_about` (`id`, `uid`, `title`, `cover`, `content`, `status`, `sort`, `update_time`, `create_time`, `category`, `template`) VALUES
+(1, 1, '关于我们', 36, '<p style="text-align: left;">火木科技是一家互联网创新型企业，火木科技希望能为传统企业和创业公司提供更快，更好，更专业的互联网技术解决方案提供助力。<br style="font-family: &#39;Helvetica Neue&#39;, Arial, sans; font-size: 16px; text-align: left;"/>&nbsp;<br style="font-family: &#39;Helvetica Neue&#39;, Arial, sans; font-size: 16px; text-align: left;"/>火木科技强调 创新、整合和开放，技术实力并非火木科技的至高追求，而是通过对互联网的理解为合作伙伴提供更有效解决切实问题的方法为价值所在。</p><p><br style="text-align: left;"/></p><p style="text-align: left;">火木来源于古代中国哲学五行理论&quot;木、火、土、金、水&quot;五大元素之火与木构成。之所以选择“火”与“木”，是期望能帮助个别领域达到一种动态平衡。后人根据对五行的认识，又创造了五行相生相克理论，而火与木又正是彼此相生之两大元素。而根据五行学说之季节关系，春天属木，代表气体向四周扩散的运动方式。春天，花草树木生长茂盛，树木的枝条向四周伸展，养料往枝头输送。夏天属火，代表气体向上的运动方式。火的特点就是向上，夏天各种植物向上生长，长势迅猛。</p><p><br style="text-align: left;"/></p><p style="text-align: left;">火木科技将专注基于互联网的技术解决方案，目前的产品体系也正是基于此逻辑开发。</p><p><br style="text-align: left;"/></p><p style="text-align: left;">其“木”系列产品MuuCmf内容管理框架，是基于后端的数据处理方案。开发思想是将功能模块完全分离，随着模块数量和功能的不断增加和完善，在高速发展的互联网时代，MuuCmf将满足企业各项业务需求。“木”系列产品更强调的是横向发展和输出。</p><p><br style="text-align: left;"/></p><p style="text-align: left;">其“火”系列产品是基于MuuCmf的前端解决方案，是通过MuuCmf强大的数据处理能力将数据呈现在Pc,手机和其他智能终端上的用户交互设计能力。“火”系列产品更强调的是纵向发展和专注。</p><p style="text-align: center;"><br/></p>', 1, 0, 1469675011, 1468587608, 1, ''),
+(2, 1, '招募人马', 0, '<p>招募人马</p><p><br/></p><p>PHP开发工程师</p><p><br/></p><p>前端开发工程师</p><p><br/></p><p><br/></p>', 1, 0, 1469542084, 1469179295, 1, ''),
+(3, 1, 'MuuCmf授权协议', 0, '<p>MuuCmf授权协议</p>', 1, 0, 1469540499, 1469540476, 1, ''),
+(4, 1, '联系我们', 0, '<p>联系我们</p>', 1, 0, 1469541490, 1469541490, 1, ''),
+(5, 1, '合作伙伴', 0, '<p>合作伙伴</p>', 1, 0, 1469541553, 1469541542, 1, '');
+
+DROP TABLE IF EXISTS `muucmf_about_category`;
+CREATE TABLE IF NOT EXISTS `muucmf_about_category` (
+  `id` int(11) NOT NULL,
+  `title` varchar(25) NOT NULL,
+  `sort` int(6) NOT NULL,
+  `status` tinyint(2) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='文章分类';
+
+INSERT INTO `muucmf_about_category` (`id`, `title`, `sort`, `status`) VALUES
+(1, '关于我们', 1, 1),
+(2, 'BLOG', 2, 1),
+(3, '媒体报道', 3, 1);
+
 DROP TABLE IF EXISTS `muucmf_action`;
 CREATE TABLE IF NOT EXISTS `muucmf_action` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
