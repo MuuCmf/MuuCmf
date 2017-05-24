@@ -20,9 +20,10 @@ class MenuController extends AdminController {
      * @return none
      */
     public function index(){
-        $pid  = I('get.pid',0);
+        $pid  = I('get.pid','0','text');
         if($pid){
-            $data = M('Menu')->where("id={$pid}")->field(true)->find();
+            $where['id'] = $pid;
+            $data = M('Menu')->where($where)->field(true)->find();
             $this->assign('data',$data);
         }
         $title      =   trim(I('get.title'));
