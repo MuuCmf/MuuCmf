@@ -96,14 +96,11 @@ class AboutController extends AdminController{
         $builder = new AdminListBuilder();
         $builder->doSetStatus('AboutCategory', $ids, $status);
     }
-
-    //分类管理end
-
     /**
      * 单页配置
-     * @author 郑钟良<zzl@ourstu.com>\
+     * @author 大蒙<59262424@qq.com>
      */
-    public function config()
+     public function config()
     {
         $builder=new AdminConfigBuilder();
         $data=$builder->handleConfig();
@@ -113,9 +110,24 @@ class AboutController extends AdminController{
         ->data($data);
 
         $builder
+        //基础设置部分
         ->keyText('ABOUT_CATEGORY_TITLE','文章顶部标题')
         ->keyDefault('ABOUT_CATEGORY_TITLE','关于我们')
         ->keyText('ABOUT_DEFAULT_ID','默认显示的内容id')
+
+        //联盟动态首页设置部分
+        ->keyText('ABOUT_NEWS_SHOW_TITLE', '标题名称', '在首页展示块的标题')->keyDefault('ABOUT_NEWS_SHOW_TITLE','企业动态')
+        ->keyText('ABOUT_NEWS_SHOW_DESCRIPTION', '简短描述', '精简的描述模块内容')->keyDefault('ABOUT_NEWS_SHOW_DESCRIPTION','模块简单描述')
+        ->keyText('ABOUT_NEWS_SHOW_COUNT', '显示动态的个数', '只有在网站首页模块中启用了模块之后才会显示')->keyDefault('ABOUT_NEWS_SHOW_COUNT',4)
+        ->keyRadio('ABOUT_NEWS_SHOW_TYPE', '动态的筛选范围', '', array('1' => '后台推荐', '0' => '全部'))->keyDefault('ABOUT_NEWS_SHOW_TYPE',0)
+        ->keyRadio('ABOUT_NEWS_SHOW_ORDER_FIELD', '排序值', '展示模块的数据排序方式', array('sort' => '排序值', 'create_time' => '发表时间', 'update_time' => '更新时间'))->keyDefault('GOODS_SHOW_ORDER_FIELD','sort')
+        ->keyRadio('ABOUT_NEWS_SHOW_ORDER_TYPE', '排序方式', '展示模块的数据排序方式', array('desc' => '倒序，从大到小', 'asc' => '正序，从小到大'))->keyDefault('ABOUT_NEWS_SHOW_ORDER_TYPE','desc')
+        ->keyText('ABOUT_NEWS_SHOW_CACHE_TIME', '缓存时间', '默认600秒，以秒为单位')->keyDefault('ABOUT_NEWS_SHOW_CACHE_TIME','600')
+
+       ->group('基础配置', 'ABOUT_CATEGORY_TITLE,ABOUT_DEFAULT_ID')
+        ->group('内容调用配置', 'ABOUT_NEWS_SHOW_COUNT,ABOUT_NEWS_SHOW_TITLE,ABOUT_NEWS_SHOW_DESCRIPTION,ABOUT_NEWS_SHOW_TYPE,ABOUT_NEWS_SHOW_ORDER_TYPE,ABOUT_NEWS_SHOW_ORDER_FIELD,ABOUT_NEWS_SHOW_CACHE_TIME')
+
+
         ->buttonSubmit()
         ->buttonBack()
         ->display();

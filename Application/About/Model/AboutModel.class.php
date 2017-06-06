@@ -31,9 +31,9 @@ class AboutModel extends Model{
         return array($list,$totalCount);
     }
 
-    public function getList($map,$field='*',$order='sort asc')
+    public function getList($map,$order='view desc',$limit=5,$field='*')
     {
-        $lists = $this->where($map)->field($field)->order($order)->select();
+        $lists = $this->where($map)->order($order)->limit($limit)->field($field)->select();
         return $lists;
     }
 
