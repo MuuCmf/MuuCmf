@@ -87,7 +87,11 @@
     			if(data.status){
     				window.location.href = data.url;
     			} else {
-                    var msg = new $.Messager(data.info, {placement: 'bottom'});
+                    var msg = new $.zui.Messager(data.info, {
+                        placement: 'bottom', // 定义显示位置
+                        type: 'success',
+                        close: true,
+                    });
                     msg.show();
     				//刷新验证码
                     $('[name=verify]').val('');
