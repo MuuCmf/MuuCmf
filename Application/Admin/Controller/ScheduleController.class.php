@@ -62,7 +62,6 @@ class ScheduleController extends AdminController
             ->keyText('type_value_text', '设定时间')
             ->keyTime('start_time', '开始时间')
             ->keyTime('end_time', '结束时间')
-            //->keyText('intro', '介绍')
             ->keyTime('last_run', '上次执行时间')
             ->keyTime('next_run', '下次执行时间')
             //->keyCreateTime()
@@ -238,30 +237,15 @@ class ScheduleController extends AdminController
 
     /**
      * reRun  重启计划任务
-     * @author:xjw129xjt(肖骏涛) xjt@ourstu.com
+     * @author:大蒙 59262424@qq.com
      */
     public function reRun()
     {
         $model = D('Common/Schedule');
         $model->setStop();
-        $this->_checkLock();
-
+        //}
         $this->_run();
         $this->success('successfully');
-    }
-
-    /**
-     * _checkLock  判断lock文件，当文件不存在的时候返回
-     * @return bool
-     * @author:xjw129xjt(肖骏涛) xjt@ourstu.com
-     */
-    private function _checkLock(){
-        $model = D('Common/Schedule');
-        if($model->checkLockFileExist()){
-            sleep(1);
-           return $this->_checkLock();
-        }
-        return true;
     }
 
     /**
@@ -269,8 +253,7 @@ class ScheduleController extends AdminController
      * @author:大蒙
      */
     private function _run()
-    {
-        $cacert = '/cacert.pem'; //CA根证书  
+    { 
         $SSL = substr($url, 0, 8) == "https://" ? true : false;  
         $CA = true; //HTTPS时是否进行严格认证 
         $time = time();

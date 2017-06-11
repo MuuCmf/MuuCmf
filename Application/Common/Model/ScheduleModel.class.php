@@ -12,7 +12,7 @@ class ScheduleModel extends Model
         array('status', '1', self::MODEL_INSERT),
     );
     public $lockFile = './Data/Schedule/lock.txt';
-    public $interval = 10;
+    public $interval = 30;
     protected $schedule_path = './Data/Schedule/';
 
     /**
@@ -507,38 +507,6 @@ class ScheduleModel extends Model
         }
 
 
-    }
-
-    /**************************************以下为测试代码****************************************************************************/
-    public function sendWeibo($args, $schedule)
-    {
-        $uid = $args['uid'];
-        if ($uid) {
-            $uid = explode(',', $uid);
-            foreach ($uid as $v) {
-
-                $this->setIsLogin($v); //设置session,
-                $data['uid'] = $v;
-                $data['content'] = $schedule['intro'];
-                $data['create_time'] = time();
-                $data['status'] = 1;
-                $data['type'] = 'feed';
-                $data['data'] = '';
-                $data['comment_count'] = 0;
-                $data['is_top'] = 0;
-                $data['repost_count'] = 0;
-                $data['from'] = '';
-                $weibo_id = M('Weibo')->add($data);
-                action_log('add_weibo', 'weibo', $weibo_id, $v);
-                clean_query_user_cache($v, array('weibocount'));
-            }
-        }
-        return true;
-    }
-
-    public function test($args, $schedule)
-    {
-        return true;
     }
 
 }
