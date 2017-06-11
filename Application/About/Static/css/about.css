@@ -42,17 +42,21 @@
   height:400px;
   overflow:hidden;
   z-index: -1;
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
 }
 @media (max-width: 768px){
   .about-header .cover {
-    height:auto;
-    width:900px;
-    left:50%;
-    margin-left:-450px;
+    height:180px;
+    width:100%;
+    text-align: center;
   }
 }
 .about-header .cover img {
   width:100%;
+  text-align: center;
+  vertical-align: middle;
 }
 .about-nav-box {
   position:relative;
@@ -200,8 +204,14 @@
 }
 .common_block_border {
   margin-top:20px;
-  font-size:1.2em;
+  font-size:1.4em;
+  line-height: 1.8em;
+  color:#666;
 }
+.common_block_border a {
+  color:#145CCD;
+}
+
 .common_block_border .feedback {
   text-align:center;
   margin:15px auto;
@@ -236,7 +246,6 @@
 
 .list-box a.pic {
   display:block;
-  height:160px;
   overflow:hidden;
 }
 .list-box a.pic img {
@@ -250,6 +259,9 @@
 .list-box .info {
   padding:30px;
   padding-top:10px;
+}
+.list-box a {
+  color:#333;
 }
 .list-box .info p {
 

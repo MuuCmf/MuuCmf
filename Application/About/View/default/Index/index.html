@@ -5,7 +5,7 @@
 <block name="body">
 <div class="about-header">
     <if condition="$data.cover neq 0">
-        <div class="cover"><img src="{$data.cover|getThumbImageById=1600,500}" title="{$data.title}" /></div>
+        <div class="cover" style="background-image: url('{$data.cover|getThumbImageById=1600,900}'); background-position: 50% 50%;"></div>
     </if>
     <div class="title text-center">
         <h2>{$data.title}</h2>
