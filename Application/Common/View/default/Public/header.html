@@ -103,22 +103,23 @@
             </div>
             
             <div class="collapse navbar-collapse" id="navbar-menu" aria-expanded="false">
-                <ul class="nav navbar-nav navbar-left">
+                <ul class="nav navbar-nav navbar-left" data-in="fadeIn" data-out="fadeOut">
                     <think:nav name="nav" tree="true">
                         <neq name="nav['_']" value="">
                             <li class="dropdown">
-                                <a title="{$nav.title}" class="dropdown-toggle nav_item" data-toggle="dropdown"
-                                   href="#"><i
-                                        class="icon-{$nav.icon} app-icon"></i> {$nav.title} <i
-                                        class="icon-caret-down"></i>
+                                <a title="{$nav.title}" class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                   <i class="icon-{$nav.icon} app-icon"></i> 
+                                    {$nav.title} 
+                                   <i class="icon-caret-down"></i>
                                 </a>
-                                <ul class="dropdown-menu">
+                                <ul class="dropdown-menu animated">
                                     <volist name="nav._" id="subnav">
-                                        <li role="presentation"><a role="menuitem" tabindex="-1"
-                                                                   style="color:{$subnav.color}"
-                                                                   href="{$subnav.url|get_nav_url}"
-                                                                   target="<eq name='subnav.target' value='1'>_blank<else/>_self</eq>"><i
-                                                class="icon-{$subnav.icon}"></i> {$subnav.title}
+                                        <li>
+                                        <a role="menuitem" tabindex="-1"
+                                           style="color:{$subnav.color}"
+                                           href="{$subnav.url|get_nav_url}"
+                                           target="<eq name='subnav.target' value='1'>_blank<else/>_self</eq>">
+                                           <i class="icon-{$subnav.icon}"></i> {$subnav.title}
                                         </a>
                                         </li>
                                     </volist>

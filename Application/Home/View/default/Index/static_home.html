@@ -368,8 +368,6 @@
 </section>
 <script src="__JS__/animations.js"></script>
 <script>
-
-
 $(function(){
 	//顶部导航处理
 	
@@ -377,13 +375,18 @@ $(function(){
 
 	$(document).scroll(function() {
 		var nowTop = parseInt($(window).scrollTop());
-		if(nowTop>coverH){
+		if(nowTop>70 && nowTop<=coverH){
+			$('.bootsnav').addClass('black_nav');
+		}else if(nowTop>coverH){
+			$('.bootsnav').removeClass('black_nav');
 			$('.bootsnav').addClass('white_nav');
 		}else{
 			$('.bootsnav').removeClass('white_nav');
+			$('.bootsnav').removeClass('black_nav');
 		}
-	  	//console.log(nowTop);
+	  	console.log(nowTop);
 	});
+
 });
 </script>
 </block>

@@ -1,56 +1,74 @@
 .animate-box {
     opacity: 0;
 }
-nav.bootsnav {
-transition: background 1s;
--moz-transition: background 1s; /* Firefox 4 */
--webkit-transition: background 1s;  /* Safari 和 Chrome */
--o-transition: background 1s;   /* Opera */
-}
-nav.bootsnav {
-    background: rgba(0,0,0,0.3)!important;
-}
-nav.bootsnav li a{
-    color:#fff!important;
-}
-nav.bootsnav li.active a{
-    color:#fff!important;
-    background:none!important;
-}
-nav.bootsnav li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-    color: #ff9900!important;
-    background: none!important;
-}
-nav.bootsnav .dropdown ul {
-    background: rgba(0,0,0,0.3)!important;
-}
 
-nav.white_nav {
-    background: #ffffff!important;
-}
-nav.white_nav li a{
-    color:#000!important;
-}
-nav.white_nav li.active a{
-    color:#000!important;
-    background:none!important;
-}
-nav.white_nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-    color: #ff9900;
-    background-color: none;
-}
-nav.white_nav .dropdown ul {
-    background: #fff!important;
-}
+@media (min-width: 992px){
+    nav.bootsnav {
+    transition: background 1s;
+    -moz-transition: background 1s; /* Firefox 4 */
+    -webkit-transition: background 1s;  /* Safari 和 Chrome */
+    -o-transition: background 1s;   /* Opera */
+    }
+    nav.bootsnav {
+        background: rgba(0,0,0,0.0)!important;
+    }
+    nav.bootsnav li a{
+        color:#fff!important;
+    }
+    nav.bootsnav li.active a{
+        color:#fff!important;
+        background:none!important;
+    }
+    nav.bootsnav li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+        color: #ff9900!important;
+        background: none!important;
+    }
+    nav.bootsnav li.dropdown ul.dropdown-menu {
+        background: #000!important;
+    }
 
+    nav.bootsnav li.dropdown ul.dropdown-menu > li > a {
+        border-bottom: solid 1px #333!important;
+        color:#fff!important;
+    }
+
+    nav.white_nav {
+        background: #ffffff!important;
+    }
+    nav.white_nav li a{
+        color:#333!important;
+    }
+    nav.white_nav li.active a{
+        color:#f90!important;
+        background:none!important;
+    }
+    nav.white_nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+        color: #ff9900;
+        background-color: none;
+    }
+    nav.white_nav li.dropdown ul.dropdown-menu {
+        background: #f6f6f6!important;
+    }
+    nav.white_nav li.dropdown ul.dropdown-menu > li > a {
+        border-bottom: solid 1px #fff!important;
+        color:#333!important;
+    }
+    /*黑背景导航*/
+    nav.black_nav {
+        background: rgba(0,0,0,0.6)!important;
+    }
+    nav.black_nav .nav li a{
+        color:#fff!important;
+    }
+    nav.black_nav .nav li.active a{
+        color:#fff!important;
+        background:none!important;
+    }
+}
 @media (max-width: 992px){
-    .white_nav .icon, [class*=" icon-"], [class^=icon-] {
+    .white_nav .icon {
         font-size: 14px;
         color:#000;
-    }
-    .icon, [class*=" icon-"], [class^=icon-] {
-        font-size: 14px;
-        color:#fff;
     }
 }
 

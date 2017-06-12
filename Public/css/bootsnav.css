@@ -521,12 +521,7 @@ body.on-side .wrap-sticky nav.navbar.bootsnav.sticked{
         font-weight: 600;
     }
     
-    nav.navbar.bootsnav ul.nav > li.dropdown > a.dropdown-toggle:after{
-        font-family: 'FontAwesome';
-        content: "\f0d7";
-        margin-left: 5px;
-        margin-top: 2px;
-    }
+
     
     nav.navbar.bootsnav li.dropdown ul.dropdown-menu{
         -moz-box-shadow: 0px 0px 0px;
@@ -699,7 +694,6 @@ body.on-side .wrap-sticky nav.navbar.bootsnav.sticked{
         margin-top: 0;
         margin-left: 55px;
         width: 250px;
-        left: -250px;
     }
     
     /* Menu Center
@@ -1035,18 +1029,6 @@ body.on-side .wrap-sticky nav.navbar.bootsnav.sticked{
     
     nav.navbar.bootsnav .navbar-nav > li {
         float: none;
-    }
-    
-    nav.navbar.bootsnav li.dropdown a.dropdown-toggle:before{
-        font-family: 'FontAwesome';
-        content: "\f105";
-        float: right;
-        font-size: 16px;
-        margin-left: 10px;
-    }
-    
-    nav.navbar.bootsnav li.dropdown.on > a.dropdown-toggle:before{
-        content: "\f107";
     }
     
     nav.navbar.bootsnav .navbar-nav > li > a{
