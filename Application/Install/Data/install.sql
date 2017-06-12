@@ -3,7 +3,7 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `muucmf_about`;
 CREATE TABLE IF NOT EXISTS `muucmf_about` (
-  `id` int(11) NOT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `uid` int(11) NOT NULL,
   `title` varchar(25) NOT NULL,
   `cover` int(11) NOT NULL COMMENT '顶图',
@@ -26,7 +26,7 @@ INSERT INTO `muucmf_about` (`id`, `uid`, `title`, `cover`, `content`, `status`, 
 
 DROP TABLE IF EXISTS `muucmf_about_category`;
 CREATE TABLE IF NOT EXISTS `muucmf_about_category` (
-  `id` int(11) NOT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `title` varchar(25) NOT NULL,
   `sort` int(6) NOT NULL,
   `status` tinyint(2) NOT NULL,
@@ -124,7 +124,7 @@ INSERT INTO `muucmf_addons` (`id`, `name`, `title`, `description`, `status`, `co
 
 DROP TABLE IF EXISTS `muucmf_articles`;
 CREATE TABLE IF NOT EXISTS `muucmf_articles` (
-  `id` int(11) NOT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `uid` int(11) NOT NULL,
   `title` varchar(50) NOT NULL COMMENT '标题',
   `keywords` varchar(255) NOT NULL COMMENT '关键字，多个用,分割',
@@ -146,7 +146,7 @@ CREATE TABLE IF NOT EXISTS `muucmf_articles` (
 
 DROP TABLE IF EXISTS `muucmf_articles_category`;
 CREATE TABLE IF NOT EXISTS `muucmf_articles_category` (
-  `id` int(11) NOT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `title` varchar(20) NOT NULL,
   `pid` int(11) NOT NULL,
   `can_post` tinyint(4) NOT NULL COMMENT '前台可投稿',
@@ -748,7 +748,7 @@ INSERT INTO `muucmf_config` (`id`, `name`, `type`, `title`, `group`, `extra`, `r
 
 DROP TABLE IF EXISTS `muucmf_count_active`;
 CREATE TABLE IF NOT EXISTS `muucmf_count_active` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(10) NOT NULL COMMENT '类型:''day'',''week'',''month''',
   `date` int(11) NOT NULL,
   `num` int(11) NOT NULL COMMENT '活跃人数',
@@ -789,7 +789,7 @@ ALTER TABLE `muucmf_count_active`
 
 DROP TABLE IF EXISTS `muucmf_count_lost`;
 CREATE TABLE IF NOT EXISTS `muucmf_count_lost` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_num` int(11) NOT NULL COMMENT '用户总数',
   `new_lost` int(11) NOT NULL COMMENT '新增流失用户数',
   `date` int(11) NOT NULL COMMENT '日期，时间戳形式',
@@ -832,7 +832,7 @@ ALTER TABLE `muucmf_count_lost`
 
 DROP TABLE IF EXISTS `muucmf_count_remain`;
 CREATE TABLE IF NOT EXISTS `muucmf_count_remain` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `date` int(11) NOT NULL COMMENT '日期',
   `day1_num` int(11) NOT NULL COMMENT '第一天登录人数',
   `day2_num` int(11) NOT NULL COMMENT '第二天登录人数',
