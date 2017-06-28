@@ -1,3 +1,4 @@
+
 <extend name="Public/base"/>
 <block name="body">
     <div class="main-title">
@@ -67,7 +68,7 @@
                                             <span class="btn btn-warning">{:L("_LOCAL_MODULE_")}</span>
                                             <else/>
                                             <a target="_blank"
-                                               href="{:appstoreU('Appstore/Index/goodsDetail',array('token'=>$vo['token']))}"
+                                               href="{:appstoreU('Expand/Index/Info',array('token'=>$vo['token']))}"
                                                class="btn btn-info">{:L("_GO_TO_THE_CLOUD_MARKET_VIEW_")}</a>
                                         </empty>
                                     </div>

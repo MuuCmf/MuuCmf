@@ -352,6 +352,7 @@ class ModuleModel extends Model
         }
 
         $module['is_setup'] = 1;
+        $module['auth_role']=I('post.auth_role','','text');
         $rs = $this->save($module);
         if ($rs === false) {
             $this->error = L('_MODULE_INFORMATION_MODIFICATION_FAILED_WITH_PERIOD_');
