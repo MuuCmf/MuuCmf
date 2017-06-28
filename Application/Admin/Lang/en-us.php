@@ -1260,7 +1260,6 @@
 '_BOARD_ADD_' =>' Add plate',
 '_PACK_PROCESS_' =>' Packing process',
 '_PACK_MODULE_GUIDE_' =>' Module packing Wizard',
-'_PACK_MODULE_GUIDE_VICE_' =>' (v2.1.0 or above OS)',
 '_PACK_WELCOME_' =>' Welcome to use this tool. This tool will generate a module setup boot script to quickly generate a module.',
 '_PACK_SYSTEM_REQUEST_' =>' The program to use this tool must be installed on the 2.1.0 OpenSNS or 1.5.0 OpenCenter. Lower version of the OpenSNS and 1.0.0 version of the OpenCenter are not compatible.',
 '_PACK_MODULE_SELECT_' =>' Select the module you want to pack',
