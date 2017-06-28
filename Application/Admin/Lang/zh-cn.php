@@ -1199,7 +1199,6 @@ return array(
     '_PACK_PROCESS_' => '打包流程',
     '_PACK_MODULE_GUIDE_' => '模块打包向导',
     '_PACK_WELCOME_' => '欢迎使用本工具。本工具将会通过引导来快速生成一个模块安装引导脚本。',
-    '_PACK_SYSTEM_REQUEST_' => '使用本工具打包的程序必须是在OpenSNS 2.1.0版本或OpenCenter 1.5.0 以上方可安装。更低版本的OpenSNS及1.0.0版的OpenCenter均无法兼容。',
     '_PACK_MODULE_SELECT_' => '选择您要打包的模块',
     '_PACK_STEP_ONE_' => '第一步.导出后台菜单',
     '_PACK_STEP_TWO_' => '第二步.导出权限节点',
