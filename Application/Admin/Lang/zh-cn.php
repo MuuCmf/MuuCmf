@@ -1259,9 +1259,7 @@ return array(
     '_PACK_DOWNLOAD_ZIP_' => '下载压缩包',
 
     '_PACK_VERSION_GUIDE_' => '版本打包向导',
-    '_PACK_VERSION_GUIDE_VICE_' => '（适用于v2.1.0以上版本OS）',
     '_PACK_VERSION_WELCOME_' => '欢迎使用本工具。本工具将会生成一个可以导入到云市场的系统版本。',
-    '_PACK_VERSION_LIMIT_' => '使用本工具打包的程序必须是在OpenSNS 2.1.0版本或OpenCenter 1.5.0 以上方可安装。更低版本的OpenSNS及1.0.0版的OpenCenter均无法兼容。',
     '_PACK_VERSION_MD5_' => '当前系统的文件MD5序列',
 
     '_FAIL_BACKUP_WITH_BR_' => '备份{$file}失败。<br>',
@@ -2054,9 +2052,9 @@ return array(
     '_THEME_VERSION_WITH_DOUBLE_' => '"主题版本"',
     '_CHECK_THE_THEME_WITH_DOUBLE_' => '"查看该主题"',
     '_SYSTEM_DEFAULT_THEME_' => ' 系统默认主题',
-    '_BUILT_IN_OPENSNS_' => ' 内置于OpenSNS',
+    '_BUILT_IN_MUUCMF_' => ' 内置于MUUCMF',
     '_IN_THE_SYSTEM_IT_IS_THE_BASIS_OF_OTHER_TOPICS_' => ' 系统中，是其它主题的基础主题',
-    '_JIAXING_WANTS_TO_DAY_MDT_INFOTECH_LTD_' => '嘉兴想天信息科技有限公司',
+    '_HOOMUU_WANTS_TO_DAY_MDT_INFOTECH_LTD_' => '北京火木科技有限公司',
     '_BASIC_THEME_' => '基础主题',
     '_USE_ONLY_THE_BASIC_THEMES_' => '只使用基础主题',
     '_TEMPLATE_FILE_NAME_' => ' 模板文件名',
