@@ -177,6 +177,7 @@ class ModuleController extends AdminController
         $aName = I('get.name', '', 'text');
         $aNav = I('add_nav', 0, 'intval');
         $module = $this->moduleModel->getModule($aName);
+        dump($module);exit;
 
         if (IS_POST) {
             //执行guide中的内容
@@ -205,12 +206,17 @@ class ModuleController extends AdminController
             $auth_role_array=array_combine(array_column($role_list,'id'),array_column($role_list,'title'));
             $this->assign('role_list', $role_list);
 
-            $builder = new AdminConfigBuilder();
+            dump($module);exit;
 
+            $builder = new AdminConfigBuilder();
 
             $builder->title($module['alias'] . L('_DASH_') . L('_GUIDE_MODULE_INSTALL_'));
 
-            $builder->keyId()->keyReadOnly('name', L('_MODULE_NAME_'))->keyText('alias', L('_MODULE_CHINESE_NAME_'))->keyReadOnly('version', L('_VERSION_'))
+            $builder
+                ->keyId()
+                ->keyReadOnly('name', L('_MODULE_NAME_'))
+                ->keyText('alias', L('_MODULE_CHINESE_NAME_'))
+                ->keyReadOnly('version', L('_VERSION_'))
                 ->keyText('icon', L('_ICON_'))
                 ->keyTextArea('summary', L('_MODULE_INTRODUCTION_'))
                 ->keyReadOnly('developer', L('_DEVELOPER_'))
@@ -218,7 +224,7 @@ class ModuleController extends AdminController
                 ->keyText('admin_entry', L('_BACKGROUND_ENTRY_'))
                 ->keyCheckBox('auth_role', '允许身份前台访问', '都不选表示非登录状态也可访问', $auth_role_array);
 
-//, 'repair' => L('_FIX_MODE_')修复模式不会导入模块专用数据表，只导入菜单、权限、行为、行为限制
+                //, 'repair' => L('_FIX_MODE_')修复模式不会导入模块专用数据表，只导入菜单、权限、行为、行为限制
             $builder->keyRadio('mode', L('_INSTALLATION_MODE_'), '', array('install' => L('_COVER_INSTALLATION_MODE_')));
             if ($module['entry']) {
                 $builder->keyBool('add_nav', L('_ADD_NAVIGATION_'), L('_INSTALL_AUTO_ADD_MENU_', array('link' => U('channel/index'))));
@@ -236,11 +242,6 @@ class ModuleController extends AdminController
             $builder->buttonBack();
             $builder->display();
         }
-
-
-        /*  */
-
-
     }
 
 } 
