@@ -261,7 +261,7 @@ class MessageController extends AdminController
             ->keyText('name','标识（发送消息时的$type参数值）')
             ->keyTitle()
             ->keyText('alias','所属模块')
-            ->keyImage('logo','消息图标（自定义名称logo.png）')
+            ->keyImage('icon','消息图标（自定义消息icon.png）')
             ->keyText('sort','排序值')
             ->keyText('tpl_name','消息模板(“...”表示“View/default/MessageTpl/”)')
             ->data($message_sessions)

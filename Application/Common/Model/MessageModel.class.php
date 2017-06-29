@@ -288,10 +288,13 @@ class MessageModel extends Model
      */
     public function getAllMessageType()
     {
-        $tag = 'ALL_MESSAGE_SESSION';
-        $message_session = S($tag);
-        if ($message_session === false) {
+        //$tag = 'ALL_MESSAGE_SESSION';
+        //$message_session = S($tag);
+        //echo $message_session;exit;
+        if (empty($message_session)) {
+
             $message_session = load_config(CONF_PATH . 'message_config.php');
+
             $message_session = $message_session['session'];
             foreach ($message_session as &$val) {
                 if ($val['name'] == '') {
@@ -300,12 +303,12 @@ class MessageModel extends Model
                     $val['name'] = 'Common_' . $val['name'];
                 }
                 $val['module'] = 'Common';
-                $val['logo'] = '/Public/images/message_logo/' . $val['logo'];
+                $val['icon'] = '/Public/images/message_icon/' . $val['icon'];
                 !isset($val['sort']) && $val['sort'] = 0;
                 $val['alias']='系统';
             }
             unset($val);
-
+            
             $model_message_session = array();
             $module_alias=array();
             $modules = D('Common/Module')->getAll(1);
@@ -317,7 +320,7 @@ class MessageModel extends Model
                 }
                 if (!in_array($val['name'], array('Core'))) {
                     //模块默认会话类型，logo使用模块logo，现在先用null代替,在下面替换为模块logo
-                    $addArray = array(array('name' => '', 'title' => $val['alias'] . '消息', 'logo' => NULL));
+                    $addArray = array(array('name' => '', 'title' => $val['alias'] . '消息', 'icon' => NULL));
                     if (count($conf)) {
                         $conf = array_merge($conf, $addArray);
                     } else {
@@ -345,13 +348,13 @@ class MessageModel extends Model
                     }
                     $one_type['module'] = $key;
                     !isset($one_type['sort']) && $one_type['sort'] = 0;
-                    if($one_type['logo']==null){//模块会话使用模块名logo作为会话logo
-                        $one_type['logo'] = APP_PATH . $key . '/Static/images/logo.png';//使用模块logo
-                        if(!file_exists($one_type['logo'])){
-                            $one_type['logo'] = '/Public/images/message_logo/system.png';//模块logo不存在使用系统logo
+                    if($one_type['icon']==null){//模块会话使用模块名icon作为会话icon
+                        $one_type['icon'] = APP_PATH . $key . '/Static/images/message_icon.png';//使用模块logo
+                        if(!file_exists($one_type['icon'])){
+                            $one_type['icon'] = '/Public/images/message_icon/system.png';//模块logo不存在使用系统logo
                         }
                     }else{
-                        $one_type['logo'] = APP_PATH . $key . '/Static/images/message_logo.png';//使用设置好的消息logo
+                        $one_type['icon'] = APP_PATH . $key . '/Static/images/message_icon.png';//使用设置好的消息logo
                     }
                     $one_type['alias']=$module_alias[$key];
                     $message_session[] = $one_type;
@@ -359,8 +362,9 @@ class MessageModel extends Model
             }
             unset($key, $val, $one_type);
             $message_session = array_combine(array_column($message_session, 'name'), $message_session);
-            S($tag, $message_session);
+            //S($tag, $message_session);
         }
+
         return $message_session;
     }
 
