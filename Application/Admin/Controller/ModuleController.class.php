@@ -177,7 +177,6 @@ class ModuleController extends AdminController
         $aName = I('get.name', '', 'text');
         $aNav = I('add_nav', 0, 'intval');
         $module = $this->moduleModel->getModule($aName);
-        dump($module);exit;
 
         if (IS_POST) {
             //执行guide中的内容
@@ -206,11 +205,11 @@ class ModuleController extends AdminController
             $auth_role_array=array_combine(array_column($role_list,'id'),array_column($role_list,'title'));
             $this->assign('role_list', $role_list);
 
-            dump($module);exit;
-
             $builder = new AdminConfigBuilder();
 
             $builder->title($module['alias'] . L('_DASH_') . L('_GUIDE_MODULE_INSTALL_'));
+
+            //dump($module);exit;
 
             $builder
                 ->keyId()
@@ -222,21 +221,21 @@ class ModuleController extends AdminController
                 ->keyReadOnly('developer', L('_DEVELOPER_'))
                 ->keyText('entry', L('_FRONT_ENTRANCE_'))
                 ->keyText('admin_entry', L('_BACKGROUND_ENTRY_'))
-                ->keyCheckBox('auth_role', '允许身份前台访问', '都不选表示非登录状态也可访问', $auth_role_array);
-
+                ->keyCheckBox('auth_role', '允许身份前台访问', '都不选表示非登录状态也可访问', $auth_role_array)
+                ->keyRadio('mode', L('_INSTALLATION_MODE_'), '', array('install' => L('_COVER_INSTALLATION_MODE_')));
                 //, 'repair' => L('_FIX_MODE_')修复模式不会导入模块专用数据表，只导入菜单、权限、行为、行为限制
-            $builder->keyRadio('mode', L('_INSTALLATION_MODE_'), '', array('install' => L('_COVER_INSTALLATION_MODE_')));
             if ($module['entry']) {
-                $builder->keyBool('add_nav', L('_ADD_NAVIGATION_'), L('_INSTALL_AUTO_ADD_MENU_', array('link' => U('channel/index'))));
+                $_Link_ = U('channel/index');
+                $builder->keyBool('add_nav', L('_ADD_NAVIGATION_'), L('_INSTALL_AUTO_ADD_MENU_'));
             }
 
             /*   $builder->keyRadio('add_nav',L('_ADD_NAVIGATION_MENU_'),L('_DEFAULT_WILL_NOT_ADD_NAVIGATION_'),array(1=>L('_DO_NOT_ADD_'),2=>L('_ADD_')));*/
-            $builder->group(L('_INSTALL_OPTION_'), 'mode,add_nav,auth_role');
+            $builder->group(L('_INSTALL_OPTION_'), 'name,version,mode,add_nav,auth_role');
             /* $builder->group(L('_MODULE_INFORMATION_'), 'id,name,alias,version,icon,summary,developer,entry,admin_entry');*/
 
 
             $module['mode'] = 'install';
-            $module['add_nav'] = '1';
+            //$module['add_nav'] = '1';
             $builder->data($module);
             $builder->buttonSubmit();
             $builder->buttonBack();

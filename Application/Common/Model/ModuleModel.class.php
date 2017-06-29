@@ -131,7 +131,10 @@ class ModuleModel extends Model
             $this->cleanModuleCache($m['name']);
         }
         S('module_all', null);
+        S('module_all1', null);
         S('admin_modules', null);
+        S('ALL_MESSAGE_SESSION',null);
+        S('ALL_MESSAGE_TPLS',null);
     }
 
     /**清理某个模块的缓存
@@ -452,15 +455,14 @@ class ModuleModel extends Model
         D()->execute($sql);
     }
 
-    private function addMenus($menu, $pid = 0)
+    private function addMenus($menu)
     {
-        $menu['pid'] = $pid;
-        unset($menu['id']);
-        $id = M('Menu')->add($menu);
+        M('Menu')->add($menu);
+
         $menu['id'] = $id;
         if (!empty($menu['_']))
             foreach ($menu['_'] as $v) {
-                $this->addMenus($v, $id);
+                $this->addMenus($v);
             }
         return true;
     }
