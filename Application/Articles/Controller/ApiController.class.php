@@ -16,13 +16,12 @@ class ApiController extends BaseController {
     protected $ArticlesModel;
     protected $ArticlesCategoryModel;
 	protected $ArticlesDetailModel;
+    protected $codeModel;
 
     function _initialize()
     {
         parent::_initialize();
-        $this->articlesModel = D('Articles/Article');
-        $this->articlesCategoryModel = D('Articles/ArticlesCategory');
-		$this->articlesDetailModel = D('Articles/ArticlesDetail');
+
         //判断Restful模块是否安装
         $map['name'] = 'Restful';
         $map['is_setup'] = 1;
@@ -30,6 +29,11 @@ class ApiController extends BaseController {
         if(!$res){
             echo 'Restful模块未安装，请到应用商店下载并安装该模块。';exit;
         }
+
+        $this->articlesModel = D('Articles/Articles');
+        $this->articlesCategoryModel = D('Articles/ArticlesCategory');
+        $this->articlesDetailModel = D('Articles/ArticlesDetail');
+        $this->codeModel = D('Restful/Code');
 
     }
 	//
@@ -61,7 +65,9 @@ class ApiController extends BaseController {
                     /* 更新浏览数 */
                     $map = array('id' => $aId);
                     $this->newsModel->where($map)->setInc('view');
-                    $info = '返回成功';
+                    $result = $this->codeModel->code(200);
+                    $result['data'] = $data;
+                    $this->response($result,'json');
                     }
                     
                 }
@@ -77,7 +83,9 @@ class ApiController extends BaseController {
                         $val['Thumbnail'] = getThumbImageById($val['cover'],352,240);
                     }
                     unset($val);
-                    $info = '返回成功';
+                    $result = $this->codeModel->code(200);
+                    $result['data'] = $data;
+                    $this->response($result,'json');
                     
                 }//结束列表输出
                 else
@@ -89,7 +97,9 @@ class ApiController extends BaseController {
                         $val['Thumbnail'] = getThumbImageById($val['cover'],352,240);
                     }
                     unset($val);
-                    $info = '返回成功';
+                    $result = $this->codeModel->code(200);
+                    $result['data'] = $data;
+                    $this->response($result,'json');
                 }   
             break;
             case 'put':
@@ -101,10 +111,7 @@ class ApiController extends BaseController {
                 $result['info'] = 'PUT未定义';
             break;
         }
-        $result['info'] = $info;
-        $result['data'] = $data;
-        $result['code'] = 200;
-        $this->response($result,'json');
+
        
     }
     
@@ -119,7 +126,9 @@ class ApiController extends BaseController {
                         $info = 'ID错误';
                     }else{
                     $data=$this->articlesCategoryModel->find($aId);
-                    $info = '返回成功';
+                    $result = $this->codeModel->code(200);
+                    $result['data'] = $data;
+                    $this->response($result,'json');
                     }
                     
                 }
@@ -127,7 +136,9 @@ class ApiController extends BaseController {
                 {//默认输出全部分类
                     $map['status']=1;
                     $data = $this->articlesCategoryModel->where($map)->select();
-                    $info = '返回成功';
+                    $result = $this->codeModel->code(200);
+                    $result['data'] = $data;
+                    $this->response($result,'json');
                 }    
             break;
             case 'put':    
@@ -136,12 +147,6 @@ class ApiController extends BaseController {
             case 'post'://post请求处理代码             
                 $result['info'] = 'PUT未定义';
             break;
-        }
-       // dump($data);
-        $result['info'] = $info;
-        $result['data'] = $data;
-        $result['code'] = 200;
-        $this->response($result,'json');
-       
+        }   
     }
 }
