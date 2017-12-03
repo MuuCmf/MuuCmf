@@ -6,7 +6,7 @@ namespace Articles\Controller;
 
 use Think\Controller\RestController;
 
-use Restful\controller\BaseController;
+use Restful\Controller\BaseController;
 
 
 class ApiController extends BaseController {
@@ -90,13 +90,11 @@ class ApiController extends BaseController {
                     }
                     unset($val);
                     $info = '返回成功';
-                }
-                
+                }   
             break;
             case 'put':
                 
                 $result['info'] = 'PUT未定义';
-            
             break;
             case 'post'://post请求处理代码
                          
@@ -114,9 +112,7 @@ class ApiController extends BaseController {
     {
          switch ($this->_method){
             case 'get': //get请求处理代码
-                
                 $aId = I('id',0,'intval');
-
                 if($aId)
                 { //如果有ID，输出ID内容详细
                     if (!($aId && is_numeric($aId))) {
@@ -132,20 +128,14 @@ class ApiController extends BaseController {
                     $map['status']=1;
                     $data = $this->articlesCategoryModel->where($map)->select();
                     $info = '返回成功';
-                }
-                
+                }    
             break;
-            case 'put':
-                
-                $result['info'] = 'PUT未定义';
-            
-            break;
-            case 'post'://post请求处理代码
-                         
+            case 'put':    
                 $result['info'] = 'PUT未定义';
             break;
-        
-        
+            case 'post'://post请求处理代码             
+                $result['info'] = 'PUT未定义';
+            break;
         }
        // dump($data);
         $result['info'] = $info;
