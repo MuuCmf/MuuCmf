@@ -1,0 +1,39 @@
+<?php
+/**
+ping++管理
+ */
+
+namespace Admin\Controller;
+
+use Admin\Builder\AdminConfigBuilder;
+use Admin\Builder\AdminListBuilder;
+use Admin\Builder\AdminTreeListBuilder;
+
+
+class RestfulController extends AdminController
+{
+    protected $RestfulApiModel;
+
+    function _initialize()
+    {
+        parent::_initialize();
+    }
+    /**
+     * 接口配置文件
+     * @return [type] [description]
+     */
+    public function config()
+    {
+        $builder = new AdminConfigBuilder();
+        $data = $builder->handleConfig();
+
+        $builder
+            ->title('Access_token 接口基本设置')
+            //配置
+            ->keyText('RESTFUL_CONFIG_ACCESS_TOKEN','Access_token','Access_token，RESTFULAPI请求合法性的密钥')
+            
+            ->buttonSubmit('', '保存')
+            ->data($data);
+        $builder->display();
+    }
+}
