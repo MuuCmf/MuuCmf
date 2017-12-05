@@ -196,6 +196,7 @@
         overflow: hidden;
     }
     #section1 .muucmfHead{
+        height:690px;
         min-height:690px;
         background:rgba(0,0,0,0.6);
         position:relative;
