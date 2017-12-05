@@ -290,8 +290,8 @@ class MemberController extends Controller
 
             //发送验证邮箱
             $url = 'http://' . $_SERVER['HTTP_HOST'] . U('Ucenter/member/reset?uid=' . $uid . '&verify=' . $verify);
-            $content = C('USER_RESPASS') . "<br/>" . $url . "<br/>" . modC('WEB_SITE_NAME', L('_OPENSNS_'), 'Config') . L('_SEND_MAIL_AUTO_')."<br/>" . date('Y-m-d H:i:s', TIME()) . "</p>";
-            send_mail($email, modC('WEB_SITE_NAME', L('_OPENSNS_'), 'Config') . L('_SEND_MAIL_PASSWORD_FOUND_'), $content);
+            $content = C('USER_RESPASS') . "<br/>" . $url . "<br/>" . modC('WEB_SITE_NAME', L('_MUUCMF_'), 'Config') . L('_SEND_MAIL_AUTO_')."<br/>" . date('Y-m-d H:i:s', TIME()) . "</p>";
+            send_mail($email, modC('WEB_SITE_NAME', L('_MUUCMF_'), 'Config') . L('_SEND_MAIL_PASSWORD_FOUND_'), $content);
             $this->success(L('_SUCCESS_SEND_MAIL_'), U('Member/login'));
         } else {
             if (is_login()) {
@@ -574,8 +574,8 @@ class MemberController extends Controller
         $url = 'http://' . $_SERVER['HTTP_HOST'] . U('ucenter/member/doActivate?account=' . $account . '&verify=' . $verify . '&type=email&uid=' . $uid);
         $content = modC('REG_EMAIL_ACTIVATE', '{$url}', 'USERCONFIG');
         $content = str_replace('{$url}', $url, $content);
-        $content = str_replace('{$title}', modC('WEB_SITE_NAME', L('_OPENSNS_'), 'Config'), $content);
-        $res = send_mail($account, modC('WEB_SITE_NAME', L('_OPENSNS_'), 'Config') . L('_VERIFY_LETTER_'), $content);
+        $content = str_replace('{$title}', modC('WEB_SITE_NAME', L('_MUUCMF_'), 'Config'), $content);
+        $res = send_mail($account, modC('WEB_SITE_NAME', L('_MUUCMF_'), 'Config') . L('_VERIFY_LETTER_'), $content);
         return $res;
     }
 

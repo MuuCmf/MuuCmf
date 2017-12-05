@@ -36,8 +36,8 @@ define ('APP_DEBUG', true);
 define ('APP_PATH', './Application/');
 
 /**
- *  主题目录 OpenSNS模板地址 （与ThinkPHP中的THEME_PATH不同）
- * @author 郑钟良<zzl@ourstu.com>
+ *  主题目录 MuuCmf模板地址 （与ThinkPHP中的THEME_PATH不同）
+ * @author 大蒙<5926424@qq.com>
  */
 define ('MUU_THEME_PATH', './Theme/');
 

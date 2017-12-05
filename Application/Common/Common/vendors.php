@@ -74,7 +74,7 @@ function send_mail($to = '', $subject = '', $body = '', $name = '', $attachment 
  */
 function sae_mail($to = '', $subject = '', $body = '', $name = '')
 {
-    $site_name = modC('WEB_SITE_NAME', L('_OPENSNS_OPEN_SOURCE_SOCIAL_SYSTEM_'), 'Config');
+    $site_name = modC('WEB_SITE_NAME', L('_MUUCMF_'), 'Config');
     if ($to == '') {
         $to = C('MAIL_SMTP_CE'); //邮件地址为空时，默认使用后台默认邮件测试地址
     }
@@ -119,7 +119,7 @@ function is_local()
 function send_mail_local($to = '', $subject = '', $body = '', $name = '', $attachment = null)
 {
     $from_email = C('MAIL_SMTP_USER');
-    $from_name = modC('WEB_SITE_NAME', L('_OPENSNS_OPEN_SOURCE_SOCIAL_SYSTEM_'), 'Config');
+    $from_name = modC('WEB_SITE_NAME', L('_MUUCMF_'), 'Config');
     $reply_email = '';
     $reply_name = '';
 
@@ -144,13 +144,13 @@ function send_mail_local($to = '', $subject = '', $body = '', $name = '', $attac
         $to = C('MAIL_SMTP_CE'); //邮件地址为空时，默认使用后台默认邮件测试地址
     }
     if ($name == '') {
-        $name = modC('WEB_SITE_NAME', L('_OPENSNS_OPEN_SOURCE_SOCIAL_SYSTEM_'), 'Config'); //发送者名称为空时，默认使用网站名称
+        $name = modC('WEB_SITE_NAME', L('_MUUCMF_'), 'Config'); //发送者名称为空时，默认使用网站名称
     }
     if ($subject == '') {
-        $subject = modC('WEB_SITE_NAME', L('_OPENSNS_OPEN_SOURCE_SOCIAL_SYSTEM_'), 'Config'); //邮件主题为空时，默认使用网站标题
+        $subject = modC('WEB_SITE_NAME', L('_MUUCMF_'), 'Config'); //邮件主题为空时，默认使用网站标题
     }
     if ($body == '') {
-        $body = modC('WEB_SITE_NAME', L('_OPENSNS_OPEN_SOURCE_SOCIAL_SYSTEM_'), 'Config'); //邮件内容为空时，默认使用网站描述
+        $body = modC('WEB_SITE_NAME', L('_MUUCMF_'), 'Config'); //邮件内容为空时，默认使用网站描述
     }
     $mail->AddReplyTo($replyEmail, $replyName);
     $mail->Subject = $subject;
@@ -165,7 +165,7 @@ function send_mail_local($to = '', $subject = '', $body = '', $name = '', $attac
     return $mail->Send() ? true : $mail->ErrorInfo; //返回错误信息
 }
 
-function thinkox_hash($message, $salt = "OpenSNS")
+function thinkox_hash($message, $salt = "MuuCmf")
 {
     $s01 = $message . $salt;
     $s02 = md5($s01) . $salt;

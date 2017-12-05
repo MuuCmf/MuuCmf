@@ -1257,11 +1257,9 @@ return array(
     '_PACK_UP_RE_' => '重新打包',
     '_PACK_REPLACE_INSTALL_FILE_' => '替换安装文件',
     '_PACK_DOWNLOAD_ZIP_' => '下载压缩包',
-
     '_PACK_VERSION_GUIDE_' => '版本打包向导',
     '_PACK_VERSION_WELCOME_' => '欢迎使用本工具。本工具将会生成一个可以导入到云市场的系统版本。',
     '_PACK_VERSION_MD5_' => '当前系统的文件MD5序列',
-
     '_FAIL_BACKUP_WITH_BR_' => '备份{$file}失败。<br>',
     '_FAIL_REPLACE_WITH_BR_' => '备份{$file}失败。<br>',
     '_ERROR_FAIL_REPLACE_' => '替换失败，权限不足。',

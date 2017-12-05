@@ -1317,7 +1317,6 @@
 '_PACK_VERSION_GUIDE_' =>' Version packing Wizard',
 '_PACK_VERSION_GUIDE_VICE_' =>' (v2.1.0 or above OS)',
 '_PACK_VERSION_WELCOME_' =>' Welcome to use this tool. This tool will generate a system version that can be imported into the cloud market.',
-'_PACK_VERSION_LIMIT_' =>' The program to use this tool must be installed on the 2.1.0 OpenSNS or 1.5.0 OpenCenter. Lower version of the OpenSNS and 1.0.0 version of the OpenCenter are not compatible.',
 '_PACK_VERSION_MD5_' =>' Current file MD5 sequence',
 '_FAIL_BACKUP_WITH_BR_' =>' Backup {$file} failed. <br>',
 '_FAIL_REPLACE_WITH_BR_' =>' Backup {$file} failed. <br>',

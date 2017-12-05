@@ -581,7 +581,7 @@ function uc_check_version() {
 
 
 
-//opensns 相关函数
+//muucmf 相关函数
 function get_ucenter_user_ref($uid='',$uc_uid='',$uc_username=''){
     $uid && $map['uid'] 				= intval($uid);
     $uc_uid && $map['uc_uid'] 			= intval($uc_uid);

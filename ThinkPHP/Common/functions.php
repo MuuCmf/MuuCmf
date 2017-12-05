@@ -325,7 +325,7 @@ function T($template = '', $layer = '')
     $baseUrl = APP_PATH . 'Common/View/' . ($theme ? $theme . '/' : '');
     $result = $baseUrl . $file . C('TMPL_TEMPLATE_SUFFIX');
     return $result;
-    /*OpenSNS新增对common下的模板检测end*/
+    /*MuuCmf新增对common下的模板检测end*/
 }
 
 /**
