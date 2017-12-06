@@ -11,11 +11,7 @@ return array(
 
         /*论坛*/
         'forum/index/index'                     => 'forum',
-        'forum/index/edit'                      => 'forum/edit_[forum_id]/p_[post_id]',
-        'forum/index/detail'                    => 'forum/detail_[id]',
-        'forum/index/search'                    => 'forum/search',
-        'forum/index/look'                      => 'forum/look',
-        'forum/index/lists'                     => 'forum/lists',
+        
 
         /*用户中心*/
         'ucenter/index/index'                => 'ucenter/[uid]',
