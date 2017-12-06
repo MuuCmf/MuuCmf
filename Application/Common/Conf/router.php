@@ -9,17 +9,8 @@ return array(
         /*系统首页*/
         'home/index/index'          =>  'home',
 
-        /*活动*/
-        'event/index/index'         => 'event/[type_id]/p_[page]',
-        'event/index/myevent'       => 'myevent/[type_id]',
-        'event/index/detail'        => 'event/detail_[id]',
-        'event/index/member'        => 'event/member_[id]',
-        'event/index/edit'          => 'event/edit_[id]',
-        'event/index/add'           => 'event/add',
-
         /*论坛*/
         'forum/index/index'                     => 'forum',
-        'forum/index/forum'                     => 'forum/[id]/p_[page]',
         'forum/index/edit'                      => 'forum/edit_[forum_id]/p_[post_id]',
         'forum/index/detail'                    => 'forum/detail_[id]',
         'forum/index/search'                    => 'forum/search',
@@ -58,7 +49,7 @@ return array(
         'ucenter/member/register'               => 'register/[type]/c_[code]',
 
         /*文章*/
-        'paper/index/index'                     => 'paper_[id]',
+        'about/index/index'                     => 'about_[id]',
     ),
 
 );
