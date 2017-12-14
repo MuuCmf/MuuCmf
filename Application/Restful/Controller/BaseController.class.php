@@ -8,6 +8,8 @@ use Think\Controller\RestController;
 
 class BaseController extends RestController
 {
+    protected $allowMethod    = array('get','post','put'); // REST允许的请求类型列表
+    protected $allowType      = array('html','xml','json'); // REST允许请求的资源类型列表
     protected $userModel;
     protected $signModel;
     protected $codeModel;
@@ -69,7 +71,7 @@ class BaseController extends RestController
      */
     public function _needLogin(){
         //验证用户授权TOKEN
-        $token = I('get.token', '', 'text');
+        $token = I('token', '', 'text');
         if($token){
             $uid = $this->userModel->_checkToken($token);//验证用户Token合法性
             if (!$uid) {

@@ -1,6 +1,7 @@
 <?php
 /**
      * APP discovery json接口
+     * 消息接口控制器
 */
 namespace Restful\Controller;
 
@@ -8,15 +9,16 @@ use Think\Controller\RestController;
 
 
 class MessageController extends BaseController {
-    protected $allowMethod    = array('get','post','put'); // REST允许的请求类型列表
-    protected $allowType      = array('html','xml','json'); // REST允许请求的资源类型列表
+
+    protected $codeModel;
     protected $Model;
 	protected $ModelContent;
     function _initialize()
     {
     	parent::_initialize();
-        $this->Model = D('restful/Message');
-		$this->ModelContent = D('restful/MessageContent');
+    	$this->codeModel = D('Restful/Code');
+        $this->Model = D('Restful/Message');
+		$this->ModelContent = D('Restful/MessageContent');
     }
 	//
     public function index($page=1,$r=6)
