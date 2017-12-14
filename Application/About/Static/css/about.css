@@ -263,6 +263,7 @@
 }
 @media (max-width:992px) {
   .list-box a.pic {
+    width:100%;
     height:auto;
   }
 }
