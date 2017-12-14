@@ -223,7 +223,7 @@ class AboutController extends AdminController{
                 $options[$val['id']]=$val['title'];
             }
             $builder=new AdminConfigBuilder();
-            $builder->title($title.'资讯')
+            $builder->title($title.'文章')
                 ->data($data)
                 ->keyId()
                 ->keyReadOnly('uid','发布者')->keyDefault('uid',get_uid())
