@@ -56,10 +56,10 @@ class ApiController extends BaseController {
                         $info = 'ID错误';
                     }else{
                     $data=$this->articlesModel->getData($aId);
-					//$data['content'] = $this->newsDetailModel->getData($data['id']);
+
                     $data['author']=query_user(array('uid','space_url','nickname','avatar64','signature'),$data['uid']);
 					$data['Thumbnail'] = getThumbImageById($data['cover'],352,240);
-                    $data['user_articles_count']=$this->ArticlesModel->where(array('uid'=>$data['uid']))->count();
+                    $data['user_articles_count']=$this->articlesModel->where(array('uid'=>$data['uid']))->count();
                     //dump($data);
                     $this->_category($data['category']);
 
@@ -69,7 +69,7 @@ class ApiController extends BaseController {
                     //dump($downfile);
                     /* 更新浏览数 */
                     $map = array('id' => $aId);
-                    $this->newsModel->where($map)->setInc('view');
+                    $this->articlesModel->where($map)->setInc('view');
                     $result = $this->codeModel->code(200);
                     $result['data'] = $data;
                     $this->response($result,$this->type);
