@@ -36,7 +36,12 @@ class ApiController extends BaseController {
         $this->codeModel = D('Restful/Code');
 
     }
-	//
+	/**
+     * 获取列表接口
+     * @param  integer $page [description]
+     * @param  integer $r    [description]
+     * @return [type]        [description]
+     */
     public function index($page=1,$r=6)
     {
         switch ($this->_method){
@@ -67,7 +72,7 @@ class ApiController extends BaseController {
                     $this->newsModel->where($map)->setInc('view');
                     $result = $this->codeModel->code(200);
                     $result['data'] = $data;
-                    $this->response($result,'json');
+                    $this->response($result,$this->type);
                     }
                     
                 }
@@ -85,7 +90,7 @@ class ApiController extends BaseController {
                     unset($val);
                     $result = $this->codeModel->code(200);
                     $result['data'] = $data;
-                    $this->response($result,'json');
+                    $this->response($result,$this->type);
                     
                 }//结束列表输出
                 else
@@ -99,7 +104,7 @@ class ApiController extends BaseController {
                     unset($val);
                     $result = $this->codeModel->code(200);
                     $result['data'] = $data;
-                    $this->response($result,'json');
+                    $this->response($result,$this->type);
                 }   
             break;
             case 'put':
@@ -114,7 +119,10 @@ class ApiController extends BaseController {
 
        
     }
-    
+    /**
+     * 获取分类接口
+     * @return [type] [description]
+     */
     public function category()
     {
          switch ($this->_method){
@@ -128,9 +136,8 @@ class ApiController extends BaseController {
                     $data=$this->articlesCategoryModel->find($aId);
                     $result = $this->codeModel->code(200);
                     $result['data'] = $data;
-                    $this->response($result,'json');
+                    $this->response($result,$this->type);
                     }
-                    
                 }
                 else
                 {//默认输出全部分类
@@ -138,7 +145,7 @@ class ApiController extends BaseController {
                     $data = $this->articlesCategoryModel->where($map)->select();
                     $result = $this->codeModel->code(200);
                     $result['data'] = $data;
-                    $this->response($result,'json');
+                    $this->response($result,$this->type);
                 }    
             break;
             case 'put':    
