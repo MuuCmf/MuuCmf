@@ -63,7 +63,7 @@ class CommentController extends BaseController {
 				$result = $this->codeModel->code(200);
 				$result['totalCount'] = $totalCount;
 				$result['data'] = $data;
-				$this->response($result,'json');
+				$this->response($result,$this->type);
             break;
 			
             case 'post'://post请求处理代码,写入评论内容
@@ -77,7 +77,7 @@ class CommentController extends BaseController {
 				if (empty($aContent)) {
 					$result = $this->codeModel->code(200);
 					$result['info'] = '评论内容不能为空';
-					$this->response($result,'json');
+					$this->response($result,$this->type);
 				}
 				$aCreateTime = time();
 				$aPid = 0;
@@ -98,7 +98,7 @@ class CommentController extends BaseController {
 					$result['comment_id'] = $comment_id;
 				}
 			
-			$this->response($result,'json');
+			$this->response($result,$this->type);
             break;
 			case 'put':
                 $result['info'] = 'PUT未定义';

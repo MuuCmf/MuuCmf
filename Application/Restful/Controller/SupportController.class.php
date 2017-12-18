@@ -49,7 +49,7 @@ class SupportController extends BaseController {
 					$result['data'] = $data;
 					$result['code'] = 200;
 				
-				$this->response($result,'json');
+				$this->response($result,$this->type);
             break;
 
             case 'post'://post请求处理代码,写入
@@ -76,7 +76,7 @@ class SupportController extends BaseController {
 				}
 			
 			$result['code'] = 200;
-			$this->response($result,'json');
+			$this->response($result,$this->type);
             break;
 			case 'put':
                 $result['info'] = 'PUT未定义';

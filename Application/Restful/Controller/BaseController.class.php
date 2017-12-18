@@ -41,6 +41,13 @@ class BaseController extends RestController
     	 * 返回给服务端也通过算法解密token,同时校验时间戳、user-agent或driveriD等
     	 */
         
+        //判断请求的资源类型
+        if(__EXT__=="" || __EXT__=="html"){  
+            $this->type='json';  //默认json
+        }else{  
+            $this->type=__EXT__;  
+        }
+
         $this->userModel= D('Restful/User');
         $this->signModel= D('Restful/Sign');
         $this->codeModel= D('Restful/Code');  //返回码及信息
@@ -61,7 +68,7 @@ class BaseController extends RestController
         $sTime = time(); //获取服务器时间戳
         if(($sTime-60)>$timestamp || ($sTime+60)<$timestamp || (!$res)){
             $result = $this->codeModel->code(400);
-            $this->response($result,'json');
+            $this->response($result,$this->type);
         }
     }
     
@@ -77,12 +84,12 @@ class BaseController extends RestController
             if (!$uid) {
                 $data['info'] = '需要登录';
                 $data['code'] = C('NEED_LOGIN');
-                $this->response($data,'json');
+                $this->response($result,$this->type);
             }
         }else{
             $data['info'] = '需要用户授权token';
             $data['code'] = C('NEED_LOGIN');
-            $this->response($data,'json');
+            $this->response($result,$this->type);
         }
     }
 

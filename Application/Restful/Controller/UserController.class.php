@@ -48,7 +48,7 @@ class UserController extends BaseController
 			$result = $this->codeModel->code(1004); 
 		}
 		
-		$this->response($result,'json');
+		$this->response($result,$this->type);
 		
 		break;
 		case 'post'://post请求处理代码
@@ -77,7 +77,7 @@ class UserController extends BaseController
 							$udata['email'] = $email;
 						}else{
 							$result['info'] = '邮箱和验证不匹配';
-							$this->response($result,'json');
+							$this->response($result,$this->type);
 						}
 					}
 					
@@ -98,7 +98,7 @@ class UserController extends BaseController
 						// 如果创建失败 表示验证没有通过 输出错误提示信息
 						$result = $this->codeModel->code(10000);
 						$result['info'] = $User->getError();
-						$this->response($result,'json');
+						$this->response($result,$this->type);
 					}else{
 						 // 验证通过 可以进行其他数据操作
 						$User->save($mdata);
@@ -115,7 +115,7 @@ class UserController extends BaseController
 					clean_query_user_cache($uid,array('nickname','mobile','email','sex','signature'));
 					$result = $this->codeModel->code(200,'更新完成');
 					$result['data'] = $mdata+$udata;
-					$this->response($result,'json');
+					$this->response($result,$this->type);
 			}
 		break;
 	 }
@@ -167,7 +167,7 @@ class UserController extends BaseController
 						$result = $this->codeModel->code(10000);
 					}
 				}
-				$this->response($result,'json');
+				$this->response($result,$this->type);
 			break;
 		}
     }
@@ -198,7 +198,7 @@ class UserController extends BaseController
             $return = check_action_limit('reg', 'ucenter_member', 1, 1, true);
             if ($return && !$return['state']) {
 				$result['info'] = $return['info'];
-				$this->response($result,'json');
+				$this->response($result,$this->type);
             }
             /* 移动端取消检测验证码 注释掉
             if (check_verify_open('reg')) {
@@ -216,7 +216,7 @@ class UserController extends BaseController
 
 					$result = $this->codeModel->code(1005); //验证失败
 					$result['info'] = $str . L('_FAIL_VERIFY_');
-					$this->response($result,'json');	
+					$this->response($result,$this->type);	
                 }
             }
 
@@ -226,21 +226,21 @@ class UserController extends BaseController
             if ($aRegType == 'email' && $aUnType != 2) {
                 
 				$result['info'] = L('_ERROR_EMAIL_FORMAT_');
-				$this->response($result,'json');
+				$this->response($result,$this->type);
             }
             if ($aRegType == 'mobile' && $aUnType != 3) {
 				$result['info'] = L('_ERROR_PHONE_FORMAT_');
-				$this->response($result,'json');
+				$this->response($result,$this->type);
             }
             if ($aRegType == 'username' && $aUnType != 1) {
                 
 				$result['info'] = L('_ERROR_USERNAME_FORMAT_');
-				$this->response($result,'json');
+				$this->response($result,$this->type);
             }
             if (!check_reg_type($aUnType)) {
                 
 				$result['info'] = L('_ERROR_REGISTER_NOT_OPENED_').L('_PERIOD_');
-				$this->response($result,'json');
+				$this->response($result,$this->type);
             }
             //exit;
             /* 注册用户 */
@@ -258,11 +258,11 @@ class UserController extends BaseController
                 $result = $this->codeModel->code(200,'注册成功');
 				$result['token'] = $this->userModel->getToken($uid);
 				$result['$user_info'] = $user_info;
-				$this->response($result,'json');
+				$this->response($result,$this->type);
             } else { //注册失败，显示错误信息
             	$result = $this->codeModel->code(10000);
 				$result['info'] = $this->showRegError($code);
-				$this->response($result,'json');	
+				$this->response($result,$this->type);	
             }
         }	
     }
@@ -280,7 +280,7 @@ class UserController extends BaseController
             $html = uc_user_synlogout();
         }
         $result = $this->codeModel->code(200,L('_SUCCESS_LOGOUT_').L('_PERIOD_'));
-		$this->response($result,'json');
+		$this->response($result,$this->type);
     }
 	/**
 	 * 上传头像
@@ -338,10 +338,10 @@ class UserController extends BaseController
 			}else{
 				$return['info'] = 'error';
 			}
-			$this->response($return,'json');
+			$this->response($result,$this->type);
 		}else{
-			$return['info'] = 'open_id error';
-			$this->response($return,'json');
+			$return['info'] = 'error';
+			$this->response($result,$this->type);
 		}
     }
 
@@ -365,12 +365,12 @@ class UserController extends BaseController
                 $id = $mUcenter->where(array('mobile' => $mobile))->getField('id');
                 if ($id) {
 					$return['info'] = L('_ERROR_PHONE_EXIST_');//该手机号已经存在
-					$this->response($return,'json');
+					$this->response($result,$this->type);
                 }
                 break;
         }
 		$return['info'] = L('_SUCCESS_VERIFY_');
-		$this->response($return,'json');
+		$this->response($result,$this->type);
     }
     /**
      * [gps description]
@@ -378,24 +378,21 @@ class UserController extends BaseController
      */
 	public function gps()
 	{
-		$aOpen_id = I('post.token','',op_t);
-		//验证open_id
-		$access_openid=D('Member')->access_openid($aOpen_id);
+		$this->_needLogin(); //必须登录后操作
 
-		if($access_openid){
-				$aUid = I('post.uid',0,intval);
-				$alng = I('post.lng');
-				$alat = I('post.lat');
+		$aUid = I('post.uid',0,intval);
+		$alng = I('post.lng');
+		$alat = I('post.lat');
 
-				$data['uid'] = $aUid;
-				$data['lng'] = $alng;
-				$data['lat'] = $alat;
-				
-				M('member')->save($data); // 根据条件更新记录
-				$result['code'] = 200;
-		}
+		$data['uid'] = $aUid;
+		$data['lng'] = $alng;
+		$data['lat'] = $alat;
+		
+		M('member')->save($data); // 根据条件更新记录
+		$result['code'] = 200;
+
 		$return['info'] = '用户定位更新完成';
-		$this->response($return,'json');
+		$this->response($result,$this->type);
 
 	}
 	

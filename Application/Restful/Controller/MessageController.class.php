@@ -53,7 +53,7 @@ class MessageController extends BaseController {
 					$result['data'] = $data;
 					$result['code'] = 200;
 				}
-				$this->response($result,'json');
+				$this->response($result,$this->type);
             break;
 
             case 'post'://post请求处理代码,写入评论内容
@@ -123,7 +123,7 @@ class MessageController extends BaseController {
 					$result['info'] = '返回成功';
 					$result['data'] = $data;
 					$result['code'] = 200;
-				$this->response($result,'json');
+				$this->response($result,$this->type);
             break;
         }
        // dump($data);

@@ -62,7 +62,7 @@ class FavoritesController extends BaseController {
 					$result['totalCount'] = $totalCount;
 					$result['data'] = $data;
 				
-				$this->response($result,'json');
+				$this->response($result,$this->type);
             break;
 
             case 'post'://post请求处理代码,写入评论内容
@@ -91,7 +91,7 @@ class FavoritesController extends BaseController {
 					$result = $this->codeModel->code(200);
 					$result['info'] = '收藏成功';
 				}
-			$this->response($result,'json');
+			$this->response($result,$this->type);
             break;
         }
     }

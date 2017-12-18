@@ -15,13 +15,15 @@ class IndexController extends BaseController {
     {
         switch ($this->_method){
             case 'get': //get请求处理代码
+  
                 $data['title'] = 'title';
                 $data['description'] = 'description';
                 
                 $result['info'] = 'succee';
                 $result['data'] = $data;
                 $result['code'] = 200;
-                $this->response($result,'json');
+
+                $this->response($result,$this->type);
             break;
             case 'put':
             
