@@ -57,7 +57,6 @@ class BaseController extends RestController
     }
     /**
      * 通用接口验证方法
-     * @return [type] [description]
      */
     public function signature(){
         //获取客户端传过来的参数
@@ -74,21 +73,21 @@ class BaseController extends RestController
     
     /**
      * 通用需要登录验证
-     * @return [type] [description]
      */
     public function _needLogin(){
         //验证用户授权TOKEN
         $token = I('token', '', 'text');
+
         if($token){
             $uid = $this->userModel->_checkToken($token);//验证用户Token合法性
-            if (!$uid) {
-                $data['info'] = '需要登录';
-                $data['code'] = C('NEED_LOGIN');
-                $this->response($result,$this->type);
+            if ($uid) {
+                return $uid;
+            }else{
+                $result = $this->codeModel->code(1002);
+                $this->response($result,$this->type); 
             }
         }else{
-            $data['info'] = '需要用户授权token';
-            $data['code'] = C('NEED_LOGIN');
+            $result = $this->codeModel->code(1003);
             $this->response($result,$this->type);
         }
     }
