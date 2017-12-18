@@ -52,8 +52,10 @@ class BaseController extends RestController
         $this->signModel= D('Restful/Sign');
         $this->codeModel= D('Restful/Code');  //返回码及信息
 
-        /*测试阶段可注释掉*/
-        //$this->signature(); //验证请求合法性
+        /*验证请求合法性,可通过后台设置开关*/
+        if(modC('SIGNATURE','','Restful')){
+            $this->signature(); //验证请求合法性
+        }
     }
     /**
      * 通用接口验证方法

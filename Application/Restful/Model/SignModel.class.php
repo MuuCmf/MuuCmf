@@ -10,7 +10,7 @@ use Think\Model;
 
 class SignModel extends Model{
 
-	/**
+	/**验证请求合法性
      * [checkSign description]
      * @return [type] [description]
      */
