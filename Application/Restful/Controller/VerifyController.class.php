@@ -3,7 +3,7 @@ namespace Restful\Controller;
 
 use Think\Controller\RestController;
 
-class VerifyController extends RestController
+class VerifyController extends BaseController
 {
     protected $codeModel;
     public function _initialize()
@@ -16,7 +16,7 @@ class VerifyController extends RestController
      * account 手机号或邮箱
      * type mobile 或 email
      */
-    public function sendVerify()
+    public function send()
     {
 		$uid = I('uid',0,'intval');
         $aAccount = $cUsername = I('post.account', '', 'text');
