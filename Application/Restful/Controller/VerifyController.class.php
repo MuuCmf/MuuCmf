@@ -34,9 +34,9 @@ class VerifyController extends RestController
 
         if (empty($aAccount)) {
 
-            $result = $this->codeModel->code(3001);
+            $result = $this->codeModel->code(3000);
 			$result['info'] = L('_ERROR_ACCOUNT_CANNOT_EMPTY_');
-			$this->response($result,'json');	
+			$this->response($result,$this->type);	
         }
         check_username($cUsername, $cEmail, $cMobile);
         $time = time();
