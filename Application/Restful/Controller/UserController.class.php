@@ -392,10 +392,10 @@ class UserController extends BaseController
 		$this->response($result,$this->type);
     }
     /**
-     * [gps description]
+     * 用户位置坐标
      * @return [type] [description]
      */
-	public function gps()
+	public function location()
 	{
 		$this->_needLogin(); //必须登录后操作
 
@@ -408,11 +408,9 @@ class UserController extends BaseController
 		$data['lat'] = $alat;
 		
 		M('member')->save($data); // 根据条件更新记录
-		$result['code'] = 200;
-
+		$result = $this->codeModel->code(200);
 		$return['info'] = '用户定位更新完成';
 		$this->response($result,$this->type);
-
 	}
 	
 	
