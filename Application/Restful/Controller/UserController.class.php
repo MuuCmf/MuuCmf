@@ -57,9 +57,8 @@ class UserController extends BaseController
 
 			$uid = is_login();
 			$mobile = I('mobile',0,'intval');
-			$mobileCode = I('mobileCode',0,'intval');
 			$email = I('email','','text');
-			$emailCode = I('emailCode',0,'intval');
+			$verify = I('verify',0,'intval');
 			$nickname = I('nickname','','text');
 			$sex = I('sex');
 			$signature = I('signature','','text');
@@ -75,7 +74,7 @@ class UserController extends BaseController
 							$this->response($result,$this->type);
 			            }
 			            $map['account']=$mobile;
-						$map['verify']=$mobileCode;
+						$map['verify']=$verify;
 						$ret=M('Verify')->where($map)->find();
 						unset($map);
 			            if(!$ret){
@@ -88,7 +87,7 @@ class UserController extends BaseController
 
 					if($email){
 						$map['account']=$email;
-						$map['verify']=$emailCode;
+						$map['verify']=$verify;
 						$ret=M('Verify')->where($map)->find();
 						unset($map);
 						if($ret){
@@ -134,7 +133,7 @@ class UserController extends BaseController
 					}
 					clean_query_user_cache($uid,array('nickname','mobile','email','sex','signature'));
 					$result = $this->codeModel->code(200,'更新完成');
-					$result['data'] = $mdata+$udata;
+					//$result['data'] = $mdata+$udata;
 					$this->response($result,$this->type);
 			}
 		break;
