@@ -32,15 +32,15 @@ class UserController extends BaseController
 	 switch ($this->_method){
 
 		case 'get': //get请求处理代码
-		$this->_needLogin(); //必须登录后操作
+		//$this->_needLogin(); //必须登录后操作
 		$aUid = I('get.uid',0,'intval');
 		if($aUid){
 			$map['uid'] = $aUid;
 			$userData=M('member')->where($map)->find();
 			if($userData){
-				$user_info = query_user(array('nickname','sex','birthday','reg_ip','signature','last_login_ip','last_login_time','avatar32','avatar128','mobile','email','username','title','signature','score'), $aUid);
+				$data = query_user(array('nickname','sex','birthday','reg_ip','signature','last_login_ip','last_login_time','avatar32','avatar128','mobile','email','username','title','signature','score','score1','score2','score3','score4'), $aUid);
 				$result = $this->codeModel->code(200);
-				$result['user_info'] = $user_info;
+				$result['data'] = $data;
 			}else{
 				$result = $this->codeModel->code(1004); //不存在的用户
 			}
@@ -55,7 +55,7 @@ class UserController extends BaseController
 			//post用来修改用户基本信息
 			$this->_needLogin(); //必须登录后操作
 
-			$uid = I('uid',0,'intval');
+			$uid = is_login();
 			$mobile = I('mobile',0,'intval');
 			$email = I('email','','text');
 			$emailCode = I('emailCode',0,'intval');
@@ -76,6 +76,7 @@ class UserController extends BaseController
 						if($ret){
 							$udata['email'] = $email;
 						}else{
+							$result = $this->codeModel->code(1005);
 							$result['info'] = '邮箱和验证不匹配';
 							$this->response($result,$this->type);
 						}
@@ -106,8 +107,9 @@ class UserController extends BaseController
 					$Ucmember = UCenterMember();
 					if (!$Ucmember->create($udata)){
 						// 如果创建失败 表示验证没有通过 输出错误提示信息
+						$result = $this->codeModel->code(10000);
 						$result['info'] = $Ucmember->getErrorMessage($error_code = $Ucmember->getError());
-						$this->response($result,'json');
+						$this->response($result,$this->type);
 					}else{
 						 // 验证通过 可以进行其他数据操作
 						$Ucmember->save($udata);

@@ -89,7 +89,8 @@ class BaseController extends RestController
                 $this->response($result,$this->type); 
             }
         }else{
-            $result = $this->codeModel->code(1003);
+            $result = $this->codeModel->code(403);
+            $result['info'] = '用户未授权';
             $this->response($result,$this->type);
         }
     }
