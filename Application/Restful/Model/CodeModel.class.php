@@ -18,10 +18,19 @@ class CodeModel extends Model{
 	public function code($code=200,$info='请求成功'){
 
 		switch ($code) {
-			//接口授权部分
+		//接口授权部分
+            //通用部分
             case 400:
                 $result['code'] = 400; //未授权的请求
                 $result['info'] = '未授权的请求';
+            break;
+            case 403:
+                $result['code'] = 403; //未授权的请求
+                $result['info'] = '服务器接受请求，但是被拒绝处理';
+            break;
+            case 415:
+                $result['code'] = 415; //未授权的请求
+                $result['info'] = '数据格式并不被请求的资源支持';
             break;
             case 200:
             	$result['code'] = 200;
@@ -61,6 +70,16 @@ class CodeModel extends Model{
             	$result['code'] = 2001;
             	$result['info'] = '资源不存在或已删除';
             break;
+            //验证码
+            case 3000:
+                  $result['code'] = 3000;
+                  $result['info'] = '错误的手机号或邮箱';
+            case 3001:
+                  $result['code'] = 3001;
+                  $result['info'] = '验证超时，请重新发送';
+            case 3002:
+                  $result['code'] = 3002;
+                  $result['info'] = '发送失败';
             //默认输出未知错误
             default:
             	$result['code'] = 10000;
