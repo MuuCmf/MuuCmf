@@ -57,6 +57,7 @@ class UserController extends BaseController
 
 			$uid = is_login();
 			$mobile = I('mobile',0,'intval');
+			$mobileCode = I('mobileCode',0,'intval');
 			$email = I('email','','text');
 			$emailCode = I('emailCode',0,'intval');
 			$nickname = I('nickname','','text');
@@ -66,13 +67,30 @@ class UserController extends BaseController
 			if($uid){
 					$udata['id'] = $uid;
 					if($mobile && $mobile!=0) {
-						$udata['mobile'] = $mobile;
+						$time = time();
+						$resend_time =  modC('SMS_RESEND','60','USERCONFIG');
+			            if($time <= session('verify_time')+$resend_time ){
+			                $result = $this->codeModel->code(1005);
+							$result['info'] = '验证码超时';
+							$this->response($result,$this->type);
+			            }
+			            $map['account']=$mobile;
+						$map['verify']=$mobileCode;
+						$ret=M('Verify')->where($map)->find();
+						unset($map);
+			            if(!$ret){
+			            	$result = $this->codeModel->code(1005);
+							$result['info'] = '验证码错误';
+							$this->response($result,$this->type);	
+			            }
+			            $udata['mobile'] = $mobile;
 					}
 
 					if($email){
 						$map['account']=$email;
 						$map['verify']=$emailCode;
 						$ret=M('Verify')->where($map)->find();
+						unset($map);
 						if($ret){
 							$udata['email'] = $email;
 						}else{
