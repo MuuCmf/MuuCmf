@@ -151,10 +151,10 @@ class UserController extends BaseController
 				$result['info'] = '无GET方法';
 			break;
 			case 'post'://post请求处理代码
-				$aUsername = $username = I('post.username', '', 'op_t');
-		        $aPassword = I('post.password', '', 'op_t');
-		        $aVerify = I('post.verify', '', 'op_t');
-		        $aRemember = I('post.remember', 0, 'intval');//默认记住登录 0：不记住；1：记住
+				$aUsername = $username = I('post.username', '', 'text');
+		        $aPassword = I('post.password', '', 'text');
+		        $aVerify = I('post.verify', '', 'text');
+		        $aRemember = I('post.remember', 1, 'intval');//默认记住登录 0：不记住；1：记住
 
 		        /* 调用UC登录接口登录 */
 		        check_username($aUsername, $email, $mobile, $aUnType);
@@ -197,38 +197,45 @@ class UserController extends BaseController
 	public function register()
     {
         //获取参数
-        $aUsername = $username = I('post.username', '', 'op_t');
-        $aNickname = I('post.nickname', '', 'op_t');
-        $aPassword = I('post.password', '', 'op_t');
-        $aVerify = I('post.verify', '', 'op_t');
-        $aRegVerify = I('post.reg_verify', '', 'op_t');
-        $aRegType = I('post.reg_type', '', 'op_t');
-        $aStep = I('get.step', 'start', 'op_t');
-        $aRole = I('post.role', 0, 'intval');
+        $email = I('post.email','','text');
+        $mobile = I('post.mobile','','text');
+        $aRegType = I('post.reg_type', 'mobile', 'text');//注册类型，email mobile
+        $aNickname = I('post.nickname', '', 'text');
+        $aPassword = I('post.password', '', 'text');
+        $aRegVerify = I('post.reg_verify', '', 'text');
+        $aRole = I('post.role', 1, 'intval'); //初始角色
 
+        if($aRegType == 'email'){
+        	$aUsername = $username = $email;
+        }
+        if($aRegType == 'mobile'){
+        	$aUsername = $username = $mobile;
+        }
+        if(empty($aNickname)){ //昵称为空，昵称等于注册的手机或邮箱
+        	$aNickname = $aUsername;
+        }
+        
+        //注册开关关闭，直接返回错误
         if (!modC('REG_SWITCH', '', 'USERCONFIG')) {
+        	$result = $this->codeModel->code(403); 
 			$result['info'] = L('_ERROR_REGISTER_CLOSED_');
-			$this->response($result,'json');
+			$this->response($result,$this->type);
         }
 
-		$result['info'] = 'ERROR';
         if (IS_POST) {
             //注册用户
             $return = check_action_limit('reg', 'ucenter_member', 1, 1, true);
             if ($return && !$return['state']) {
+            	$result = $this->codeModel->code(403); 
 				$result['info'] = $return['info'];
 				$this->response($result,$this->type);
             }
-            /* 移动端取消检测验证码 注释掉
-            if (check_verify_open('reg')) {
-                if (!check_verify($aVerify)) {
-                    $this->error(L('_ERROR_VERIFY_CODE_').L('_PERIOD_'));
-                }
-            }*/
             if (!$aRole) {
 				$result['info'] = L('_ERROR_ROLE_SELECT_').L('_PERIOD_');
-				$this->response($result,'json');
+				$result = $this->codeModel->code(403); 
+				$this->response($result,$this->type);
             }
+            //手机或邮箱的验证
             if (($aRegType == 'mobile' && modC('MOBILE_VERIFY_TYPE', 0, 'USERCONFIG') == 1) || (modC('EMAIL_VERIFY_TYPE', 0, 'USERCONFIG') == 2 && $aRegType == 'email')) {
                 if (!D('Verify')->checkVerify($aUsername, $aRegType, $aRegVerify, 0)) {
                     $str = $aRegType == 'mobile' ? L('_PHONE_') : L('_EMAIL_');
@@ -243,44 +250,50 @@ class UserController extends BaseController
             //获取注册类型
             check_username($aUsername, $email, $mobile, $aUnType);
             if ($aRegType == 'email' && $aUnType != 2) {
-                
+                $result = $this->codeModel->code(403);
 				$result['info'] = L('_ERROR_EMAIL_FORMAT_');
 				$this->response($result,$this->type);
             }
             if ($aRegType == 'mobile' && $aUnType != 3) {
+            	$result = $this->codeModel->code(403);
 				$result['info'] = L('_ERROR_PHONE_FORMAT_');
 				$this->response($result,$this->type);
             }
             if ($aRegType == 'username' && $aUnType != 1) {
-                
+                $result = $this->codeModel->code(403);
 				$result['info'] = L('_ERROR_USERNAME_FORMAT_');
 				$this->response($result,$this->type);
             }
             if (!check_reg_type($aUnType)) {
-                
+                $result = $this->codeModel->code(403);
 				$result['info'] = L('_ERROR_REGISTER_NOT_OPENED_').L('_PERIOD_');
 				$this->response($result,$this->type);
             }
             //exit;
             /* 注册用户 */
-            $code = $uid =UCenterMember()->register($aUsername, $aNickname, $aPassword, $email, $mobile, $aUnType);
+            $error_code = $uid =UCenterMember()->register($aUsername, $aNickname, $aPassword, $email, $mobile, $aUnType);
+            
             if (0 < $uid) { //注册成功
-                $this->initInviteUser($uid, $aCode, $aRole);
+                //$this->initInviteUser($uid, $aCode, $aRole);
                 UCenterMember()->initRoleUser($aRole, $uid); //初始化角色用户
                 $uid = UCenterMember()->login($username, $aPassword, $aUnType); //通过账号密码取到uid
-                //echo $uid;exit;
-                //注册成功并登陆成功后返回的数据
+                
                 $rs = $this->userModel->login($uid, 1, $aRole); //登陆
-
-                $user_info = query_user(array('uid','nickname','avatar32','avatar64','avatar128','mobile','email','title'), $uid);
-                //组装返回的数据
-                $result = $this->codeModel->code(200,'注册成功');
-				$result['token'] = $this->userModel->getToken($uid);
-				$result['$user_info'] = $user_info;
-				$this->response($result,$this->type);
+                if($rs){//注册成功并登陆成功后返回的数据
+                	$user_info = query_user(array('uid','nickname','avatar32','avatar64','avatar128','mobile','email','title'), $uid);
+	                //组装返回的数据
+	                $result = $this->codeModel->code(200,'注册成功');
+					$result['token'] = $this->userModel->getToken($uid);
+					$result['data'] = $user_info;
+					$this->response($result,$this->type);
+                }else{//注册成功未登陆成功返回的数据
+                	$result = $this->codeModel->code(200,'注册成功');
+                	$this->response($result,$this->type);
+                }
+                
             } else { //注册失败，显示错误信息
             	$result = $this->codeModel->code(10000);
-				$result['info'] = $this->showRegError($code);
+				$result['info'] = $this->showRegError($error_code);
 				$this->response($result,$this->type);	
             }
         }	
