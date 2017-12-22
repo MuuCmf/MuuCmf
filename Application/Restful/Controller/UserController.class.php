@@ -27,9 +27,8 @@ class UserController extends BaseController
 	 * 获取用户基本信息
 	 * @return [type] [description]
 	 */
-    public function index()
-    {
-	 switch ($this->_method){
+    public function index(){
+		switch ($this->_method){
 
 		case 'get': //get请求处理代码
 		//$this->_needLogin(); //必须登录后操作
@@ -64,80 +63,73 @@ class UserController extends BaseController
 			$signature = I('signature','','text');
 			
 			if($uid){
-					$udata['id'] = $uid;
-					if($mobile && $mobile!=0) {
-						$time = time();
-						$resend_time =  modC('SMS_RESEND','60','USERCONFIG');
-			            if($time <= session('verify_time')+$resend_time ){
-			                $result = $this->codeModel->code(1005);
-							$result['info'] = '验证码超时';
-							$this->response($result,$this->type);
-			            }
-			            $map['account']=$mobile;
-						$map['verify']=$verify;
-						$ret=M('Verify')->where($map)->find();
-						unset($map);
-			            if(!$ret){
-			            	$result = $this->codeModel->code(1005);
-							$result['info'] = '验证码错误';
-							$this->response($result,$this->type);	
-			            }
-			            $udata['mobile'] = $mobile;
-					}
+				$udata['id'] = $uid;
+				if($mobile && $mobile!=0) {
+					$time = time();
+					$resend_time =  modC('SMS_RESEND','60','USERCONFIG');
+		            if($time > session('verify_time')+$resend_time ){//验证码超时
+		                $result = $this->codeModel->code(3001);
 
-					if($email){
-						$map['account']=$email;
-						$map['verify']=$verify;
-						$ret=M('Verify')->where($map)->find();
-						unset($map);
-						if($ret){
-							$udata['email'] = $email;
-						}else{
-							$result = $this->codeModel->code(1005);
-							$result['info'] = '邮箱和验证不匹配';
-							$this->response($result,$this->type);
-						}
+						$this->response($result,$this->type);
+		            }
+					$ret = D('Verify')->checkVerify($moblie,'mobile',$verify,$uid);
+		            if(!$ret){//验证码错误
+		            	$result = $this->codeModel->code(3003);
+						$this->response($result,$this->type);	
+		            }
+		            $udata['mobile'] = $mobile;
+				}
+
+				if($email){
+					$ret = D('Verify')->checkVerify($email,'email',$verify,$uid);
+					if($ret){
+						$udata['email'] = $email;
+					}else{
+						$result = $this->codeModel->code(1005);
+						$result['info'] = '邮箱和验证不匹配';
+						$this->response($result,$this->type);
 					}
+				}
 					
-					$mdata['uid'] = $uid;
-					if($nickname){
-					$mdata['nickname'] = $nickname;
+				$mdata['uid'] = $uid;
+				if($nickname){
+				$mdata['nickname'] = $nickname;
+				}
+				if($sex){
+					if($sex==1 || $sex==2 || $sex==0){
+					$mdata['sex'] = $sex;
 					}
-					if($sex){
-						if($sex==1 || $sex==2 || $sex==0){
-						$mdata['sex'] = $sex;
-						}
-					}
-					if($signature){
-					$mdata['signature'] = $signature;
-					}
-					$User = M("Member"); // 实例化User对象
-					if (!$User->create($mdata)){
-						// 如果创建失败 表示验证没有通过 输出错误提示信息
-						$result = $this->codeModel->code(10000);
-						$result['info'] = $User->getError();
-						$this->response($result,$this->type);
-					}else{
-						 // 验证通过 可以进行其他数据操作
-						$User->save($mdata);
-					}
-					$Ucmember = UCenterMember();
-					if (!$Ucmember->create($udata)){
-						// 如果创建失败 表示验证没有通过 输出错误提示信息
-						$result = $this->codeModel->code(10000);
-						$result['info'] = $Ucmember->getErrorMessage($error_code = $Ucmember->getError());
-						$this->response($result,$this->type);
-					}else{
-						 // 验证通过 可以进行其他数据操作
-						$Ucmember->save($udata);
-					}
-					clean_query_user_cache($uid,array('nickname','mobile','email','sex','signature'));
-					$result = $this->codeModel->code(200,'更新完成');
-					//$result['data'] = $mdata+$udata;
+				}
+				if($signature){
+				$mdata['signature'] = $signature;
+				}
+				$User = M("Member"); // 实例化User对象
+				if (!$User->create($mdata)){
+					// 如果创建失败 表示验证没有通过 输出错误提示信息
+					$result = $this->codeModel->code(10000);
+					$result['info'] = $User->getError();
 					$this->response($result,$this->type);
+				}else{
+					 // 验证通过 可以进行其他数据操作
+					$User->save($mdata);
+				}
+				$Ucmember = UCenterMember();
+				if (!$Ucmember->create($udata)){
+					// 如果创建失败 表示验证没有通过 输出错误提示信息
+					$result = $this->codeModel->code(10000);
+					$result['info'] = $Ucmember->getErrorMessage($error_code = $Ucmember->getError());
+					$this->response($result,$this->type);
+				}else{
+					 // 验证通过 可以进行其他数据操作
+					$Ucmember->save($udata);
+				}
+				clean_query_user_cache($uid,array('nickname','mobile','email','sex','signature'));
+				$result = $this->codeModel->code(200,'更新完成');
+				//$result['data'] = $mdata+$udata;
+				$this->response($result,$this->type);
 			}
 		break;
-	 }
+	    }
     }
 	
 	/**
@@ -166,7 +158,6 @@ class UserController extends BaseController
 		        	//根据ID登陆用户
 					$rs = $this->userModel->login($uid, 1); //登陆
 		        }
-		        //echo $code;exit;
 		        //判断是否登陆成功
 				if ($rs) {
 					$token = $this->userModel->getToken($uid);
@@ -189,6 +180,47 @@ class UserController extends BaseController
 			break;
 		}
     }
+    /**
+     * 通过手机号与验证码快速登陆
+     * @return [type] [description]
+     */
+    public function quickLogin(){
+    	switch ($this->_method){
+
+		case 'post': //post请求处理代码
+			$mobile = I('post.mobile','','text');
+			$verify = I('post.verify','','text');//接收到的验证码
+
+			//检查验证码是否正确
+			$ret = D('Verify')->checkVerify($moblie,'mobile',$verify,0);
+			if(!$ret){//验证码错误
+	        	$result = $this->codeModel->code(3003);
+	            $this->response($result,$this->type);
+	        }
+			$resend_time =  modC('SMS_RESEND','60','USERCONFIG');
+	        if(time() > session('verify_time')+$resend_time ){//验证超时
+	            $result = $this->codeModel->code(3001);
+	            $this->response($result,$this->type);
+	        }
+	        
+	        //验证通过后获取用户UID
+	        $uid = UCenterMember()->where(array('mobile' => $aAccount))->getField('id');
+			//根据ID登陆用户
+			$rs = $this->userModel->login($uid, 1); //登陆
+			//判断是否登陆成功
+			if ($rs) {
+				$token = $this->userModel->getToken($uid);
+				$user_info = query_user(array('uid','nickname','sex','avatar32','mobile','email','title','last_login_ip','last_login_time',), $uid);
+				$result = $this->codeModel->code(200,'登陆成功');
+				$result['token']=$token; //用户持久登录token
+				$result['data'] = $user_info;
+			}else{
+				$result = $this->codeModel->code(10000);
+			}
+			$this->response($result,$this->type);
+		break;
+		}
+    } 
 	/**
 	 * 用户注册
 	 * @return [type] [description]
@@ -238,9 +270,7 @@ class UserController extends BaseController
             if (($aRegType == 'mobile' && modC('MOBILE_VERIFY_TYPE', 0, 'USERCONFIG') == 1) || (modC('EMAIL_VERIFY_TYPE', 0, 'USERCONFIG') == 2 && $aRegType == 'email')) {
                 if (!D('Verify')->checkVerify($aUsername, $aRegType, $aRegVerify, 0)) {
                     $str = $aRegType == 'mobile' ? L('_PHONE_') : L('_EMAIL_');
-
-					$result = $this->codeModel->code(1005); //验证失败
-					$result['info'] = $str . L('_FAIL_VERIFY_');
+					$result = $this->codeModel->code(3003); //验证失败
 					$this->response($result,$this->type);	
                 }
             }
@@ -327,38 +357,44 @@ class UserController extends BaseController
 				$type = I('post.type','','text');
 				$verify = I('post.verify','','text');//接收到的验证码
 				$password = I('post.password','','text');//新密码设置
-
+				//传入数据判断
+				if(empty($account) || empty($type) || empty($password) || empty($verify)){
+					$result = $this->codeModel->code(400);
+		            $this->response($result,$this->type);
+				}
 				//检查验证码是否正确
 				$ret = D('Verify')->checkVerify($account,$type,$verify,0);
-				$resend_time =  modC('SMS_RESEND','60','USERCONFIG');
-		        if(time() >= session('verify_time')+$resend_time ){//验证超时
-		            $result = $this->codeModel->code(3001);
-		            $result['info'] = L('_ERROR_WAIT_1_').($resend_time-($time-session('verify_time'))).L('_ERROR_WAIT_2_');
+				if(!$ret){//验证码错误
+		        	$result = $this->codeModel->code(3003);
 		            $this->response($result,$this->type);
 		        }
-		        if(!$ret){//验证码错误
-		        	$result = $this->codeModel->code(3003);
+				$resend_time =  modC('SMS_RESEND','60','USERCONFIG');
+		        if(time() > session('verify_time')+$resend_time ){//验证超时
+		            $result = $this->codeModel->code(3001);
 		            $this->response($result,$this->type);
 		        }
 		        //获取用户UID
 		        switch ($type) {
             		case 'mobile':
-		        	$uid = UCenterMember()->where(array('mobile' => $aAccount))->getField('id');
+		        	$uid = UCenterMember()->where(array('mobile' => $account))->getField('id');
 		        	break;
 		        	case 'email':
-		        	$uid = UCenterMember()->where(array('email' => $aAccount))->getField('id');
+		        	$uid = UCenterMember()->where(array('email' => $account))->getField('id');
 		        	break;
 		        }
 		        //设置新密码
 		        $password = think_ucenter_md5($password, UC_AUTH_KEY);
+		        $data['id'] = $uid;
 		        $data['password'] = $password;
-		        $ret = UCenterMember()->where(array('id' => $uid))->save($data);
+		        //dump($data);exit;
+		        $ret = UCenterMember()->save($data);
 		        if($ret){
 		        	//返回成功信息前处理
 	        		clean_query_user_cache($uid, 'password');//删除缓存
 	        		D('user_token')->where('uid=' . $uid)->delete();
 	        		//返回数据
 					$result = $this->codeModel->code(200); 
+					$result['info'] = '新密码写入成功';
 					$this->response($result,$this->type);
 		        }else{
 		        	$result = $this->codeModel->code(415); 

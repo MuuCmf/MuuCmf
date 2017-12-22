@@ -103,16 +103,15 @@ class VerifyController extends BaseController
         }
         //ucfirst() 函数把字符串中的首字符转换为大写。
         $res =  A('Ucenter/'.ucfirst('Member'))->doSendVerify($aAccount, $verify, $aType);
+        
         if ($res === true) {
-            if($aType == 'mobile'){
-                session('verify_time',$time);
-            }
-
             $result = $this->codeModel->code(3002);
             $result['info'] = L('_ERROR_SUCCESS_SEND_');
             $this->response($result,$this->type);
         } else {
-            
+            if($aType == 'mobile'){
+                session('verify_time',time());
+            }
             $result = $this->codeModel->code(200);
             $result['info'] = $res;
             $this->response($result,$this->type);
