@@ -64,9 +64,9 @@ class VerifyController extends BaseController
             $this->response($result,$this->type);
         }
 
-        //注册账号
+        
         switch ($action){
-        case 'reg':
+        case 'only'://可以发送至数据库中不包含的数据，如：用户注册
 
             $checkIsExist = UCenterMember()->where(array($aType => $aAccount))->find();
             if ($checkIsExist) {
@@ -79,15 +79,21 @@ class VerifyController extends BaseController
             $this->doSend($aAccount, $aType, $uid);
         break;
 
-        case 'find':
-        //找回密码
+        case 'all'://找回密码，可发送至所有邮箱或手机，如找回密码，修改手机号码或邮箱等
+        
             $this->doSend($aAccount, $aType, $uid);
             
         break;
 
         }
     }
-
+    /**
+     * 发送验证码
+     * @param  [type] $aAccount [description]
+     * @param  [type] $aType    [description]
+     * @param  [type] $uid      [description]
+     * @return [type]           [description]
+     */
     private function doSend($aAccount, $aType, $uid){
         $verify = D('Verify')->addVerify($aAccount, $aType, $uid);
         if (!$verify) {

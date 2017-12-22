@@ -339,7 +339,7 @@ class UserController extends BaseController
 				$new_password = I('post.new_password','','text');
 				$uid = is_login();
 
-				
+
 				//检查旧密码是否正确
 				$ret = UcenterMember()->verifyUser($uid,$old_password);
 				if($ret){
@@ -429,30 +429,50 @@ class UserController extends BaseController
     }
 
     /**
-     * 验证信息是否已存在
+     * 验证用户信息是否已存在
      * @return [type] [description]
      */
 	 public function checkAccount()
     {
-        $aAccount = I('account', '', 'op_t');
-        $aType = I('type', '', 'op_t');
+        $aAccount = I('post.account', '', 'text');
+        $aType = I('post.type', '', 'text');
         if (empty($aAccount)) {
-			$return['info'] = L('_EMPTY_CANNOT_').L('_EXCLAMATION_');
-			$this->response($return,'json');
+        	$result = $this->codeModel->code(415); 
+			$return['info'] = L('_EMPTY_CANNOT_');
+			$this->response($result,$this->type);
         }
-        check_username($aAccount, $email, $mobile, $aUnType);
-        $mUcenter = UCenterMember();
         switch ($aType) {
             case 'mobile':
-                empty($mobile) && $this->error(L('_ERROR_PHONE_FORMAT_'));
-                $id = $mUcenter->where(array('mobile' => $mobile))->getField('id');
-                if ($id) {
-					$return['info'] = L('_ERROR_PHONE_EXIST_');//该手机号已经存在
+                
+                $uid = UCenterMember()->where(array('mobile' => $aAccount))->getField('id');
+                if ($uid) {
+                	$result = $this->codeModel->code(1006); 
+					$result['info'] = L('_ERROR_PHONE_EXIST_');//该手机号已经存在
+					$this->response($result,$this->type);
+                }else{
+                	$result = $this->codeModel->code(200); 
+					$result['info'] = L('_SUCCESS_VERIFY_');//不存在的手机
+					$this->response($result,$this->type);
+                }
+                
+                break;
+            case 'email':
+            	
+                $uid = UCenterMember()->where(array('email' => $aAccount))->getField('id');
+                //echo $uid;exit;
+                if ($uid) {
+                	$result = $this->codeModel->code(1006);
+					$result['info'] = L('_ERROR_EMAIL_EXIST_');//该邮箱已经存在
+					$this->response($result,$this->type);
+                }else{
+                	$result = $this->codeModel->code(200); 
+					$result['info'] = L('_SUCCESS_VERIFY_');//不存在的邮箱
 					$this->response($result,$this->type);
                 }
                 break;
         }
-		$return['info'] = L('_SUCCESS_VERIFY_');
+        //参数错误
+        $result = $this->codeModel->code(400); 
 		$this->response($result,$this->type);
     }
     /**

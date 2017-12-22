@@ -49,17 +49,23 @@ class CodeModel extends Model{
             	$result['code'] = 1002;
             	$result['info'] = '需要登陆';
             break;
+            case 1003:
+                $result['code'] = 1003;
+                $result['info'] = '需要用户授权token';
+            break;
+            case 1004:
+                $result['code'] = 1004;
+                $result['info'] = '不存在的用户';
+            break;
             case 1005;
                   $result['code'] = 1005;
                   $result['info'] = '验证失败';
-            case 1003:
-            	$result['code'] = 1003;
-            	$result['info'] = '需要用户授权token';
             break;
-            case 1004:
-            	$result['code'] = 1004;
-            	$result['info'] = '不存在的用户';
+            case 1006;
+                  $result['code'] = 1006;
+                  $result['info'] = '已存在的用户';
             break;
+
 
             //资源错误
             case 2000:
