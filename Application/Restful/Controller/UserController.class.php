@@ -192,7 +192,8 @@ class UserController extends BaseController
 			$verify = I('post.verify','','text');//接收到的验证码
 
 			//检查验证码是否正确
-			$ret = D('Verify')->checkVerify($moblie,'mobile',$verify,0);
+			
+			$ret = D('Verify')->checkVerify($mobile,'mobile',$verify,0);
 			if(!$ret){//验证码错误
 	        	$result = $this->codeModel->code(3003);
 	            $this->response($result,$this->type);
@@ -204,7 +205,7 @@ class UserController extends BaseController
 	        }
 	        
 	        //验证通过后获取用户UID
-	        $uid = UCenterMember()->where(array('mobile' => $aAccount))->getField('id');
+	        $uid = UCenterMember()->where(array('mobile' => $mobile))->getField('id');
 			//根据ID登陆用户
 			$rs = $this->userModel->login($uid, 1); //登陆
 			//判断是否登陆成功
@@ -572,6 +573,7 @@ class UserController extends BaseController
 			$aUid = I('get.uid',0,'intval');
 
 		break;
+		}
 	}
 	
 	
