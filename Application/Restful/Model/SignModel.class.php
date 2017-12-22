@@ -36,7 +36,7 @@ class SignModel extends Model{
     private function createSignature($timestamp,$noce){
         $arr['timestamp'] = $timestamp;
         $arr['noce'] = $noce;
-        $arr['access_token'] = modC('RESTFUL_CONFIG_ACCESS_TOKEN','','Restful');
+        $arr['secret'] = modC('RESTFUL_CONFIG_SECRET','','Restful');
         //按照首字母大小写顺序排序
         sort($arr,SORT_STRING);
         //拼接成字符串
