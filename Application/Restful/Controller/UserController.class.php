@@ -546,25 +546,32 @@ class UserController extends BaseController
 		$this->response($result,$this->type);
     }
     /**
-     * 用户位置坐标
+     * 用户位置坐标 未完善，下一版本继续完善
      * @return [type] [description]
      */
 	public function location()
 	{
-		$this->_needLogin(); //必须登录后操作
+		switch ($this->_method){
 
-		$aUid = I('post.uid',0,intval);
-		$alng = I('post.lng');
-		$alat = I('post.lat');
+		case 'post': //post请求处理代码
+			$this->_needLogin(); //必须登录后操作
+			$aUid = I('post.uid',0,'intval');
+			$alng = I('post.lng');
+			$alat = I('post.lat');
 
-		$data['uid'] = $aUid;
-		$data['lng'] = $alng;
-		$data['lat'] = $alat;
-		
-		M('member')->save($data); // 根据条件更新记录
-		$result = $this->codeModel->code(200);
-		$return['info'] = '用户定位更新完成';
-		$this->response($result,$this->type);
+			$data['uid'] = $aUid;
+			$data['lng'] = $alng;
+			$data['lat'] = $alat;
+			
+			M('member')->save($data); // 根据条件更新记录
+			$result = $this->codeModel->code(200);
+			$return['info'] = '用户定位更新完成';
+			$this->response($result,$this->type);
+		break;
+		case 'get'://获取用户坐标
+			$aUid = I('get.uid',0,'intval');
+
+		break;
 	}
 	
 	
