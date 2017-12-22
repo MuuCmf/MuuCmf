@@ -38,7 +38,7 @@ class UserController extends BaseController
 			$map['uid'] = $aUid;
 			$userData=M('member')->where($map)->find();
 			if($userData){
-				$data = query_user(array('nickname','sex','birthday','reg_ip','signature','last_login_ip','last_login_time','avatar32','avatar128','mobile','email','username','title','signature','score','score1','score2','score3','score4'), $aUid);
+				$data = query_user(array('uid','nickname','sex','birthday','reg_ip','last_login_ip','last_login_time','avatar32','avatar128','mobile','email','username','title','signature','score','score1','score2','score3','score4'), $aUid);
 				$result = $this->codeModel->code(200);
 				$result['data'] = $data;
 			}else{
@@ -151,14 +151,13 @@ class UserController extends BaseController
 				$result['info'] = '无GET方法';
 			break;
 			case 'post'://post请求处理代码
-				$aUsername = $username = I('post.username', '', 'text');
+				$aUsername = $username = I('post.account', '', 'text');
 		        $aPassword = I('post.password', '', 'text');
-		        $aVerify = I('post.verify', '', 'text');
-		        $aRemember = I('post.remember', 1, 'intval');//默认记住登录 0：不记住；1：记住
 
 		        /* 调用UC登录接口登录 */
 		        check_username($aUsername, $email, $mobile, $aUnType);
 		        if (!check_reg_type($aUnType)) {
+		        	$result = $this->codeModel->code(403);
 		            $res['info']=L('_INFO_TYPE_NOT_OPENED_').L('_PERIOD_');
 		        }
 		        //根据用户账号密码获取用户ID或返回错误码
@@ -171,10 +170,10 @@ class UserController extends BaseController
 		        //判断是否登陆成功
 				if ($rs) {
 					$token = $this->userModel->getToken($uid);
-					$user_info = query_user(array('uid','nickname','avatar32','avatar64','avatar128','mobile','email','title'), $uid);
+					$user_info = query_user(array('uid','nickname','sex','avatar32','mobile','email','title','last_login_ip','last_login_time',), $uid);
 					$result = $this->codeModel->code(200,'登陆成功');
 					$result['token']=$token; //用户持久登录token
-					$result['user_info'] = $user_info;
+					$result['data'] = $user_info;
 				}else{
 					if($code==-2){
 						$result = $this->codeModel->code(1001);
@@ -313,6 +312,58 @@ class UserController extends BaseController
         }
         $result = $this->codeModel->code(200,L('_SUCCESS_LOGOUT_').L('_PERIOD_'));
 		$this->response($result,$this->type);
+    }
+    /**
+     * 密码类接口，如修改密码、找回密码
+     * @return [type] [description]
+     */
+    public function password(){
+    	switch ($this->_method){
+
+		case 'post': //post请求处理代码
+		$action = I('post.action','','text');//动作类型：找回密码：find 修改密码：change
+			if($action === 'find'){//找回密码的执行过程
+				$account = I('post.account','','text');
+				$type = I('post.type','','text');
+				$verify = I('post.verify','','text');
+
+
+
+				$result = $this->codeModel->code(1004); 
+				$this->response($result,$this->type);
+			}
+
+			if($action == 'change'){//修改密码执行过程
+				$this-> _needLogin();
+				$old_password = I('post.old_password','','text');
+				$new_password = I('post.new_password','','text');
+				$uid = is_login();
+
+				
+				//检查旧密码是否正确
+				$ret = UcenterMember()->verifyUser($uid,$old_password);
+				if($ret){
+					//重置用户密码
+					$rs =  UcenterMember()->changePassword($old_password, $new_password);
+					if($rs){
+						$result = $this->codeModel->code(200,'密码修改成功'); 
+						$this->response($result,$this->type);
+					}else{
+						$result = $this->codeModel->code(403); 
+						$result['info'] = '密码修改失败';
+						$this->response($result,$this->type);
+					}
+				}else{
+					$result = $this->codeModel->code(403); 
+					$result['info'] = '旧密码错误';
+					$this->response($result,$this->type);
+				}
+			}
+			$result = $this->codeModel->code(400); 
+			$result['info'] = '参数错误';
+			$this->response($result,$this->type);
+		break;
+		}
     }
 	/**
 	 * 上传头像

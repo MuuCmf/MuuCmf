@@ -18,35 +18,35 @@ class VerifyController extends BaseController
      */
     public function send()
     {
-		$uid = I('uid',0,'intval');
+        $action = I('post.action','','text');
         $aAccount = $cUsername = I('post.account', '', 'text');
         $aType = I('post.type', '', 'text');
         $aType = $aType == 'mobile' ? 'mobile' : 'email';
 
-        if (!check_reg_type($aType)) {
-            $str = $aType == 'mobile' ? L('_PHONE_') : L('_EMAIL_');
-
-            $result = $this->codeModel->code(3000);
-			$result['info'] = $str . L('_ERROR_OPTIONS_CLOSED_').L('_EXCLAMATION_');
-			$this->response($result,$this->type);
-        }
-
-
+        //数据为空时返回错误
         if (empty($aAccount)) {
-
             $result = $this->codeModel->code(3000);
-			$result['info'] = L('_ERROR_ACCOUNT_CANNOT_EMPTY_');
-			$this->response($result,$this->type);	
+            $result['info'] = L('_ERROR_ACCOUNT_CANNOT_EMPTY_');
+            $this->response($result,$this->type);   
         }
+
+        if (!check_reg_type($aType)) {
+        $str = $aType == 'mobile' ? L('_PHONE_') : L('_EMAIL_');
+        $result = $this->codeModel->code(3000);
+        $result['info'] = $str . L('_ERROR_OPTIONS_CLOSED_').L('_EXCLAMATION_');
+        $this->response($result,$this->type);
+        }
+
         check_username($cUsername, $cEmail, $cMobile);
+        
         $time = time();
         if($aType == 'mobile'){
             $resend_time =  modC('SMS_RESEND','60','USERCONFIG');
             if($time <= session('verify_time')+$resend_time ){
 
                 $result = $this->codeModel->code(3001);
-				$result['info'] = L('_ERROR_WAIT_1_').($resend_time-($time-session('verify_time'))).L('_ERROR_WAIT_2_');
-				$this->response($result,$this->type);
+                $result['info'] = L('_ERROR_WAIT_1_').($resend_time-($time-session('verify_time'))).L('_ERROR_WAIT_2_');
+                $this->response($result,$this->type);
             }
         }
 
@@ -54,30 +54,46 @@ class VerifyController extends BaseController
         if ($aType == 'email' && empty($cEmail)) {
             
             $result = $this->codeModel->code(3000);
-			$result['info'] = L('_ERROR__EMAIL_');
-			$this->response($result,$this->type);
+            $result['info'] = L('_ERROR__EMAIL_');
+            $this->response($result,$this->type);
         }
         if ($aType == 'mobile' && empty($cMobile)) {
 
             $result = $this->codeModel->code(3000);
-			$result['info'] = L('_ERROR_PHONE_');
-			$this->response($result,$this->type);
+            $result['info'] = L('_ERROR_PHONE_');
+            $this->response($result,$this->type);
         }
 
-        $checkIsExist = UCenterMember()->where(array($aType => $aAccount))->find();
-        if ($checkIsExist) {
-            $str = $aType == 'mobile' ? L('_PHONE_') : L('_EMAIL_');
+        //注册账号
+        switch ($action){
+        case 'reg':
 
-            $result = $this->codeModel->code(3000);
-			$result['info'] = L('_ERROR_USED_1_') . $str . L('_ERROR_USED_2_').L('_EXCLAMATION_');
-			$this->response($result,$this->type);
+            $checkIsExist = UCenterMember()->where(array($aType => $aAccount))->find();
+            if ($checkIsExist) {
+                $str = $aType == 'mobile' ? L('_PHONE_') : L('_EMAIL_');
+
+                $result = $this->codeModel->code(3000);
+                $result['info'] = L('_ERROR_USED_1_') . $str . L('_ERROR_USED_2_').L('_EXCLAMATION_');
+                $this->response($result,$this->type);
+            }
+            $this->doSend($aAccount, $aType, $uid);
+        break;
+
+        case 'find':
+        //找回密码
+            $this->doSend($aAccount, $aType, $uid);
+            
+        break;
+
         }
+    }
 
+    private function doSend($aAccount, $aType, $uid){
         $verify = D('Verify')->addVerify($aAccount, $aType, $uid);
         if (!$verify) {
             $result = $this->codeModel->code(1005);
-			$result['info'] = L('_ERROR_FAIL_SEND_').L('_EXCLAMATION_');
-			$this->response($result,$this->type);
+            $result['info'] = L('_ERROR_FAIL_SEND_').L('_EXCLAMATION_');
+            $this->response($result,$this->type);
         }
         //ucfirst() 函数把字符串中的首字符转换为大写。
         $res =  A('Ucenter/'.ucfirst('Member'))->doSendVerify($aAccount, $verify, $aType);
@@ -86,15 +102,14 @@ class VerifyController extends BaseController
                 session('verify_time',$time);
             }
 
-			$result = $this->codeModel->code(3002);
-			$result['info'] = L('_ERROR_SUCCESS_SEND_');
-			$this->response($result,$this->type);
+            $result = $this->codeModel->code(3002);
+            $result['info'] = L('_ERROR_SUCCESS_SEND_');
+            $this->response($result,$this->type);
         } else {
-			
+            
             $result = $this->codeModel->code(200);
             $result['info'] = $res;
-			$this->response($result,$this->type);
+            $this->response($result,$this->type);
         }
-
     }
 }

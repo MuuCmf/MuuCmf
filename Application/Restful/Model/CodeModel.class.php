@@ -21,8 +21,8 @@ class CodeModel extends Model{
 		//接口授权部分
             //通用部分
             case 400:
-                $result['code'] = 400; //未授权的请求
-                $result['info'] = '未授权的请求';
+                $result['code'] = 400; //语法格式有误，服务器无法理解此请求
+                $result['info'] = '请求出错';
             break;
             case 403:
                 $result['code'] = 403; //未授权的请求

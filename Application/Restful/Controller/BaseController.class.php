@@ -78,7 +78,7 @@ class BaseController extends RestController
      */
     public function _needLogin(){
         //验证用户授权TOKEN
-        $token = I('token', '', 'text');
+        $token = I('get.token', '', 'text');
 
         if($token){
             $uid = $this->userModel->_checkToken($token);//验证用户Token合法性
