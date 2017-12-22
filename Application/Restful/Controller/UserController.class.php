@@ -325,12 +325,46 @@ class UserController extends BaseController
 			if($action === 'find'){//找回密码的执行过程
 				$account = I('post.account','','text');
 				$type = I('post.type','','text');
-				$verify = I('post.verify','','text');
+				$verify = I('post.verify','','text');//接收到的验证码
+				$password = I('post.password','','text');//新密码设置
 
-
-
-				$result = $this->codeModel->code(1004); 
-				$this->response($result,$this->type);
+				//检查验证码是否正确
+				$ret = D('Verify')->checkVerify($account,$type,$verify,0);
+				$resend_time =  modC('SMS_RESEND','60','USERCONFIG');
+		        if(time() >= session('verify_time')+$resend_time ){//验证超时
+		            $result = $this->codeModel->code(3001);
+		            $result['info'] = L('_ERROR_WAIT_1_').($resend_time-($time-session('verify_time'))).L('_ERROR_WAIT_2_');
+		            $this->response($result,$this->type);
+		        }
+		        if(!$ret){//验证码错误
+		        	$result = $this->codeModel->code(3003);
+		            $this->response($result,$this->type);
+		        }
+		        //获取用户UID
+		        switch ($type) {
+            		case 'mobile':
+		        	$uid = UCenterMember()->where(array('mobile' => $aAccount))->getField('id');
+		        	break;
+		        	case 'email':
+		        	$uid = UCenterMember()->where(array('email' => $aAccount))->getField('id');
+		        	break;
+		        }
+		        //设置新密码
+		        $password = think_ucenter_md5($password, UC_AUTH_KEY);
+		        $data['password'] = $password;
+		        $ret = UCenterMember()->where(array('id' => $uid))->save($data);
+		        if($ret){
+		        	//返回成功信息前处理
+	        		clean_query_user_cache($uid, 'password');//删除缓存
+	        		D('user_token')->where('uid=' . $uid)->delete();
+	        		//返回数据
+					$result = $this->codeModel->code(200); 
+					$this->response($result,$this->type);
+		        }else{
+		        	$result = $this->codeModel->code(415); 
+		        	$result['info'] = '新密码写入失败';
+					$this->response($result,$this->type);
+		        }
 			}
 
 			if($action == 'change'){//修改密码执行过程

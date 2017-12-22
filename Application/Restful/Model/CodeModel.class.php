@@ -86,6 +86,11 @@ class CodeModel extends Model{
             case 3002:
                   $result['code'] = 3002;
                   $result['info'] = '发送失败';
+            break;
+            case 3003:
+                  $result['code'] = 3003;
+                  $result['info'] = '验证码错误';
+            break;
             //默认输出未知错误
             default:
             	$result['code'] = 10000;
