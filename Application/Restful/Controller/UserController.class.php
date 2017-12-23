@@ -575,7 +575,20 @@ class UserController extends BaseController
 		break;
 		}
 	}
-	
+	/**
+	 * 获取用户积分
+	 * @return [type] [description]
+	 */
+	public function getScores(){
+		$this->_needLogin(); //必须登录后操作
+		$uid = is_login();
+
+		$res = D('Ucenter/Score')->getAllScore($uid);
+
+		$result = $this->codeModel->code(200);
+		$result['data'] = $res;
+		$this->response($result,$this->type);
+	}
 	
 	/**
      * 获取用户注册错误信息
