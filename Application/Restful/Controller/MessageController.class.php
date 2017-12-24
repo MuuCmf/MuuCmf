@@ -12,60 +12,73 @@ class MessageController extends BaseController {
 
     protected $codeModel;
     protected $Model;
-	protected $ModelContent;
+	
     function _initialize()
     {
     	parent::_initialize();
     	$this->codeModel = D('Restful/Code');
-        $this->Model = D('Restful/Message');
-		$this->ModelContent = D('Restful/MessageContent');
+        $this->Model = D('Common/Message');
     }
-	//
-    public function index($page=1,$r=6)
-    {
-        switch ($this->_method){
-            case 'get': //get请求处理代码
-                
-                $this->_needLogin();
-                $uId = I('uid',0,'intval');
-				$isRead = I('isread',1,'intval');
-                if($uId)//给了app和row_id后执行
-                { //
-					$map['to_uid']=$uId;
-					$map['status']=1;
-					if($isRead==0 || $isRead==1){
-						$map['is_read']=$isRead;
-					}
-					$order='create_time desc';
-					$totalCount=$this->Model->where($map)->count();
-						if($totalCount){
-							$data=$this->Model->where($map)->page($page,$r)->order($order)->select();
-						}
-					foreach($data as &$val){
-						$val['toUser']=query_user(array('uid','avatar32','avatar64','nickname'),$val['to_uid']);
-						$val['fromUser']=query_user(array('uid','avatar32','avatar64','nickname'),$val['from_uid']);
-						$contentId['id'] = $val['content_id'];
-						$val['content']=$this->ModelContent->where($contentId)->find();
-					}
-					unset($val);
-					$result['info'] = '返回成功';
-					$result['totalCount'] = $totalCount;
-					$result['data'] = $data;
-					$result['code'] = 200;
-				}
-				$this->response($result,$this->type);
-            break;
-
-            case 'post'://post请求处理代码,写入评论内容
-
-            break;
-			case 'put':
-                $result['info'] = 'PUT未定义';
-            break;
+    //获取用户消息类型
+    //获取某类型所有消息
+    //获取新消息数量
+    public function messages($page = 1,$r = 20){
+    	$this->_needLogin();
+		$action = I('action','','text');
+		
+		if($action==='list'){
+			//获取某类型标识的消息类型详情
+        	$type = I('type','','text'); //消息类型
+        	$map['to_uid'] = is_login();
+        	if(!empty($type)){
+        		$map['type'] = $type;
+        	}
+            
+            $messages = D('Message')->where($map)->order('create_time desc')->page($page, $r)->select();
+            $totalCount = D('Message')->where($map)->order('create_time desc')->count(); //用于分页
+            foreach ($messages as &$v) {
+                D('Common/Message')->readMessage($v['id']);//设置这个消息为已读
+                $v['content'] = D('Common/Message')->getContent($v['content_id']);
+                if ($v['from_uid'] != 0) {
+                    $v['from_user'] = query_user(array('nickname', 'space_url', 'avatar64', 'space_link'), $v['from_uid']);
+                }
+                if($v['content']['url']) {
+                    if(preg_match('/^(http|https).*$/',$v['content']['url'])){
+                        $v['from']=$v['content']['url'];
+                    }else{
+                        if($v['content']['args']){
+                            $model = explode('/',$v['content']['url']);
+                            $v['module']=ucwords($model[0]);
+                            $map=json_decode($v['content']['args']);
+                            $from = M($v['module'])->where($map)->find();
+                            if($from){
+                                $v['from_module']=$from;
+                            }
+                        }else{
+                            $v['from']=U($v['content']['url']);
+                        }
+                    };
+                }
+            }
+            unset($v);
+        	
+        	$result = $this->codeModel->code(200);
+        	$result['data'] = $messages;
+        	$this->response($result,$this->type);
+		}
+        
+        //获取用户消息类型列表
+        if($action==='type'){
+        	$messageTypeList= D('Common/Message')->getMyMessageTypeList();
+        	$result = $this->codeModel->code(200);
+        	$result['data'] = $messageTypeList;
+        	$this->response($result,$this->type);
         }
-       // dump($data);
-       
     }
+
+
+
+   
     public function detail()
     {
         switch ($this->_method){
@@ -125,9 +138,7 @@ class MessageController extends BaseController {
 					$result['code'] = 200;
 				$this->response($result,$this->type);
             break;
-        }
-       // dump($data);
-       
+        }  
     }
     
 }
