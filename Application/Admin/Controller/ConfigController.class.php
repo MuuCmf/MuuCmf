@@ -243,7 +243,10 @@ class ConfigController extends AdminController
         $builder->buttonSubmit();
         $builder->display();
     }
-
+    /**
+     * 扩展配置
+     * @return [type] [description]
+     */
     public function expandConfig(){
         $builder = new AdminConfigBuilder();
         $data = $builder->handleConfig();
@@ -269,8 +272,8 @@ class ConfigController extends AdminController
 
         $builder->group(L('_UPLOAD_CONFIGURATION_'), array('PICTURE_UPLOAD_DRIVER', 'DOWNLOAD_UPLOAD_DRIVER'));
         unset($opt);
+        
         //短信验证
-        //
         $addons = \Think\Hook::get('sms');
         $opt = array('none' => L('_NONE_'));
         foreach ($addons as $name) {

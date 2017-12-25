@@ -824,7 +824,13 @@ class ConfigController extends BaseController
         $this->display();
 
     }
-
+    /**
+     * 发送验证信息至手机或邮箱
+     * @param  [type] $account [description]
+     * @param  [type] $verify  [description]
+     * @param  [type] $type    [description]
+     * @return [type]          [description]
+     */
     public function doSendVerify($account, $verify, $type)
     {
         switch ($type) {
