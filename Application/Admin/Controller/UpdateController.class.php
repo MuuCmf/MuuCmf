@@ -13,7 +13,12 @@ use Admin\Builder\AdminListBuilder;
 use OT\Database;
 use OT\File;
 
-
+/**
+ * 升级包制作规则
+ * 压缩方式：zip
+ * 命名规则：update.zip
+ * 数据库文件路径：./sql/update.sql
+ */
 class UpdateController extends AdminController
 {
     protected $cloud;
@@ -150,7 +155,7 @@ class UpdateController extends AdminController
         $this->showMsg('开始复制文件','title');
         $copyFile = File::copy_dir($folder_path.'/Data','./');//开始复制到更新目录
         if($copyFile){
-            File::del_dir('./sql');//删除多余的sql文件夹
+            
             $this->showMsg('文件复制成功', 'success');
         }
         //exit;//临时终止
@@ -165,6 +170,7 @@ class UpdateController extends AdminController
                 $this->updateTable($updatesql); //执行数据库更新
             }
             unlink($updatesql);
+            File::del_dir('./sql');//删除多余的sql文件夹
             $this->showMsg('更新数据库完毕', 'success');
         }
 
