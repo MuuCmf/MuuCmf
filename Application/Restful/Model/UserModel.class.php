@@ -9,7 +9,7 @@ namespace Restful\Model;
 use Think\Model;
 
 class UserModel extends Model{
-
+    protected $tableName = 'member'; 
     /**
      * 用户授权Token登录验证
      * @return [type] [description]

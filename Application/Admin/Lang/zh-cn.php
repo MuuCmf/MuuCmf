@@ -92,6 +92,7 @@ return array(
 //    user
     '_USER_GROUP_SELECT_' => '选择用户分组',
     '_PW_RESET_' => '重置密码',
+    '_PLACEHOLDER_NICKNAME_ID_' => '请输入用户昵称或UID',
     '_PW_RESET_TIP_' => '重置密码后新密码为“123456”',
     '_SELECT_WAY_' => '选择方式',
     '_PLACEHOLDER_NONE_' => '请先选择搜索用户的方式',
