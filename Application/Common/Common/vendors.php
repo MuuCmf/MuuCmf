@@ -165,7 +165,7 @@ function send_mail_local($to = '', $subject = '', $body = '', $name = '', $attac
     return $mail->Send() ? true : $mail->ErrorInfo; //返回错误信息
 }
 
-function thinkox_hash($message, $salt = "MuuCmf")
+function muucmf_hash($message, $salt = "MuuCmf")
 {
     $s01 = $message . $salt;
     $s02 = md5($s01) . $salt;

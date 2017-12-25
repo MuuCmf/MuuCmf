@@ -144,6 +144,7 @@ return array(
     //    member
     '_ERROR_REGISTER_CLOSED_' => '注册已关闭',
     '_ERROR_VERIFY_CODE_' => '验证码输入错误',
+    '_ERROR_VERIFY_OUTIME_' => '验证码已过期',
     '_ERROR_ROLE__SELECT_' => '请选择角色',
     '_ERROR_EMAIL_FORMAT_' => '邮箱格式不正确',
     '_ERROR_PHONE_FORMAT_' => '手机格式不正确',

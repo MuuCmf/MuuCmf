@@ -1,48 +1,52 @@
 <extend name="Base/common"/>
-
-
 <block name="body">
+<div id="main-container" class="container">
     <section>
+        <div class="common_block_border mi_form_box login">
+            <div class=""><strong><h1>{:L('_SEND_MAIL_PASSWORD_FOUND_')}</h1></strong></div>
+            <ul id="mi_tab" class="nav nav-tabs">
+              <li class="active"><a href="#mobile" data-target="#tabContent1" data-toggle="tab" data-value="mobile">手机找回</a></li>
+              <li><a href="#email" data-target="#tabContent2" data-toggle="tab" data-value="email">邮箱找回</a></li>
+            </ul>
+            <form class="form_box" action="{:U('Member/mi')}" method="post">
+                <input type="hidden" value="" name="type">
+                <div class="tab-content" style="margin-top: 20px;">
+                    <div class="tab-pane active" id="tabContent1">
+                        <div class="form-group">
 
-
-        <div class="common_block_border login-form-inbox ">
-            <div class="login-text"><strong><h1>{:L('_SEND_MAIL_PASSWORD_FOUND_')}</h1></strong></div>
-            <form class="login-form" id="J_findpwd_form" action="{:U('Member/mi')}" method="post">
-                <div class="control-group login-input">
-
-
-                    <div class="controls">
-                        <input type="text" id="inputEmail" class="form-control" placeholder="{:L('_PLACEHOLDER_USERNAME_INPUT_')}"
-                               ajaxurl="/member/checkUserNameUnique.html" errormsg="{:L('_MI_USERNAME_ERROR_')}" nullmsg="{:L('_MI_USERNAME_')}"
-                               datatype="*4-32" value="" name="username">
-                    </div>
-                </div>
-                <div class="control-group login-input">
-
-
-                    <div class="controls">
-                        <input type="text" id="inputEmail" class="form-control" placeholder="{:L('_MI_EMAIL_PLACEHOLDER_')}"
-                               ajaxurl="/member/checkUserEmailUnique.html" errormsg="{:L('_MI_EMAIL_ERROR_')}" nullmsg="{:L('_MI_EMAIL_')}"
-                               datatype="e" value="" name="email">
-                    </div>
-                </div>
-                    <div class="control-group login-input">
-                        <div class="controls">
-                            <input type="text" id="inputPassword" class="form-control" placeholder="{:L('_MI_CODE_')}"
-                                   errormsg="{:L('_MI_CODE_ERROR_')}" nullmsg="{:L('_MI_CODE_NULL_')}" datatype="*5-5" name="verify">
+                            <input type="text" class="form-control input-lg" placeholder="{:L('_MI_MOBILE_')}" value="" name="account">
+                            
                         </div>
                     </div>
-                    <div class="control-group login-input">
-                        <div class="controls">
-                            <img class="verifyimg reloadverify" alt="{:L('_MI_ALT_')}" src="{:U('verify')}" style="cursor:pointer;">
+                    <div class="tab-pane" id="tabContent2">
+                        <div class="form-group">
+
+                            <input type="text" class="form-control input-lg" placeholder="{:L('_MI_EMAIL_')}" value="" name="account">
+
                         </div>
-                        <div class="controls Validform_checktip text-warning"></div>
                     </div>
-                <a class="btn btn-default" href="{:U('Member/login')}">{:L('_MI_RE_LOGIN_')}</a>
-                <button type="submit" class="btn btn-primary pull-right" style="float: right">{:L('_MI_FOUND_')}</button>
+                    
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" id="inputVerify" class="form-control input-lg" placeholder="{:L('_MI_CODE_')}" name="verify">
+                          <span class="input-group-btn">
+                            <button class="btn btn-default btn-lg btn-warning" data-role='getVerify' type="button">获取验证码</button>
+                          </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group inputPassword">
+                            <input type="password" id="inputPassword" class="form-control input-lg" placeholder="{:L('_MI_NEW_PASSWORD_')}" name="password">
+                            <span class="input-group-addon"><a data-value="hide" href="javascript:void(0);" onclick="change_show(this)"><i class="icon icon-eye-close"></i></a></span>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg btn-block">{:L('_MI_FOUND_')}</button>
+                <a class="btn btn-default btn-lg btn-block" href="{:U('Member/login')}">{:L('_MI_RE_LOGIN_')}</a>
             </form>
         </div>
     </section>
+</div>
 </block>
 
 
@@ -51,15 +55,57 @@
     <script type="text/javascript">
 
         $(document)
-                .ajaxStart(function () {
-                    $("button:submit").addClass("log-in").attr("disabled", true);
-                })
-                .ajaxStop(function () {
-                    $("button:submit").removeClass("log-in").attr("disabled", false);
-                });
+        .ajaxStart(function () {
+            $("button:submit").addClass("log-in").attr("disabled", true);
+        })
+        .ajaxStop(function () {
+            $("button:submit").removeClass("log-in").attr("disabled", false);
+        });
+
+        function change_show(obj) {
+            if ($(obj).attr('data-value') == 'show') {
+                $(obj).attr('data-value','hide');
+                $(obj).html('<i class="icon icon-eye-close"></i>');
+                $(obj).parents('.inputPassword').find('input').attr('type', 'password');
+            } else {
+                $(obj).attr('data-value','show');
+                $(obj).html('<i class="icon icon-eye-open"></i>');
+                $(obj).parents('.inputPassword').find('input').attr('type', 'text');
+            }
+        }
 
 
         $(function () {
+            $("[data-role='getVerify']").click(function () {
+                var $this = $(this);
+                toast.showLoading();
+                var account = $('[name="account"]').not(':disabled').val();
+                var type = $('[name="type"]').val();
+                $.post("/ucenter/verify/sendverify.html", {account: account, type: type, action: 'find'}, function (res) {
+                    if (res.status) {
+                        DecTime.obj = $this
+                        DecTime.time = "60";
+                        $this.attr('disabled',true)
+                        DecTime.dec_time();
+
+                        toast.success(res.info);
+                    }
+                    else {
+                        toast.error(res.info);
+                    }
+                toast.hideLoading();
+                })
+            })
+
+            $('#mi_tab li a').click(function(){
+                $('.tab-pane').find('input').attr('disabled',true);
+                $('.tab-pane').eq($("#mi_tab li a").index(this)).find('input').attr('disabled',false);
+                var type = $(this).attr('data-value');
+                $('[name="type"]').val(type);
+            })
+            $('[href="#mobile"]').click();//加载完成后执行一次点击事件
+
+
             $("form").submit(function () {
                 var self = $(this);
                 $.post(self.attr("action"), self.serialize(), success, "json");
@@ -69,16 +115,21 @@
                     handleAjax(data);
                 }
             });
-
-
-            var verifyimg = $(".verifyimg").attr("src");
-            $(".reloadverify").click(function () {
-                if (verifyimg.indexOf('?') > 0) {
-                    $(".verifyimg").attr("src", verifyimg + '&random=' + Math.random());
-                } else {
-                    $(".verifyimg").attr("src", verifyimg.replace(/\?.*$/, '') + '?' + Math.random());
-                }
-            });
         });
+
+        var DecTime = {
+        obj:0,
+        time:0,
+        dec_time : function(){
+            if(this.time > 0){
+                this.obj.text(this.time--+'S')
+                setTimeout("DecTime.dec_time()",1000)
+            }else{
+                this.obj.text("{:L('_PHONE_VERIFY_')}")
+                this.obj.attr('disabled',false)
+            }
+
+        }
+    }
     </script>
 </block>

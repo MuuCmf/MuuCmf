@@ -23,7 +23,7 @@ class VerifyController extends Controller
         $aAccount = $cUsername = I('post.account', '', 'op_t');
         $aType = I('post.type', '', 'op_t');
         $aType = $aType == 'mobile' ? 'mobile' : 'email';
-        $aAction = I('post.action', 'config', 'op_t');
+        $aAction = I('post.action', 'config', 'op_t');//member或config或find:找回密码操作
         if (!check_reg_type($aType)) {
             $str = $aType == 'mobile' ? L('_PHONE_') : L('_EMAIL_');
             $this->error($str . L('_ERROR_OPTIONS_CLOSED_').L('_EXCLAMATION_'));
@@ -49,19 +49,31 @@ class VerifyController extends Controller
         if ($aType == 'mobile' && empty($cMobile)) {
             $this->error(L('_ERROR_PHONE_'));
         }
-
+        
         $checkIsExist = UCenterMember()->where(array($aType => $aAccount))->find();
-        if ($checkIsExist) {
-            $str = $aType == 'mobile' ? L('_PHONE_') : L('_EMAIL_');
-            $this->error(L('_ERROR_USED_1_') . $str . L('_ERROR_USED_2_').L('_EXCLAMATION_'));
+        //判断是否是已存在用户，由于部分操作需要向存在的用户发送验证，在这里做判断
+        if($aAction==='find'){
+            if (!$checkIsExist) {
+                $str = $aType == 'mobile' ? L('_PHONE_') : L('_EMAIL_');
+                $this->error(L('_ERROR_USED_1_') . $str . L('_ERROR_USED_3_').L('_EXCLAMATION_'));//还未注册的数据返回错误
+            }
+        }else{
+            if ($checkIsExist) {
+                $str = $aType == 'mobile' ? L('_PHONE_') : L('_EMAIL_');
+                $this->error(L('_ERROR_USED_1_') . $str . L('_ERROR_USED_2_').L('_EXCLAMATION_'));//已被占用的数据返回错误
+            }
         }
 
         $verify = D('Verify')->addVerify($aAccount, $aType);
         if (!$verify) {
             $this->error(L('_ERROR_FAIL_SEND_').L('_EXCLAMATION_'));
         }
-
-        $res =  A(ucfirst($aAction))->doSendVerify($aAccount, $verify, $aType);
+        if($aAction==='find'){
+            $res =  A('Ucenter/'.ucfirst('Member'))->doSendVerify($aAccount, $verify, $aType);
+        }else{
+            $res =  A(ucfirst($aAction))->doSendVerify($aAccount, $verify, $aType);
+        }
+        
         if ($res === true) {
             if($aType == 'mobile'){
                 session('verify_time',$time);

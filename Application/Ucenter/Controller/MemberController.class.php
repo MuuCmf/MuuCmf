@@ -266,33 +266,54 @@ class MemberController extends Controller
     }
 
     /* 用户密码找回首页 */
-    public function mi($username = '', $email = '', $verify = '')
+    public function mi()
     {
-        $username = strval($username);
-        $email = strval($email);
-
-        if (IS_POST) { //登录验证
-            //检测验证码
-
-            if (!check_verify($verify)) {
-                $this->error(L('_ERROR_VERIFY_CODE_'));
+        if (IS_POST) {
+            $account = $username= I('post.account','','text');
+            $type = I('post.type','','text');
+            $password = I('post.password','','text');
+            $verify = I('post.verify',0,'intval');//验证码
+            //传入数据判断
+            if(empty($account) || empty($type) || empty($password) || empty($verify)){
+                $this->error(L('_EMPTY_CANNOT_'));
             }
-
-            //根据用户名获取用户UID
-            $user = UCenterMember()->where(array('username' => $username, 'email' => $email, 'status' => 1))->find();
-            $uid = $user['id'];
-            if (!$uid) {
-                $this->error(L('_ERROR_USERNAME_EMAIL_'));
-            }
-
-            //生成找回密码的验证码
-            $verify = $this->getResetPasswordVerifyCode($uid);
-
-            //发送验证邮箱
-            $url = 'http://' . $_SERVER['HTTP_HOST'] . U('Ucenter/member/reset?uid=' . $uid . '&verify=' . $verify);
-            $content = C('USER_RESPASS') . "<br/>" . $url . "<br/>" . modC('WEB_SITE_NAME', L('_MUUCMF_'), 'Config') . L('_SEND_MAIL_AUTO_')."<br/>" . date('Y-m-d H:i:s', TIME()) . "</p>";
-            send_mail($email, modC('WEB_SITE_NAME', L('_MUUCMF_'), 'Config') . L('_SEND_MAIL_PASSWORD_FOUND_'), $content);
-            $this->success(L('_SUCCESS_SEND_MAIL_'), U('Member/login'));
+            check_username($username, $email, $mobile, $aUnType);
+            //检查验证码是否正确
+                $ret = D('Verify')->checkVerify($account,$type,$verify,0);
+                if(!$ret){//验证码错误
+                    $this->error(L('_ERROR_VERIFY_CODE_'));
+                }
+                $resend_time =  modC('SMS_RESEND','60','USERCONFIG');
+                if(time() > session('verify_time')+$resend_time ){//验证超时
+                    $this->error(L('_ERROR_VERIFY_OUTIME_'));
+                }
+                //获取用户UID
+                switch ($type) {
+                    case 'mobile':
+                    $uid = UCenterMember()->where(array('mobile' => $account))->getField('id');
+                    break;
+                    case 'email':
+                    $uid = UCenterMember()->where(array('email' => $account))->getField('id');
+                    break;
+                }
+                if (!$uid) {
+                    $this->error(L('_ERROR_USED_1_') . L('_USER_') . L('_ERROR_USED_3_'));
+                }
+                //设置新密码
+                $password = think_ucenter_md5($password, UC_AUTH_KEY);
+                $data['id'] = $uid;
+                $data['password'] = $password;
+                //dump($data);exit;
+                $ret = UCenterMember()->save($data);
+                if($ret){
+                    //返回成功信息前处理
+                    clean_query_user_cache($uid, 'password');//删除缓存
+                    D('user_token')->where('uid=' . $uid)->delete();
+                    //返回数据
+                    $this->success(L('_SUCCESS_SETTINGS_'), U('Member/login'));
+                }else{
+                    $this->error();
+                }
         } else {
             if (is_login()) {
                 redirect(U('Home/Index/index'));
@@ -365,7 +386,7 @@ class MemberController extends Controller
     {
         $user = UCenterMember()->where(array('id' => $uid))->find();
         $clear = implode('|', array($user['uid'], $user['username'], $user['last_login_time'], $user['password']));
-        $verify = thinkox_hash($clear, UC_AUTH_KEY);
+        $verify = muucmf_hash($clear, UC_AUTH_KEY);
         return $verify;
     }
 

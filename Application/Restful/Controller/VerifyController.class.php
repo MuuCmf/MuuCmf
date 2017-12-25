@@ -105,14 +105,16 @@ class VerifyController extends BaseController
         $res =  A('Ucenter/'.ucfirst('Member'))->doSendVerify($aAccount, $verify, $aType);
         
         if ($res === true) {
-            $result = $this->codeModel->code(3002);
-            $result['info'] = L('_ERROR_SUCCESS_SEND_');
-            $this->response($result,$this->type);
-        } else {
             if($aType == 'mobile'){
                 session('verify_time',time());
             }
             $result = $this->codeModel->code(200);
+            $result['info'] = L('_ERROR_SUCCESS_SEND_');
+            $this->response($result,$this->type);
+
+        } else {
+
+            $result = $this->codeModel->code(3002);
             $result['info'] = $res;
             $this->response($result,$this->type);
         }
