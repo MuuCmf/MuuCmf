@@ -16,7 +16,7 @@ use OT\File;
 /**
  * 升级包制作规则
  * 压缩方式：zip
- * 命名规则：update.zip
+ * 升级文件命名规则：将升级文件压缩至update.zip
  * 数据库文件路径：./sql/update.sql
  */
 class UpdateController extends AdminController
