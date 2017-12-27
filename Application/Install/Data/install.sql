@@ -514,7 +514,7 @@ INSERT INTO `muucmf_auth_rule` (`id`, `module`, `type`, `name`, `title`, `status
 (321, 'admin', 1, 'Admin/Issue/config', '专辑设置', -1, ''),
 (322, 'admin', 2, 'Admin/module/lists', '云平台', -1, ''),
 
-(346, 'admin', 1, 'Admin/UserConfig/index', '用户注册配置', 1, ''),
+(346, 'admin', 1, 'Admin/UserConfig/index', '用户配置', 1, ''),
 (347, 'admin', 1, 'Admin/User/scoreList', '积分类型列表', 1, ''),
 (348, 'admin', 1, 'Admin/user/editScoreType', '新增/编辑类型', 1, ''),
 (349, 'admin', 1, 'Admin/user/recharge', '充值积分', 1, ''),
