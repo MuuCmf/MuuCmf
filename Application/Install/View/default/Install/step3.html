@@ -25,5 +25,13 @@
 </block>
 
 <block name="footer">
-    <button class="btn btn-warning btn-large btn-block disabled">正在安装，请稍候...</button>
+    <button id="obtn" class="btn btn-warning btn-large btn-block disabled">正在安装，请稍候...</button>
+    <script type="text/javascript">
+        var obtn   = document.getElementById('obtn');
+
+        function error_btn(msg,classname){
+            obtn.innerHTML = msg;
+            obtn.setAttribute("class", classname); 
+        }
+    </script>
 </block>

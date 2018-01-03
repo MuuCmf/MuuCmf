@@ -228,6 +228,7 @@ function create_tables($db, $prefix = '')
             } else {
                 show_msg($msg . '...失败！', 'error');
                 session('error', true);
+                session('error_info','部分数据表写入失败，请检测后重新安装');
             }
         } else {
             $db->execute($value);
@@ -308,8 +309,17 @@ function show_msg($msg, $class = '')
     echo "<script type=\"text/javascript\">showmsg(\"{$msg}\", \"{$class}\")</script>";
     ob_flush();
     flush();
+}
 
-
+/**
+ * 按钮上及时显示提示信息
+ * @param  string $msg 提示信息
+ */
+function error_btn($msg, $class = '')
+{
+    echo "<script type=\"text/javascript\">error_btn(\"{$msg}\", \"{$class}\")</script>";
+    ob_flush();
+    flush();
 }
 
 

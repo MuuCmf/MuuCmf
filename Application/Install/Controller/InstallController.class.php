@@ -112,9 +112,9 @@ class InstallController extends Controller{
 
     //安装第三步，安装数据表，创建配置文件
     public function step3(){
-       /* if(session('step') != 2){
+        if(session('step') != 2){
             $this->redirect('step2');
-        }*/
+        }
 
         $this->display();
 
@@ -134,15 +134,14 @@ class InstallController extends Controller{
             $conf   =   write_config($dbconfig, $auth);
             session('config_file',$conf);
 
-
         if(session('error')){
-            show_msg();
+            error_btn('很遗憾，安装失败，请检测后重新安装！','btn btn-warning btn-large btn-block');
         } else {
             session('step', 3);
 
             echo "<script type=\"text/javascript\">setTimeout(function(){location.href='".U('Index/complete')."'},5000)</script>";
-            ob_flush();
-            flush();
+            //ob_flush();
+            //flush();
         }
     }
 
