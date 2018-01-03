@@ -26,7 +26,7 @@ ZUI继承了Bootstrap 3 中的大部分基础内容，但出于与Bootstrap不�
 Bootstrap 是最受欢迎的 HTML、CSS 和 JS 框架，用于开发响应式布局、移动设备优先的 WEB 项目。
 
 
-## 开发手册 http://muu.hoomuu.cn/muucmf/index/document
+## 开发手册 http://www.muucmf.cn/muucmf/index/document
 
 # 了解MuuCmf
 
@@ -46,7 +46,7 @@ Bootstrap 是最受欢迎的 HTML、CSS 和 JS 框架，用于开发响应式布
 
 代码遵循Apache2开源协议，免费使用，对商业用户也无任何限制
 
-官网:http://muu.hoomuu.cn
+官网:http://www.muucmf.cn
 
 
 
