@@ -1,5 +1,5 @@
 # MuuCmf内容管理框架
-MuuCmf内容管理框架是一个将CMS和Framework两个概念完美结合的内容管理系统，提供了注册登录、头像裁剪、Auth授权、权限管理、扩展资料管理、等级头衔、自定义积分管理、用户行为日志机制、模块装卸、插件机制，提供建议的安装程序。适合用于开发全新的PHP系统。开发人员只需要专注于业务系统的开发，或通过MuuCmf应用商店下载你需要的模块实现更快部署...
+开源MuuCmf PHP管理框架是一个将CMS和Framework两个概念完美结合的内容管理系统，提供了注册登录、头像裁剪、Auth授权、权限管理、扩展资料管理、等级头衔、自定义积分管理、用户行为日志机制、模块装卸、插件机制，提供建议的安装程序。适合用于开发全新的PHP系统。开发人员只需要专注于业务系统的开发，或通过MuuCmf应用商店下载你需要的模块实现更快部署...
 
 后端页面Builder自动生成机制 后台进入极速开发时代
 独创的Builder页面自动生成技术极大的解放了后端开发者的工作，只需要专注于业务逻辑，页面交给Builder帮您完成。
@@ -26,7 +26,7 @@ ZUI继承了Bootstrap 3 中的大部分基础内容，但出于与Bootstrap不�
 Bootstrap 是最受欢迎的 HTML、CSS 和 JS 框架，用于开发响应式布局、移动设备优先的 WEB 项目。
 
 
-## 开发手册 https://github.com/sky3936/MuuCmf_doc
+## 开发手册 http://muu.hoomuu.cn/muucmf/index/document
 
 # 了解MuuCmf
 
@@ -46,7 +46,7 @@ Bootstrap 是最受欢迎的 HTML、CSS 和 JS 框架，用于开发响应式布
 
 代码遵循Apache2开源协议，免费使用，对商业用户也无任何限制
 
-官网:http://www.hoomuu.cn
+官网:http://muu.hoomuu.cn
 
 
 
