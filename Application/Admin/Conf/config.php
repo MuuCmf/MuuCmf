@@ -57,7 +57,7 @@ return array(
         '__CSS__' => __ROOT__ . '/Application/' . MODULE_NAME . '/Static/css',
         '__JS__' => __ROOT__ . '/Application/' . MODULE_NAME . '/Static/js',
         '__ZUI__' => __ROOT__ . '/Application/' . MODULE_NAME . '/Static/zui',
-        '__CLOUD__' => 'https://www.hoomuu.cn',
+        '__CLOUD__' => 'http://muu.hoomuu.cn',
     ),
     '__CLOUD__'=>'http://muu.hoomuu.cn',
     'UPDATE_PATH'=>'./Data/Update/',
