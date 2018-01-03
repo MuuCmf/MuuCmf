@@ -59,7 +59,7 @@ return array(
         '__ZUI__' => __ROOT__ . '/Application/' . MODULE_NAME . '/Static/zui',
         '__CLOUD__' => 'https://www.hoomuu.cn',
     ),
-    '__CLOUD__'=>'http://www.hoomuu.cn',
+    '__CLOUD__'=>'http://muu.hoomuu.cn',
     'UPDATE_PATH'=>'./Data/Update/',
     'CLOUD_PATH'=>'./Data/Cloud/',
     /* SESSION 和 COOKIE 配置 */

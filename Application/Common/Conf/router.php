@@ -8,17 +8,6 @@ return array(
 
         /*系统首页*/
         'home/index/index'          =>  'home',
-
-        /*论坛*/
-        'forum/index/index'                     => 'forum',
-        'forum/index/forum'                     => 'forum/[id]/p_[page]',
-        'forum/index/edit'                      => 'forum/edit_[forum_id]/p_[post_id]',
-        'forum/index/detail'                    => 'forum/detail_[id]',
-        'forum/index/search'                    => 'forum/search',
-        'forum/index/look'                      => 'forum/look',
-        'forum/index/lists'                     => 'forum/lists',
-
-
         /*用户中心*/
         'ucenter/index/index'                => 'ucenter/[uid]',
         'ucenter/index/following'            => 'ucenter/following_[uid]',
@@ -41,7 +30,6 @@ return array(
         'ucenter/collection/index'           => 'ucenter/collection_[type]',
         'ucenter/invite/invite'              => 'ucenter/invite',
         'ucenter/invite/index'               => 'ucenter/invite_create',
-
         /*会员*/
         'people/index/index'                    => 'people',
 
@@ -49,7 +37,6 @@ return array(
         'ucenter/member/login'                  => 'login',
         'ucenter/member/step'                   => 'register/step_[step]',
         'ucenter/member/register'               => 'register/[type]/c_[code]',
-
         /*文章*/
         'about/index/index'                     => 'about_[id]',
     ),
