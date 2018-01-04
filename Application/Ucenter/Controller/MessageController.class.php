@@ -199,7 +199,10 @@ class MessageController extends BaseController
         $messageModel = D($appname . '/' . $appname . 'Message');
         return $messageModel;
     }
-
+    /**
+     * 获取用户消息类型列表
+     * @return [type] [description]
+     */
     public function messageTypeList()
     {
         $messageModel=D('Common/Message');
