@@ -195,7 +195,7 @@
 		</div>
 	</section>
 	<!--火木动态-->
-	{:W('About/ArticlesBlock/render',array('category_id'=>2))}
+	{:W('About/AboutBlock/render',array('category_id'=>2))}
 	<!--火木动态 END-->
 	<section id="section8">
 		<div class="tryupdate-cta" style="background-image: url(__IMG__/static_home/updata_day.jpg);">
@@ -206,6 +206,19 @@
 				</div>
 			</div>
 		</div>
+	</section>
+	<section id="section9">
+	<div class="container">
+		<div class="descBox">
+			<div class="Info text-center">
+				<h2>友情链接</h2>
+				<hr class="light">
+				<div class="list-box clearfix">
+					{:hook('superLinks')}  
+				</div>  
+			</div>
+		</div>
+	</div>
 	</section>
 <script src="__JS__/animations.js"></script>
 <script src="__JS__/home.js"></script>

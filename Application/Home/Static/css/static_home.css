@@ -496,6 +496,28 @@
     #section8 .tryupdate-cta .btn {
         color: #fff;
     }
+    /*superlinks start*/
+    #section9 .descBox hr {
+        width:60px;
+        border-top:5px solid #f1c40f;
+    }
+    #section9 .list-box {
+
+    }
+    #section9 .list-box li {
+        position: relative;
+        display:block;
+        float: left;
+        width: 20%;
+        height: auto;
+    }
+    #section9 .list-box li a {
+        display:block;
+        background:#fff;
+        margin: 15px;
+        padding: 15px;
+    }
+    /*superlinks end*/
     /*we try updata everday END*/
     .btn.with-arrow {
         position: relative;

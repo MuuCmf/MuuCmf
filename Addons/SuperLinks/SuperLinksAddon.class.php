@@ -5,7 +5,7 @@ use Common\Controller\Addon;
 use Think\Db;
 
 /**
- * 合作单位插件
+ * 友情链接插件
  * @author 苏南
  */
 class SuperLinksAddon extends Addon
@@ -88,7 +88,7 @@ class SuperLinksAddon extends Addon
     }
 
     //实现的pageFooter钩子方法
-    public function friendLink($param)
+    public function superLinks($param)
     {
 
         $list = D('Addons://SuperLinks/SuperLinks')->linkList();
