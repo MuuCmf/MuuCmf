@@ -4458,7 +4458,7 @@ INSERT INTO `muucmf_hooks` (`id`, `name`, `description`, `type`, `update_time`, 
 (51, 'syncMeta', '第三方登陆meta接口', 1, 1403700633, 'SyncLogin'),
 (52, 'J_China_City', '每个系统都需要的一个中国省市区三级联动插件。', 1, 1403841931, 'ChinaCity'),
 (54, 'imageSlider', '图片轮播钩子', 1, 1407144022, ''),
-(55, 'friendLink', '友情链接插件', 1, 1407156413, 'SuperLinks'),
+(55, 'superLinks', '友情链接插件', 1, 1407156413, 'SuperLinks'),
 
 (59, 'userConfig', '用户配置页面钩子', 1, 1417137557, 'SyncLogin'),
 
@@ -4629,7 +4629,7 @@ INSERT INTO `muucmf_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `
 ('1', '首页', '0', 1, 'Index/index', 0, '后端首页', '', 0, 'home', ''),
 ('2', '用户', '0', 2, 'User/index', 0, '', '', 0, 'user', ''),
 ('3', '用户信息', '2', 2, 'User/index', 0, '', '用户管理', 0, '', ''),
-('4', '积分规则', '113', 3, 'User/action', 0, '', '行为管理', 0, '', ''),
+('4', '行为&积分规则', '113', 3, 'User/action', 0, '', '行为管理', 0, '', ''),
 ('5', '新增用户行为', '4', 0, 'User/addaction', 0, '', '', 0, '', ''),
 ('6', '编辑用户行为', '4', 0, 'User/editaction', 0, '', '', 0, '', ''),
 ('7', '保存用户行为', '4', 0, 'User/saveAction', 0, '"用户->用户行为"保存编辑和新增的用户行为', '', 0, '', ''),
@@ -4676,7 +4676,7 @@ INSERT INTO `muucmf_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `
 ('48', '被驳回的头衔申请', '197', 3, 'Rank/rankVerifyFailure', 0, '', '头衔管理', 0, '', ''),
 ('49', '转移用户组', '2', 7, 'User/changeGroup', 1, '批量转移用户组', '', 0, '', ''),
 ('50', '用户注册配置', '2', 1, 'UserConfig/index', 0, '', '注册配置', 0, '', ''),
-('51', '积分类型列表', '113', 1, 'User/scoreList', 0, '', '行为管理', 0, '', ''),
+('51', '积分类型列表', '113', 1, 'User/scoreList', 0, '', '积分管理', 0, '', ''),
 ('52', '新增/编辑类型', '113', 2, 'User/editScoreType', 1, '', '行为管理', 0, '', ''),
 ('53', '充值积分', '113', 5, 'User/recharge', 1, '', '', 0, '用户管理', ''),
 ('54', '头衔列表', '197', 6, 'Rank/index', 0, '', '头衔管理', 0, '', ''),
@@ -4811,7 +4811,7 @@ INSERT INTO `muucmf_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `
 ('229', '设置广告位状态', '225', 0, 'Adv/setPosStatus', 1, '', '', 0, '', ''),
 ('230', '广告排期', '226', 0, 'Adv/schedule', 1, '', '', 0, '', ''),
 ('231', '用户导航', '74', 0, 'Channel/user', 0, '', '导航管理', 0, '', 'Core'),
-
+('232', '积分日志', '113', 0, 'Action/scoreLog', 0, '', '积分管理', 0, '', ''),
 
 ('10311', '公告列表', '197', 0, 'announce/announcelist', 0, '', '公告管理', 0, '', ''),
 ('10312', '发布公告', '197', 0, 'announce/add', 0, '', '公告管理', 0, '', ''),
@@ -4927,7 +4927,9 @@ INSERT INTO `muucmf_module` (`id`, `name`, `alias`, `version`, `is_com`, `show_n
 (1, 'Home', '主页', '1.0.0', 0, 1, '通用首页模块，系统共用控制器放置于该模块下', '北京火木科技有限公司', 'http://www.hoomuu.cn', 'Home/index/index', 1, 0, 'home', 0, 'Admin/Home/config'),
 (34, 'Ucenter', '用户中心', '1.0.0', 0, 0, '用户中心模块，系统核心模块', '北京火木科技有限公司', 'http://www.hoomuu.cn', 'Ucenter/index/index', 1, 0, 'user', 0, ''),
 (26, 'Articles', '文章', '1.0.0', 0, 1, '增强版文章模块，用户可前台投稿', '北京火木科技有限公司', 'http://www.hoomuu.cn', 'Articles/index/index', 1, 0, 'th-list', 1, 'Admin/Articles/index'),
-(42, 'About', '关于我们', '1.0.0', 0, 1, '关于我们模块，可以用于展示公司介绍等', '北京火木科技有限公司', 'http://www.hoomuu.cn', 'About/Index/index', 1, 0, 'file-text', 1, 'Admin/About/index');
+(42, 'About', '关于我们', '1.0.0', 0, 1, '关于我们模块，可以用于展示公司介绍等', '北京火木科技有限公司', 'http://www.hoomuu.cn', 'About/Index/index', 1, 0, 'file-text', 1, 'Admin/About/index'),
+(43, 'Devtool', '开发者工具', '1.0.0', 0, 1, '开发者工具，主要提供给开发者使用，包含了模块打包工具', '北京火木科技有限公司', 'http://www.hoomuu.cn', '', 1, 0, 'wrench', 1, 'Admin/Devtool/module'),
+(44, 'Restful', 'RestfulApi接口', '0.1.0', 1, 0, '为移动应用、微信应用等提供RESTFUL接口服务', '北京火木科技有限公司', 'http://www.hoomuu.cn', 'Restful/Index/Index', 1, 0, 'random', 1, 'Admin/Restful/config');
 
 DROP TABLE IF EXISTS `muucmf_picture`;
 CREATE TABLE IF NOT EXISTS `muucmf_picture` (
