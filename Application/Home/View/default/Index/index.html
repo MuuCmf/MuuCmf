@@ -13,11 +13,6 @@
                         {:W('Common/Adv/render',array(array('name'=>'slider','type'=>2,'width'=>'100%','height'=>'auto','margin'=>'0 0 15px 0','title'=>'首页轮播图','data'=>array('style'=>1))))}
             </div>
             <php>}</php>
-            <php>if($v=='homeMainAd'){</php>
-            <div class="homeMainAd">
-                        {:W('Common/Adv/render',array(array('name'=>'homeMainAd','type'=>4,'width'=>'100%','height'=>'300px','margin'=>'0 0 15px 0','title'=>'轮播下标语','data'=>array('style'=>1))))}
-            </div>
-            <php>}</php>
             {:W($v.'/HomeBlock/render')}
         </volist>
     </div>
