@@ -30,7 +30,7 @@ class ThemeModel extends Model
 
         if ($res) {
             S('conf_THEME_NOW_THEME', $name);
-            cookie('TO_LOOK_THEME', $name, array('prefix' => 'OSV2'));
+            cookie('TO_LOOK_THEME', $name, array('prefix' => 'MUUCMF'));
             clean_cache(RUNTIME_PATH . 'Cache/');//清除模板缓存
             return true;
 
@@ -74,7 +74,7 @@ class ThemeModel extends Model
      */
     public function lookTheme($theme,$time=180)
     {
-        cookie('TO_LOOK_THEME', $theme, array('prefix' => 'OSV2', 'expire' => $time));//重设cookie
+        cookie('TO_LOOK_THEME', $theme, array('prefix' => 'MUUCMF', 'expire' => $time));//重设cookie
         return true;
     }
 

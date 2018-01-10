@@ -259,7 +259,7 @@ function T($template = '', $layer = '')
             $file_theme=substr($file_theme,strpos($file_theme,'/')+1);
         }
 
-        $TO_LOOK_THEME = cookie('TO_LOOK_THEME', '', array('prefix' => 'OSV2'));
+        $TO_LOOK_THEME = cookie('TO_LOOK_THEME', '', array('prefix' => 'MUUCMF'));
         if ($TO_LOOK_THEME) {
             if ($TO_LOOK_THEME != 'default') {
                 $file_path = MUUCMF_THEME_PATH . $TO_LOOK_THEME . '/' . $module . $layer . '/' . $file_theme . C('TMPL_TEMPLATE_SUFFIX');
@@ -302,7 +302,7 @@ function T($template = '', $layer = '')
      * 如果模版存在，则返回主题公共目录下的模版 start
      * @author 郑钟良<zzl@ourstu.com>
      */
-    $TO_LOOK_THEME = cookie('TO_LOOK_THEME', '', array('prefix' => 'OSV2'));
+    $TO_LOOK_THEME = cookie('TO_LOOK_THEME', '', array('prefix' => 'MUUCMF'));
     if ($TO_LOOK_THEME) {
         if ($TO_LOOK_THEME != 'default') {
             $common_file_path = MUUCMF_THEME_PATH . $TO_LOOK_THEME . '/Common/'.$layer.'/'. $file . C('TMPL_TEMPLATE_SUFFIX');

@@ -168,7 +168,7 @@ class View
          * 增加模板地址解析机制 start
          * @author 郑钟良<zzl@ourstu.com>
          */
-        $TO_LOOK_THEME = cookie('TO_LOOK_THEME', '', array('prefix' => 'OSV2'));
+        $TO_LOOK_THEME = cookie('TO_LOOK_THEME', '', array('prefix' => 'MUUCMF'));
         if ($TO_LOOK_THEME) {
             if ($TO_LOOK_THEME != 'default') {
                 if (!defined('NOW_THEME_PATH')) {
@@ -214,7 +214,7 @@ class View
          * @author 郑钟良<zzl@ourstu.com>
          */
         if(!is_file($file)){
-            $TO_LOOK_THEME = cookie('TO_LOOK_THEME', '', array('prefix' => 'OSV2'));
+            $TO_LOOK_THEME = cookie('TO_LOOK_THEME', '', array('prefix' => 'MUUCMF'));
             if ($TO_LOOK_THEME) {
                 if ($TO_LOOK_THEME != 'default') {
                     $common_file_path = MUUCMF_THEME_PATH . $TO_LOOK_THEME . '/Common/'.C('DEFAULT_V_LAYER').'/'. $file . C('TMPL_TEMPLATE_SUFFIX');
