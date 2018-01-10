@@ -396,7 +396,7 @@ class CloudController extends AdminController
         $theme['name'] = $version['goods']['etitle'];
         $theme['alias'] = $version['goods']['title'];
         $this->write('&nbsp;&nbsp;&nbsp;>' . L('_INSTALLING_PARAM_', array('object' => '主题')) . '【' . $theme['alias'] . '】【' . $theme['name'] . '】');
-        if (file_exists(OS_THEME_PATH . $version['goods']['etitle'])) {
+        if (file_exists(MUUCMF_THEME_PATH . $version['goods']['etitle'])) {
             //todo 进行版本检测
             $this->write('&nbsp;&nbsp;&nbsp;>' . L('_OBJECT_SAME_EXIST_PARAM_', array('object' => '主题')), 'danger');
             $this->goBack();
@@ -409,14 +409,14 @@ class CloudController extends AdminController
         $this->downloadFile(appstoreU('Appstore/Index/download', array('token' => $token)), $localPath . $version['goods']['etitle'] . '.zip');
         chmod($localFile, 0777);
         //开始安装
-        $this->unzipFile($localFile, OS_THEME_PATH);
+        $this->unzipFile($localFile, MUUCMF_THEME_PATH);
         $this->write('&nbsp;&nbsp;&nbsp;>' . L('_SUCCESS_UNZIP_'), 'success');
         //todo 进行文件合法性检测，防止错误安装。
         $this->write('&nbsp;&nbsp;&nbsp;>' . L('_SUCCESS_INSTALL_THEME_') . L('_PERIOD_'), 'success');
         $themeModel = D('Common/Theme');
         $res = $themeModel->setTheme($theme['name']);
         if ($res === true) {
-            $tokenFile = OS_THEME_PATH . $theme['name'] . '/token.ini';
+            $tokenFile = MUUCMF_THEME_PATH . $theme['name'] . '/token.ini';
             if (file_put_contents($tokenFile, $token)) {
                 $this->write('&nbsp;&nbsp;&nbsp;>' . L('_SUCCESS_THEME_HAPPY_ENDING_PARAM_', array('object' => '主题')) . L('_PERIOD_'), 'success');
                 $jump = U('Theme/tpls', array('cleanCookie' => 1));
@@ -852,7 +852,7 @@ private function disableCheckUpdate()
             case 2:
                 return APP_PATH;
             case 3:
-                return OS_THEME_PATH;
+                return MUUCMF_THEME_PATH;
         }
     }
 } 

@@ -172,7 +172,7 @@ class View
         if ($TO_LOOK_THEME) {
             if ($TO_LOOK_THEME != 'default') {
                 if (!defined('NOW_THEME_PATH')) {
-                    $tmplPath = OS_THEME_PATH . $TO_LOOK_THEME . '/' . $module . '/' . C('DEFAULT_V_LAYER') . '/';
+                    $tmplPath = MUUCMF_THEME_PATH . $TO_LOOK_THEME . '/' . $module . '/' . C('DEFAULT_V_LAYER') . '/';
                     define('NOW_THEME_PATH', $tmplPath);
                 }
                 $file = NOW_THEME_PATH . $template . C('TMPL_TEMPLATE_SUFFIX');
@@ -181,7 +181,7 @@ class View
             $now_theme = modC('NOW_THEME', 'default', 'Theme');
             if ($now_theme != 'default') {
                 if (!defined('NOW_THEME_PATH')) {
-                    $tmplPath = OS_THEME_PATH . $now_theme . '/' . $module . '/' . C('DEFAULT_V_LAYER') . '/';
+                    $tmplPath = MUUCMF_THEME_PATH . $now_theme . '/' . $module . '/' . C('DEFAULT_V_LAYER') . '/';
                     define('NOW_THEME_PATH', $tmplPath);
                 }
                 $file = NOW_THEME_PATH . $template . C('TMPL_TEMPLATE_SUFFIX');
@@ -217,12 +217,12 @@ class View
             $TO_LOOK_THEME = cookie('TO_LOOK_THEME', '', array('prefix' => 'OSV2'));
             if ($TO_LOOK_THEME) {
                 if ($TO_LOOK_THEME != 'default') {
-                    $common_file_path = OS_THEME_PATH . $TO_LOOK_THEME . '/Common/'.C('DEFAULT_V_LAYER').'/'. $file . C('TMPL_TEMPLATE_SUFFIX');
+                    $common_file_path = MUUCMF_THEME_PATH . $TO_LOOK_THEME . '/Common/'.C('DEFAULT_V_LAYER').'/'. $file . C('TMPL_TEMPLATE_SUFFIX');
                 }
             } else {
                 $now_theme = modC('NOW_THEME', 'default', 'Theme');
                 if ($now_theme != 'default') {
-                    $common_file_path = OS_THEME_PATH . $now_theme . '/Common/' .C('DEFAULT_V_LAYER').'/'.$file . C('TMPL_TEMPLATE_SUFFIX');
+                    $common_file_path = MUUCMF_THEME_PATH . $now_theme . '/Common/' .C('DEFAULT_V_LAYER').'/'.$file . C('TMPL_TEMPLATE_SUFFIX');
                 }
             }
             if (isset($common_file_path) && is_file($common_file_path)) {

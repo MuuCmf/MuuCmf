@@ -262,12 +262,12 @@ function T($template = '', $layer = '')
         $TO_LOOK_THEME = cookie('TO_LOOK_THEME', '', array('prefix' => 'OSV2'));
         if ($TO_LOOK_THEME) {
             if ($TO_LOOK_THEME != 'default') {
-                $file_path = OS_THEME_PATH . $TO_LOOK_THEME . '/' . $module . $layer . '/' . $file_theme . C('TMPL_TEMPLATE_SUFFIX');
+                $file_path = MUUCMF_THEME_PATH . $TO_LOOK_THEME . '/' . $module . $layer . '/' . $file_theme . C('TMPL_TEMPLATE_SUFFIX');
             }
         } else {
             $now_theme = modC('NOW_THEME', 'default', 'Theme');
             if ($now_theme != 'default') {
-                $file_path = OS_THEME_PATH . $now_theme . '/' . $module . $layer . '/' . $file_theme . C('TMPL_TEMPLATE_SUFFIX');
+                $file_path = MUUCMF_THEME_PATH . $now_theme . '/' . $module . $layer . '/' . $file_theme . C('TMPL_TEMPLATE_SUFFIX');
             }
         }
         if (isset($file_path) && is_file($file_path)) {
@@ -305,12 +305,12 @@ function T($template = '', $layer = '')
     $TO_LOOK_THEME = cookie('TO_LOOK_THEME', '', array('prefix' => 'OSV2'));
     if ($TO_LOOK_THEME) {
         if ($TO_LOOK_THEME != 'default') {
-            $common_file_path = OS_THEME_PATH . $TO_LOOK_THEME . '/Common/'.$layer.'/'. $file . C('TMPL_TEMPLATE_SUFFIX');
+            $common_file_path = MUUCMF_THEME_PATH . $TO_LOOK_THEME . '/Common/'.$layer.'/'. $file . C('TMPL_TEMPLATE_SUFFIX');
         }
     } else {
         $now_theme = modC('NOW_THEME', 'default', 'Theme');
         if ($now_theme != 'default') {
-            $common_file_path = OS_THEME_PATH . $now_theme . '/Common/' .$layer.'/'.$file . C('TMPL_TEMPLATE_SUFFIX');
+            $common_file_path = MUUCMF_THEME_PATH . $now_theme . '/Common/' .$layer.'/'.$file . C('TMPL_TEMPLATE_SUFFIX');
         }
     }
     if (isset($common_file_path) && is_file($common_file_path)) {

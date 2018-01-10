@@ -154,11 +154,11 @@ class Dispatcher {
             /**加载主题公共配置文件
              * 2015-5-14 13:43
              * 增加主题配置文件加载 start
-             * @author 郑钟良<zzl@ourstu.com>
+             * @author 郑钟良<zzl@ourstu.com> 2018-1-10 大蒙<59262424@qq.com>
              */
-            if(is_file(OS_THEME_PATH.'config.php')){
+            if(is_file(MUUCMF_THEME_PATH.'config.php')){
                 $TMPL_PARSE_STRING=C('TMPL_PARSE_STRING');
-                C(load_config(OS_THEME_PATH.'config.php'));
+                C(load_config(MUUCMF_THEME_PATH.'config.php'));
                 $NEW_TMPL_PARSE_STRING=C('TMPL_PARSE_STRING');
                 $NEW_TMPL_PARSE_STRING=array_merge($NEW_TMPL_PARSE_STRING,$TMPL_PARSE_STRING);
                 C('TMPL_PARSE_STRING',$NEW_TMPL_PARSE_STRING);

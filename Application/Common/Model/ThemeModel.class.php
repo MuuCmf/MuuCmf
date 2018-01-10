@@ -7,7 +7,7 @@ class ThemeModel extends Model
 {
     protected $name = '';
     protected $tokenFile = '/token.ini';
-    protected $dir = OS_THEME_PATH;
+    protected $dir = MUUCMF_THEME_PATH;
 
     public function setTheme($name)
     {
@@ -49,11 +49,11 @@ class ThemeModel extends Model
                 while (($file = readdir($dh)) !== false) {
                     //去掉"“.”、“..”以及带“.xxx”后缀的文件
                     if ($file != "." && $file != ".." && !strpos($file, ".")) {
-                        if (is_file(OS_THEME_PATH . $file . '/info.php')) {
-                            $tpl = require_once(OS_THEME_PATH . $file . '/info.php');
-                            $tpl['path'] = OS_THEME_PATH . $file;
+                        if (is_file(MUUCMF_THEME_PATH . $file . '/info.php')) {
+                            $tpl = require_once(MUUCMF_THEME_PATH . $file . '/info.php');
+                            $tpl['path'] = MUUCMF_THEME_PATH . $file;
                             $tpl['file_name'] = $file;
-                            $tpl['token'] = file_get_contents(OS_THEME_PATH . $file . '/token.ini');
+                            $tpl['token'] = file_get_contents(MUUCMF_THEME_PATH . $file . '/token.ini');
                             $tpls[$tpl['file_name']] = $tpl;
 
                         }
@@ -81,21 +81,19 @@ class ThemeModel extends Model
     /**获取主题
      * @return mixed
      */
-    public
-    function getTheme($name)
+    public function getTheme($name)
     {
 
-        if (is_file(OS_THEME_PATH . $name . '/info.php')) {
-            $tpl = require_once(OS_THEME_PATH . $name . '/info.php');
-            $tpl['path'] = OS_THEME_PATH . $name;
+        if (is_file(MUUCMF_THEME_PATH . $name . '/info.php')) {
+            $tpl = require_once(MUUCMF_THEME_PATH . $name . '/info.php');
+            $tpl['path'] = MUUCMF_THEME_PATH . $name;
             $tpl['file_name'] = $name;
-            $tpl['token'] = file_get_contents(OS_THEME_PATH . $name . '/token.ini');
+            $tpl['token'] = file_get_contents(MUUCMF_THEME_PATH . $name . '/token.ini');
         }
         return $tpl;
     }
 
-    public
-    function setToken($name, $token)
+    public function setToken($name, $token)
     {
         $this->name = $name;
         @chmod($this->getRelativePath($this->tokenFile), 0777);
@@ -104,10 +102,9 @@ class ThemeModel extends Model
         return $result;
     }
 
-    private
-    function getRelativePath($file)
+    private function getRelativePath($file)
     {
-        return OS_THEME_PATH . $this->name . $file;
+        return MUUCMF_THEME_PATH . $this->name . $file;
     }
 }
 

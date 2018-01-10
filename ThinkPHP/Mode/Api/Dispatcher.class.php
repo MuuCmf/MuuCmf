@@ -147,13 +147,13 @@ class Dispatcher {
                 C(include MODULE_PATH.'Conf/config.php');
 
             /**加载模板公共配置文件
-             * 2015-5-14 13:43
+             * 2018-1-10 15:43
              * 增加模板配置文件加载 start
-             * @author 郑钟良<zzl@ourstu.com>
+             * @author 大蒙<59262424@qq.com>修改
              */
-            if(is_file(OS_THEME_PATH.'config.php')){
+            if(is_file(MUUCMF_THEME_PATH.'config.php')){
                 $TMPL_PARSE_STRING=C('TMPL_PARSE_STRING');
-                C(include OS_THEME_PATH.'config.php');
+                C(include MUUCMF_THEME_PATH.'config.php');
                 $NEW_TMPL_PARSE_STRING=C('TMPL_PARSE_STRING');
                 $NEW_TMPL_PARSE_STRING=array_merge($NEW_TMPL_PARSE_STRING,$TMPL_PARSE_STRING);
                 C('TMPL_PARSE_STRING',$NEW_TMPL_PARSE_STRING);
