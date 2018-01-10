@@ -4,11 +4,11 @@
 	<!-- Animate.css -->
 	<link rel="stylesheet" href="__PUBLIC__/css/animate.css">
 	<!-- main.css -->
-    <link href="__CSS__/static_home.css" rel="stylesheet" type="text/css"/>
+    <link href="__THEME_CSS__/static_home.css" rel="stylesheet" type="text/css"/>
 </block>
 
 <block name="body">
-
+<!--这里输出的是自定义模板内容-->
 	<section id='section1'>
 	<!--顶部大图-->
 		<div class="muucmfHead">
@@ -103,7 +103,7 @@
 				    <div class="cont">
 				    	<p>独创的Builder页面自动生成技术极大的解放了后端开发者的工作，只需要专注于业务逻辑，页面交给Builder帮您完成。</p>  
 				    </div>
-				    <img src="__IMG__/builder.png" />
+				    <img src="__THEME_IMG__/builder.png" />
 				</div>
 			</div>
 		</div>
@@ -119,7 +119,7 @@
 				    		<p>系统功能全面模块化、插件化；云商城拥有丰富的模块、插件、主题，可以用来对系统功能进行无限扩展。</p>
 				    </div>
 					<div class="col-md-12">
-				    	<img src="__IMG__/expand.png" class=""/>
+				    	<img src="__THEME_IMG__/expand.png" class=""/>
 					</div>
 				</div>
 			</div>
@@ -137,21 +137,21 @@
 				    </div>
 				    <div class="col-md-4">
 				    	<div class="icon">
-				    	<img src="__IMG__/website.png" class=""/>
+				    	<img src="__THEME_IMG__/website.png" class=""/>
 				    	<span class="shade hidden">PC端</span>
 				    	</div>
 				    	
 				    </div>
 				    <div class="col-md-4">
 				    	<div class="icon">
-				    	<img src="__IMG__/wechat.png" class=""/>
+				    	<img src="__THEME_IMG__/wechat.png" class=""/>
 				    	<span class="shade hidden">微信版</span>
 				    	</div>
 				    	
 				    </div>
 				    <div class="col-md-4">
 				    	<div class="icon">
-				    	<img src="__IMG__/apps.png" class=""/>
+				    	<img src="__THEME_IMG__/apps.png" class=""/>
 				    	<span class="shade hidden">移动端</span>
 				    	</div>
 				    	
@@ -172,7 +172,7 @@
 					    		<p>云端一键升级,定期产品更新迭代，免费升级更便捷</p>
 					    </div>
 					    <div class="col-md-12">
-					    	<img src="__IMG__/quick-update.png" class=""/>
+					    	<img src="__THEME_IMG__/quick-update.png" class=""/>
 					    </div>
 					</div>
 				
@@ -198,7 +198,7 @@
 	{:W('About/AboutBlock/render',array('category_id'=>2))}
 	<!--火木动态 END-->
 	<section id="section8">
-		<div class="tryupdate-cta" style="background-image: url(__IMG__/static_home/updata_day.jpg);">
+		<div class="tryupdate-cta" style="background-image: url(__THEME_IMG__/static_home/updata_day.jpg);">
 			<div class="overlay"></div>
 			<div class="container">
 				<div class="col-md-12 text-center">
@@ -220,10 +220,7 @@
 		</div>
 	</div>
 	</section>
-<script src="__JS__/animations.js"></script>
-<script src="__JS__/home.js"></script>
+<script src="__THEME_JS__/animations.js"></script>
+<script src="__THEME_JS__/home.js"></script>
 </block>
-<!--
-更有效 更有效率
--->
 
