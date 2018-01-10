@@ -10,7 +10,7 @@
         <volist name="showBlocks" id="v">
             <php>if($v=='slider'){</php>
             <div class="sliderIndex">
-                        {:W('Common/Adv/render',array(array('name'=>'slider','type'=>2,'width'=>'100%','height'=>'auto','margin'=>'0 0 15px 0','title'=>'首页轮播图','data'=>array('style'=>1))))}
+                {:W('Common/Adv/render',array(array('name'=>'slider','type'=>2,'width'=>'100%','height'=>'auto','margin'=>'0 0 15px 0','title'=>'首页轮播图','data'=>array('style'=>1))))}
             </div>
             <php>}</php>
             {:W($v.'/HomeBlock/render')}
@@ -20,16 +20,13 @@
     <div class="block-bar flink-block-model">
     <div class="container">
         <div class="block-body">
-
             <div class="col-xs-12">
                 <h2>
                     <i class="icon-link"></i> {:L('_FRIENDLY_LINK_')}
                 </h2>
-
                 <ul class="friend-link">
-                    {:Hook('friendLink')}
+                    {:Hook('superLinks')}
                 </ul>
-
             </div>
         </div>
     </div>
