@@ -287,10 +287,10 @@ class MessageModel extends Model
      * @author 大蒙<59262424@qq.com>
      */
     public function getAllMessageType()
-    {
-        //$tag = 'ALL_MESSAGE_SESSION';
+    {   
+        //echo APP_PATH;exit;
+        $tag = 'ALL_MESSAGE_SESSION';
         //$message_session = S($tag);
-        //echo $message_session;exit;
         if (empty($message_session)) {
 
             $message_session = load_config(CONF_PATH . 'message_config.php');
@@ -348,13 +348,15 @@ class MessageModel extends Model
                     }
                     $one_type['module'] = $key;
                     !isset($one_type['sort']) && $one_type['sort'] = 0;
-                    if($one_type['icon']==null){//模块会话使用模块名icon作为会话icon
+                    if($one_type['icon']==null){
+
                         $one_type['icon'] = APP_PATH . $key . '/Static/images/message_icon.png';//使用模块logo
+                        //图标文件不存在用系统默认图标
                         if(!file_exists($one_type['icon'])){
                             $one_type['icon'] = '/Public/images/message_icon/system.png';//模块logo不存在使用系统logo
+                        }else{
+                            $one_type['icon'] = '/Application/' . $key . '/Static/images/message_icon.png';//使用模块logo
                         }
-                    }else{
-                        $one_type['icon'] = APP_PATH . $key . '/Static/images/message_icon.png';//使用设置好的消息logo
                     }
                     $one_type['alias']=$module_alias[$key];
                     $message_session[] = $one_type;
