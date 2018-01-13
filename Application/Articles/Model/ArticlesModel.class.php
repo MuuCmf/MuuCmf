@@ -91,6 +91,7 @@ class ArticlesModel extends Model{
      */
     public function position($pos, $category = null, $limit = 5, $field = true,$order='sort desc,view desc'){
         $map = $this->listMap($category, 1, $pos);
+        $map['cover'] = array('NEQ',0);
         $res=$this->field($field)->where($map)->order($order)->limit($limit)->select();
         /* 读取数据 */
         return $res;

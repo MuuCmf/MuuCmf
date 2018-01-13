@@ -5,11 +5,11 @@
         </div>
 
         <volist name="lists" id="data">
-            <div class="clearfix recommended">
+            <div class="clearfix hot">
                 <neq name="data.cover" value="0">
                     <div class="col-xs-4">
-                        <a title="{$data.title|op_t}" href="{:U('Articles/index/detail',array('id'=>$data['id']))}">
-                            <img alt="{$data.title|op_t}" src="{$data.cover|getThumbImageById=100,70}">
+                        <a title="{$data.title}" href="{:U('Articles/index/detail',array('id'=>$data['id']))}">
+                            <img alt="{$data.title}" src="{$data.cover|getThumbImageById=100,70}">
                         </a>
                     </div>
                     <php>$col=8;</php>
@@ -17,7 +17,7 @@
                     <php>$col=12;</php>
                 </neq>
                 <div class="col-xs-{$col}">
-                    <div class="recommended-con">
+                    <div class="hot-con">
                         <h4 class="margin-top-0 text-more">
                             <a title="{$data.title|op_t}" href="{:U('Articles/index/detail',array('id'=>$data['id']))}">{$data.title}</a>
                         </h4>

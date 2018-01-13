@@ -1,4 +1,7 @@
-
+.btn {
+  border-radius: 2px;
+  border:0;
+}
 .section {
   padding: 0;
 }
@@ -54,6 +57,7 @@
 #contents .title  a{
   font-size:18px;
   font-weight:bold;
+  color:#333;
 }
 
 #contents .author {
@@ -108,7 +112,45 @@
   background:#fff;
   margin-top:15px;
 }
+/*推荐*/
+.recommended {
+  margin:15px auto;
+}
+.recommended-box {
+  position:relative;
+  background:#fff;
+  border-radius: 5px;
+}
+.recommended-box .cover {
+  display:block;
+  overflow:hidden;
+}
+.recommended-box img{
+  border-radius: 5px;
+  -webkit-transition: .7s;
+  transition: .7s;
+}
+.recommended-box img:hover{
+    transform:scale(1.2);//设置缩放比例
+    -ms-transform:scale(1.2);
+    -webkit-transform:scale(1.2);
+    -o-transform:scale(1.2);
+    -moz-transform:scale(1.2);
+}
 .recommended-con {
+  position: absolute;
+  background:rgba(0,0,0,0.5);
+  width:100%;
+  bottom:0;
+  padding:10px;
+}
+.recommended-con a {
+  color:#fff;
+}
+.recommended-con a:hover {
+  color:#fff;
+}
+.hot-con {
   width:100%;
   overflow:hidden;
 }

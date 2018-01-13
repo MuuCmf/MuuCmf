@@ -12,7 +12,7 @@ use Think\Controller;
 
 class HotWidget extends Controller{
     /* 显示指定分类的同级分类或子分类列表 */
-    public function lists($category=0, $timespan = 604800, $limit = 5)
+    public function lists($category=0, $timespan = 2592000, $limit = 10)
     {
         if ($category != 0) {
             $cates=D('Articles/ArticlesCategory')->getCategoryList(array('pid'=>$category,'status'=>1));
@@ -20,10 +20,11 @@ class HotWidget extends Controller{
             $map['category']=array('in',array_merge(array($category),$cates));
         }
         $map['status']=1;
-        $map['dead_line']=array('gt',time());
         $map['update_time']=array('gt',time()-$timespan);//一周以内
         $lists = D('Articles/Articles')->getList($map,'view desc',5,'id,title,cover,uid,create_time,view');
+        $order = 0;//增加个序号
         foreach($lists as &$val){
+            $val['order'] = ++$order;
             $val['user']=query_user(array('space_url','nickname'),$val['uid']);
         }
         unset($val);

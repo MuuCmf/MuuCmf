@@ -114,7 +114,9 @@ class ArticlesController extends AdminController{
         $builder=new AdminConfigBuilder();
         $data=$builder->handleConfig();
         $default_position=<<<str
-1:推荐
+1:幻灯展示
+2:首页推荐
+4:栏目推荐
 str;
 
         $builder->title('文章基础设置')

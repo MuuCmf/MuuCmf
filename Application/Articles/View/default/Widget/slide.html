@@ -1,0 +1,22 @@
+<if condition="$lists neq false">
+<link href="__PUBLIC__/js/ext/Swiper-4.0.7/css/swiper.min.css" rel="stylesheet" media="screen">
+<script src="__PUBLIC__/js/ext/Swiper-4.0.7/js/swiper.min.js"></script>
+    <div class="articles-slide clearfix">
+        <volist name="lists" id="data">
+            <div class="clearfix ">
+                    <div class="col-xs-12">
+                        <a title="{$data.title|op_t}" href="{:U('Articles/index/detail',array('id'=>$data['id']))}">
+                            <img alt="{$data.title|op_t}" src="{$data.cover|getThumbImageById=100,70}">
+                        </a>
+                    </div>
+
+                
+                    <div class="">
+                        <h4 class="margin-top-0 text-more">
+                            <a title="{$data.title|op_t}" href="{:U('Articles/index/detail',array('id'=>$data['id']))}">{$data.title}</a>
+                        </h4>
+                    </div>
+            </div>
+        </volist>
+    </div>
+</if>
