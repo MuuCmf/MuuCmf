@@ -120,7 +120,18 @@
   background:#fff;
   margin-top:15px;
 }
+/*文章栏目菜单*/
+.articles-menu {
+  margin:0 auto 0 auto;
+}
+.articles-menu ul li {
+  font-size:16px;
+  font-weight:600;
+}
 /*幻灯 Swiper*/
+.articles-slide {
+  margin-bottom:15px;
+}
  .swiper-slide {
   border-radius: 5px;
   overflow:hidden;
@@ -141,7 +152,7 @@
  }
 /*推荐*/
 .recommended {
-  margin:15px auto;
+  margin-bottom:15px;
 }
 .recommended-box {
   position:relative;
