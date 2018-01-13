@@ -21,7 +21,7 @@ class HotWidget extends Controller{
         }
         $map['status']=1;
         $map['update_time']=array('gt',time()-$timespan);//一周以内
-        $lists = D('Articles/Articles')->getList($map,'view desc',5,'id,title,cover,uid,create_time,view');
+        $lists = D('Articles/Articles')->getList($map,'view desc',$limit,'id,title,cover,uid,create_time,view');
         $order = 0;//增加个序号
         foreach($lists as &$val){
             $val['order'] = ++$order;

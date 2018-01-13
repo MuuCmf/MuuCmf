@@ -18,6 +18,14 @@
   -webkit-transition: all 0.4s ease;
   transition: all 0.4s ease;
 }
+.common_content_box .news-list-box:hover{
+  -webkit-box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+  -webkit-transform: translate3d(0, -2px, 0);
+  -moz-transform: translate3d(0, -2px, 0);
+  transform: translate3d(0, -2px, 0);
+}
 .common_content_box .news-list-box .topic {
   display:block;
 }
@@ -112,6 +120,25 @@
   background:#fff;
   margin-top:15px;
 }
+/*幻灯 Swiper*/
+ .swiper-slide {
+  border-radius: 5px;
+  overflow:hidden;
+ }
+.swiper-slide img{
+  
+ }
+.swiper-slide .title{
+  position: absolute;
+  width:100%;
+  padding:10px;
+  bottom:0;
+  background:rgba(0,0,0,0.5);
+  border-radius: 0 0 5px 5px;
+ }
+ .swiper-slide .title a{
+  color:#fff;
+ }
 /*推荐*/
 .recommended {
   margin:15px auto;
@@ -123,6 +150,7 @@
 }
 .recommended-box .cover {
   display:block;
+  border-radius: 5px;
   overflow:hidden;
 }
 .recommended-box img{
@@ -150,9 +178,44 @@
 .recommended-con a:hover {
   color:#fff;
 }
+/**热门文章**/
+.articles-hot {
+  border-top:2px solid #03b8cf;
+}
+.articles-hot_title {
+  padding:15px;
+}
+.articles-hot_title h3 {
+  margin:10px auto;
+}
 .hot-con {
   width:100%;
   overflow:hidden;
+}
+.articles-hot .cover {
+  position:relative;
+  display: block;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.articles-hot .cover .order {
+  position:absolute;
+  background:rgba(0,0,0,0.5);
+  width:20px;
+  height:20px;
+  top:0;
+  color:#fff;
+  text-align: center;
+  line-height: 20px;
+  border-radius: 3px;
+}
+.articles-hot .cover .order.red {
+  width:60px;
+  background:red;
+}
+.articles-hot .cover .order.yellow {
+  width:60px;
+  background:#ff6600;
 }
 .detail_box {
   background:#fff;

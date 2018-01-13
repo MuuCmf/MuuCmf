@@ -398,7 +398,7 @@ str;
                 ->keySelect('category','分类','',$options)
 
                 ->keyTextArea('description','摘要')
-                ->keySingleImage('cover','封面')
+                ->keySingleImage('cover','封面','尺寸宽带至少大于753px,高度大于304px')
                 ->keyInteger('view','阅读量')->keyDefault('view',0)
                 ->keyInteger('comment','评论数')->keyDefault('comment',0)
                 ->keyInteger('collection','收藏量')->keyDefault('collection',0)
