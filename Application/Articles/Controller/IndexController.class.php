@@ -176,6 +176,7 @@ class IndexController extends Controller{
                 }
                 $this->assign('data',$data);
             }else{
+                
                 $this->checkAuth('Articles/Index/edit',-1,'你没有发布权限！');
             }
             $title=$aId?"编辑":"新增";
@@ -186,7 +187,19 @@ class IndexController extends Controller{
         $this->assign('tab','create');
         $this->display();
     }
-
+    public function debug(){
+        //分类
+        $type = MODULE_NAME;
+        echo $type;
+        static $Auth = null;
+        if (!$Auth) {
+            $Auth = new \Think\Auth();
+        }
+        if (!$Auth->check('Articles/Index/edit', get_uid(), $type)) {
+            echo 'error';exit;
+        }
+        echo 'success';
+    }
     private function _doEdit()
     {
         $aId=I('post.id',0,'intval');
