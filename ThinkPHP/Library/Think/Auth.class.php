@@ -17,7 +17,7 @@ namespace Think;
  * 2，可以同时对多条规则进行认证，并设置多条规则的关系（or或者and）
  *      $auth=new Auth();  $auth->check('规则1,规则2','用户id','and') 
  *      第三个参数为and时表示，用户需要同时具有规则1和规则2的权限。 当第三个参数为or时，表示用户值需要具备其中一个条件即可。默认为or
- * 3，一个用户可以属于多个用户组(think_auth_group_access表 定义了用户所属用户组)。我们需要设置每个用户组拥有哪些规则(think_auth_group 定义了用户组权限)
+ * 3，一个用户可以属于多个权限组(think_auth_group_access表 定义了用户所属权限组)。我们需要设置每个权限组拥有哪些规则(think_auth_group 定义了权限组权限)
  * 
  * 4，支持规则表达式。
  *      在think_auth_rule 表中定义一条规则时，如果type为1， condition字段就可以定义规则表达式。 如定义{score}>5  and {score}<100  表示用户的分数在5-100之间时这条规则才会通过。
@@ -41,8 +41,8 @@ CREATE TABLE `think_auth_rule` (
     UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 -- ----------------------------
--- think_auth_group 用户组表， 
--- id：主键， title:用户组中文名称， rules：用户组拥有的规则id， 多个规则","隔开，status 状态：为1正常，为0禁用
+-- think_auth_group 权限组表，
+-- id：主键， title:权限组中文名称， rules：权限组拥有的规则id， 多个规则","隔开，status 状态：为1正常，为0禁用
 -- ----------------------------
  DROP TABLE IF EXISTS `think_auth_group`;
 CREATE TABLE `think_auth_group` ( 
@@ -53,8 +53,8 @@ CREATE TABLE `think_auth_group` (
     PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 -- ----------------------------
--- think_auth_group_access 用户组明细表
--- uid:用户id，group_id：用户组id
+-- think_auth_group_access 权限组明细表
+-- uid:用户id，group_id：权限组id
 -- ----------------------------
 DROP TABLE IF EXISTS `think_auth_group_access`;
 CREATE TABLE `think_auth_group_access` (  
@@ -72,8 +72,8 @@ class Auth{
     protected $_config = array(
         'AUTH_ON'           => true,                      // 认证开关
         'AUTH_TYPE'         => 1,                         // 认证方式，1为实时认证；2为登录认证。
-        'AUTH_GROUP'        => 'auth_group',        // 用户组数据表名
-        'AUTH_GROUP_ACCESS' => 'auth_group_access', // 用户-用户组关系表
+        'AUTH_GROUP'        => 'auth_group',        // 权限组数据表名
+        'AUTH_GROUP_ACCESS' => 'auth_group_access', // 用户-权限组关系表
         'AUTH_RULE'         => 'auth_rule',         // 权限规则表
         'AUTH_USER'         => 'member'             // 用户信息表
     );
@@ -138,10 +138,10 @@ class Auth{
     }
 
     /**
-     * 根据用户id获取用户组,返回值为数组
+     * 根据用户id获取权限组,返回值为数组
      * @param  uid int     用户id
-     * @return array       用户所属的用户组 array(
-     *                                         array('uid'=>'用户id','group_id'=>'用户组id','title'=>'用户组名称','rules'=>'用户组拥有的规则id,多个,号隔开'),
+     * @return array       用户所属的权限组 array(
+     *                                         array('uid'=>'用户id','group_id'=>'权限组id','title'=>'权限组名称','rules'=>'权限组拥有的规则id,多个,号隔开'),
      *                                         ...)   
      */
     public function getGroups($uid) {
@@ -151,7 +151,7 @@ class Auth{
         $user_groups = M()
             ->table($this->_config['AUTH_GROUP_ACCESS'] . ' a')
             ->where("a.uid='$uid' and g.status='1'")
-            ->join($this->_config['AUTH_GROUP']." g on a.group_id=g.id")
+            ->join($this->_config['AUTH_GROUP']." g on a.group_id=g.id and g.end_time>".time())
             ->field('rules')->select();
         $groups[$uid]=$user_groups?$user_groups:array();
         return $groups[$uid];
@@ -168,13 +168,14 @@ class Auth{
         if (isset($_authList[$uid.$t])) {
             return $_authList[$uid.$t];
         }
-        if( $this->_config['AUTH_TYPE']==2 && isset($_SESSION['_AUTH_LIST_'.$uid.$t])){
-            return $_SESSION['_AUTH_LIST_'.$uid.$t];
+        $session=session('_AUTH_LIST_'.$uid.$t);
+        if( $this->_config['AUTH_TYPE']==2 && isset($session)){
+            return session('_AUTH_LIST_'.$uid.$t);
         }
 
-        //读取用户所属用户组
+        //读取用户所属权限组
         $groups = $this->getGroups($uid);
-        $ids = array();//保存用户所属用户组设置的所有权限规则id
+        $ids = array();//保存用户所属权限组设置的所有权限规则id
         foreach ($groups as $g) {
             $ids = array_merge($ids, explode(',', trim($g['rules'], ',')));
         }
@@ -189,7 +190,7 @@ class Auth{
             'type'=>$type,
             'status'=>1,
         );
-        //读取用户组所有权限规则
+        //读取权限组所有权限规则
         $rules = M()->table($this->_config['AUTH_RULE'])->where($map)->field('condition,name')->select();
 
         //循环规则，判断结果。
@@ -212,7 +213,7 @@ class Auth{
         $_authList[$uid.$t] = $authList;
         if($this->_config['AUTH_TYPE']==2){
             //规则列表结果保存到session
-            $_SESSION['_AUTH_LIST_'.$uid.$t]=$authList;
+            session('_AUTH_LIST_'.$uid.$t,$authList);
         }
         return array_unique($authList);
     }

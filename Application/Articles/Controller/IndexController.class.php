@@ -170,13 +170,13 @@ class IndexController extends Controller{
             $aId=I('id',0,'intval');
             if($aId){
                 $data=$this->articlesModel->getData($aId);
-                $this->checkAuth(null,$data['uid'],'你没有编辑该资讯权限！');
+                $this->checkAuth(null,$data['uid'],'你没有编辑该文章权限！');
                 if($data['status']==1){
                     $this->error('该文章已被审核，不能被编辑！');
                 }
                 $this->assign('data',$data);
             }else{
-                $this->checkAuth('Articles/Index/add',-1,'你没有投稿权限！');
+                $this->checkAuth('Articles/Index/edit',-1,'你没有发布权限！');
             }
             $title=$aId?"编辑":"新增";
             $category=$this->articlesCategoryModel->getCategoryList(array('status'=>1,'can_post'=>1),1);
@@ -195,7 +195,7 @@ class IndexController extends Controller{
         if($aId){
             $data['id']=$aId;
             $now_data=$this->articlesModel->getData($aId);
-            $this->checkAuth(null,$now_data['uid'],'你没有编辑该内容权限！');
+            $this->checkAuth(null,$now_data['uid'],'你没有编辑该文章权限！');
             if($now_data['status']==1){
                 $this->error('该内容已被审核，不能被编辑！');
             }
@@ -208,7 +208,7 @@ class IndexController extends Controller{
                         $data['status']=1;
                     }
                 }else{
-                    $this->error('该分类不能投稿！');
+                    $this->error('该分类不能发布！');
                 }
             }else{
                 $this->error('该分类不存在或被禁用！');
@@ -216,7 +216,7 @@ class IndexController extends Controller{
             $data['status']=2;
             $data['template']=$now_data['detail']['template']?:'';
         }else{
-            $this->checkAuth('Articles/Index/add',-1,'你没有投稿权限！');
+            $this->checkAuth('Articles/Index/edit',-1,'你没有发布权限！');
             $this->checkActionLimit('add_articles','Articles',0,is_login(),true);
             $data['uid']=get_uid();
             $data['sort']=$data['position']=$data['view']=$data['comment']=$data['collection']=0;
