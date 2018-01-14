@@ -11,7 +11,7 @@ use Think\Controller;
 class SlideWidget extends Controller{
 	
 	/* 显示指定分类的同级分类或子分类列表 */
-	public function lists($position=2,$category,$limit=5,$filed){
+	public function lists($position=2,$category,$limit=5,$filed='*'){
         /**
          * 获取推荐位数据列表
          * @param  number  $pos      推荐位 1-系统首页，2-推荐阅读，4-本类推荐

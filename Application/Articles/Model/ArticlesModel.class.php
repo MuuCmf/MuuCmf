@@ -87,9 +87,9 @@ class ArticlesModel extends Model{
      * @param $limit
      * @param bool $field
      * @return mixed
-     * @author 郑钟良<zzl@ourstu.com>
+     * @author 大蒙<59262424@qq.com>
      */
-    public function position($pos, $category = null, $limit = 5, $field = true,$order='sort desc,view desc'){
+    public function position($pos, $category = null, $limit = 5, $field = true,$order='sort desc,create_time desc,view desc'){
         $map = $this->listMap($category, 1, $pos);
         $map['cover'] = array('NEQ',0);
         $res=$this->field($field)->where($map)->order($order)->limit($limit)->select();
