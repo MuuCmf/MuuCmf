@@ -14,6 +14,7 @@ class UserModel
     );
 
     private $avatar_fields = array('avatar32', 'avatar64', 'avatar128', 'avatar256', 'avatar512');
+    private $avatar_html_fields=array('avatar_html32', 'avatar_html64', 'avatar_html128', 'avatar_html256', 'avatar_html512');
 
     private function getFields($pFields)
     {
@@ -68,7 +69,6 @@ class UserModel
         if (!empty($need_query)) {
             $db_prefix=C('DB_PREFIX');
             $query_results = D('')->query('select ' . implode(',', $need_query) . " from `{$db_prefix}member`,`{$db_prefix}ucenter_member` where uid=id and uid={$uid} limit 1");
-            
             $query_result = $query_results[0];
             $user_data = $this->combineUserData($user_data, $query_result);
             $fields = $this->popGotFields($fields, $need_query);
@@ -92,7 +92,7 @@ class UserModel
 
     private function debug($user_data, $fields)
     {
-        return '';
+        //return '';
         echo '————————————————————running query_user——————————————<br/>';
         echo('user_data:');
         dump($user_data);
@@ -106,7 +106,7 @@ class UserModel
      * @param int $uid
      * @return array|mixed
      */
-    function query_user($pFields = null, $uid = 0)
+    public function query_user($pFields = null, $uid = 0)
     {
         $user_data = array();//用户数据
         $fields = $this->getFields($pFields);//需要检索的字段
@@ -114,6 +114,7 @@ class UserModel
         //获取缓存过的字段，尽可能在此处命中全部数据
 
         list($cacheResult, $fields) = $this->getCachedFields($fields, $uid);
+        //dump($cacheResult);
         $user_data = $cacheResult;//用缓存初始用户数据
         //从数据库获取需要检索的数据，消耗较大，尽可能在此代码之前就命中全部数据
         list($user_data, $fields) = $this->getNeedQueryData($user_data, $fields, $uid);
@@ -132,15 +133,17 @@ class UserModel
             return $user_data;
         }
 
-        $this->debug($user_data, $fields);
         $user_data = $this->handleTitle($uid, $fields, $user_data);
         //获取头像Avatar数据
         $user_data = $this->getAvatars($user_data, $fields, $uid);
+        //$this->debug($user_data, $fields);
+        
         $user_data = $this->getUrls($fields, $uid, $user_data);
 
         $user_data = $this->getRankLink($fields, $uid, $user_data);
 
         $user_data = $this->getExpandInfo($fields, $uid, $user_data);
+
         //粉丝数、关注数、微博数
         if (in_array('fans', $fields)) {
             $user_data['fans'] = M('Follow')->where('follow_who=' . $uid)->count();
@@ -149,10 +152,6 @@ class UserModel
         if (in_array('following', $fields)) {
             $user_data['following'] = M('Follow')->where('who_follow=' . $uid)->count();
             $this->write_query_user_cache($uid, 'following', $user_data['following']);
-        }
-        if (in_array('weibocount', $fields)) {
-            $user_data['weibocount'] = M('Weibo')->where('uid=' . $uid . ' and status >0')->count();
-            $this->write_query_user_cache($uid, 'weibocount', $user_data['weibocount']);
         }
         //是否关注、是否被关注
         if (in_array('is_following', $fields)) {
@@ -165,8 +164,9 @@ class UserModel
             $user_data['is_followed'] = $follow ? true : false;
             $this->write_query_user_cache($uid, 'is_followed', $user_data['is_following']);
         }
-
+ 
         return $user_data;
+
 
     }
 
@@ -237,11 +237,20 @@ class UserModel
                 $fields = $this->popGotFields($fields, array('space_url', 'space_link', 'space_mob_url'));
             }
         }
+
         if (array_intersect($this->avatar_fields, $fields)) {
             $avatars = $this->read_query_user_cache($uid, 'avatars');
             if ($avatars !== false) {
                 $cacheResult = array_merge($avatars, $cacheResult);
                 $fields = $this->popGotFields($fields, $this->avatar_fields);
+            }
+        }
+
+        if (array_intersect($this->avatar_html_fields, $fields)) {
+            $avatars_html = $this->read_query_user_cache($uid, 'avatars_html');
+            if ($avatars_html !== false) {
+                $cacheResult = array_merge($avatars_html, $cacheResult);
+                $fields = $this->popGotFields($fields, $this->avatar_html_fields);
             }
         }
 
@@ -331,8 +340,9 @@ class UserModel
             $user_data = array_merge($user_data, $avatars);
             $this->write_query_user_cache($uid, 'avatars', $avatars);
             $this->popGotFields($fields, $avatarFields);
-
+           // dump($user_data);
         }
+
         return $user_data;
     }
 

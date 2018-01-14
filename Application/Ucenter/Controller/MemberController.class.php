@@ -621,7 +621,7 @@ class MemberController extends Controller
         if (!$res) {
             M('avatar')->add($data);
         }
-        clean_query_user_cache($aUid, array('avatar256', 'avatar128', 'avatar64', 'avatar32', 'avatar512'));
+        clean_query_user_cache($aUid, array('avatars','avatars_html'));
         $this->success(L('_SUCCESS_AVATAR_CHANGE_').L('_EXCLAMATION_'), $redirect_url);
     }
 
