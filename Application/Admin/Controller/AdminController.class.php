@@ -389,6 +389,7 @@ class AdminController extends Controller
      */
     final protected function returnNodes($tree = true)
     {
+        header("Content-Type: text/html;charset=utf-8"); 
         static $tree_nodes = array();
         if ($tree && !empty($tree_nodes[(int)$tree])) {
             return $tree_nodes[$tree];
@@ -400,13 +401,15 @@ class AdminController extends Controller
                     $list[$key]['url'] = MODULE_NAME . '/' . $value['url'];
                 }
             }
-            $nodes = list_to_tree($list, $pk = 'id', $pid = 'pid', $child = 'operator', $root = 0);
+            //由于menu表id更改为字符串格式，root必须设置成字符串0
+            $nodes = list_to_tree($list, $pk = 'id', $pid = 'pid', $child = 'operator', $root = '0');
             foreach ($nodes as $key => $value) {
                 if (!empty($value['operator'])) {
                     $nodes[$key]['child'] = $value['operator'];
                     unset($nodes[$key]['operator']);
                 }
             }
+
         } else {
             $nodes = M('Menu')->field('title,url,tip,pid')->order('sort asc')->select();
             foreach ($nodes as $key => $value) {
@@ -418,7 +421,6 @@ class AdminController extends Controller
         $tree_nodes[(int)$tree] = $nodes;
         return $nodes;
     }
-
 
     /**
      * 通用分页列表数据集获取方法

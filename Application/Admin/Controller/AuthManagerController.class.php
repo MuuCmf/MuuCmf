@@ -41,7 +41,7 @@ class AuthManagerController extends AdminController
             $temp['name'] = $value['url'];
             $temp['title'] = $value['title'];
             $temp['module'] = 'admin';
-            if ($value['pid'] > 0) {
+            if ($value['pid'] > 0 || $value['pid']!=='0') {
                 $temp['type'] = AuthRuleModel::RULE_URL;
             } else {
                 $temp['type'] = AuthRuleModel::RULE_MAIN;
@@ -410,10 +410,12 @@ class AuthManagerController extends AdminController
      */
     public function access()
     {
+        header("Content-Type: text/html;charset=utf-8"); 
         $this->updateRules();
         $auth_group = M('AuthGroup')->where(array('status' => array('egt', '0'), 'module' => 'admin', 'type' => AuthGroupModel::TYPE_ADMIN))
             ->getfield('id,id,title,rules');
         $node_list = $this->returnNodes();
+
         $map = array('module' => 'admin', 'type' => AuthRuleModel::RULE_MAIN, 'status' => 1);
         $main_rules = M('AuthRule')->where($map)->getField('name,id');
         $map = array('module' => 'admin', 'type' => AuthRuleModel::RULE_URL, 'status' => 1);
