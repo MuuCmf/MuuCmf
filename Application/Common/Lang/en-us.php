@@ -3,18 +3,12 @@ return array(
     '_MUUCMF_' => ' MuuCmf Content Management Framework',
     '_HOOMUU_WANTS_TO_DAY_MDT_INFOTECH_LTD_' => 'Beijing HooMuu technology Co., Ltd. ',
     '_BUILT_IN_MUUCMF_' => 'MuuCmf Content Management Framework',
-
     '_FOLLOWERS_' => ' Pay attention to',
     '_SELF_' => ' Own',
     '_FOLLOWED_' => ' Has been concerned',
+    /*举报*/
     '_REPORT_' => ' Report',
-    '_NOBODY_CHECKED_' => ' Sign quickly leave a seat vacant for sb.,.',
-    '_CHECK_RANK_' => ' Sign in rank',
-    '_DAY_' => ' Day',
-    '_TODAY_CHECKED_' => ' Sign in today',
-    '_CON_CHECKED_' => ' Continuous sign in',
-    '_TOTAL_CHECKED_' => ' Cumulative attendance',
-    '_CHECKIN_' => ' Sign',
+    /*:Public*/
     '_SAVE_' => ' Preservation',
     '_CANCEL_' => ' Cancel',
     '_PUBLISH_' => ' Release',

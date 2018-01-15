@@ -3,25 +3,12 @@ return array(
     '_MUUCMF_' => 'MuuCmf开源内容管理框架',
     '_HOOMUU_WANTS_TO_DAY_MDT_INFOTECH_LTD_' => '北京火木科技有限公司',
     '_BUILT_IN_MUUCMF_' => 'MuuCmf开源内容管理框架',
-
     '_FOLLOWERS_' => '关注',
     '_SELF_' => '自己',
     '_FOLLOWED_' => '已关注',
     /*举报*/
     '_REPORT_' => '举报',
-
-
-    /*签到*/
-    '_NOBODY_CHECKED_' => '虚位以待，赶紧签到吧。',
-    '_CHECK_RANK_' => '签到排行',
-    '_DAY_' => '天',
-    '_TODAY_CHECKED_' => '今日签到',
-    '_CON_CHECKED_' => '连续签到',
-    '_TOTAL_CHECKED_' => '累计签到',
-    '_CHECKIN_' => '签到',
-
     /*:Public*/
-
     '_SAVE_' => '保存',
     '_CANCEL_' => '取消',
     '_PUBLISH_' => '发表',
