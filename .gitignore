@@ -58,6 +58,7 @@ Temporary Items
 /Conf/*.lock
 /Conf/common.php
 /Runtime/Cache
+/.hatccess
 
 
 
