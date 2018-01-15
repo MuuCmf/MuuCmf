@@ -4851,7 +4851,6 @@ INSERT INTO `muucmf_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `
 ('10285', '第二步', '10279', 0, 'Devtool/module2', 1, '', '', 0, '', 'Devtool'),
 ('10286', '第三步', '10279', 0, 'Devtool/module3', 1, '', '', 0, '', 'Devtool'),
 ('10287', '第一步', '10279', 0, 'Devtool/module1', 1, '', '', 0, '', 'Devtool'),
-
 ('351EF635-E887-9966-70EF-4C1238BE19F0', '关于我们', '0', 0, 'About/index', 1, '', '', 0, '', 'About'),
 ('6E3C9358-EEDB-509D-2D5D-E2A9BCE28E91', '内容管理', '351EF635-E887-9966-70EF-4C1238BE19F0', 0, 'About/index', 0, '', '内容管理', 0, '', 'About'),
 ('227CFD90-8C97-7EA8-D317-C45B1E4B24EF', '分类管理', '351EF635-E887-9966-70EF-4C1238BE19F0', 0, 'About/aboutCategory', 0, '', '内容管理', 0, '', 'About'),
@@ -4861,17 +4860,17 @@ INSERT INTO `muucmf_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `
 ('EEDFF208-5CFE-2AF3-3D36-77F53F200D03', '设置内容状态', '6E3C9358-EEDB-509D-2D5D-E2A9BCE28E91', 0, 'setAboutStatus', 0, '', '内容管理', 0, '', 'About'),
 ('06EAD4C7-4A84-DE2F-6464-11D025F83EF1', '编辑分类', '227CFD90-8C97-7EA8-D317-C45B1E4B24EF', 0, 'About/editCategory', 0, '', '内容管理', 0, '', 'About'),
 ('21C795A0-3D56-D4CB-9FB4-7774F488CD35', '设置分类状态', '227CFD90-8C97-7EA8-D317-C45B1E4B24EF', 0, 'About/setCategoryStatus', 0, '', '内容管理', 0, '', 'About'),
-
 ('8C87F66E-4A84-7A4F-0B80-BA6A4A4C87C7', '计划任务', '74', 0, 'schedule/schedulelist', 0, '', '计划任务', 0, '', ''),
 ('321A7323-8C14-D79D-9AE6-5F57F1CAB212', '查看日志', '8C87F66E-4A84-7A4F-0B80-BA6A4A4C87C7', 0, 'Schedule/showLog', 0, '', '计划任务', 0, '', ''),
 ('3DB48266-6033-AA7D-3127-2E9F8618D05E', '清空日志', '8C87F66E-4A84-7A4F-0B80-BA6A4A4C87C7', 0, 'admin/schedule/clearLog', 0, '', '计划任务', 0, '', ''),
 ('4EF3A41F-05CE-A63A-56DF-97304225216E', '重启计划任务', '8C87F66E-4A84-7A4F-0B80-BA6A4A4C87C7', 0, 'Schedule/reRun', 0, '', '计划任务', 0, '', ''),
 ('69735C59-69D8-0040-0905-3C48453C644A', '设置计划任务状态', '8C87F66E-4A84-7A4F-0B80-BA6A4A4C87C7', 0, 'Schedule/setScheduleStatus', 0, '', '计划任务', 0, '', ''),
-
 ('A6E049E7-F99F-5FF2-1D4F-5AA242E3F6C8', '流失率数据', '197', 0, 'count/lost', 0, '', '数据统计', 0, '', ''),
 ('A985703F-0F39-F114-5784-A693F55D5310', '留存率数据', '197', 0, 'count/remain', 0, '', '数据统计', 0, '', ''),
 ('0AAED4DF-55D3-03DA-5860-3ABAEC00096D', '活跃用户数据', '197', 0, 'count/active', 0, '', '数据统计', 0, '', ''),
-('CCAE3F89-4E09-1912-9F3B-453E0A265A62', '在线用户', '197', 0, 'count/nowuserlist', 0, '', '数据统计', 0, '', '');
+('CCAE3F89-4E09-1912-9F3B-453E0A265A62', '在线用户', '197', 0, 'count/nowuserlist', 0, '', '数据统计', 0, '', ''),
+('9DE8F2CA-913A-B828-E4F3-BF4EFE8CB5D2', 'Restful', '0', 0, 'Restful/config', 1, '', '', 0, '', 'Restful'),
+('5B70CCBA-7245-92D0-A1F0-2C46B3765E7D', '基础配置', '9DE8F2CA-913A-B828-E4F3-BF4EFE8CB5D2', 0, 'Restful/config', 0, '', '基础配置', 0, '', 'Restful');
 
 DROP TABLE IF EXISTS `muucmf_message`;
 CREATE TABLE IF NOT EXISTS `muucmf_message` (
