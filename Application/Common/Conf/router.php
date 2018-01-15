@@ -37,7 +37,12 @@ return array(
         'ucenter/member/login'                  => 'login',
         'ucenter/member/step'                   => 'register/step_[step]',
         'ucenter/member/register'               => 'register/[type]/c_[code]',
+
         /*文章*/
+        'articles/index/index'                     => 'articles',
+        'articles/index/category'                  => 'articles/category_[id]',
+        'articles/index/detail'                    => 'articles/detail_[id]',
+        /*about*/
         'about/index/index'                     => 'about_[id]',
     ),
 
