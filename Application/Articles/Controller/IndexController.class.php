@@ -30,13 +30,13 @@ class IndexController extends Controller{
         $tree = $this->articlesCategoryModel->getTree(0,true,array('status' => 1));
         $this->assign('tree', $tree);
         foreach ($tree as $category) {
-            $menu = array('tab' => 'category_' . $category['id'], 'title' => $category['title'], 'href' => U('Articles/index/index', array('category' => $category['id'])));
+            $menu = array('tab' => 'category_' . $category['id'], 'title' => $category['title'], 'href' => U('Articles/index/category', array('id' => $category['id'])));
             if ($category['_']) {
-                $menu['children'][] = array( 'title' => '全部', 'href' => U('Articles/index/index', array('category' => $category['id'])));
+                $menu['children'][] = array( 'title' => '全部', 'href' => U('Articles/index/category', array('id' => $category['id'])));
                 foreach ($category['_'] as $child)
-                    $menu['children'][] = array( 'title' => $child['title'], 'href' => U('Articles/index/index', array('category' => $child['id'])));
+                    $menu['children'][] = array( 'title' => $child['title'], 'href' => U('Articles/index/category', array('id' => $child['id'])));
             }
-        $menu_list['left'][] = $menu;
+            $menu_list['left'][] = $menu;
         }
 
         
@@ -61,8 +61,24 @@ class IndexController extends Controller{
 
     public function index($page=1,$r=20)
     {
+        /* 首页信息 */
+        $map['status']=1;
+        /* 获取当前分类下文章列表 */
+        list($list,$totalCount) = $this->articlesModel->getListByPage($map,$page,'sort desc,update_time desc','*',$r);
+        foreach($list as &$val){
+            $val['user']=query_user(array('space_url','avatar32','nickname'),$val['uid']);
+        }
+        unset($val);
+        /* 模板赋值并渲染模板 */
+        $this->assign('list', $list);
+        $this->assign('totalCount',$totalCount);
+        $this->display();
+    }
+
+    public function category($page=1,$r=20)
+    {
         /* 分类信息 */
-        $category = I('category',0,'intval');
+        $category = I('id',0,'intval');
         if($category){
             $categoryT = $this->_category($category);
             $cates=$this->articlesCategoryModel->getCategoryList(array('pid'=>$category));
@@ -73,10 +89,7 @@ class IndexController extends Controller{
             }else{
                 $map['category']=$category;
             }
-        }else{
-            $categoryT = array('title'=>'文章','description'=>'文章列表');
         }
-        $map['dead_line']=array('gt',time());
         $map['status']=1;
         /* 获取当前分类下文章列表 */
         list($list,$totalCount) = $this->articlesModel->getListByPage($map,$page,'sort desc,update_time desc','*',$r);
@@ -87,7 +100,7 @@ class IndexController extends Controller{
         /* 模板赋值并渲染模板 */
         $this->assign('list', $list);
         $this->assign('category', $category);
-        $this->assign('categoryT',$categoryT);
+        $this->assign('categoryT',$categoryT);//栏目信息，可作为seo规则标题
         $this->assign('totalCount',$totalCount);
 
         $this->display();
