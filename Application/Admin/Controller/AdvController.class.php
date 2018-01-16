@@ -63,7 +63,7 @@ class AdvController extends AdminController
 
             $count = $advModel->where(array('pos_id' => $v['id'], 'status' => 1))->count();
             $v['do'] = '<a href="' . U('editPos?copy=' . $v['id']) . '"><i class="icon-copy"></i> 复制</a>&nbsp;&nbsp;&nbsp;&nbsp;'
-                . '<a href="' . U('editPos?id=' . $v['id']) . '"><i class="icon-cog"></i> 设置</a>&nbsp;&nbsp;&nbsp;&nbsp;'
+                . '<a href="' . U('editPos?module='.$aModule.'&id=' . $v['id']) . '"><i class="icon-cog"></i> 设置</a>&nbsp;&nbsp;&nbsp;&nbsp;'
                 . '<a href="' . U('adv?pos_id=' . $v['id']) . '" ><i class="icon-sitemap"></i> 管理广告(' . $count . ')</a>&nbsp;&nbsp;&nbsp;&nbsp;'
                 . '<a href="' . U('editAdv?pos_id=' . $v['id']) . '"><i class="icon-plus"></i> 添加广告</a>&nbsp;&nbsp;&nbsp;&nbsp;'
                 . '<a href="' . U($v['path']) . '#adv_' . $v['id'] . '" target="_blank"><i class="icon-share-alt"></i>到前台查看</a>&nbsp;&nbsp;';
@@ -133,6 +133,7 @@ class AdvController extends AdminController
     public function editPos()
     {
         $aId = I('id', 0, 'intval');
+        $aModule = I('get.module','','text');
         $aCopy = I('copy', 0, 'intval');
         $advPosModel = D('Common/AdvPos');
         if (IS_POST) {
@@ -165,12 +166,11 @@ class AdvController extends AdminController
                 $this->error('保存失败。');
             } else {
                 S('adv_pos_by_pos_' . $pos['path'] . $pos['name'], null);
-                $this->success('保存成功。');
+                $this->success('保存成功。',U('pos',array('module'=>$aModule)));
             }
 
         } else {
             $builder = new AdminConfigBuilder();
-
 
             if ($aCopy != 0) {
                 $pos = $advPosModel->find($aCopy);
@@ -197,9 +197,17 @@ class AdvController extends AdminController
             foreach ($themes as $v) {
                 $themes_array[$v['name']] = $v['title'];
             }
-            $builder->keyId()->keyTitle()->keyText('name', '广告位英文名', '标识，同一个页面上不要出现两个同名的')->keyText('path', '路径', '模块名/控制器名/方法名，例如：Weibo/Index/detail')->keyRadio('type', '广告类型', '', array(1 => '单图广告', 2 => '多图轮播', 3 => '文字链接', 4 => '代码'))
-                ->keyStatus()->keyText('width', '宽度', '支持各类长度单位，如px，em，%')->keyText('height', '高度', '支持各类长度单位，如px，em，%')
-                ->keyText('margin', '边缘留白', '支持各类长度单位，如px，em，%；依次为：上  右  下  左，如 5px 2px 0 3px')->keyText('padding', '内部留白', '支持各类长度单位，如px，em，%；依次为：上  右  下  左，如 5px 2px 0 3px')->keyCheckBox('theme', '适用主题', '', $themes_array);
+            $builder->keyId()
+                    ->keyTitle('title','广告名')
+                    ->keyText('name', '标识', '字母和数字构成，同一个页面上不要出现两个同名的')
+                    ->keyText('path', '路径', '模块名/控制器名/方法名，例如：Home/Index/detail')
+                    ->keyRadio('type', '广告类型', '', array(1 => '单图广告', 2 => '多图轮播', 3 => '文字链接', 4 => '代码'))
+                    
+                    ->keyText('width', '宽度', '支持各类长度单位，如px，em，%')
+                    ->keyText('height', '高度', '支持各类长度单位，如px，em，%')
+                    ->keyText('margin', '边缘留白', '支持各类长度单位，如px，em，%；依次为：上  右  下  左，如 5px 2px 0 3px')
+                    ->keyText('padding', '内部留白', '支持各类长度单位，如px，em，%；依次为：上  右  下  左，如 5px 2px 0 3px')
+                    ->keyCheckBox('theme', '适用主题', '', $themes_array);
             $data = json_decode($pos['data'], true);
             if (!empty($data)) {
                 $pos = array_merge($pos, $data);
@@ -212,7 +220,9 @@ class AdvController extends AdminController
             }
 
 
-            $builder->keyDefault('type', 1)->keyDefault('status', 1);
+            $builder->keyDefault('type', 1)
+                    ->keyDefault('status', 1);
+                    //->keyStatus('status','状态',1);
             $builder->data($pos);
             $builder->buttonSubmit()->buttonBack();
             $builder->display();
@@ -226,6 +236,9 @@ class AdvController extends AdminController
     public function adv($r = 20)
     {
         $aPosId = I('pos_id', 0, 'intval');
+        if(!$aPosId){
+            $this->error('未传入"pos_id"参数');
+        }
         $advPosModel = D('Common/AdvPos');
         $pos = $advPosModel->find($aPosId);
         if ($aPosId != 0) {
@@ -234,11 +247,6 @@ class AdvController extends AdminController
         $map['status'] = 1;
         $data = D('Adv')->where($map)->order('pos_id desc,sort desc')->findPage($r);
 
-        foreach ($data['data'] as &$v) {
-            $p = $advPosModel->find($v['pos_id']);
-            $v['pos'] = '<a class="text-danger" href="' . U('adv?pos_id=' . $p['pos_id']) . '">' . $p['title'] . '</a>';
-        }
-
         //todo 广告管理列表
         $builder = new AdminListBuilder();
         if ($aPosId == 0) {
@@ -246,10 +254,13 @@ class AdvController extends AdminController
         } else {
             $builder->title($pos['title'] . '【' . $pos['name'] . '】' . ' 设置——' . $advPosModel->switchType($pos['type']));
         }
-        $builder->keyId()->keyLink('title', '广告说明', 'editAdv?id=###');
-        $builder->keyHtml('pos', '所属广告位');
-        $builder->keyText('click_count', '点击量');
-        $builder->buttonNew(U('editAdv?pos_id=' . $aPosId), '新增广告');
+        $builder->keyId();
+        $builder->keyText('title', '广告');
+        $builder->keyDoAction("editAdv?id=###", '编辑', $title = '操作');
+        $builder->keyLink('', '预览', 'adv_info?id=###');
+        //$builder->keyText('click_count', '点击量');
+        $builder->buttonNew(U('editAdv',array('pos_id'=>$aPosId)), '新增/编辑广告');
+        $builder->buttonDelete(U('setDel',array('pos_id'=>$aPosId)), '删除');
         if ($aPosId != 0) {
             $builder->button('广告排期查看', array('href' => U('schedule?pos_id=' . $aPosId)));
             $builder->button('设置广告位', array('href' => U('editPos?id=' . $aPosId)));
@@ -279,17 +290,16 @@ class AdvController extends AdminController
         $this->assign('pos_id', $aPosId);
         $this->display();
     }
-
+    /**
+     * 编辑广告
+     * @return [type] [description]
+     */
     public function editAdv()
     {
-
-
         $advModel = D('Common/Adv');
-
         $aId = I('id', 0, 'intval');
-
         if ($aId != 0) {
-            $adv = $advModel->find($aId);
+            $adv = $advModel->where(array('status'=>1))->find($aId);
             $aPosId = $adv['pos_id'];
         } else {
             $aPosId = I('get.pos_id', 0, 'intval');
@@ -344,7 +354,7 @@ class AdvController extends AdminController
                     }
                     //todo添加
                 }
-                $this->success('成功改动' . $added . '个广告。');
+                $this->success('成功改动' . $added . '个广告。',U('adv',array('pos_id'=>$aPosId)));
 
             } else {
                 switch ($pos['type']) {
@@ -365,9 +375,7 @@ class AdvController extends AdminController
                         $data['code'] = I('code', '', '');
                         break;
                 }
-
                 $adv['data'] = json_encode($data);
-
 
                 if ($aId == 0) {
                     $result = $advModel->add($adv);
@@ -377,30 +385,23 @@ class AdvController extends AdminController
                 }
 
                 if ($result === false) {
-                    $this->error('保存失败。');
+                    $this->error('保存失败');
                 } else {
-                    $this->success('保存成功。');
+                    $this->success('保存成功',U('adv',array('pos_id'=>$aPosId)));
                 }
             }
-
-
+        //构造页面
         } else {
-
             //快速添加广告位逻辑
             //todo 快速添加
             $builder = new AdminConfigBuilder();
-
-            $adv['pos'] = $pos['title'] . '——' . $pos['name'] . '——' . $pos['path'];
+            $adv['pos'] = '广告名：' .$pos['title'] . '| 标识：' . $pos['name'] . '| 路径：' . $pos['path'];
             $adv['pos_id'] = $aPosId;
             $builder->keyReadOnly('pos', '所属广告位');
             $builder->keyReadOnly('pos_id', '广告位ID');
-            $builder->keyId()->keyTitle('title', '广告说明');
-
-
+            $builder->keyId()->keyTitle('title', '广告名');
             $builder->title($pos['title'] . '设置——' . $advPosModel->switchType($pos['type']));
-
             $builder->keyTime('start_time', '开始生效时间', '不设置则立即生效')->keyTime('end_time', '失效时间', '不设置则一直有效')->keyText('sort', '排序')->keyCreateTime()->keyStatus();
-
             $builder->buttonSubmit();
             $data = json_decode($adv['data'], true);
             if (!empty($data)) {
@@ -420,7 +421,6 @@ class AdvController extends AdminController
                     break;
                 case 2:
                     //todo 多图
-
                     break;
                 case 3:
                     $builder->keyText('text', '文字内容', '广告展示文字');
@@ -461,11 +461,64 @@ class AdvController extends AdminController
             } else {
                 $builder->display();
             }
-
-
         }
+    }
+
+    public function adv_info($id){
+        header("Content-Type: text/html;charset=utf-8"); 
+        $data = D('Common/Adv')->where(array('id'=>$id))->find();
+        $data['data'] = json_decode($data['data'],true);
+
+        if($data['data']['pic']){
+            $data['data']['pic_url'] = pic($data['data']['pic']);
+        }
+        $data['create_time'] = date("Y-m-d H:i:s",$data['create_time']);
+        $data['start_time'] = date("Y-m-d H:i:s",$data['start_time']);
+        $data['end_time'] = date("Y-m-d H:i:s",$data['end_time']);
 
 
+        $this->_meta_title = '广告位详情';
+        $this->assign('meta_title',$this->_meta_title);
+        $this->assign('data',$data);
+        $this->display();
+    }
+    /**
+     * 删除广告（设置为删除状态）
+     * @param [type] $ids [description]
+     */
+    public function setDel($ids,$pos_id)
+    {
+        !is_array($ids)&&$ids=explode(',',$ids);
+        $res=D('Common/Adv')->setDel($ids);
+        if($res){
+            $this->success('操作成功！',U('Adv/adv',array('pos_id'=>$pos_id)));
+        }else{
+            $this->error('操作失败！'.D('Common/Adv')->getError());
+        }
+    }
+    /**
+     * 真实删除广告
+     * @param [type] $ids [description]
+     */
+    //真实删除，留个下个版本处理，暂时先保留该方法
+    public function setTrueDel($ids,$pos_id)
+    {
+    if(IS_POST){
+        $ids=I('post.ids','','text');
+        $ids=explode(',',$ids);
+        //!is_array($ids)&&$ids=explode(',',$ids);
+        $res=D('Common/Adv')->setTrueDel($ids);
+        if($res){
+            $this->success('彻底删除成功！',U('Adv/adv',array('pos_id'=>$pos_id)));
+        }else{
+            $this->error('操作失败！'.D('Common/Adv')->getError());
+        }
+    }else{
+        $ids=I('ids');
+            $ids=implode(',',$ids);
+            $this->assign('ids',$ids);
+            $this->display();
+        }
     }
 
 

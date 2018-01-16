@@ -185,6 +185,7 @@ class AdminListBuilder extends AdminBuilder
     {
         if (!$url) $url = $this->_setStatusUrl;
         $attr['class']='btn ajax-post btn-danger';
+        $attr['data-confirm'] = L('_CONFIRM_DELETE_COMPLETELY_');
         return $this->buttonSetStatus($url, -1, $title, $attr);
     }
 

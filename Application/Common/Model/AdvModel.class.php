@@ -42,6 +42,27 @@ class AdvModel extends Model
         return $data;
     }
 
+    /**
+    *设置为删除状态
+    **/
+    public function setDel($ids)
+    {
+        !is_array($ids)&&$ids=explode(',',$ids);
+        $map['id']=array('in',$ids);
+        $res=$this->where($map)->setField('status',-1);
+        return $res;
+    }
+    /**
+    *真实删除内容
+    **/
+    public function setTrueDel($ids)
+    {
+        !is_array($ids)&&$ids=explode(',',$ids);
+        $map['id']=array('in',$ids);
+        $res=$this->where($map)->delete();
+        return $res;
+    }
+
     /*——————————————————分隔线————————————————*/
 
 
