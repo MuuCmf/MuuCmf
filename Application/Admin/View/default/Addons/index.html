@@ -45,16 +45,11 @@
                                 </a>
                             </div>
 
-                            <span class="caption">{$vo.description}</span>
+                            <!--<span class="caption">{$vo.description}</span>-->
 
                             <div class="content-wrapper">
                                 <div class="card-heading title">
-                                    <span class="pull-right">
-                                        <span class="label label-success">{$vo.version}</span>
-                                    </span>
-                                    <a href="{:U('config',array('id'=>$vo['id']))}" class="">
-                                        {$vo.title} <span class="text-muted">{$vo.name}</span>
-                                    </a>
+                                    <h3>{$vo.title} <span class="text-muted">{$vo.name}</span></h3>
                                 </div>
 
                                 <div class="card-content">
@@ -62,19 +57,16 @@
                                     <p class="text-muted text-ellipsis">{$vo.author}</p>
                                 </div>
                                 <div class="card-actions">
-
                                     <div class="btn-group">
-
-
                                         <empty name="vo.uninstall">
                                             <?php
-    								$class	= get_addon_class($vo['name']);
-    								if(!class_exists($class)){
-    									$has_config = 0;
-    								}else{
-    									$addon = new $class();
-    									$has_config = count($addon->getConfig());
-                                            }
+                								$class	= get_addon_class($vo['name']);
+                								if(!class_exists($class)){
+                									$has_config = 0;
+                								}else{
+                									$addon = new $class();
+                									$has_config = count($addon->getConfig());
+                                                }
                                             ?>
                                             <?php if ($has_config): ?>
                                             <a class="btn btn-primary" href="{:U('config',array('id'=>$vo['id']))}">{:L("_SET_UP_")}</a>
@@ -100,6 +92,9 @@
                                                href="{:U('install?addon_name='.$vo['name'])}">{:L("_INSTALL_")}</a>
                                         </empty>
                                     </div>
+                                    <span class="pull-right">
+                                        <span class="label label-success">{$vo.version}</span>
+                                    </span>
                                 </div>
                             </div>
                         </div>

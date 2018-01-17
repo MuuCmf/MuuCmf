@@ -36,11 +36,11 @@
                             </div>
                             <div class="content-wrapper">
                                 <div class="card-heading title">
-                                    <a href="{:U('edit?', array('name' => $vo['name']))}">{$vo.alias} <span class="text-muted">{$vo.name}</span></a>
+                                    <h3>{$vo.alias} <span class="text-muted">{$vo.name}</span></h3>
                                 </div>
                                 <div class="card-content text-muted">
                                     <p class="text-muted text-ellipsis">{$vo.summary}</p>
-                                    <p style="height:40px;overflow:hidden">{:L("_DEVELOPER_")}{:L('_COLON_')} <a style="color: #666">{$vo.developer}</a></p>
+                                    <p class="text-muted text-ellipsis">{:L("_DEVELOPER_")}{:L('_COLON_')} <a style="color: #666">{$vo.developer}</a></p>
                                 </div>
                                                   
                                 <div class="card-actions clearfix">
@@ -65,11 +65,11 @@
                                 <div class="card-actions clearfix">
                                     <div class="pull-left">
                                         <empty name="vo.token">
-                                            <span class="btn btn-warning">{:L("_LOCAL_MODULE_")}</span>
+                                            <span class="btn btn-xs btn-warning">{:L("_LOCAL_MODULE_")}</span>
                                             <else/>
                                             <a target="_blank"
-                                               href="{:appstoreU('Expand/Index/Info',array('token'=>$vo['token']))}"
-                                               class="btn btn-info">{:L("_GO_TO_THE_CLOUD_MARKET_VIEW_")}</a>
+                                               href="{:appstoreU('Appstore/Index/Info',array('token'=>$vo['token']))}"
+                                               class="btn btn-xs btn-info">{:L("_GO_TO_THE_CLOUD_MARKET_VIEW_")}</a>
                                         </empty>
                                     </div>
                                     <div class="pull-right">
