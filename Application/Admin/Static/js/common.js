@@ -193,7 +193,7 @@ $(function () {
  */
 ;$(function(){
 var version = $('td[data-id="version"]').text();
-    $.get("__CLOUD__/index.php?s=muucmf/sysupdate/index/enable_version/"+version, function(result){
+    $.get("http://www.muucmf.cn/index.php?s=muucmf/sysupdate/index/enable_version/"+version, function(result){
 
         if(result.status){
             new $.zui.Messager('有新的版本更新！', {
