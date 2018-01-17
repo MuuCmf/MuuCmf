@@ -30,6 +30,9 @@
         <input type="text" name="{$field.name}" value="{$field.value}" class="text input-large form-control"
                style="width: 400px" placeholder={:L("_NO_NEED_TO_FILL_IN_WITH_DOUBLE_")} readonly/>
     </case>
+    <case value="readonlyhtml">
+        {$field.value}
+    </case>
     <case value="integer">
         <input type="text" name="{$field.name}" value="{$field.value}" class="text input-large form-control"
                style="width: 400px"/>

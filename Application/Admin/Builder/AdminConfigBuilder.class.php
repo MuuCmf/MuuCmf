@@ -90,6 +90,18 @@ class AdminConfigBuilder extends AdminBuilder
     {
         return $this->key($name, $title, $subtitle, 'readonlytext');
     }
+    /**
+     * **只读纯HTML
+     * @param  [type] $name     [description]
+     * @param  [type] $title    [description]
+     * @param  [type] $subtitle [description]
+     * @return [type]           [description]
+     * @auth 大蒙<59262424@qq.com>
+     */
+    public function keyReadOnlyHtml($name, $title, $subtitle = null)
+    {
+        return $this->key($name, $title, $subtitle, 'readonlyhtml');
+    }
 
     /**文本输入框
      * @param      $name
