@@ -44,7 +44,7 @@ class MenuController extends AdminController {
         // 记录当前列表页的cookie
         Cookie('__forward__',$_SERVER['REQUEST_URI']);
 
-        $this->meta_title = L('_MENU_LIST_');
+        $this->meta_title = L('_MENU_MANAGER_');
         $this->display();
     }
 
@@ -133,10 +133,14 @@ class MenuController extends AdminController {
         if ( empty($id) ) {
             $this->error(L('_ERROR_DATA_SELECT_').L('_EXCLAMATION_'));
         }
-
+        //判断是否有下级菜单
+        $res =  M('Menu')->where(array('pid' => array('in', $id)))->select();
+        if($res){
+            $this->error(L('_DELETE_SUBMENU_'));
+        }
+        //开始移除菜单
         $map = array('id' => array('in', $id) );
         if(M('Menu')->where($map)->delete()){
-            // S('DB_CONFIG_DATA',null);
             //记录行为
             action_log('update_menu', 'Menu', $id, UID);
             $this->success(L('_SUCCESS_DELETE_'));
@@ -144,6 +148,7 @@ class MenuController extends AdminController {
             $this->error(L('_FAIL_DELETE_'));
         }
     }
+    
 
     public function toogleHide($id,$value = 1){
         $this->editRow('Menu', array('hide'=>$value), array('id'=>$id));

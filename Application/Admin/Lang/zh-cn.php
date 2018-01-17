@@ -167,6 +167,7 @@ return array(
     '_ERROR_DATA_SELECT_' => '请选择要操作的数据',
     '_SUCCESS_DELETE_' => '删除成功',
     '_FAIL_DELETE_' => '删除失败',
+    '_DELETE_SUBMENU_'=>'请先移除下级菜单',
 
 ///    userConfig
     '' => '用户配置',

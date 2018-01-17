@@ -10,9 +10,9 @@
 
     <div class="clearfix row with-padding">
         <div class="col-xs-10">
-            <a class="btn" href="{:U('add',array('pid'=>I('get.pid',0)))}">{:L('_ADD_WITH_SPACE_')}</a>
-            <button class="btn ajax-post confirm" url="{:U('del')}" target-form="ids">{:L('_DELETE_WITH_SPACE_')}</button>
-            <a class="btn" href="{:U('import',array('pid'=>I('get.pid',0)))}">{:L('_IMPORT_')}</a>
+            <a class="btn btn-success" href="{:U('add',array('pid'=>I('get.pid',0)))}">{:L('_ADD_WITH_SPACE_')}</a>
+            <button class="btn btn-danger ajax-post confirm" url="{:U('del')}" target-form="ids">{:L('_DELETE_WITH_SPACE_')}</button>
+            <a class="btn btn-warning" href="{:U('import',array('pid'=>I('get.pid',0)))}">{:L('_IMPORT_')}</a>
             <button class="btn list_sort" url="{:U('sort',array('pid'=>I('get.pid',0)),'')}">{:L('_SORT_')}</button>
         </div>
         <!-- 高级搜索 -->

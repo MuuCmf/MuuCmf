@@ -127,6 +127,8 @@
 '_AUTH_' =>' To grant authorization',
 '_AUTH_BG_MANAGER_' =>' Background management authority',
 '_MEMBER_AUTH_' =>' Member delegation',
+
+//menu
 '_MENU_MANAGER_' =>' Menu management',
 '_IMPORT_' =>' Guide',
 '_MENU_NAME_INPUT_' =>' Please enter the menu name',
@@ -145,7 +147,12 @@
 '_MENU_BG_EDIT_' =>' Edit background menu',
 '_ERROR_DATA_SELECT_' =>' Select the data to be operated',
 '_FAIL_DELETE_' =>' Delete failed',
+'_DELETE_SUBMENU_'=>'Please delete the submenu first',
+
+//userConfig
 '' =>' Allows the use of the registration option, the full election is closed for the registration',
+
+//config
 '_CONFIG_MANAGER_' =>' Configuration management',
 '_CONFIG_ADD_' =>' New configuration',
 '_ERROR_CONFIG_INFO_GET_' =>' Get configuration information error',

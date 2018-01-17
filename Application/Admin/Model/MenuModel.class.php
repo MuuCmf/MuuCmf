@@ -47,5 +47,14 @@ class MenuModel extends Model {
         }
         return $res;
     }
+    /**
+     * 判断、读取下级菜单
+     * @param  [type] $pid [description]
+     * @return [type]      [description]
+     */
+    public function subMenu($pid){
+        $res =  $this->where(array('pid'=>$pid))->select();
+        return $res;
+    }
 }
 
