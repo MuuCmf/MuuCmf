@@ -34,8 +34,12 @@ class IndexController extends AdminController
                 }
 
             }else{
-                $this->meta_title = L('_INDEX_MANAGE_');
+                //获取本地版本号
+                $version = file_get_contents('./Data/version.ini');
 
+                
+                $this->meta_title = L('_INDEX_MANAGE_');
+                $this->assign('version',$version);
                 $this->assign('count', $this->getUserCount());
                 $this->getOtherCount();
                 $this->display();

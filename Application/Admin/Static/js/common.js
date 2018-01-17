@@ -186,6 +186,34 @@ $(function () {
     });
 });
 
+/**
+ * 判断云端是否有新的更新
+ * @param  {[type]} ){var version       [description]
+ * @return {[type]}        [description]
+ */
+;$(function(){
+var version = $('td[data-id="version"]').text();
+    $.get("__CLOUD__/index.php?s=muucmf/sysupdate/index/enable_version/"+version, function(result){
+
+        if(result.status){
+            new $.zui.Messager('有新的版本更新！', {
+                type: 'danger',
+                icon: 'bell', // 定义消息图标
+                placement: 'bottom',
+                time: 10000,
+                actions: [{
+                    name: 'update',
+                    icon: 'chevron-right',
+                    text: '去更新',
+                    action: function() {  // 点击该操作按钮的回调函数
+                        window.location.href="/admin/update/index.html"; 
+                        return false; // 通过返回 false 来阻止消息被点击时隐藏
+                    }
+                }]
+            }).show();
+        }
+    });
+});
 //竖列模块导航的隐藏
 function isHidden(){
     $(".panel-menu").css("width","52.5469px");

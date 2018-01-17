@@ -87,7 +87,7 @@
                     <div class="portlet-body">
                         <table class="table table-bordered table-striped ">
                             <tr>
-                                <th style="width: 200px">{:L('_SERVER_OS_')}</th>
+                                <th>{:L('_SERVER_OS_')}</th>
                                 <td>{$Think.const.PHP_OS}</td>
                             </tr>
                             <tr>
@@ -113,7 +113,7 @@
                             </tr>
                             <tr>
                                 <th>{:L('_MUUCMF_VERSION_')}</th>
-                                <td>{:file_get_contents('./Data/version.ini')}</td>
+                                <td data-id="version" data-value="{$version}">{$version}</td>
                             </tr>
                         </table>
                     </div>
@@ -174,10 +174,7 @@
                 }], credits: {enabled: false}
             });
         });
-
-
     </script>
-
 </block>
 <block name="modal">
     <div class="modal fade" id="settingCount">
@@ -193,8 +190,6 @@
                         <label>{:L('_DISPLAY_DAYS_DEFAULT_')} </label><input class="form-control" name="count_day" value="{$count.count_day}">
 
                     </div>
-
-
                 </div>
                 <div class="modal-footer">
                     <button class="btn " data-role="saveCountSetting">
@@ -207,6 +202,7 @@
             </div>
         </div>
     </div>
+    
     <script>
         $('[data-role=saveCountSetting]').click(function () {
             $.post("__SELF__", {count_day: $('[name=count_day]').val()}, function (msg) {
