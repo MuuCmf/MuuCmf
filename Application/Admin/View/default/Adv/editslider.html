@@ -74,18 +74,18 @@
 
         <form action="{:U('editadv?pos_id='.$pos['id'])}" method="post" class="form-horizontal">
             <label class="item-label">所属广告位： </label>
-
             <div class="controls ">
                 <input type="hidden" name="pos_id" value="{$pos.id}"  readonly/>
-                <ol class="breadcrumb">
-                  <li>{$pos.path}</li>
-                  <li>{$pos.name}</li>
-                  <li>{$pos.title}</li>
-                </ol>
+                <div style="margin-bottom: 15px">
+                <span class="label label-success">广告名：{$pos.title}</span>
+                <span class="label label-danger">标识：{$pos.name}</span>
+                <span class="label">路径：{$pos.path}</span>
+                </div>
             </div>
-            <input name="type" type="hidden" value="2">
+            
 
             <label class="item-label">图片列表： </label>
+            <input name="type" type="hidden" value="2">
             <a class="btn btn-success" onclick="builder.add('#data-table')"><i class="icon-plus"></i> 添加广告</a>
             <ul id="data-table">
                 <volist name="list" id="vo">

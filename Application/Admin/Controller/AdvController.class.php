@@ -395,9 +395,14 @@ class AdvController extends AdminController
             //快速添加广告位逻辑
             //todo 快速添加
             $builder = new AdminConfigBuilder();
-            $adv['pos'] = '广告名：' .$pos['title'] . '| 标识：' . $pos['name'] . '| 路径：' . $pos['path'];
+            //$adv['pos'] = '广告名：' .$pos['title'] . '| 标识：' . $pos['name'] . '| 路径：' . $pos['path'];
+            $adv['pos'] = <<<EOT
+<span class="label label-success">广告名：{$pos['title']}</span>
+<span class="label label-danger">标识：{$pos['name']}</span>
+<span class="label">路径：{$pos['path']}</span>
+EOT;
             $adv['pos_id'] = $aPosId;
-            $builder->keyReadOnly('pos', '所属广告位');
+            $builder->keyReadOnlyHtml('pos', '所属广告位');
             $builder->keyReadOnly('pos_id', '广告位ID');
             $builder->keyId()->keyTitle('title', '广告名');
             $builder->title($pos['title'] . '设置——' . $advPosModel->switchType($pos['type']));
