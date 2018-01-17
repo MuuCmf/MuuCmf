@@ -11,7 +11,20 @@
 .usercenter .uc_top_bg {
   height: 280px;
   position: relative;
+  background:#999;
   width: 100%;
+}
+.usercenter .uc_top_bg .top_bg_box {
+
+  overflow:hidden;
+  height:280px;
+  z-index:-10;
+  zoom: 1;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -o-background-size: cover;
 }
 .usercenter .uc_top_bg .change_cover {
   position: absolute;
@@ -68,7 +81,7 @@
 }
 @media (max-width: 992px) {
   .usercenter .uc_info .uc_follow {
-    margin: 0 0 10px 85px;
+    margin: 0 0 10px 0;
   }
 }
 .usercenter .iMessageInput {margin:6px auto;}
@@ -99,7 +112,6 @@
 }
 .usercenter .uc_content .uc_other_link > div {
   margin: 10px;
-  margin-right: 30px;
   border-radius: 3px;
 }
 .usercenter .uc_content .uc_other_link > div .uc_link_info {
@@ -110,10 +122,11 @@
   max-width: 100%;
 }
 .usercenter .uc_content .uc_other_link > div .uc_link_info dd {
+  color:#333;
   text-align: center;
 }
 .usercenter .uc_content .uc_other_link > div .uc_link_block {
-  display: inline-block;
+  display: block;
 }
 .usercenter .uc_content .uc_other_link > div .uc_link_block .uc_link_top {
   border-bottom: 1px solid #ddd;

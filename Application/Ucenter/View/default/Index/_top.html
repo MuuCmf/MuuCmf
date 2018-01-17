@@ -1,9 +1,12 @@
 <div class="uc_top_bg">
+    <div class="top_bg_box" 
     <if condition="$user_info['cover_id']">
-        <img class="uc_top_img_bg" src="{$user_info['cover_path']}" style="width: 100%;height: 100%">
+        style="background-image:url('{$user_info['cover_path']}')"
         <else/>
-        <img class="uc_top_img_bg" src="__IMG__/user_top_default_bg.jpg" style="width: 100%;height: 100%">
+        style="background:url('__IMG__/user_top_default_bg.jpg')"
     </if>
+    >
+    </div>
     <if condition="is_login() && $user_info['uid'] eq is_login()">
         <div class="change_cover"><a data-type="ajax" data-url="{:U('Ucenter/Public/changeCover')}" data-toggle="modal" data-title="{:L('_UPLOAD_PERSONAL_COVER_')}" style="color: white;"><img class="img-responsive" src="__IMG__/fractional.png"></a>
         </div>

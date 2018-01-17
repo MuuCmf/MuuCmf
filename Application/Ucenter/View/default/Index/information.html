@@ -18,7 +18,6 @@
                 $('#' + name + '_toggle_right').show();
                 $('#' + name + '_toggle_bottom').hide()
             }
-
         }
     </script>
 <div id="main-container" class="container">
@@ -28,7 +27,7 @@
             <include file="_top_menu"/>
 
             <div class="uc_content clearfix">
-                <div class="col-xs-7">
+                <div class="col-md-8">
                     <div class="row">
                         <div class="col-xs-12 uc_information">
                             <ul class="nav nav-pills ucenter-tab">
@@ -76,18 +75,18 @@
                                             <dd>{$info_vl.field_data|default=L('')}</dd>
                                         </dl>
                                     </volist>
-                                    <if condition="count($group_vl['info_list']) eq 0"><p class="text-muted"
-                                                                                          style="text-align: center; font-size: 15px;margin: 15px;">
-
-                                        {:L('_MESSAGE_EXPAND_NONE_')}{:L('_EXCLAMATION_')}
-                                    </p></if>
+                                    <if condition="count($group_vl['info_list']) eq 0">
+                                        <p class="text-muted" style="text-align: center; font-size: 15px;margin: 15px;">
+                                            {:L('_MESSAGE_EXPAND_NONE_')}{:L('_EXCLAMATION_')}
+                                        </p>
+                                    </if>
 
                                 </div>
                             </div>
                         </volist>
                     </div>
                 </div>
-                <div class="col-xs-5 uc_other_link">
+                <div class="col-md-4 uc_other_link">
                     <include file="_right_link"/>
                 </div>
             </div>
