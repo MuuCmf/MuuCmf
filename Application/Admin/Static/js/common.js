@@ -297,7 +297,7 @@ $(function(){
 // 竖列模块导航的隐藏和打开
 $(function(){
     $("#closeMenu").click(function(){
-        $.post("./Admin/Admin/navClose", function(data) {
+        $.post("index.php?s=admin/admin/navClose", function(data) {
             var navclose=data.navclose;
               if(navclose == 0 || navclose== null){
                 $(".panel-menu").css("width","180px");
