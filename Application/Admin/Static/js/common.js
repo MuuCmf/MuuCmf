@@ -192,7 +192,7 @@ $(function () {
  * @return {[type]}        [description]
  */
 ;$(function(){
-var version = $('td[data-id="version"]').text();
+    var version = $('td[data-id="version"]').text();
     $.get("http://www.muucmf.cn/index.php?s=muucmf/sysupdate/index/enable_version/"+version, function(result){
 
         if(result.status){
@@ -214,11 +214,77 @@ var version = $('td[data-id="version"]').text();
         }
     });
 });
+/**
+ * 清理缓存（清理RunTime目录）
+ * @param  {$}      ){                 function clear_cache() {        var msg [description]
+ * @return {[type]}     [description]
+ */
+;$(function(){
+    $('a[data-id="clear_cache"]').on('click', function() {
+        var result = $(this).attr("data-msg");
+        clear_cache(result);
+    });
+
+    function clear_cache(result) {
+        var msg = new $.zui.Messager(result, {placement: 'bottom'});
+        $.get('/cc.php');
+        msg.show()
+    }
+})
+
+/**
+ * 侧栏菜单收起时消息提示
+ * @param  {String} ){                             $('[data-toggle [description]
+ * @return {[type]}     [description]
+ */
+$(function(){
+    //鼠标经过事件
+    //$('.panel-menu a[data-toggle="tooltip"]').mouseover(function(){
+        //var _this = $(this);
+        //判断菜单是否隐藏
+        //if($('.panel-menu').attr('data-value')=='muu_menu_hidden'){
+         $('.panel-menu a[data-toggle="tooltip"]').tooltip();
+        //}
+    //});
+});
+
++function () {
+    var $window = $(window), $subnav = $("#subnav"), url;
+    $window.resize(function () {
+        $("#main").css("min-height", $window.height() - 130);
+    }).resize();
+
+    // 导航栏超出窗口高度后的模拟滚动条
+    var sHeight = $(".sidebar").height();
+    var subHeight = $(".subnav").height();
+    var diff = subHeight - sHeight; //250
+    var sub = $(".subnav");
+    if (diff > 0) {
+        $(window).mousewheel(function (event, delta) {
+            if (delta > 0) {
+                if (parseInt(sub.css('marginTop')) > -10) {
+                    sub.css('marginTop', '0px');
+                } else {
+                    sub.css('marginTop', '+=' + 10);
+                }
+            } else {
+                if (parseInt(sub.css('marginTop')) < '-' + (diff - 10)) {
+                    sub.css('marginTop', '-' + (diff - 10));
+                } else {
+                    sub.css('marginTop', '-=' + 10);
+                }
+            }
+        });
+    }
+}();
+
+
 //竖列模块导航的隐藏
 function isHidden(){
     $(".panel-menu").css("width","52.5469px");
     $(".panel-main").css("left","52.5469px");
     $(".nav-text").css("display","none");
+    $(".panel-menu").attr('data-value','muu_menu_hidden');
     $("#closeMenu .nav-icon").html('<i class="icon icon-long-arrow-right"></i>');
     $("#closeMenu").attr("title","展开菜单");
 }
@@ -228,6 +294,7 @@ function isShow(){
     $(".panel-menu").css("width","180px");
     $(".panel-main").css("left","180px");
     $(".nav-text").css("display","inline-block");
+    $(".panel-menu").attr('data-value','muu_menu_show');
     $("#closeMenu .nav-icon").html('<i class="icon icon-long-arrow-left"></i>');
     $("#closeMenu").attr("title","收起菜单");
 }

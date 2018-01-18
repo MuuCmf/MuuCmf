@@ -116,7 +116,7 @@ body {
   left: 0;
   width: 180px;
   bottom: 0;
-  overflow: auto;
+  overflow:auto;
   background: #293038;
   z-index: 13;
 }
@@ -134,7 +134,6 @@ body {
 	
 }
 .panel-menu .sidebar-title .sidebar-title-inner {
-	padding:15px;
 	color:#fff;
 	background:#22282e;
 }
@@ -147,6 +146,7 @@ body {
 .panel-menu .sidebar-title .sidebar-title-inner a {
   color:#fff;
   display:block;
+  padding: 15px;
 }
 .panel-menu .sidebar-title .sidebar-title-inner a:hover i{
   color:#fff;

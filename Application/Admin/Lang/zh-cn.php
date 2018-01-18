@@ -58,6 +58,7 @@ return array(
     '_UPDATE_LOOK_' => '查看更新详情',
     '_CONFIRM_' => '确定',
     '_OPTION_MATCHED_NONE_' => '找不到匹配的选项',
+    '_MODULE_MENU_' =>'模块列表',
 
 //    index
     '_SITE_STATISTICS_' => '网站统计',

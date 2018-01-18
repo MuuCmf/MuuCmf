@@ -52,6 +52,8 @@
 '_UPDATE_LOOK_' =>' View update details',
 '_CONFIRM_' =>' Determine',
 '_OPTION_MATCHED_NONE_' =>' Can not find the matching option',
+'_MODULE_MENU_' =>'Module menu',
+
 '_SITE_STATISTICS_' =>' Website statistics',
 '_SYSTEM_INFO_' =>' System information',
 '_USER_ACTION_TODAY_' =>' User behavior today',
