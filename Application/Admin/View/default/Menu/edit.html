@@ -90,11 +90,8 @@
 <block name="script">
     <script type="text/javascript">
         Think.setValue("pid", '{$info.pid|default=0}');
-
         Think.setValue("hide", {$info.hide|default=0});
         Think.setValue("is_dev", {$info.is_dev|default=0});
-        //导航高亮
-        highlight_subnav('{:U('index')}');
         Think.setValue("module", '{$info.module|default=''}');
     </script>
 </block>

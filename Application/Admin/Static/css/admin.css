@@ -129,6 +129,7 @@ body {
   padding-left:15px;
   color:#fff;
   text-decoration: none;
+  display:block;
 }
 .panel-menu .sidebar-title {
 	
@@ -154,12 +155,6 @@ body {
 .panel-menu .sidebar-title .sidebar-title-inner a:hover {
   text-decoration:none;
 }
-.panel-menu .nav-primary > li.active > a,
-.panel-menu .nav-primary > li.active > a:hover,
-.panel-menu .nav-primary > li.active > a:focus {
-  background: #4f8ad0;
-  color:#252c34;
-}
 .panel-menu .nav-stacked.nav-primary > li:last-child > a {
   border-radius: 0;
 }
@@ -173,15 +168,13 @@ body {
   color:#fff;
 }
 .panel-menu .nav-primary > li.active > a {
-	
+	border: none;
+  background: #37424f;
 }
 .panel-menu .nav-primary > li.active > a:hover,
 .panel-menu .nav-primary > li.active > a:focus {
   border: none;
-  color:#252c34;
-}
-.panel-menu .nav-primary > li > a {
-	
+  color: #37424f;
 }
 .panel-menu .nav-primary > li > a:hover,
 .panel-menu .nav-primary > li > a:focus {

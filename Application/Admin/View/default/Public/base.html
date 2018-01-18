@@ -95,7 +95,7 @@
         <volist name="__MODULE_MENU__" id="v">
             <if condition="$v['is_setup'] AND $v['admin_entry']">
                 <li>
-                    <a  href="{:U($v['admin_entry'])}" title="{$v.alias|text}" data-toggle="tooltip" data-placement="right" data-container="body" data-tip-class="tooltip-danger">
+                    <a  href="{:U($v['admin_entry'])}" title="{$v.alias|text}" data-name="{$v.name}" data-toggle="tooltip" data-placement="right" data-container="body" data-tip-class="tooltip-danger">
                         <span class="nav-icon"><i class="icon-{$v['icon']}"></i></span> 
                         <span class="nav-text" <if condition="$navclose eq 1">style="display:none;"</if>>{$v.alias}</span>
                     </a>
@@ -249,7 +249,7 @@
     </div>
 </div>
 <php>}</php>
-
+<input data-toggle="location_href" value="{:U('Admin'.'/'.CONTROLLER_NAME.'/'.ACTION_NAME,$_GET)}" type="hidden" />
 <script>
     $(function () {
         var config = {
@@ -259,7 +259,6 @@
         for (var selector in config) {
             $(selector).chosen(config[selector]);
         }
-
     });
 </script>
 
@@ -272,26 +271,6 @@
 <script type="text/javascript" src="__ZUI__/lib/migrate/migrate1.2.js"></script>
 <script type="text/javascript" src="__JS__/kanban/kanban.js"></script>
 <script type="text/javascript" src="__JS__/common.js"></script>
-<script type="text/javascript">
-
-    highlight_subnav("{:U('Admin'.'/'.CONTROLLER_NAME.'/'.ACTION_NAME,$_GET)}")
-
-
-    $(function(){
-    // 竖列模块导航的隐藏和打开
-    $("#closeMenu").click(function(){
-        $.post("{:U('Admin/Admin/navClose')}", function(data) {
-            var navclose=data.navclose;
-            //alert(navclose);
-              if(navclose == 0 || navclose== null){
-                isShow();
-              }else{
-                isHidden();
-              }   
-            });  
-        });
-    })
-</script>
 <block name="script">
 </block>
 <block name="modal">

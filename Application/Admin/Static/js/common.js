@@ -278,26 +278,43 @@ $(function(){
     }
 }();
 
-
-//竖列模块导航的隐藏
-function isHidden(){
-    $(".panel-menu").css("width","52.5469px");
-    $(".panel-main").css("left","52.5469px");
-    $(".nav-text").css("display","none");
-    $(".panel-menu").attr('data-value','muu_menu_hidden');
-    $("#closeMenu .nav-icon").html('<i class="icon icon-long-arrow-right"></i>');
-    $("#closeMenu").attr("title","展开菜单");
-}
-
-//竖列模块导航的显示
-function isShow(){
-    $(".panel-menu").css("width","180px");
-    $(".panel-main").css("left","180px");
-    $(".nav-text").css("display","inline-block");
-    $(".panel-menu").attr('data-value','muu_menu_show');
-    $("#closeMenu .nav-icon").html('<i class="icon icon-long-arrow-left"></i>');
-    $("#closeMenu").attr("title","收起菜单");
-}
+//高亮导航
+$(function(){
+    var location = $('input[data-toggle="location_href"]').val();
+    
+    //二级高亮
+    $('#sub_menu').find('a[href="' + location + '"]').closest('li').addClass('active');
+    //一级高亮
+    $('.panel-menu .nav li a').each(function(){
+        var module = $(this).attr('data-name');
+        if(location.indexOf(module.toLowerCase())>0){
+            $(this).closest('li').addClass('active');
+        }
+    })
+});
+// 竖列模块导航的隐藏和打开
+$(function(){
+    $("#closeMenu").click(function(){
+        $.post("./Admin/Admin/navClose", function(data) {
+            var navclose=data.navclose;
+              if(navclose == 0 || navclose== null){
+                $(".panel-menu").css("width","180px");
+                $(".panel-main").css("left","180px");
+                $(".nav-text").css("display","inline-block");
+                $(".panel-menu").attr('data-value','muu_menu_show');
+                $("#closeMenu .nav-icon").html('<i class="icon icon-long-arrow-left"></i>');
+                $("#closeMenu").attr("title","收起菜单");
+              }else{
+                $(".panel-menu").css("width","52.5469px");
+                $(".panel-main").css("left","52.5469px");
+                $(".nav-text").css("display","none");
+                $(".panel-menu").attr('data-value','muu_menu_hidden');
+                $("#closeMenu .nav-icon").html('<i class="icon icon-long-arrow-right"></i>');
+                $("#closeMenu").attr("title","展开菜单");
+              }   
+        });  
+    });
+})
 
 //标签页切换(无下一步)
 function showTab() {
@@ -339,10 +356,7 @@ function showBtn() {
     }
 }
 
-//导航高亮
-function highlight_subnav(url) {
-    $('#sub_menu').find('a[href="' + url + '"]').closest('li').addClass('active');
-}
+
 
 moduleManager = {
     'install': function (id) {
@@ -386,7 +400,6 @@ function handleAjax(msg) {
         }, interval);
     }
 }
-
 /**
  * 模拟U函数
  * @param url
@@ -395,8 +408,6 @@ function handleAjax(msg) {
  * @constructor
  */
 function U(url, params, rewrite) {
-
-
     if (window.Think.MODEL[0] == 2) {
 
         var website = window.Think.ROOT + '/';
@@ -442,8 +453,6 @@ function U(url, params, rewrite) {
     }
     return website;
 }
-
-
 
 admin_image ={
     /**
