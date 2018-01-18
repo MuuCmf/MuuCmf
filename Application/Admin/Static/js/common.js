@@ -194,7 +194,7 @@ $(function () {
 ;$(function(){
     var can_update = $('[data-toggle="can_update"]').val();
     var version = $('[data-toggle="version"]').val();
-    if(can_update){
+    if(can_update==1){
         $.get("http://www.muucmf.cn/index.php?s=muucmf/sysupdate/index/enable_version/"+version, function(result){
             if(result.status){
                 new $.zui.Messager('有新的版本更新！', {
