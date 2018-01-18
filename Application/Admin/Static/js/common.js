@@ -207,7 +207,7 @@ $(function () {
                         icon: 'chevron-right',
                         text: '去更新',
                         action: function() {  // 点击该操作按钮的回调函数
-                            window.location.href="/admin/update/index.html"; 
+                            window.location.href="index.php?s=admin/update/index.html"; 
                             return false; // 通过返回 false 来阻止消息被点击时隐藏
                         }
                     }]
