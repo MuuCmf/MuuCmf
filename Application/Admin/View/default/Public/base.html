@@ -22,18 +22,6 @@
     <script type="text/javascript" src="__JS__/jquery.mousewheel.js"></script>
     <!--<![endif]-->
     <block name="style"></block>
-    <script type="text/javascript">
-        var ThinkPHP = window.Think = {
-            "ROOT": "__ROOT__", //当前网站地址
-            "APP": "__APP__", //当前项目地址
-            "PUBLIC": "__PUBLIC__", //项目公共目录地址
-            "DEEP": "{:C('URL_PATHINFO_DEPR')}", //PATHINF{:L("_O_SEGMENTATION_")}
-            "MODEL": ["{:C('URL_MODEL')}", "{:C('URL_CASE_INSENSITIVE')}", "{:C('URL_HTML_SUFFIX')}"],
-            "VAR": ["{:C('VAR_MODULE')}", "{:C('VAR_CONTROLLER')}", "{:C('VAR_ACTION')}"],
-            'URL_MODEL': "{:C('URL_MODEL')}"
-        }
-        var _ROOT_="__ROOT__";
-    </script>
 </head>
 <body>
 <header class="panel-header">
@@ -182,18 +170,19 @@
 <input data-toggle="location_href" value="{:U('Admin'.'/'.CONTROLLER_NAME.'/'.ACTION_NAME,$_GET)}" type="hidden" />
 <input data-toggle="can_update" value="{$can_update}" type="hidden" />
 <input data-toggle="version" value="{$version}" type="hidden" />
-<script>
-    $(function () {
-        var config = {
-            '.chosen-select'           : {search_contains: true, drop_width: 400,no_results_text:"{:L('_OPTION_MATCHED_NONE_')}"},
-            '.report-select'           : {search_contains: true, width: '400px',no_results_text:"{:L('_OPTION_MATCHED_NONE_')}"}
-        };
-        for (var selector in config) {
-            $(selector).chosen(config[selector]);
+<script type="text/javascript">
+    (function () {
+        var ThinkPHP = window.Think = {
+            "ROOT": "__ROOT__", //当前网站地址
+            "APP": "__APP__", //当前项目地址
+            "PUBLIC": "__PUBLIC__", //项目公共目录地址
+            "DEEP": "{:C('URL_PATHINFO_DEPR')}", //PATHINFO分割符
+            "MODEL": ["{:C('URL_MODEL')}", "{:C('URL_CASE_INSENSITIVE')}", "{:C('URL_HTML_SUFFIX')}"],
+            "VAR": ["{:C('VAR_MODULE')}", "{:C('VAR_CONTROLLER')}", "{:C('VAR_ACTION')}"],
+            'URL_MODEL': "{:C('URL_MODEL')}"
         }
-    });
+    })();
 </script>
-
 <script type="text/javascript" src="__STATIC__/think.js"></script>
 <!--zui-->
 <script type="text/javascript" src="__ZUI__/js/zui.min.js"></script>
