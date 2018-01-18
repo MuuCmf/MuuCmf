@@ -61,15 +61,17 @@ class AdminController extends Controller
                 $this->error(L('_VISIT_NOT_AUTH_'));
             }
         }
-        
+        //侧栏导航开关
+        $navclose = session('navclose');
+        //获取本地版本
+        $version = $this->localVersion();
         $this->assign('__MANAGE_COULD__',$this->checkRule('admin/module/lists',array('in','1,2')));
         $this->assign('__MENU__', $this->getMenus());
         $this->assign('__MODULE_MENU__', $this->getModules());
-        $navclose = session('navclose');
         $this->assign('navclose',$navclose);
-
-        //$this->checkUpdate();
-        $this->getReport();
+        $this->assign('version',$version);
+        $this->checkUpdate();
+        $this->Report();
         import_lang(ucfirst(CONTROLLER_NAME));
     }
 
@@ -502,74 +504,23 @@ class AdminController extends Controller
     public function  _empty(){
         $this->error(L('_ERROR_404_2_'));
     }
-
-    public function getReport(){
-
-        $result = S('os_report');
-        if(!$result){
-            $url = '/index.php?s=/report/index/check.html';
-            $result = $this->visitUrl($url);
-            S('os_report',$result,60*60);
-        }
-        $report = json_decode($result[1],true);
-        $ctime = filemtime("version.ini");
-        $check_exists = file_exists('./Application/Admin/Data/'.$report['title'].'.txt');
-        if(!$check_exists ){
-            $this_update = explode("\n",$report['this_update']);
-            $future_update = explode("\n",$report['future_update']);
-            $this->assign('this_update',$this_update);
-            $this->assign('future_update',$future_update);
-            $this->assign('report',$report);
-        }
-
-    }
-    public function submitReport(){
-        $aQ1 =  $data['q1'] =I('post.q1','','op_t');
-        $aQ2 =  $data['q2']=I('post.q2','','op_t');
-        $aQ3 =  $data['q3']=I('post.q3','','op_t');
-        $aQ4 =  $data['q4']=I('post.q4','','op_t');
-
-        if(empty($aQ1)|| empty($aQ2)|| empty($aQ3)||empty($aQ4)){
-            $this->error(L('_INSURE_PLEASE_').L('_WAVE_'));
-        }
-
+    public function Report(){
+       
         $data['host'] = 'http://'.$_SERVER['HTTP_HOST'].__ROOT__;
-        $data['ip'] = get_client_ip(1);
-        $url = '/index.php?s=/report/index/addFeedback.html';
+        $data['ip'] = get_client_ip();
+        $data['version'] = $this->localVersion();
+        $url = '/index.php?s=/muucmf/index/feedback';
         $result = $this->visitUrl($url,$data);
-        $res = json_decode($result[1],true);
-        if($res['status']){
-            file_put_contents('./Application/Admin/Data/'.$res['data']['report_name'].'.txt',$result[1]);
-            $this->success(L('_THANK_YOU_FOR_YOUR_COOPERATION_'));
-        }
-        else{
-            $this->error($res['info']);
-        }
-
+        //$res = json_decode($result[1],true);
     }
-    private function visitUrl($url,$data='')
-    {
-        $host = 'http://demo.ocenter.cn';
-        $url = $host.$url;
-        $requester = new requester($url);
-        $requester->charset = "utf-8";
-        $requester->content_type = 'application/x-www-form-urlencoded';
-        $requester->data = http_build_query($data);
-        $requester->enableCookie = true;
-        $requester->enableHeaderOutput = false;
-        $requester->method = "post";
-        $arr = $requester->request();
-        return $arr;
-    }
-
     protected function checkUpdate()
     {
         if (C('AUTO_UPDATE')) {
-            $can_update = D('Version')->checkUpdate();
+            $can_update = 1;
         } else {
             $can_update = 0;
         }
-        $this->assign('update', $can_update);
+        $this->assign('can_update', $can_update);
     }
 
     /*设置后台侧边导航开关*/
@@ -586,5 +537,23 @@ class AdminController extends Controller
             $data['navclose']=session('navclose');
             $this->ajaxReturn($data);
         }
+    }
+    private function visitUrl($url,$data='')
+    {
+        $host = C('__CLOUD__');
+        $url = $host.$url;
+        $requester = new requester($url);
+        $requester->charset = "utf-8";
+        $requester->content_type = 'application/x-www-form-urlencoded';
+        $requester->data = http_build_query($data);
+        $requester->enableCookie = true;
+        $requester->enableHeaderOutput = false;
+        $requester->method = "post";
+        $arr = $requester->request();
+        return $arr;
+    }
+    private function localVersion()
+    {
+        return file_get_contents('./Data/version.ini');
     }
 }

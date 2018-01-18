@@ -179,77 +179,9 @@
     </div>
     </div>
 </div>
-
-<php>if($report){</php>
-<div  class="report_feedback" title="{:L('_REPORT_EXPERIENCE_PLEASE_FILL_')}" data-toggle="modal" data-target="#myModal">
-    <div class="report_icon" ></div>
-    <span class="label label-badge label-danger report_point">1</span>
-</div>
-
-<div class="modal fade in" id="myModal" aria-hidden="false"  style="display: none">
-    <div class="modal-dialog" >
-        <div class="modal-content">
-            <form class="report_form"  action="{:U('admin/admin/submitReport')}" method="post">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">{:L('_CLOSE_')}</span></button>
-                <h4 class="modal-title">{:L('_REPORT_EXPERIENCE_')}</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div>{:L('_THANKS_HOPE_')}</div>
-                        <label class="item-label">{:L('_MOOD_MY_')}</label>
-                        <div>
-                            <select name="q1" class="report-select" style="width:400px;">
-                                <option value="0">{:L('_ELECT_PLEASE_')}</option>
-                                <option>{:L('_HAPPY_')}</option>
-                                <option>{:L('_AGONY_')}</option>
-                                <option>{:L('_LOVE_')}</option>
-                                <option>{:L('_EXPECT_')}</option>
-                            </select>
-                        </div>
-                        <label class="item-label">{:L('_LOVE_MY_OPTION_')}</label>
-                        <div>
-                            <select name="q2" class="report-select" style="width:400px;">
-                                <option value="0">{:L('_ELECT_PLEASE_')}</option>
-                                <volist name="this_update" id="option">
-                                    <option value="{$option|htmlspecialchars}">{$option|htmlspecialchars}</option>
-                                </volist>
-                            </select>
-                        </div>
-                        <label class="item-label">{:L('_HATE_MY_OPTION_')}</label>
-                        <div>
-                            <select name="q3" class="report-select" style="width:400px;">
-                                <option value="0">{:L('_ELECT_PLEASE_')}</option>
-                                <volist name="this_update" id="option">
-                                    <option value="{$option|htmlspecialchars}">{$option|htmlspecialchars}</option>
-                                </volist>
-                            </select>
-                        </div>
-                        <label class="item-label">{:L('_EXPECTATION__MY_OPTION_')}</label>
-                        <div>
-                            <select name="q4" class="report-select" style="width:400px;">
-                                <option value="0">{:L('_ELECT_PLEASE_')}</option>
-                                <volist name="future_update" id="option">
-                                    <option value="{$option|htmlspecialchars}">{$option|htmlspecialchars}</option>
-                                </volist>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <php>if(strval($report['url'])!=''){</php>
-                <a class="pull-left" href="{$report['url']}" target="_blank" >{:L('_UPDATE_LOOK_')}</a>
-                <php>}</php>
-                <button type="submit" class="btn ajax-post" target-form="report_form">{:L('_CONFIRM_')}</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>
-<php>}</php>
 <input data-toggle="location_href" value="{:U('Admin'.'/'.CONTROLLER_NAME.'/'.ACTION_NAME,$_GET)}" type="hidden" />
+<input data-toggle="can_update" value="{$can_update}" type="hidden" />
+<input data-toggle="version" value="{$version}" type="hidden" />
 <script>
     $(function () {
         var config = {

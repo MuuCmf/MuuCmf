@@ -192,27 +192,29 @@ $(function () {
  * @return {[type]}        [description]
  */
 ;$(function(){
-    var version = $('td[data-id="version"]').text();
-    $.get("http://www.muucmf.cn/index.php?s=muucmf/sysupdate/index/enable_version/"+version, function(result){
-
-        if(result.status){
-            new $.zui.Messager('有新的版本更新！', {
-                type: 'danger',
-                icon: 'bell', // 定义消息图标
-                placement: 'bottom',
-                time: 10000,
-                actions: [{
-                    name: 'update',
-                    icon: 'chevron-right',
-                    text: '去更新',
-                    action: function() {  // 点击该操作按钮的回调函数
-                        window.location.href="/admin/update/index.html"; 
-                        return false; // 通过返回 false 来阻止消息被点击时隐藏
-                    }
-                }]
-            }).show();
-        }
-    });
+    var can_update = $('[data-toggle="can_update"]').val();
+    var version = $('[data-toggle="version"]').val();
+    if(can_update){
+        $.get("http://www.muucmf.cn/index.php?s=muucmf/sysupdate/index/enable_version/"+version, function(result){
+            if(result.status){
+                new $.zui.Messager('有新的版本更新！', {
+                    type: 'danger',
+                    icon: 'bell', // 定义消息图标
+                    placement: 'bottom',
+                    time: 10000,
+                    actions: [{
+                        name: 'update',
+                        icon: 'chevron-right',
+                        text: '去更新',
+                        action: function() {  // 点击该操作按钮的回调函数
+                            window.location.href="/admin/update/index.html"; 
+                            return false; // 通过返回 false 来阻止消息被点击时隐藏
+                        }
+                    }]
+                }).show();
+            }
+        });
+    }
 });
 /**
  * 清理缓存（清理RunTime目录）
