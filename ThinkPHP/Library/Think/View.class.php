@@ -178,7 +178,16 @@ class View
                 $file = NOW_THEME_PATH . $template . C('TMPL_TEMPLATE_SUFFIX');
             }
         } else {
-            $now_theme = modC('NOW_THEME', 'default', 'Theme');
+            /**
+             * 移动端模板单独设置
+             * @author  大蒙 <59262424@qq.com>
+             * 2018-1-19 20:42
+             */
+            if(is_mobile()){
+                $now_theme =  D('Theme')->getThemeValue('_THEME_NOW_MTHEME');
+            }else{
+                $now_theme = D('Theme')->getThemeValue('_THEME_NOW_THEME');
+            }
             if ($now_theme != 'default') {
                 if (!defined('NOW_THEME_PATH')) {
                     $tmplPath = MUUCMF_THEME_PATH . $now_theme . '/' . $module . '/' . C('DEFAULT_V_LAYER') . '/';
@@ -220,7 +229,16 @@ class View
                     $common_file_path = MUUCMF_THEME_PATH . $TO_LOOK_THEME . '/Common/'.C('DEFAULT_V_LAYER').'/'. $file . C('TMPL_TEMPLATE_SUFFIX');
                 }
             } else {
-                $now_theme = modC('NOW_THEME', 'default', 'Theme');
+                /**
+                 * 移动端模板单独设置
+                 * @author  大蒙 <59262424@qq.com>
+                 * 2018-1-19 20:42
+                 */
+                if(is_mobile()){
+                    $now_theme =  D('Theme')->getThemeValue('_THEME_NOW_MTHEME');
+                }else{
+                    $now_theme = D('Theme')->getThemeValue('_THEME_NOW_THEME');
+                }
                 if ($now_theme != 'default') {
                     $common_file_path = MUUCMF_THEME_PATH . $now_theme . '/Common/' .C('DEFAULT_V_LAYER').'/'.$file . C('TMPL_TEMPLATE_SUFFIX');
                 }

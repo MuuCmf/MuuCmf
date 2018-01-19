@@ -14,13 +14,11 @@
     </div>
     <div class="with-padding">
         <div class="cards plugin-list">
-            <div style="width: 270px;padding: 0 10px;float: left;">
+            <div class="col-xs-3">
                 <div class="card">
                     <div class="media-wrapper">
-                        <img src="__ROOT__/Public/images/preview.jpg" style="height: 180px;">
+                        <img src="__ROOT__/Public/images/preview.jpg" >
                     </div>
-                    <span class="caption">Default</span>
-
                     <div class="card-heading">
                         <span class="pull-right">
                             <span class="label label-success" title={:L("_THEME_VERSION_WITH_DOUBLE_")}>2.0.0</span>
@@ -49,31 +47,28 @@
                 </div>
             </div>
             <volist name="tplList" id="info">
-                <div style="width: 270px;padding: 0 10px;float: left;">
+                <div class="col-xs-3">
                     <div class="card">
                         <div class="media-wrapper">
                             <a data-role="use_this" data-value="{$info.file_name}">
-                                <img src="{$info.path}/preview.jpg" style="height: 180px;">
+                                <img src="{$info.path}/preview.jpg">
                             </a>
                         </div>
-                        <span class="caption">{$info.name}</span>
-
                         <div class="card-heading">
                         <span class="pull-right">
                             <span class="label label-success" title="{:L("_THEME_VERSION_WITH_DOUBLE_")}">{$info.version} </span>
-<empty name="info.update_list">
-    <else/>
-    &nbsp;
-    <a style="text-decoration: none" href="javascript:void(0)" data-role="update_btn"
-       data-type="ajax"
-       data-url="{:U('Cloud/getVersionList',array('token'=>$info['token']))}"
-       data-toggle="modal" data-title={:L("_A_NEW_VERSION_CAN_BE_UPDATED_WITH_DOUBLE_")}><span
-            class=" label label-success ">{:L("_THERE_IS_A_NEW_VERSION_")}{$info.update_list.0.title}</span></a>
-    <script>$(function () {
-        $('[data-role="update_btn"]').tooltip('show');
-    });
-    </script>
-</empty>
+                            <empty name="info.update_list">
+                                <else/>
+                                <a style="text-decoration: none" href="javascript:void(0)" data-role="update_btn"
+                                   data-type="ajax"
+                                   data-url="{:U('Cloud/getVersionList',array('token'=>$info['token']))}"
+                                   data-toggle="modal" data-title={:L("_A_NEW_VERSION_CAN_BE_UPDATED_WITH_DOUBLE_")}><span
+                                        class=" label label-success ">{:L("_THERE_IS_A_NEW_VERSION_")}{$info.update_list.0.title}</span></a>
+                                <script>$(function () {
+                                    $('[data-role="update_btn"]').tooltip('show');
+                                });
+                                </script>
+                            </empty>
                         </span>
                             <a href="{:U('Admin/Theme/lookTheme',array('theme'=>$info['file_name']))}" target="_blank" title="{:L("_CHECK_THE_THEME_WITH_DOUBLE_")}">
                                 <strong>{$info.title}</strong>
@@ -94,22 +89,32 @@
                         </div>
                         <div class="card-actions">
                             <div class="btn-group">
-                                <eq name="now_theme" value="$info.file_name">
-                                    <span class="pull-left"
-                                          style="padding: 4px 12px;color: #3DC86E;display: inline-block;font-size: 16px;">{:L("_IN_USE_")}</span>
-                                    <a class="btn btn-primary"
-                                       href="{:U('Admin/Theme/packageDownload',array('theme'=>$info['file_name']))}"
-                                       style="margin-left: 8px;">{:L("_PACKAGED_DOWNLOAD_")}</a>
-                                    <else/>
-                                    <a class="btn btn-primary" data-role="use_this"
-                                       data-value="{$info.file_name}">{:L("_USE_")}</a>
-                                    <a class="btn btn-primary"
-                                       href="{:U('Admin/Theme/packageDownload',array('theme'=>$info['file_name']))}"
-                                       style="margin-left: 8px;">{:L("_PACKAGED_DOWNLOAD_")}</a>
-                                    <a class="btn btn-primary"
-                                       href="{:U('Admin/Theme/delete',array('theme'=>$info['file_name']))}"
-                                       style="margin-left: 8px;">{:L("_UNINSTALL_DELETE_")}</a>
+
+                                <eq name="info.file_name" value="$now_theme">
+                                    <span class="btn">
+                                     {:L("_IN_USE_")}
+                                    </span>
+                                <else/>
+                                    <a class="btn btn-warning" data-role="use_this"
+                                       data-item="pc" data-value="{$info.file_name}">{:L("_PC_USE_")}</a>
                                 </eq>
+
+                                <eq name="info.file_name" value="$now_mtheme">
+                                    <span class="btn">
+                                     {:L("_IN_USE_")}
+                                    </span>
+                                <else/>
+                                    <a class="btn btn-warning" data-role="use_this"
+                                       data-item="mobile" data-value="{$info.file_name}">{:L("_MOBILE_USE_")}</a>
+                                </eq>
+                                    
+                                    <a class="btn btn-info"
+                                       href="{:U('Admin/Theme/packageDownload',array('theme'=>$info['file_name']))}">
+                                       {:L("_PACKAGED_DOWNLOAD_")}
+                                    </a>
+                                    <a class="btn btn-danger" href="{:U('Admin/Theme/delete',array('theme'=>$info['file_name']))}">
+                                       {:L("_UNINSTALL_DELETE_")}
+                                    </a>
                             </div>
                         </div>
                     </div>
@@ -130,7 +135,11 @@
         $(function () {
             $('[data-role="use_this"]').click(function () {
                 var theme = $(this).attr('data-value');
-                $.post(U('Admin/Theme/setTheme'), {theme: theme}, function (msg) {
+                var item = $(this).attr('data-item');
+                $.post(U('Admin/Theme/setTheme'), {
+                    theme: theme,
+                    item:item
+                }, function (msg) {
                     if (msg.status) {
                         toast.success(msg.info);
                         setTimeout(function () {

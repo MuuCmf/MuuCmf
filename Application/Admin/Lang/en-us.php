@@ -1833,9 +1833,11 @@
 '_USE_ONLY_THE_BASIC_THEMES_' =>' Use only the basic themes',
 '_TEMPLATE_FILE_NAME_' =>' Template file name',
 '_IN_USE_' =>' In use',
-'_PACKAGED_DOWNLOAD_' =>' Packaged download',
-'_USE_' =>' Use',
-'_UNINSTALL_DELETE_' =>' Uninstall delete',
+'_PACKAGED_DOWNLOAD_' =>' download',
+'_PC_USE_' =>' Pc',
+'_MOBILE_USE_'=> 'Mobile'
+'_UNINSTALL_DELETE_' =>' Uninstall',
+
 '_PLEASE_ENTER_THE_KEYWORD_WITH_DOUBLE_' =>' "Please enter the keyword"',
 '_PATCH_' =>' Patch',
 '_NAME_ENGLISH_PATCH_BLANK_GENERATED_AUTOMATICALLY_ACCORDING_TO_THE_TIME_' =>' (name, English patch blank generated automatically according to the time)',

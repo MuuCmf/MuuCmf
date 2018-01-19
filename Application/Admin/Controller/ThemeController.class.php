@@ -3,7 +3,6 @@ namespace Admin\Controller;
 
 class ThemeController extends AdminController
 {
-
     /**
      * 主题列表页
      */
@@ -13,7 +12,7 @@ class ThemeController extends AdminController
         if ($aCleanCookie) {
             cookie('TO_LOOK_THEME', null, array('prefix' => 'MUUCMF'));
         }
-        // 根据应用目录取全部APP信息
+        // 根据应用目录取全部主题信息
         $dir = MUUCMF_THEME_PATH;
 
         /*刷新模块列表时清空缓存*/
@@ -21,9 +20,7 @@ class ThemeController extends AdminController
         if ($aRefresh == 1) {
         } else if ($aRefresh == 2) {
             S('admin_themes', null);
-
         }
-
 
         $tpls = S('admin_themes');
         if ($tpls === false) {
@@ -49,14 +46,14 @@ class ThemeController extends AdminController
             }
             S('admin_themes', $tpls);
         }
+        
 
+        $now_theme =  D('Theme')->getThemeValue('_THEME_NOW_THEME');
+        $now_mtheme = D('Theme')->getThemeValue('_THEME_NOW_MTHEME');
 
-        /*刷新模块列表时清空缓存 end*/
-
-
-        $now_theme = modC('NOW_THEME', 'default', 'Theme');
         $this->meta_title = '主题列表';
         $this->assign('now_theme', $now_theme);
+        $this->assign('now_mtheme', $now_mtheme);
         $this->assign('tplList', $tpls);
         $this->display();
     }
@@ -105,7 +102,7 @@ class ThemeController extends AdminController
         exit;
     }
 
-    public function delete()
+    public function delete_theme()
     {
         $aTheme = I('theme', '', 'text');
         if ($aTheme != '') {
@@ -128,10 +125,10 @@ class ThemeController extends AdminController
      */
     public function setTheme()
     {
-
+        $item = I('post.item','all','text');
         $aTheme = I('post.theme', 'default', 'text');
         $themeModel = D('Common/Theme');
-        if ($themeModel->setTheme($aTheme)) {
+        if ($themeModel->setTheme($aTheme,$item)) {
             $result['info'] = L('_SET_THE_THEME_TO_SUCCEED_');
             $result['status'] = 1;
         } else {

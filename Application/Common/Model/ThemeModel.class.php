@@ -9,29 +9,57 @@ class ThemeModel extends Model
     protected $tokenFile = '/token.ini';
     protected $dir = MUUCMF_THEME_PATH;
 
-    public function setTheme($name)
+    public function setTheme($name,$item='all')
     {
-        if (D('Config')->where(array('name' => '_THEME_NOW_THEME'))->count()) {
-            $res = D('Config')->where(array('name' => '_THEME_NOW_THEME'))->setField('value', $name);
-        } else {
-            $config['name'] = '_THEME_NOW_THEME';
-            $config['type'] = 0;
-            $config['title'] = '';
-            $config['group'] = 0;
-            $config['extra'] = '';
-            $config['remark'] = '';
-            $config['create_time'] = time();
-            $config['update_time'] = time();
-            $config['status'] = 1;
-            $config['value'] = $name;
-            $config['sort'] = 0;
-            $res = D('Config')->add($config);
+        $config['type'] = 0;
+        $config['title'] = '';
+        $config['group'] = 0;
+        $config['extra'] = '';
+        $config['remark'] = '';
+        $config['create_time'] = time();
+        $config['update_time'] = time();
+        $config['status'] = 1;
+        $config['value'] = $name;
+        $config['sort'] = 0;
+
+        if($item == 'pc'){
+            if (D('Config')->where(array('name' => '_THEME_NOW_THEME'))->count()) {
+                $res = D('Config')->where(array('name' => '_THEME_NOW_THEME'))->setField('value', $name);
+            } else {
+                $config['name'] = '_THEME_NOW_THEME';
+                $res = D('Config')->add($config);
+            }
         }
 
+        if($item == 'mobile'){
+            if (D('Config')->where(array('name' => '_THEME_NOW_MTHEME'))->count()) {
+                $res = D('Config')->where(array('name' => '_THEME_NOW_MTHEME'))->setField('value', $name);
+            } else {
+                $config['name'] = '_THEME_NOW_MTHEME';
+                $res = D('Config')->add($config);
+            }
+        }
+
+        if($item == 'all'){
+            if (D('Config')->where(array('name' => '_THEME_NOW_THEME'))->count()) {
+                $res = D('Config')->where(array('name' => '_THEME_NOW_THEME'))->setField('value', $name);
+            } else {
+                $config['name'] = '_THEME_NOW_THEME';
+                $res = D('Config')->add($config);
+            }
+
+            if (D('Config')->where(array('name' => '_THEME_NOW_MTHEME'))->count()) {
+                $res = D('Config')->where(array('name' => '_THEME_NOW_MTHEME'))->setField('value', $name);
+            } else {
+                $config['name'] = '_THEME_NOW_MTHEME';
+                $res = D('Config')->add($config);
+            }
+        }
+        
         if ($res) {
-            S('conf_THEME_NOW_THEME', $name);
-            cookie('TO_LOOK_THEME', $name, array('prefix' => 'MUUCMF'));
-            clean_cache(RUNTIME_PATH . 'Cache/');//清除模板缓存
+            //cookie('TO_LOOK_THEME', $name, array('prefix' => 'MUUCMF'));
+            S('now_THEME_NOW_THEME',null);
+            S('now_THEME_NOW_MTHEME',null);
             return true;
 
         } else {
@@ -91,6 +119,20 @@ class ThemeModel extends Model
             $tpl['token'] = file_get_contents(MUUCMF_THEME_PATH . $name . '/token.ini');
         }
         return $tpl;
+    }
+    /**
+     * 通过配置项后缀获取主题的value
+     * @param  string THEME pc端 MTHEME 移动端
+     */
+    public function getThemeValue($name = '_THEME_NOW_THEME'){
+
+        $now_theme = S("now{$name}");
+        if(!$now_theme){
+            $now_theme =  D('Config')->where(array('name' => $name))->find();
+            $now_theme = $now_theme['value'];
+            S("now{$name}",$now_theme,3600);
+        }
+        return $now_theme;
     }
 
     public function setToken($name, $token)

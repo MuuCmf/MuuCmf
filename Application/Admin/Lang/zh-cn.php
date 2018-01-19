@@ -2066,9 +2066,10 @@ return array(
     '_USE_ONLY_THE_BASIC_THEMES_' => '只使用基础主题',
     '_TEMPLATE_FILE_NAME_' => ' 模板文件名',
     '_IN_USE_' => '正在使用',
-    '_PACKAGED_DOWNLOAD_' => '打包下载',
-    '_USE_' => '使用',
-    '_UNINSTALL_DELETE_' => '卸载删除',
+    '_PACKAGED_DOWNLOAD_' => '下载',
+    '_PC_USE_' => 'PC端',
+    '_MOBILE_USE_' => '移动端',
+    '_UNINSTALL_DELETE_' => '删除',
 
 
     /*Think*/
