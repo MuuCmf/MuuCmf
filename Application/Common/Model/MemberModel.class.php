@@ -241,16 +241,49 @@ class MemberModel extends Model
             cookie('MUU_LOGGED_USER', $this->jiami($this->change() . ".{$user['uid']}.{$token}"), $expire);
         }
     }
-
+    /**
+     * 通用用户授权判断
+     * 增加微信网页判断
+     * 依赖模块 Weixin基础模块（不安装跳过微信网页授权判断）
+     * @return [type] [description]
+     */
     public function need_login()
-    {
+    {   
         if (!is_login()) {
-            if ($uid = $this->getCookieUid()) {
+            $this->rembember_login();
+            //判断浏览器类型
+            if(isWeixinBrowser()){
+                //判断微信基础模块（微信公众号）模块是否安装
+                $needModule = D('Module')->checkInstalled('Weixin');
+                if($needModule){
+                //如果微信浏览器
+                //执行微信网页授权登陆，依赖微信公众号模块（微信基础模块）
+                //获取微信模块配置
+                redirect(U('Weixin/index/authorize_url'));
+
+                    return false;
+                    echo '微信网页授权登陆';exit;
+
+                    return $uid;
+                }
+            }
+            return false;
+        }else{
+            return is_login();
+        }
+    }
+    /**
+     * 记住登陆状态
+     * @return [type] [description]
+     */
+    public function rembember_login(){
+        if(!is_login()){
+            //判断COOKIE
+            if ($uid = $this->getCookieUid()>0) {
                 $this->login($uid);
-                return true;
+                return $uid;
             }
         }
-
     }
 
     public function getCookieUid()

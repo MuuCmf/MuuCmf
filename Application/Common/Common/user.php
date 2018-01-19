@@ -6,8 +6,13 @@
  * Time: 上午11:26
  * @author:xjw129xjt(肖骏涛) xjt@ourstu.com
  */
-
-
+/**
+ * 通用需要用户授权判断 登陆状态返回用户uid，未登陆返回false，如果安装了微信模块可调起微信网页授权
+ * @return [type] [description]
+ */
+function _need_login(){
+    return D('Common/Member')->need_login();
+}
 /**
  * check_username  根据type或用户名来判断注册使用的是用户名、邮箱或者手机
  * @param $username

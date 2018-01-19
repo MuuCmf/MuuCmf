@@ -303,20 +303,25 @@ class IndexController extends Controller{
         return $now_category;
     }
     private function _needLogin()
-    {
-        if(!is_login()){
+    {   
+        //调用通用用户授权方法
+        if(!_need_login()){
             $this->error('请先登录！');
         }
     }
     //获取用户文章数的总阅读量
     private function _totalView($uid=0)
     {
-        $res=$this->articlesModel->where(array('uid'=>$uid))->select();
-        $total=0;
-        foreach($res as $value){ 
-            $total=$total+$value['view'];
+        $total = S("article_total_view_uid_{$uid}");
+        if(!$total){
+            $res=$this->articlesModel->where(array('uid'=>$uid))->select();
+            $total=0;
+            foreach($res as $value){ 
+                $total=$total+$value['view'];
+            }
+            unset($value);
+            S("article_total_view_uid_{$uid}",$total,3600);
         }
-        unset($value);
         return $total;
     }
 } 
