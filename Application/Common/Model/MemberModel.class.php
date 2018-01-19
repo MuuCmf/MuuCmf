@@ -251,15 +251,18 @@ class MemberModel extends Model
     {   
         if (!is_login()) {
             $this->rembember_login();
-            //判断浏览器类型
-            if(isWeixinBrowser()){
-                //依赖微信基础模块；判断微信基础模块（微信公众号）模块是否安装
-                $needModule = D('Module')->checkInstalled('Weixin');
-                if($needModule){
-                //如果微信浏览器
-                //执行微信网页授权登陆
-                $requer_url = urlencode(GetCurUrl());
-                redirect(U('Weixin/index/authorize_url').'&requer_url='.$requer_url);
+            //判断是否开启微信网页授权
+            if(modC('OPEN_WECHAT_AUTH',0,'userConfig')){
+                //判断浏览器类型
+                if(isWeixinBrowser()){
+                    //依赖微信基础模块；判断微信基础模块（微信公众号）模块是否安装，暂时只支持Weixin模块
+                    $needModule = D('Module')->checkInstalled('Weixin');
+                    //如果微信浏览器
+                    if($needModule){
+                    //执行微信网页授权登陆
+                    $requer_url = urlencode(GetCurUrl());
+                    redirect(U('Weixin/index/authorize_url').'&requer_url='.$requer_url);
+                    }
                 }
             }
             return false;
