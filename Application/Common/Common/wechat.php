@@ -41,3 +41,14 @@ function get_shareurl(){
         return $url;
     }
 }
+//判断是http or https
+function get_http_https(){
+    $url = 'http://';
+       if (isset ( $_SERVER ['HTTPS'] ) && $_SERVER ['HTTPS'] == 'on') {
+       $url = 'https://';
+       }else{
+        $url = 'http://';
+       }
+    return $url;
+}
+
