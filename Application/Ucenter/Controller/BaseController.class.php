@@ -14,11 +14,10 @@ class BaseController extends Controller
 {
     public function _initialize()
     {
-        $uid = intval($_REQUEST['uid']) ? intval($_REQUEST['uid']) : is_login();
-        if (!$uid) {
+        if (!_need_login()) {
             $this->error(L('_ERROR_NEED_LOGIN_'));
         }
-        $this->assign('uid', $uid);
+        $this->assign('uid', is_login());
         $this->mid = is_login();
     }
 

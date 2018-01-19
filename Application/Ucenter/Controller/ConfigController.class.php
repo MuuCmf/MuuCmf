@@ -9,9 +9,6 @@ class ConfigController extends BaseController
     public function _initialize()
     {
         parent::_initialize();
-        if (!is_login()) {
-            $this->error(L('_ERROR_FIRST_LOGIN_'));
-        }
         $this->setTitle(L('_DATA_EDIT_'));
         $this->_assignSelf();
         $this->_haveOtherRole();

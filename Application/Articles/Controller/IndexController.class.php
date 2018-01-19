@@ -20,9 +20,6 @@ class IndexController extends Controller{
 
     function _initialize()
     {
-        if (!C('WEB_SITE_CLOSE')) {
-            $this->error(L('_ERROR_WEBSITE_CLOSED_'));
-        }
         $this->articlesModel = D('Articles/Articles');
         $this->articlesDetailModel = D('Articles/ArticlesDetail');
         $this->articlesCategoryModel = D('Articles/ArticlesCategory');
