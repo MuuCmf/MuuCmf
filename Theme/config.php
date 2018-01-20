@@ -5,6 +5,7 @@
  * Date: 15-5-14
  * Time: 上午10:11
  * @author 郑钟良<zzl@ourstu.com>
+ * 
  */
 $now_theme = cookie('TO_LOOK_THEME','',array('prefix'=>'MUUCMF'));
 if(!$now_theme){
