@@ -261,16 +261,22 @@ function T($template = '', $layer = '')
         if(substr_count($file_theme, '/') > 2 ){
             $file_theme=substr($file_theme,strpos($file_theme,'/')+1);
         }
+        $template = $file_theme;
 
         $TO_LOOK_THEME = cookie('TO_LOOK_THEME', '', array('prefix' => 'MUUCMF'));
         if ($TO_LOOK_THEME) {
             if ($TO_LOOK_THEME != 'default') {
-                $file_path = MUUCMF_THEME_PATH . $TO_LOOK_THEME . '/' . $module . $layer . '/' . $file_theme . C('TMPL_TEMPLATE_SUFFIX');
+                $file_path = MUUCMF_THEME_PATH . $TO_LOOK_THEME . '/' . $module . '/' . $layer . '/' . $template . C('TMPL_TEMPLATE_SUFFIX');
             }
         } else {
-            $now_theme = modC('NOW_THEME', 'default', 'Theme');
+            /**
+             * 移动端模板单独设置
+             * @author  大蒙 <59262424@qq.com>
+             * 2018-1-19 20:42
+             */
+            $now_theme = muu_now_theme();
             if ($now_theme != 'default') {
-                $file_path = MUUCMF_THEME_PATH . $now_theme . '/' . $module . $layer . '/' . $file_theme . C('TMPL_TEMPLATE_SUFFIX');
+                $file_path = MUUCMF_THEME_PATH . $now_theme . '/' . $module . '/' .$layer . '/' . $template . C('TMPL_TEMPLATE_SUFFIX');
             }
         }
         if (isset($file_path) && is_file($file_path)) {
@@ -299,30 +305,28 @@ function T($template = '', $layer = '')
     //MuuCmf 修改这个机制
     //如果模版存在，则返回该模版
     $result = $baseUrl . ($theme ? $theme . '/' : '') . $file . C('TMPL_TEMPLATE_SUFFIX');
-    //dump($baseUrl);exit;
     if (is_file($result)) {
         return $result;
     }
     /**
-     * 2015-5-14 9:35
-     * 如果模版存在，则返回主题公共目录下的模版 start
+     * 如果模版不存在，则返回主题公共目录下的模版 start
      * @author 郑钟良<zzl@ourstu.com>
+     * @author 大蒙<59262424@qq.com>
      */
     $TO_LOOK_THEME = cookie('TO_LOOK_THEME', '', array('prefix' => 'MUUCMF'));
     if ($TO_LOOK_THEME) {
         if ($TO_LOOK_THEME != 'default') {
-            $common_file_path = MUUCMF_THEME_PATH . $TO_LOOK_THEME . '/Common/'.$layer.'/'. $file . C('TMPL_TEMPLATE_SUFFIX');
+            $common_file_path = MUUCMF_THEME_PATH . $TO_LOOK_THEME . '/Common/' . $layer . '/'. $file . C('TMPL_TEMPLATE_SUFFIX');
         }
     } else {
-
-        if(is_mobile()){
-            $now_theme =  D('Theme')->getThemeValue('_THEME_NOW_MTHEME');
-        }else{
-            $now_theme = D('Theme')->getThemeValue('_THEME_NOW_THEME');
-        }
-
+        /**
+         * 移动端模板单独设置
+         * @author  大蒙 <59262424@qq.com>
+         * 2018-1-19 20:42
+         */
+        $now_theme = muu_now_theme();
         if ($now_theme != 'default') {
-            $common_file_path = MUUCMF_THEME_PATH . $now_theme . '/Common/' .$layer.'/'.$file . C('TMPL_TEMPLATE_SUFFIX');
+            $common_file_path = MUUCMF_THEME_PATH . $now_theme . '/Common/' . $layer . '/'.$file . C('TMPL_TEMPLATE_SUFFIX');
         }
     }
     if (isset($common_file_path) && is_file($common_file_path)) {
@@ -330,7 +334,7 @@ function T($template = '', $layer = '')
     }
     /**
      * 2015-5-14 9:35
-     * 如果模版存在，则返回主题公共目录下的模版 end
+     * 如果模版不存在，则返回主题公共目录下的模版 end
      * @author 郑钟良<zzl@ourstu.com>
      */
     //如果模版不存在，则返回公共目录下的模版

@@ -1862,5 +1862,17 @@ function get_all_module_lang($common_lang = array())
     }
     $lang = $module_lang ; // array_unique(array_merge($common_lang,$module_lang));
     return $lang;
+}
 
+/**
+ * 获取当前移动端与桌面端的主题设置名称
+ * @return [type] [description]
+ */
+function muu_now_theme(){
+        if(is_mobile()){
+            $now_theme =  D('Theme')->getThemeValue('_THEME_NOW_MTHEME');
+        }else{
+            $now_theme = D('Theme')->getThemeValue('_THEME_NOW_THEME');
+        }
+    return $now_theme;
 }
