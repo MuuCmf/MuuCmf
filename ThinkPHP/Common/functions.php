@@ -226,7 +226,9 @@ function T($template = '', $layer = '')
     }
 
     $info = parse_url($template);
+
     $file = $info['host'] . (isset($info['path']) ? $info['path'] : '');
+
     $module = isset($info['user']) ? $info['user'] . '/' : MODULE_NAME . '/';
     $extend = $info['scheme'];
     $layer = $layer ? $layer : C('DEFAULT_V_LAYER');
@@ -247,6 +249,7 @@ function T($template = '', $layer = '')
     if ($auto && isset($auto[$extend])) { // 扩展资源
         $baseUrl = $auto[$extend] . $module . $layer . '/';
     }
+
     if (!isset($baseUrl)) {
         /**
          * 2015-5-14 9:35
@@ -273,6 +276,7 @@ function T($template = '', $layer = '')
         if (isset($file_path) && is_file($file_path)) {
             return $file_path;
         }
+
         /**
          * 2015-5-14 9:35
          * 增加模板地址解析机制 end
@@ -292,8 +296,10 @@ function T($template = '', $layer = '')
     $theme = substr_count($file, '/') < 2 ? C('DEFAULT_THEME') : '';
 
     /*OpenCenter新增对common下的模板检测*/
+    //MuuCmf 修改这个机制
     //如果模版存在，则返回该模版
     $result = $baseUrl . ($theme ? $theme . '/' : '') . $file . C('TMPL_TEMPLATE_SUFFIX');
+    //dump($baseUrl);exit;
     if (is_file($result)) {
         return $result;
     }
@@ -308,7 +314,13 @@ function T($template = '', $layer = '')
             $common_file_path = MUUCMF_THEME_PATH . $TO_LOOK_THEME . '/Common/'.$layer.'/'. $file . C('TMPL_TEMPLATE_SUFFIX');
         }
     } else {
-        $now_theme = modC('NOW_THEME', 'default', 'Theme');
+
+        if(is_mobile()){
+            $now_theme =  D('Theme')->getThemeValue('_THEME_NOW_MTHEME');
+        }else{
+            $now_theme = D('Theme')->getThemeValue('_THEME_NOW_THEME');
+        }
+
         if ($now_theme != 'default') {
             $common_file_path = MUUCMF_THEME_PATH . $now_theme . '/Common/' .$layer.'/'.$file . C('TMPL_TEMPLATE_SUFFIX');
         }
@@ -324,6 +336,7 @@ function T($template = '', $layer = '')
     //如果模版不存在，则返回公共目录下的模版
     $baseUrl = APP_PATH . 'Common/View/' . ($theme ? $theme . '/' : '');
     $result = $baseUrl . $file . C('TMPL_TEMPLATE_SUFFIX');
+
     return $result;
     /*MuuCmf新增对common下的模板检测end*/
 }

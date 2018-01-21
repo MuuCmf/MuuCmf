@@ -691,6 +691,10 @@ class  Template {
         foreach ($array as $templateName){
             if(empty($templateName)) continue;
             if(false === strpos($templateName,$this->config['template_suffix'])) {
+                //@大蒙 2018-1-21
+                //自定义主题路径后expend include仅支持绝对路径
+                //本来准备在这里做个判断，直接对T函数重构可以
+
                 // 解析规则为 模块@主题/控制器/操作
                 $templateName   =   T($templateName);
             }
