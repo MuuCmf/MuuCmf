@@ -1,27 +1,24 @@
 <extend name="Public/base"/>
 
 <block name="body">
-    <div class="main-title">
-        <h2>{:L("_NAVIGATION_MANAGEMENT_")}</h2>
-    </div>
+<div class="main-title">
+    <h2>{:L("_NAVIGATION_MANAGEMENT_")}</h2>
+</div>
 
 
-    <div class="with-padding">
-        <form action="{:U()}" method="post" class="form-horizontal" >
-        <ul class="channel-ul">
-        <volist name="list" id="nav">
-            <include file="_li"/>
-        </volist>
+<div class="with-padding">
+    <form action="{:U()}" method="post" class="form-horizontal" >
+    <ul class="channel-ul">
+    <volist name="list" id="nav">
+        <include file="_li"/>
+    </volist>
     </ul>
-
-            <div class="form-item with-padding">
-                <button class="btn submit-btn ajax-post no-refresh" id="submit" type="submit" target-form="form-horizontal">{:L("_SURE_WITH_SPACE_")}</button>
-                <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">{:L("_RETURN_WITH_SPACE_")}</button>
-            </div>
-        </form>
+    <div class="form-item with-padding">
+        <button class="btn submit-btn ajax-post no-refresh" id="submit" type="submit" target-form="form-horizontal">{:L("_SURE_WITH_SPACE_")}</button>
+        <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">{:L("_RETURN_WITH_SPACE_")}</button>
     </div>
-
-
+    </form>
+</div>
 
 <div id="one-nav" class="hide">
     <li class="clearfix pLi" >
@@ -44,13 +41,7 @@
 
         </div>
 
-        <div class='pull-left icon-chose' title={:L("_SELECT_ICON_WITH_DOUBLE_")}>
-            <select name="nav[1][icon][]" title={:L("_SELECT_ICON_WITH_DOUBLE_")} class="chosen-icons" data-value="icon-{$module.0.icon}"></select>
-        </div>
-
-        <div class='pull-left color-chose' title={:L("_SELECT_THE_ICON_BACKGROUND_COLOR_WITH_DOUBLE_")}>
-            <input  name="nav[1][color][]" class='simple_color_callback' value="#000000"/>
-        </div>
+        
         <div class='pull-left new-blank ' >
             <input name="nav[1][target][]" class="target_input" value="0">
             <label title={:L("_THE_NEW_WINDOW_OPENS_WITH_DOUBLE_")}> <input class="target" type="checkbox" value="1">{:L("_NEW_WINDOW_OPENS_")}</label>
@@ -101,12 +92,7 @@
                 <input name="nav[2][url][]" placeholder={:L("_PLEASE_ENTER_A_LINK_WITH_DOUBLE_")}  class="form-control url" style="width: 300px;display:none" value="{$module.0.entry}">
 
             </div>
-            <div class='pull-left icon-chose' title={:L("_SELECT_ICON_WITH_DOUBLE_")}>
-                <select name="nav[2][icon][]" title={:L("_SELECT_ICON_WITH_DOUBLE_")} class="chosen-icons" data-value="icon-{$module.0.icon}"></select>
-            </div>
-            <div class='pull-left color-chose' title={:L("_SELECT_THE_ICON_BACKGROUND_COLOR_WITH_DOUBLE_")}>
-                <input name="nav[2][color][]" class='simple_color_callback' value="#000000"/>
-            </div>
+            
             <div class='pull-left new-blank ' >
                 <input name="nav[2][target][]" class="target_input" value="0">
                 <label title={:L("_THE_NEW_WINDOW_OPENS_WITH_DOUBLE_")}> <input class="target"  type="checkbox" value="1">{:L("_NEW_WINDOW_OPENS_")}</label>
@@ -137,6 +123,4 @@
     <script src="__JS__/jquery.simple-color.js"></script>
     <script src="__JS__/channel.js"></script>
     <script src="__ZUI__/lib/sortable/zui.sortable.min.js"></script>
-    <script src="__ZUI__/lib/chosen/chosen.icons.min.js"></script>
-    <link href="__ZUI__/lib/chosen/chosen.icons.css" rel="stylesheet">
 </block>

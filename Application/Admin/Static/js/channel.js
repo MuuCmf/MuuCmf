@@ -1,16 +1,15 @@
 /**
- * Created by Administrator on 15-3-18.
  * 肖骏涛
+ * 大蒙<修改> 
+ * 2018-1-22 10:37
  */
 
 
 $(function () {
     re_bind();
 
-})
-
+});
 var re_bind = function () {
-
     change_select();
     change_module();
     fix_form();
@@ -21,23 +20,12 @@ var re_bind = function () {
     bind_color();
     add_flag();
     target_change()
-    bind_chose_icon()
 }
 
 var target_change = function(){
     $('.target').change(function(){
         $(this).closest('.new-blank').find('.target_input').val($(this).is(':checked')?1:0);
     })
-}
-
-var bind_chose_icon = function(){
-
-    $('.chosen-container').remove()
-    $('form select.chosen-icons').attr('class','chosen-icons');
-    $('form select.chosen-icons').data('zui.chosenIcons',null);
-    $('form select.chosen-icons').data('chosen',null);
-    $('form select.chosen-icons').chosenIcons();
-
 }
 var bind_color = function () {
     $('.simpleColorContainer').remove()

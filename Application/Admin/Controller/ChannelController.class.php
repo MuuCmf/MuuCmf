@@ -32,16 +32,13 @@ class ChannelController extends AdminController
                 for ($i = 0; $i < count(reset($one)); $i++) {
                     $data[$i] = array(
                         'pid' => 0,
-                        'title' => op_t($one['title'][$i]),
-                        'url' => op_t($one['url'][$i]),
+                        'title' => html($one['title'][$i]),
+                        'url' => text($one['url'][$i]),
                         'sort' => intval($one['sort'][$i]),
                         'target' => intval($one['target'][$i]),
-                        'color' => op_t($one['color'][$i]),
-                        'band_text' => op_t($one['band_text'][$i]),
-                        'band_color' => op_t($one['band_color'][$i]),
-                        'icon' => op_t(str_replace('icon-', '', $one['icon'][$i])),
+                        'band_text' => text($one['band_text'][$i]),
+                        'band_color' => text($one['band_color'][$i]),
                         'status' => 1
-
                     );
                     $pid[$i] = $Channel->add($data[$i]);
                 }
@@ -50,14 +47,12 @@ class ChannelController extends AdminController
                 for ($j = 0; $j < count(reset($two)); $j++) {
                     $data_two[$j] = array(
                         'pid' => $pid[$two['pid'][$j]],
-                        'title' => op_t($two['title'][$j]),
-                        'url' => op_t($two['url'][$j]),
+                        'title' => html($two['title'][$j]),
+                        'url' => text($two['url'][$j]),
                         'sort' => intval($two['sort'][$j]),
                         'target' => intval($two['target'][$j]),
-                        'color' => op_t($two['color'][$j]),
-                        'band_text' => op_t($two['band_text'][$j]),
-                        'band_color' => op_t($two['band_color'][$j]),
-                        'icon' => op_t(str_replace('icon-', '', $two['icon'][$j])),
+                        'band_text' => text($two['band_text'][$j]),
+                        'band_color' => text($two['band_color'][$j]),
                         'status' => 1
                     );
                     $res[$j] = $Channel->add($data_two[$j]);

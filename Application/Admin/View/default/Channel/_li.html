@@ -18,18 +18,7 @@
         <input name="nav[1][url][]" placeholder={:L("_PLEASE_ENTER_A_LINK_WITH_DOUBLE_")}   class="form-control url" style="width: 300px;<php>if($nav['module_name']){</php>display:none<php>}</php>" value=" {$nav.url}">
 
     </div>
-    <div class='pull-left icon-chose' title={:L("__WITH_DOUBLE_")}>
-        <php>
-            $icon = 'icon-'.$nav['icon'];
-            if(empty($nav['icon'])){
-            $icon = '';
-            }
-        </php>
-        <select name="nav[1][icon][]" title={:L("__WITH_DOUBLE_")} class="chosen-icons" data-value="{$icon}"></select>
-    </div>
-    <div class='pull-left color-chose' title={:L("_SELECT_THE_ICON_BACKGROUND_COLOR_WITH_DOUBLE_")}>
-        <input name="nav[1][color][]" class='simple_color_callback' value="{$nav['color']|default='#000000'}"/>
-    </div>
+
     <div class='pull-left new-blank ' >
         <input name="nav[1][target][]" class="target_input" value="{$nav['target']}">
         <label title={:L("_THE_NEW_WINDOW_OPENS_WITH_DOUBLE_")} ><input class="target" <if condition="$nav['target'] eq 1">checked</if>  type="checkbox" value="1">{:L("_NEW_WINDOW_OPENS_")}</label>
