@@ -37,133 +37,7 @@ require_once(APP_PATH . '/Common/Common/wechat.php');
  * 主要定义系统公共函数库
  */
 
-/**
- * 检测用户是否登录
- * @return integer 0-未登录，大于0-当前登录用户ID
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
- */
-function is_login()
-{
-    $user = session('user_auth');
-    if (empty($user)) {
-        return 0;
-    } else {
-        return session('user_auth_sign') == data_auth_sign($user) ? $user['uid'] : 0;
-    }
-}
 
-
-/**
- * 构造用户配置表 D('UserConfig')查询条件
- * @param string $name 表中name字段的值(配置标识)
- * @param string $model 表中model字段的值(模块标识)
- * @param int $uid 用户uid
- * @param int $role_id 登录的角色id
- * @return array 查询条件 $map
- * @author 郑钟良<zzl@ourstu.com>
- */
-function getUserConfigMap($name = '', $model = '', $uid = 0, $role_id = 0)
-{
-    $uid = $uid ? $uid : is_login();
-    $role_id = $role_id ? $role_id : get_role_id($uid);
-    $map = array();
-    //构造查询条件
-    $map['uid'] = $uid;
-    $map['name'] = $name;
-    $map['role_id'] = $role_id;
-    $map['model'] = $model;
-    return $map;
-}
-
-function get_uid()
-{
-    return is_login();
-}
-
-/**
- * 检测权限
- */
-function CheckPermission($uids)
-{
-    if (is_administrator()) {
-        return true;
-    }
-    if (in_array(is_login(), $uids)) {
-        return true;
-    }
-    return false;
-}
-
-function check_auth($rule = '', $except_uid = -1, $type = AuthRuleModel::RULE_URL)
-{
-    if (is_administrator()) {
-        return true;//管理员允许访问任何页面
-    }
-    if ($except_uid != -1) {
-        if (!is_array($except_uid)) {
-            $except_uid = explode(',', $except_uid);
-        }
-        if (in_array(is_login(), $except_uid)) {
-            return true;
-        }
-    }
-    $rule = empty($rule) ? MODULE_NAME . '/' . CONTROLLER_NAME . '/' . ACTION_NAME : $rule;
-    // 检测是否有该权限
-    if (!M('auth_rule')->where(array('name' => $rule, 'status' => 1))->find()) {
-        return false;
-    }
-   static $Auth = null;
-    if (!$Auth) {
-        $Auth = new \Think\Auth();
-    }
-    if (!$Auth->check($rule, get_uid(), $type)) {
-        return false;
-    }
-    return true;
-
-}
-
-
-/**
- * 检测当前用户是否为管理员
- * @return boolean true-管理员，false-非管理员
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
- */
-function is_administrator($uid = null)
-{
-    $uid = is_null($uid) ? is_login() : $uid;
-    $admin_uids = explode(',', C('USER_ADMINISTRATOR'));//调整验证机制，支持多管理员，用,分隔
-    //dump($admin_uids);exit;
-    return $uid && (in_array(intval($uid), $admin_uids));//调整验证机制，支持多管理员，用,分隔
-}
-function get_administrator()
-{
-    $admin_uids = explode(',', C('USER_ADMINISTRATOR')); //调整验证机制，支持多管理员，用,分隔
-    return $admin_uids;
-}
-
-/**获得具有某个权限节点的全部用户UID数组
- * @param string $rule
- */
-function get_auth_user($rule = '')
-{
-    $rule = D('AuthRule')->where(array('name' => $rule))->find();
-    $groups = D('AuthGroup')->select();
-    $uids = array();
-    foreach ($groups as $v) {
-        $auth_rule = explode(',', $v['rules']);
-        if (in_array($rule['id'], $auth_rule)) {
-            $gid = $v['id'];
-            $temp_uids =(array) D('AuthGroupAccess')->where(array('group_id' => $gid))->getField('uid');
-            if ($temp_uids !== null) {
-                $uids = array_merge($uids, $temp_uids);
-            }
-        }
-    }
-    $uids = array_merge($uids, get_administrator());
-    $uids = array_unique($uids);
-    return $uids;
-}
 
 /**
  * 字符串转换为数组，主要用于把分隔符调整到第二个参数
@@ -355,8 +229,6 @@ function list_sort_by($list, $field, $sortby = 'asc')
  */
 function list_to_tree($list, $pk = 'id', $pid = 'pid', $child = '_child', $root = 0)
 {
-
-
     // 创建Tree
     $tree = array();
     if (is_array($list)) {
@@ -512,7 +384,6 @@ function addons_url($url, $param = array(),$suffix = true, $domain = false)
         return U('Home/Addons/execute', $params,$suffix, $domain);
 
     }
-
 }
 
 /**
@@ -525,86 +396,6 @@ function time_format($time = NULL, $format = 'Y-m-d H:i')
 {
     $time = $time === NULL ? NOW_TIME : intval($time);
     return date($format, $time);
-}
-
-/**
- * 根据用户ID获取用户名
- * @param  integer $uid 用户ID
- * @return string       用户名
- */
-function get_username($uid = 0)
-{
-    static $list;
-    if (!($uid && is_numeric($uid))) { //获取当前登录用户名
-        return $_SESSION['ocenter']['user_auth']['username'];
-    }
-
-    /* 获取缓存数据 */
-    if (empty($list)) {
-        $list = S('sys_active_user_list');
-    }
-
-    /* 查找用户信息 */
-    $key = "u{$uid}";
-    if (isset($list[$key])) { //已缓存，直接使用
-        $name = $list[$key];
-    } else { //调用接口获取用户信息
-        $User = new User\Api\UserApi();
-        $info = $User->info($uid);
-        if ($info && isset($info[1])) {
-            $name = $list[$key] = $info[1];
-            /* 缓存用户 */
-            $count = count($list);
-            $max = C('USER_MAX_CACHE');
-            while ($count-- > $max) {
-                array_shift($list);
-            }
-            S('sys_active_user_list', $list);
-        } else {
-            $name = '';
-        }
-    }
-    return $name;
-}
-
-/**
- * 根据用户ID获取用户昵称
- * @param  integer $uid 用户ID
- * @return string       用户昵称
- */
-function get_nickname($uid = 0)
-{
-    static $list;
-    if (!($uid && is_numeric($uid))) { //获取当前登录用户名
-        return session('user_auth.username');
-    }
-
-    /* 获取缓存数据 */
-    if (empty($list)) {
-        $list = S('sys_user_nickname_list');
-    }
-
-    /* 查找用户信息 */
-    $key = "u{$uid}";
-    if (isset($list[$key])) { //已缓存，直接使用
-        $name = $list[$key];
-    } else { //调用接口获取用户信息
-        $info = M('Member')->field('nickname')->find($uid);
-        if ($info !== false && $info['nickname']) {
-            $nickname = $info['nickname'];
-            $name = $list[$key] = $nickname;
-            /* 缓存用户 */
-            $count = count($list);
-            $max = C('USER_MAX_CACHE');
-            while ($count-- > $max) {
-                array_shift($list);
-            }
-            S('sys_user_nickname_list', $list);
-        } else {
-            $name = '';
-        }
-    }
-    return $name;
 }
 
 /**
@@ -714,7 +505,6 @@ function ubb($data)
  */
 function action_log($action = null, $model = null, $record_id = null, $user_id = null)
 {
-
     //参数检查
     if (empty($action) || empty($model) || empty($record_id)) {
         return L('_PARAMETERS_CANT_BE_EMPTY_');
@@ -1496,37 +1286,7 @@ function get_some_day($some = 30, $day = null)
     return $some_day;
 }
 
-/**
- * 用户扩展资料可添加关联字段
- * @param string $id 关联数据表ID
- * @param string $field 需要返回的字段内容
- * @param string $table 关联数据表
- * @return array string
- * @author MingYang <xint5288@126.com>
- */
-function get_userdata_join($id = null, $field = null, $table = null)
-{
-    if (empty($table) || empty($field)) {
-        return false;
-    }
-    if (empty($id)) {
-        $data = D($table)->select();
-        foreach ($data as $key => $val) {
-            $list[$key] = $val;
-        }
-        return $list;
-    } else {
-        if (is_array($id)) {
-            $map['id'] = array('in', $id);
-            $data = D($table)->where($map)->getField($field, true);
-            return implode(',', $data);
-        } else {
-            $map['id'] = $id;
-            $data = D($table)->where($map)->getField($field);
-            return $data;
-        }
-    }
-}
+
 
 /**
  * 获取指定表字段信息，可定义多个组合查询条件（查阅thinkphp）返回查询字段和ID
@@ -1565,10 +1325,7 @@ function get_data_field_id($map = null, $field = null, $table = null, $yesnoid =
 }
 
 
-function UCenterMember()
-{
-    return D('User/UcenterMember');
-}
+
 
 
 function verify()

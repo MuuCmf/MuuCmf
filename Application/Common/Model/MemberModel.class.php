@@ -371,7 +371,6 @@ class MemberModel extends Model
         return $str1;
     }
 
-
     /**
      * 设置角色用户默认基本信息
      * @param $role_id
@@ -474,9 +473,68 @@ class MemberModel extends Model
             $this->where(array('uid' => $uid))->save($data);
         }
     }
-
     //默认显示哪一个角色的个人主页设置 end
 
+    /**
+     * 根据用户ID获取用户名
+     * @param  integer $uid 用户ID
+     * @return string       用户名
+     */
+    function get_username($uid = 0)
+    {
+        static $list;
+        if (!($uid && is_numeric($uid))) { //获取当前登录用户名 
+            $user_auth = session('user_auth');
+            return $user_auth['username'];
+        }
+
+        /* 获取缓存数据 */
+        if (empty($list)) {
+            $list = S('sys_active_user_list');
+        }
+        /* 查找用户信息 */
+        $key = "u{$uid}";
+        if (isset($list[$key])) { //已缓存，直接使用
+            $name = $list[$key];
+        } else { //调用接口获取用户信息
+            $User = new UserApi();
+            $info = $User->info($uid);
+
+            if ($info && isset($info[1])) {
+                $name = $list[$key] = $info[1];
+                /* 缓存用户 */
+                $count = count($list);
+                $max = C('USER_MAX_CACHE');
+                while ($count-- > $max) {
+                    array_shift($list);
+                }
+                S('sys_active_user_list', $list);
+            } else {
+                $name = '';
+            }
+        }
+        dump($info);exit;
+        return $name;
+    }
+
+    /**
+     * 根据用户ID获取用户昵称
+     * @param  integer $uid 用户ID
+     * @return string       用户昵称
+     */
+    function get_nickname($uid = 0)
+    {
+        if (!($uid && is_numeric($uid))) { //获取当前登录用户名
+            return session('user_auth.nickname');
+        }
+        
+        //调用接口获取用户信息
+        $info = M('Member')->field('nickname')->find($uid);
+        if ($info !== false && $info['nickname']) {
+            $nickname = $info['nickname'];
+        }
+        return $nickname;
+    }
     /**
      * 获取用户初始化后积分值
      * @param $role_id 当前初始化角色
