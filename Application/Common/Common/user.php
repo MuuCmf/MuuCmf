@@ -1,4 +1,5 @@
 <?php
+use Admin\Model\AuthRuleModel;
 /**
  * 用户相关公共函数库
  */
@@ -146,7 +147,6 @@ function check_auth($rule = '', $except_uid = -1, $type = AuthRuleModel::RULE_UR
         return false;
     }
     return true;
-
 }
 
 

@@ -513,7 +513,6 @@ class MemberModel extends Model
                 $name = '';
             }
         }
-        dump($info);exit;
         return $name;
     }
 

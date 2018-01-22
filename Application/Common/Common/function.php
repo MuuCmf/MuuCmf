@@ -8,7 +8,6 @@
 // +----------------------------------------------------------------------
 
 // OneThink常量定义
-use Admin\Model\AuthRuleModel;
 const ONETHINK_VERSION = '1.0.131218';
 const ONETHINK_ADDON_PATH = './Addons/';
 
