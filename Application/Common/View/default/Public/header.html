@@ -1,7 +1,3 @@
-<php>
-//记住登陆
- D('Common/Member')->rembember_login();
- </php>
 <!--[if lt IE 8]>
 <div class="alert alert-danger" style="margin-bottom: 0">{:L('_TIP_BROWSER_DEPRECATED_1_')} <strong>{:L('_TIP_BROWSER_DEPRECATED_2_')}</strong>
     {:L('_TIP_BROWSER_DEPRECATED_3_')} <a target="_blank"
@@ -10,9 +6,7 @@
 </div>
 <![endif]-->
     <nav class="navbar navbar-default navbar-fixed bootsnav">
-            <php>$logo = get_cover(modC('LOGO',0,'Config'),'path');
-                $logo = $logo?$logo:'__ROOT__/Public/images/logo.png';
-            </php>
+
         <div class="container">
             <!-- Start Header Navigation -->
             <div class="navbar-header">
@@ -34,22 +28,12 @@
                         </li>
                         <li class="top_spliter"></li>
                         <li class="dropdown">
-                            <php>
-                                $common_header_user = query_user(array('nickname','avatar32'));
-                            </php>
+
                             <a role="button" class="dropdown-toggle dropdown-toggle-avatar" data-toggle="dropdown">
                             <img src = "{$common_header_user.avatar32}" class="img-circle"/>
                                 {$common_header_user.nickname}&nbsp;<i class="icon-chevron-down"></i>
                             </a>
                             <ul class="dropdown-menu pull-right" role="menu">
-                                <php>
-                                    $user_nav=S('common_user_nav');
-                                    if($user_nav===false){
-                                    $user_nav=D('UserNav')->order('sort asc')->where('status=1')->select();
-                                    S('common_user_nav',$user_nav);
-                                    }
-                                </php>
-
                                 <volist name="user_nav" id="vo">
                                     <li><a target="<eq name='vo.target' value='1'>_blank<else/>_self</eq>"
                                         href="{:get_nav_url($vo['url'])}"><span
@@ -58,46 +42,32 @@
                                     </li>
                                 </volist>
 
-                                <php>
-                                    $register_type=modC('REGISTER_TYPE','normal','Invite');
-                                    $register_type=explode(',',$register_type);
-                                    if(in_array('invite',$register_type)){
-                                </php>
-                                <li><a href="{:U('ucenter/Invite/invite')}"><span class="glyphicon glyphicon-star"></span>&nbsp;&nbsp;{:L('_INVITE_FRIENDS_')}</a>
-                                </li>
-                                <php>}</php>
-
+                                <if condition="invite">
+                                    <li><a href="{:U('ucenter/Invite/invite')}"><span class="glyphicon glyphicon-star"></span>&nbsp;&nbsp;{:L('_INVITE_FRIENDS_')}</a></li>
+                                </if>
                                 {:hook('personalMenus')}
                                 <if condition="check_auth('Admin/Index/index')">
                                     <li><a href="{:U('Admin/Index/index')}" target="_blank"><span
                                             class="glyphicon glyphicon-dashboard"></span>&nbsp;&nbsp;{:L('_MANAGE_BACKGROUND_')}</a>
                                     </li>
                                 </if>
-                                <li><a event-node="logout"><span
-                                        class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;{:L('_LOGOUT_')}</a>
+                                <li><a event-node="logout"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;{:L('_LOGOUT_')}</a>
                                 </li>
                             </ul>
                         </li>
                         <else/>
-                        <php>
-                            $open_quick_login=modC('OPEN_QUICK_LOGIN', 0, 'USERCONFIG');
-                            $register_type=modC('REGISTER_TYPE','normal','Invite');
-                            $register_type=explode(',',$register_type);
-                            $only_open_register=0;
-                            if(in_array('invite',$register_type)&&!in_array('normal',$register_type)){
-                            $only_open_register=1;
-                            }
-                        </php>
                         <li class="">
-                        <if condition="$open_quick_login">
-                            <a data-login="quick_do_login" data-remote="{:U('Ucenter/Member/quickLogin')}" data-toggle="modal">{:L('_LOGIN_')}</a>
-                        <else/>
-                            <a data-login="do_login" href="{:U('Ucenter/Member/Login')}">{:L('_LOGIN_')}</a>
-                        </if>
+                            <if condition="$open_quick_login">
+                                    <a data-login="quick_do_login" data-remote="{:U('Ucenter/Member/quickLogin')}" data-toggle="modal">{:L('_LOGIN_')}</a>
+                            <else/>
+                                    <a data-login="do_login" href="{$login_url}">{:L('_LOGIN_')}</a>
+                            </if>
                         </li>
+                        <if condition="$only_open_register eq 0">
                         <li class="">
                             <a data-role="do_register" href="{:U('Ucenter/Member/register')}">{:L('_REGISTER_')}</a>
                         </li>
+                        </if>
                     </if>
                 </ul>
             </div>

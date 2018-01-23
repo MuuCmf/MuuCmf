@@ -26,7 +26,7 @@ class LoginWidget extends Action
         check_login_type('email') && $ph[] = L('_EMAIL_');
         check_login_type('mobile') && $ph[] = L('_PHONE_');
         $this->assign('ph', implode('/', $ph));
-        $this->display('Widget/Login/login');
+        $this->display(T('Ucenter@Widget/login'));
     }
 
     public function doLogin()
