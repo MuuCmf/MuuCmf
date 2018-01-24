@@ -1657,5 +1657,29 @@ function url_query($url){
     }
     return $url;
 }
+/**
+ * 多维数组中查询是否包含值
+ * @param  [type] $value [description]
+ * @param  [type] $array [description]
+ * @return [type]        [description]
+ */
+function deep_in_array($value, $array) {   
+foreach($array as $item) {   
+    if(!is_array($item)) {   
+        if ($item == $value) {  
+            return true;  
+        } else {  
+            continue;   
+        }  
+    }   
+        
+    if(in_array($value, $item)) {  
+        return true;      
+    } else if(deep_in_array($value, $item)) {  
+        return true;      
+    }  
+}
+return false;   
+}
 
 ?>
