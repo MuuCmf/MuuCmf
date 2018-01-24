@@ -93,8 +93,18 @@ class MemberController extends Controller
 
                 $uid = $ucenterMemberModel->login($username, $aPassword, $aUnType); //通过账号密码取到uid
                 D('Member')->login($uid, false, $aRole); //登陆
-
-                $this->success('', U('Ucenter/member/step', array('step' => get_next_step('start'))));
+                
+                //未设置启用任何注册后步骤操作就跳过
+                $step_config = modC('REG_STEP','','USERCONFIG');
+                $step_config = json_decode($step_config,ture);
+                if(empty($step_config[1]['items'])){
+                    D('UserRole')->where(array('uid' => $uid))->setField('step', 'finish');
+                    $step_url = U('Home/Index/index');
+                }else{
+                    //构建注册步骤URL
+                    $step_url = U('Ucenter/member/step', array('step' => get_next_step('start')));
+                }
+                $this->success('', $step_url);
             } else { //注册失败，显示错误信息
                 $this->error($this->showRegError($uid));
             }
@@ -116,9 +126,11 @@ class MemberController extends Controller
 
     public function step()
     {
-        $aStep = I('get.step', '', 'op_t');
-        $aUid = session('temp_login_uid');
-        $aRoleId = session('temp_login_role_id');
+        $user = session('user_auth');
+        $aStep = I('get.step', '', 'text');
+        $aUid = $user['uid'];
+        $aRoleId = $user['role_id'];
+
         if (empty($aUid)) {
             $this->error(L('_ERROR_PARAM_'));
         }
@@ -126,6 +138,7 @@ class MemberController extends Controller
         $map['uid'] = $aUid;
         $map['role_id'] = $aRoleId;
         $step = $userRoleModel->where($map)->getField('step');
+
         if (get_next_step($step) != $aStep) {
             $aStep = check_step($step);
             $_GET['step'] = $aStep;
@@ -135,6 +148,14 @@ class MemberController extends Controller
         if ($aStep == 'finish') {
             D('Member')->login($aUid, false, $aRoleId);
         }
+        //取得站点LOGO
+        $logo = get_cover(modC('LOGO',0,'Config'),'path');
+        $logo = $logo?$logo:__ROOT__.'/Public/images/logo.png';
+        //取得用户资料
+        $user_info =  query_user(array('uid', 'nickname', 'email','avatar64'), $aUid);
+
+        $this->assign('user_info',$user_info);
+        $this->assign('logo',$logo);
         $this->assign('step', $aStep);
         $this->display('register');
     }

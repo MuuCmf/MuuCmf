@@ -164,29 +164,29 @@ ul {
   background-position: 0 -137px;
 }
 /*用户注册*/
+.register_header {
+  border-radius: 8px 8px 0 0;
+}
 .register {
   position:relative;
   margin:20px auto;
-  background:#fff;
-  max-width:560px;
-  border-radius:8px;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
   -webkit-transition: all 0.4s ease;
   transition: all 0.4s ease;
 }
-.register .register_header {
-  border-radius: 8px 8px 0 0;
-  background:#607D8B;
-}
-.register .register_header h1{
-  margin:30px auto;
-  color: #fff;
-}
 .register .register_body {
   padding:20px;
+  max-width:468px;
+  margin:0 auto;
 }
+.register .register_body #reg_nav li a{
+    font-size:18px;
+}
+
 .register .register_body .tab-content {
-  margin-top:20px;
+  background:#fff;
+  padding:20px;
+  border:1px solid #ddd;
+  border-top:0
 }
 .register .register_body .tab-content input{
   border:1px solid #ddd;
@@ -197,15 +197,59 @@ ul {
   margin-bottom:5px;
 }
 .register .new-input {
-  border-radius: 3px;
   display: inline-block;
+}
+.register .existing-account {
+  text-align:center;
+  line-height: 36px;
+  margin-top:60px;
+  border-top:1px solid #f6f6f6;
+}
+.register .register-finish {
+  display: flex;
+  padding-left: calc(100vw - 100%);
+  min-height: calc(100vh - 140px); 
+  margin:0 auto;
+  padding:20px;
+}
+.register .register-finish .intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+}
+.register .register-finish .intro .avatar {
+  text-align:center;
+  padding:15px 0;
+}
+.register .register-finish .intro .avatar span{
+  display:block;
+  text-align:center;
+}
+.register .register-finish .font{
+  font-size:14px;
+  text-align:center;
+  padding:15px 0;
+  color:#666;
 }
 /*用户登录*/
 .login{
-  margin:20px auto;
-  padding:20px;
-  background:#fff;
-  max-width:460px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width:50%;
+  height: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  max-width:468px;
+}
+.login .lg_lf_top {
+  letter-spacing:10px;
+  color:#333;
+  font-weight: 300;
+}
+/*找回密码*/
+.mi_form_box #mi_tab li a {
+    font-size: 18px;
 }
 /*悬浮样式end*/
 .user-card {

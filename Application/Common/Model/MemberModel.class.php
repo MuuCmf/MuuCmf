@@ -133,8 +133,7 @@ class MemberModel extends Model
                 $user['last_login_role'] = $user['show_role'];
             }
         }
-        session('temp_login_uid', $uid);
-        session('temp_login_role_id', $user['last_login_role']);
+        
 
         if ($user['status'] == 3 /*判断是否激活*/) {
             header('Content-Type:application/json; charset=utf-8');
@@ -152,7 +151,7 @@ class MemberModel extends Model
             $this->error = L('_USERS_ARE_NOT_ACTIVATED_OR_DISABLED_WITH_EXCLAMATION_'); //应用级别禁用
             return false;
         }
-
+        /*
         $step = D('UserRole')->where(array('uid' => $uid, 'role_id' => $user['last_login_role']))->getField('step');
         if (!empty($step) && $step != 'finish') {
             header('Content-Type:application/json; charset=utf-8');
@@ -165,13 +164,11 @@ class MemberModel extends Model
             } else {
                 redirect($data['url']);
             }
-
-        }
+        }*/
         /* 登录用户 */
         $this->autoLogin($user, $remember);
 
-        session('temp_login_uid', null);
-        session('temp_login_role_id', null);
+        
         //记录行为
         action_log('user_login', 'member', $uid, $uid);
         return true;

@@ -1,16 +1,23 @@
-<extend name="Base/common"/>
-<block name="body">
+<!DOCTYPE HTML>
+<html>
+<head>
+    <include file="Public/head"/>
+    <include file="Public/meta"/>
+    <link href="__CSS__/center.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<!-- 主体 -->
 <div id="main-container" class="container">
+
     <section>
-        <div class="common_block_border mi_form_box login">
-            <div class=""><strong><h1>{:L('_SEND_MAIL_PASSWORD_FOUND_')}</h1></strong></div>
-            <ul id="mi_tab" class="nav nav-tabs">
+        <div class="mi_form_box login">
+            <ul id="mi_tab" class="nav nav-tabs nav-justified">
               <li class="active"><a href="#mobile" data-target="#tabContent1" data-toggle="tab" data-value="mobile">手机找回</a></li>
               <li><a href="#email" data-target="#tabContent2" data-toggle="tab" data-value="email">邮箱找回</a></li>
             </ul>
             <form class="form_box" action="{:U('Member/mi')}" method="post">
                 <input type="hidden" value="" name="type">
-                <div class="tab-content" style="margin-top: 20px;">
+                <div class="tab-content" style="margin-top: 15px;">
                     <div class="tab-pane active" id="tabContent1">
                         <div class="form-group">
 
@@ -31,7 +38,7 @@
                     <div class="input-group">
                         <input type="text" id="inputVerify" class="form-control input-lg" placeholder="{:L('_MI_CODE_')}" name="verify">
                           <span class="input-group-btn">
-                            <button class="btn btn-default btn-lg btn-warning" data-role='getVerify' type="button">获取验证码</button>
+                            <button class="btn btn-danger btn-lg " data-role='getVerify' type="button">获取验证码</button>
                           </span>
                     </div>
                 </div>
@@ -41,17 +48,13 @@
                             <span class="input-group-addon"><a data-value="hide" href="javascript:void(0);" onclick="change_show(this)"><i class="icon icon-eye-close"></i></a></span>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary btn-lg btn-block">{:L('_MI_FOUND_')}</button>
-                <a class="btn btn-default btn-lg btn-block" href="{:U('Member/login')}">{:L('_MI_RE_LOGIN_')}</a>
+                <button type="submit" class="btn btn-info btn-lg btn-block">{:L('_MI_FOUND_')}</button>
+                <a class="btn btn-warning btn-lg btn-block" href="{:U('Member/login')}">{:L('_MI_RE_LOGIN_')}</a>
             </form>
         </div>
     </section>
 </div>
-</block>
 
-
-<block name="side"></block>
-<block name="script">
     <script type="text/javascript">
 
         $(document)
@@ -132,4 +135,9 @@
         }
     }
     </script>
-</block>
+<include file="Public/js"/>
+<!-- /主体 -->
+<!-- 底部 -->
+<!-- /底部 -->
+</body>
+</html>

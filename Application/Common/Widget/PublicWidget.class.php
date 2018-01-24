@@ -36,7 +36,8 @@ class PublicWidget extends Controller
         if(in_array('invite',$register_type)&&!in_array('normal',$register_type)){
             $only_open_register=1;
         }
-        //单点登录
+        $this->assign('open_quick_login',$open_quick_login);
+        //单点登录(测试阶段)
         $sso = modC('SSO_CONFIG_SWITCH',0,'SSO');
         $sso_center_url = modC('SSO_CONFIG_CENTER_URL','','SSO');
         $now_url = urlencode(get_url());

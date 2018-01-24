@@ -6,8 +6,7 @@
 </head>
 <body>
 <!-- 主体 -->
-
-<include file="Public/header"/>
+{:W('Common/Public/header')}
     <div class="main-wrapper">
     <!--用户设置顶部-->
         <div class="config_header bg-primary">
@@ -24,7 +23,7 @@
     <!--用户设置顶部end-->
         <div id="main-container" class="container user-config">
             <div class="row">
-                <div class=" col-xs-3" >
+                <div class=" col-md-3" >
                     <div>
                         <nav class="menu" data-toggle="menu">
                             <a class="btn btn-warning btn-lg" href="{$self.space_url}"><i class="icon-user"></i>
@@ -52,7 +51,7 @@
                         </script>
                     </div>
                 </div>
-                <div class="col-xs-9">
+                <div class="col-md-9">
                     <div id="usercenter-content-td ">
                         <div class="container-fluid common_block_border config-content">
                             <block name="body"></block>

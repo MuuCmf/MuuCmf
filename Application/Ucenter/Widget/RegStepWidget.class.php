@@ -36,8 +36,8 @@ class RegStepWidget extends Action
     }
 
     private function change_avatar()
-    {
-        $aUid = session('temp_login_uid');
+    {   
+        $aUid = is_login();
         if(empty($aUid)){
             $this->error(L('_ERROR_PARAM_'));
         }
@@ -47,7 +47,7 @@ class RegStepWidget extends Action
 
     private function expand_info()
     {
-        $aUid = session('temp_login_uid');
+        $aUid = is_login();
         if( empty($aUid)){
             $this->error(L('_ERROR_PARAM_'));
         }
@@ -58,8 +58,8 @@ class RegStepWidget extends Action
     private function set_tag()
     {
         $userTagLinkModel=D('Ucenter/UserTagLink');
-        $aUid = session('temp_login_uid');
-        $aRole = session('temp_login_role_id');
+        $aUid = get_uid();
+        $aRole = get_role_id($aUid);
         $userTagModel=D('Ucenter/UserTag');
         $map=getRoleConfigMap('user_tag',$aRole);
         $ids=M('RoleConfig')->where($map)->getField('value');
@@ -128,7 +128,7 @@ class RegStepWidget extends Action
     }
 
     private function getRoleFieldIds($uid=null){
-        $role_id=session('temp_login_role_id')?session('temp_login_role_id'):get_role_id($uid);
+        $role_id=get_role_id($uid);
         $fields_list=S('Role_Register_Expend_Info_'.$role_id);
         if(!$fields_list){
             $map_role_config=getRoleConfigMap('register_expend_field',$role_id);
@@ -259,7 +259,7 @@ class RegStepWidget extends Action
 
         $data = null;
         foreach ($field_setting_list as $key => $val) {
-            $data[$key]['uid'] = session('temp_login_uid')?session('temp_login_uid'):is_login();
+            $data[$key]['uid'] = get_uid();
             $data[$key]['field_id'] = $val['id'];
             switch ($val['form_type']) {
                 case 'input':
@@ -316,8 +316,8 @@ class RegStepWidget extends Action
                     break;
             }
         }
-        $map['uid'] = session('temp_login_uid')?session('temp_login_uid'):is_login();
-        $map['role_id']=session('temp_login_role_id')?session('temp_login_role_id'):get_role_id($map['uid']);;
+        $map['uid'] = is_login();
+        $map['role_id'] = get_role_id($map['uid']);
         $result['status'] = 1;
         foreach ($data as $dl) {
             $dl['role_id']=$map['role_id'];
