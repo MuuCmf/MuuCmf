@@ -133,8 +133,6 @@ class MemberModel extends Model
                 $user['last_login_role'] = $user['show_role'];
             }
         }
-        
-
         if ($user['status'] == 3 /*判断是否激活*/) {
             header('Content-Type:application/json; charset=utf-8');
             $data['status'] = 1;
@@ -167,8 +165,8 @@ class MemberModel extends Model
         }*/
         /* 登录用户 */
         $this->autoLogin($user, $remember);
-
-        
+        //挂载登录成功后钩子
+        hook('Login_after');
         //记录行为
         action_log('user_login', 'member', $uid, $uid);
         return true;
