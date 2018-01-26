@@ -16,8 +16,8 @@ class LocalCommentAddon extends Addon
         'title' => '本地评论',
         'description' => '本地评论插件，不依赖社会化评论平台',
         'status' => 1,
-        'author' => 'caipeichao',
-        'version' => '0.1'
+        'author' => '火木科技 caipeichao',
+        'version' => '0.2'
     );
 
     public function install()
@@ -76,7 +76,7 @@ SQL
         }
         unset($e);
         $pageCount = ceil($total_count / $count);
-       $pageHtml = getPageHtml('local_comment_page',$pageCount,array('app'=>$app,'mod'=>$mod, 'row_id'=>$row_id),1);
+        $pageHtml = getPageHtml('local_comment_page',$pageCount,array('app'=>$app,'mod'=>$mod, 'row_id'=>$row_id),1);
         //显示页面
 
         $can_guest = modC($mod.'_LOCAL_COMMENT_CAN_GUEST',1,$app);

@@ -66,6 +66,7 @@
 .comment > .avatar-box {
   float:left;
   width:80px;
+  height:60px;
   padding-right: 10px;
   padding-left: 10px;
 }
