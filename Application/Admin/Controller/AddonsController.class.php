@@ -244,7 +244,7 @@ str;
         $list = D('Addons')->getList('');
         $request = (array)I('request.');
 
-        $listRows = 12;
+        $listRows = 20;
         if ($type == 'yes') {//已安装的
             foreach ($list as $key => $value) {
                 if ($value['uninstall'] != 1) {
@@ -266,6 +266,7 @@ str;
         $voList = array_slice($list, $page->firstRow, $page->listRows);
         $p = $page->show();
         $this->assign('_list', $voList);
+
         $this->assign('_page', $p ? $p : '');
         // 记录当前列表页的cookie
         Cookie('__forward__', $_SERVER['REQUEST_URI']);

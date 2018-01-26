@@ -150,12 +150,18 @@ class AddonsModel extends Model
                     $addons[$value]['uninstall'] = 1;
                     unset($addons[$value]['status']);
                 }
+                
+                $file = $addon_dir.$value.'/icon.png';
+                if(file_exists($file)){
+                    $addons[$value]['icon_photo'] = $addon_dir.$value.'/icon.png';
+                }else{
+                    $addons[$value]['icon_photo'] = '';
+                }
             }
         }
         
         int_to_string($addons, array('status' => array(-1 => L('_DAMAGE_'), 0 => L('_DISABLE_'), 1 => L('_ENABLE_'), null => L('_NOT_INSTALLED_'))));
         $addons = list_sort_by($addons, 'uninstall', 'desc');
-        //dump($addons);exit;
         return $addons;
     }
 

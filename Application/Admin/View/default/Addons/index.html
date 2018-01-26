@@ -5,9 +5,6 @@
     <div class="main-title">
         <h2>{:L("_PLUGIN_LIST_")}</h2>
     </div>
-
-
-
     <div class="with-padding">
     <div class="clearfix">
         <ul class="nav nav-primary pull-left">
@@ -18,11 +15,11 @@
                 $('#type_{$type}').addClass('active');
             </script>
         </ul>
-        <ul class="nav nav-primary pull-right">
-            <li><a href="{:U('hooks')}">{:L("_HOOK_MANAGEMENT_")}</a></li>
+        <div class="btn-group pull-right">
+            <a class="btn btn-danger" href="{:U('hooks')}">{:L("_HOOK_MANAGEMENT_")}</a>
 
-            <li><a href="{:U('create')}">{:L("_QUICK_CREATE_PLUGIN_")}</a></li>
-        </ul>
+            <a class="btn btn-primary" href="{:U('create')}">{:L("_QUICK_CREATE_PLUGIN_")}</a>
+        </div>
         </div>
         <div class="module-list cards">
             <notempty name="_list">
