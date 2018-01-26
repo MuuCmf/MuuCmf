@@ -4459,9 +4459,7 @@ INSERT INTO `muucmf_hooks` (`id`, `name`, `description`, `type`, `update_time`, 
 (52, 'J_China_City', '每个系统都需要的一个中国省市区三级联动插件。', 1, 1403841931, 'ChinaCity'),
 (54, 'imageSlider', '图片轮播钩子', 1, 1407144022, ''),
 (55, 'superLinks', '友情链接插件', 1, 1407156413, 'SuperLinks'),
-
 (59, 'userConfig', '用户配置页面钩子', 1, 1417137557, 'SyncLogin'),
-
 (61, 'personalMenus', '顶部导航栏个人下拉菜单', 1, 1417146501, ''),
 (62, 'dealPicture', '上传图片处理', 2, 1417139975, ''),
 (63, 'ucenterSideMenu', '用户中心左侧菜单', 1, 1417161205, ''),
@@ -4472,7 +4470,8 @@ INSERT INTO `muucmf_hooks` (`id`, `name`, `description`, `type`, `update_time`, 
 (68, 'sms', '短信插件钩子', 2, 1437382105, ''),
 (69, 'filterHtmlContent', '渲染富文本', 2, 1441951420, ''),
 (70, 'parseContent', '解析内容', 2, 1445828128, 'Sensitive'),
-(71, 'tool', '返回顶部，右下角工具栏', 1, 1445828128, '');
+(71, 'tool', '返回顶部，右下角工具栏', 1, 1445828128, ''),
+(72, 'Login_after', '登陆完成后钩子，可挂载单点登陆...', 2, 1516929650, 'SsoLogin');
 
 DROP TABLE IF EXISTS `muucmf_invite`;
 CREATE TABLE IF NOT EXISTS `muucmf_invite` (
