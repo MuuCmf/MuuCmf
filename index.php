@@ -36,6 +36,8 @@ if (get_magic_quotes_gpc()) {
 }
 /*移除magic_quotes_gpc参数影响end*/
 
+/*如果需要二级域名同步登录，取消双斜杠，将域名更换为你的主域名*/
+//ini_set('session.cookie_domain','muucmf.cn');
 /**
  * 系统调试设置
  * 项目正式部署后请设置为false

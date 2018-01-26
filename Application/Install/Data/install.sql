@@ -4471,7 +4471,7 @@ INSERT INTO `muucmf_hooks` (`id`, `name`, `description`, `type`, `update_time`, 
 (69, 'filterHtmlContent', '渲染富文本', 2, 1441951420, ''),
 (70, 'parseContent', '解析内容', 2, 1445828128, 'Sensitive'),
 (71, 'tool', '返回顶部，右下角工具栏', 1, 1445828128, ''),
-(72, 'Login_after', '登陆完成后钩子，可挂载单点登陆...', 2, 1516929650, 'SsoLogin');
+(72, 'Login_after', '登陆完成后钩子', 2, 1516929650, '');
 
 DROP TABLE IF EXISTS `muucmf_invite`;
 CREATE TABLE IF NOT EXISTS `muucmf_invite` (

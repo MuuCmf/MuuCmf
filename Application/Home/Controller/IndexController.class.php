@@ -18,7 +18,6 @@ use Think\Controller;
  */
 class IndexController extends Controller
 {
-
     //系统首页
     public function index()
     {
@@ -44,4 +43,5 @@ class IndexController extends Controller
         $this->assign('enter', get_nav_url($enter));
         $this->display();
     }
+
 }
