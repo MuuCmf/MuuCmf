@@ -32,27 +32,13 @@ class PublicWidget extends Controller
         $this->assign('invite',$invite);
         //用户登录、注册
         $open_quick_login=modC('OPEN_QUICK_LOGIN', 0, 'USERCONFIG');
+        $this->assign('open_quick_login',$open_quick_login);
         $only_open_register=0;
         if(in_array('invite',$register_type)&&!in_array('normal',$register_type)){
             $only_open_register=1;
         }
-        $this->assign('open_quick_login',$open_quick_login);
-        //单点登录(测试阶段)
-        $sso = modC('SSO_CONFIG_SWITCH',0,'SSO');
-        $sso_center_url = modC('SSO_CONFIG_CENTER_URL','','SSO');
-        $now_url = urlencode(get_url());
-        if($sso==1){
-            $login_url = url_query(U('Sso/index/login')).'redirect_uri='.$now_url;
-        }
-        if($sso==2){
-            $login_url = url_query($sso_center_url .'/index.php/sso/index/login').'redirect_uri='.$now_url;
-        }
-        if($sso==0 || empty($sso)){
-            $login_url = U('Ucenter/Member/login');
-        }
+        $this->assign('only_open_register',$only_open_register);
+        $login_url = U('Ucenter/Member/login');
         $this->assign('login_url',$login_url);
-
-		$this->display(T('Common@Public/header'));
 	}
-	
 }
