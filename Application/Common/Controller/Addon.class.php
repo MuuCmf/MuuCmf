@@ -49,7 +49,7 @@ abstract class Addon{
             $this->config_file = $this->addon_path.'config.php';
         }
     }
-
+    
     /**
      * 模板主题设置
      * @access protected

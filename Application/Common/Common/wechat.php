@@ -11,20 +11,7 @@ function isWeixinBrowser() {
 
 // php获取当前访问的完整url地址
 function GetCurUrl() {
-    $url = 'http://';
-    if (isset ( $_SERVER ['HTTPS'] ) && $_SERVER ['HTTPS'] == 'on') {
-        $url = 'https://';
-    }
-    if ($_SERVER ['SERVER_PORT'] != '80') {
-        $url .= $_SERVER ['HTTP_HOST'] . ':' . $_SERVER ['SERVER_PORT'] . $_SERVER ['REQUEST_URI'];
-    } else {
-        $url .= $_SERVER ['HTTP_HOST'] . $_SERVER ['REQUEST_URI'];
-    }
-    // 兼容后面的参数组装
-    if (stripos ( $url, '?' ) === false) {
-        $url .= '?t=' . time ();
-    }
-    return $url;
+    return get_url();
 }
 
 //获取分享url的方法，解决controler在鉴权时二次回调jssdk获取分享url错误的问题

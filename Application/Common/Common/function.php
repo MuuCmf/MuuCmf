@@ -322,7 +322,7 @@ function get_redirect_url()
  */
 function hook($hook, $params = array())
 {
-    \Think\Hook::listen($hook, $params);
+    \Think\Hook::listen($hook, $params); 
 }
 
 /**
@@ -1637,11 +1637,20 @@ function muu_now_theme(){
  * @return [type] [description]
  */
 function get_url() {
-    $sys_protocal = isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443' ? 'https://' : 'http://';
-    $php_self = $_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
-    $path_info = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
-    $relate_url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $php_self.(isset($_SERVER['QUERY_STRING']) ? '?'.$_SERVER['QUERY_STRING'] : $path_info);
-    return $sys_protocal.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '').$relate_url;
+    $url = 'http://';
+    if (isset ( $_SERVER ['HTTPS'] ) && $_SERVER ['HTTPS'] == 'on') {
+        $url = 'https://';
+    }
+    if ($_SERVER ['SERVER_PORT'] != '80') {
+        $url .= $_SERVER ['HTTP_HOST'] . ':' . $_SERVER ['SERVER_PORT'] . $_SERVER ['REQUEST_URI'];
+    } else {
+        $url .= $_SERVER ['HTTP_HOST'] . $_SERVER ['REQUEST_URI'];
+    }
+    // 兼容后面的参数组装
+    if (stripos ( $url, '?' ) === false) {
+        $url .= '?t=' . time ();
+    }
+    return $url;
 }
 /**
  * 判断网址是否包含参数,有参数返回后缀&，无返回后缀？
