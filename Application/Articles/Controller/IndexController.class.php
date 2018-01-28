@@ -1,25 +1,21 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 15-4-28
- * Time: 上午11:30
- * @author 郑钟良<zzl@ourstu.com>
- */
 
 namespace Articles\Controller;
 
-
 use Think\Controller;
+use Common\Controller\CommonController;
 
-class IndexController extends Controller{
+class IndexController extends CommonController{
 
     protected $articlesModel;
     protected $articlesDetailModel;
     protected $articlesCategoryModel;
 
     function _initialize()
-    {
+    {   
+        //基础公共控制器
+        parent::_initialize();
+        
         $this->articlesModel = D('Articles/Articles');
         $this->articlesDetailModel = D('Articles/ArticlesDetail');
         $this->articlesCategoryModel = D('Articles/ArticlesCategory');

@@ -1,20 +1,16 @@
 <?php
-/**
-
- */
 
 namespace About\Controller;
+use Common\Controller\CommonController;
 
-
-use Think\Controller;
-
-class IndexController extends Controller{
+class IndexController extends CommonController{
 
     protected $aboutModel;
     protected $aboutCategoryModel;
 
     function _initialize()
     {
+        parent::_initialize();
         $this->aboutModel = D('About/About');
         $this->aboutCategoryModel = D('About/AboutCategory');
 

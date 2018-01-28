@@ -1,19 +1,19 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: caipeichao
- * Date: 14-3-11
- * Time: PM3:40
+ * 基础公共控制器
  */
 
 namespace Ucenter\Controller;
 
 use Think\Controller;
+use Common\Controller\CommonController;
 
-class BaseController extends Controller
+
+class BaseController extends CommonController
 {
     public function _initialize()
     {
+        parent::_initialize();
         if (!_need_login()) {
             $this->error(L('_ERROR_NEED_LOGIN_'));
         }

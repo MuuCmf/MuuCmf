@@ -9,14 +9,14 @@
 
 namespace Home\Controller;
 
-use Think\Controller;
+use Common\Controller\CommonController;
 
 
 /**
  * 前台首页控制器
  * 主要获取首页聚合数据
  */
-class IndexController extends Controller
+class IndexController extends CommonController
 {
     //系统首页
     public function index()
