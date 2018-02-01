@@ -27,7 +27,7 @@
             display:table;
             width:100%;
             height:100%;
-            /*background: url(<?php echo($background); ?>)*/
+            background: url(<?php echo($background); ?>);
         }
         .main .box {
             position:relative;
