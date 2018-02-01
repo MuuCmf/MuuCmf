@@ -13,6 +13,7 @@ var re_bind = function () {
     change_select();
     change_module();
     fix_form();
+    add_new();
     add_one();
     add_two();
     remove_li();
@@ -85,6 +86,13 @@ var fix_form = function () {
 
 }
 
+var add_new = function () {
+    $('.add-new').unbind('click');
+    $('.add-new').click(function () {
+        $('.channel-ul').append($('#one-nav').html());
+        re_bind()
+    })
+}
 
 var add_one = function () {
     $('.add-one').unbind('click');
