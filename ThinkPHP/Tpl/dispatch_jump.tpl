@@ -21,13 +21,15 @@
             width: 100%;
             height: 100%;
             color:#999;
+            <?php if($img_id){?>
+            background: url(<?php echo($background); ?>);
+            <?php }?>
         }
         .main {
             position:relative;
             display:table;
             width:100%;
             height:100%;
-            background: url(<?php echo($background); ?>);
         }
         .main .box {
             position:relative;
@@ -50,7 +52,6 @@
             -ms-transform: rotateZ(4deg);
             border: 1px solid #ccc;
         }
-
         .main .box::after{
             top: 5px;
             z-index: -2;
