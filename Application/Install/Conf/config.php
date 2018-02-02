@@ -27,7 +27,7 @@ return array(
         '__ZUI__'=>__ROOT__.'/Public/zui',
         '__NAME__'=>'MuuCmf开源内容管理框架',
         '__COMPANY__'=>'北京火木科技有限公司',
-        '__WEBSITE__'=>'www.hoomuu.cn',
+        '__WEBSITE__'=>'www.muucmf.cn',
         '__COMPANY_WEBSITE__'=>'www.hoomuu.cn'
     ),
     /* URL配置 */
