@@ -97,8 +97,7 @@ class MessageController extends AdminController
             ->search('','user_search2','',L('_SEARCH_ACCORDING_TO_USER_ID_'),'','','');
         $builder->buttonModalPopup(U('Message/sendMessage'), array('user_group' => $aUserGroup, 'role' => $aRole), L('_SEND_A_MESSAGE_'), array('data-title' => L('_MASS_MESSAGE_'), 'target-form' => 'ids', 'can_null' => 'true'));
 
-        $builder->buttonModalPopup(U('Message/sendMobileMessage'), array('user_group' => $aUserGroup),L('_SNS_SEND_'), array('data-title' => L('_SNS_SEND_'), 'target-form' => 'ids', 'can_null' => 'true'));
-
+        //$builder->buttonModalPopup(U('Message/sendMobileMessage'), array('user_group' => $aUserGroup),L('_SNS_SEND_'), array('data-title' => L('_SNS_SEND_'), 'target-form' => 'ids', 'can_null' => 'true'));
 
         $builder->keyText('uid', L('_USER_ID_'))
                 ->keyText('nickname', L('_"NICKNAME"_'))
@@ -165,6 +164,7 @@ class MessageController extends AdminController
     {
 
         if (IS_POST) {
+            $aSendType=I('post.sendType','','text');
             $aUids = I('post.uids');
             $aUserGroup = I('post.user_group');
             $aUserRole = I('post.user_role');
@@ -215,7 +215,25 @@ class MessageController extends AdminController
                 // 用uid发送消息
                 $to_uids = explode(',',$aUids);
             }
-            D('Message')->sendMessageWithoutCheckSelf($to_uids, $aTitle, $aContent, $aUrl, $args);
+
+            if(in_array('systemMessage',$aSendType)){
+                $resMessage=D('Message')->sendMessageWithoutCheckSelf($to_uids, $aTitle, $aContent, $aUrl, $args);
+                if($resMessage!==true){
+                    $this->error('发送失败');
+                }
+            }
+            if(in_array('systemEmail',$aSendType)){
+                $resEmail=D('Message')->sendEmail($to_uids, $aTitle, $aContent, $aUrl, $args);
+                if($resEmail!==true){
+                    $this->error($resEmail);
+                }
+            }
+            if(in_array('mobileMessage',$aSendType)){
+                $resMobile=D('Message')->sendMobileMessage($to_uids, $aTitle, $aContent, $aUrl, $args);
+                if($resMobile!==true){
+                    $this->error($resMobile);
+                }
+            }
             $result['status'] = 1;
             $result['info'] = L('_SEND_');
             $this->ajaxReturn($result);

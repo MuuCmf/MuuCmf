@@ -58,6 +58,11 @@ class MessageModel extends Model
      */
     public function sendMessageWithoutCheckSelf($to_uids, $title = '您有新的消息', $content = '', $url = '', $url_args = array(), $from_uid = -1, $type = 'Common_system', $tpl = '')
     {
+        $to_uids = is_array($to_uids) ? $to_uids : array($to_uids);
+        $to_uids=$this->_removeOldUser($to_uids);
+        if(!count($to_uids)){
+            return false;
+        }
         if (in_array($type, array('1', '2','3','0','4', '5'))) {
             $type = 'Common_system';
         }
@@ -75,7 +80,7 @@ class MessageModel extends Model
             $message['type'] = $type;
             $message['status'] = 1;
             $message['tpl'] = $tpl;
-            $this->add($message);
+            $res = $this->add($message);
             unset($message);
         }
         return true;
@@ -130,6 +135,114 @@ class MessageModel extends Model
         return true;
     }
 
+    public function sendEmail($to_uids, $title = '您有新的消息', $content = '', $url = '', $url_args = array(), $from_uid = -1, $type = 'Common_email', $tpl = '')
+    {
+        $from_uid == -1 && $from_uid = is_login();
+        $message_content_id = $this->addMessageContent($from_uid, $title, $content, $url, $url_args, $type);
+        $to_uids = is_array($to_uids) ? $to_uids : array($to_uids);
+        $result=true;
+        $count = count($to_uids);
+        $i = 0;
+        $num = 100;//每次插入100条
+        do {
+            $do_to_uids = array_slice($to_uids, $i * $num, $num);
+            $this->_initUserMessageSession($do_to_uids, $type);
+            $dataList = array();
+            foreach ($do_to_uids as $to_uid) {
+                $user=query_user('mobile,email',$to_uid);
+                //判断用户是否填写了email
+                if($user['email']){
+                    if(!empty($url)){
+                        $emailContent=$content.'<a href='.$url.'>'.$url.'</a>';
+                    }else{
+                        $emailContent=$content;
+                    }
+                    $res=send_mail($user['email'],$title,$emailContent);
+                    if($res===true){
+                        $message['to_uid'] = $to_uid;
+                        $message['content_id'] = $message_content_id;
+                        $message['from_uid'] = $from_uid;
+                        $message['create_time'] = time();
+                        $message['type'] = $type;
+                        $message['status'] = 1;
+                        $message['tpl'] = $tpl;
+                        $dataList[] = $message;
+                        unset($message);
+                    }else{
+                        $result=$res;
+                    }
+                }
+            }
+            unset($to_uid);
+            $this->addAll($dataList);
+            unset($dataList);
+            $count -= $num;
+            $i = $i + 1;
+        } while ($count > 0);
+        return $result;
+    }
+
+
+    public function sendMobileMessage($to_uids, $title = '您有新的消息', $content = '', $url = '', $url_args = array(), $from_uid = -1, $type = 'Common_mobile', $tpl = '')
+    {
+        $from_uid == -1 && $from_uid = is_login();
+        $message_content_id = $this->addMessageContent($from_uid, $title, $content, $url, $url_args, $type);
+        $to_uids = is_array($to_uids) ? $to_uids : array($to_uids);
+
+        $count = count($to_uids);
+        $i = 0;
+        $num = 100;//每次插入100条
+        $result=true;
+        do {
+            $do_to_uids = array_slice($to_uids, $i * $num, $num);
+            $this->_initUserMessageSession($do_to_uids, $type);
+            $dataList = array();
+            foreach ($do_to_uids as $to_uid) {
+                $user=query_user('mobile,email',$to_uid);
+                //判断手机号码
+                if($user['mobile']){
+                    $mobileContent=$content;
+
+                    $res=sendSMS($user['mobile'],$moblieContent);
+                    if($res===true){
+                        $message['to_uid'] = $to_uid;
+                        $message['content_id'] = $message_content_id;
+                        $message['from_uid'] = $from_uid;
+                        $message['create_time'] = time();
+                        $message['type'] = $type;
+                        $message['status'] = 1;
+                        $message['tpl'] = $tpl;
+                        $dataList[] = $message;
+                        unset($message);
+                    }else{
+                        $result=$res;
+                    }
+                }
+            }
+            unset($to_uid);
+            $this->addAll($dataList);
+            unset($dataList);
+            $count -= $num;
+            $i = $i + 1;
+        } while ($count > 0);
+        return $result;
+    }
+
+    /**
+     * 去除一个月没有登录的用户
+     * @param $to_uids
+     * @return array
+     * @author:zzl(郑钟良) zzl@ourstu.com
+     */
+    private function _removeOldUser($to_uids)
+    {
+        $map['uid']=array('in',$to_uids);
+        $map['status']=1;
+        $map['last_login_time']=array('gt',get_time_ago('month'));
+        $uids=M('Member')->where($map)->field('uid')->select();
+        $uids=array_column($uids,'uid');
+        return $uids;
+    }
     /**
      * 初始化用户会话类型，没有的补上
      * @param $uids
@@ -143,7 +256,12 @@ class MessageModel extends Model
         $map['uid'] = array('in', $uids);
         $map['type'] = $type;
         $already_uids = $messageTypeModel->where($map)->field('uid')->select();
+
         $already_uids = array_column($already_uids, 'uid');
+
+        $need_uids = array_diff($uids, $already_uids);
+        if ($already_uids == null)
+            $already_uids = array();
         $need_uids = array_diff($uids, $already_uids);
         $dataList = array();
         foreach ($need_uids as $val) {
@@ -151,6 +269,7 @@ class MessageModel extends Model
             $dataList[] = array('uid' => $val, 'type' => $type, 'status' => 1);
         }
         unset($val);
+
         if (count($dataList)) {
             $messageTypeModel->addAll($dataList);
         }
