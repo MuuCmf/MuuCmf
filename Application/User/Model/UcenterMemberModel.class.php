@@ -176,7 +176,7 @@ class UcenterMemberModel extends Model
                     //如果注册失败，则回去Memeber表删除掉错误的记录
                     D('Common/Member')->where(array('uid' => $result))->delete();
                 }
-                action_log('reg','ucenter_member',1,1);
+                action_log('reg','ucenter_member',1,$uid);
                 return $uid ? $uid : 0; //0-未知错误，大于0-注册成功
             } else {
                 return $result;

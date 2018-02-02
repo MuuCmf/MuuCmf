@@ -82,6 +82,7 @@ class MemberController extends Controller
             $ucenterMemberModel=UCenterMember();
             $uid =$ucenterMemberModel ->register($aUsername, $aNickname, $aPassword, $email, $mobile, $aUnType);
             if (0 < $uid) { //注册成功
+
                 $this->initInviteUser($uid, $aCode, $aRole);
                 $ucenterMemberModel->initRoleUser($aRole, $uid); //初始化角色用户
                 if (modC('EMAIL_VERIFY_TYPE', 0, 'USERCONFIG') == 1 && $aUnType == 2) {
