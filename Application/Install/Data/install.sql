@@ -4873,7 +4873,7 @@ INSERT INTO `muucmf_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `
 
 DROP TABLE IF EXISTS `muucmf_message`;
 CREATE TABLE IF NOT EXISTS `muucmf_message` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `content_id` int(11) NOT NULL,
   `from_uid` int(11) NOT NULL,
   `to_uid` int(11) NOT NULL,
@@ -4902,7 +4902,7 @@ CREATE TABLE IF NOT EXISTS `muucmf_message_content` (
 
 DROP TABLE IF EXISTS `muucmf_message_type`;
 CREATE TABLE IF NOT EXISTS `muucmf_message_type` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL COMMENT '用户id',
   `type` varchar(25) NOT NULL COMMENT '消息类型',
   `status` tinyint(4) NOT NULL,
