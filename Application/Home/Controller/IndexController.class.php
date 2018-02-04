@@ -21,6 +21,12 @@ class IndexController extends CommonController
     //系统首页
     public function index()
     {
+        hook('homeIndex');
+        $default_url = C('DEFUALT_HOME_URL');//获得配置，如果为空则显示聚合，否则跳转
+        if ($default_url != ''&&strtolower($default_url)!='home/index/index') {
+            redirect(get_nav_url($default_url));
+        }
+        
         $indexType=modC('HOME_INDEX_TYPE','static_home','Home');
         if($indexType=='static_home'){
             $this->display('static_home');
@@ -32,11 +38,7 @@ class IndexController extends CommonController
                 exit;
             }
         }
-        hook('homeIndex');
-        $default_url = C('DEFUALT_HOME_URL');//获得配置，如果为空则显示聚合，否则跳转
-        if ($default_url != ''&&strtolower($default_url)!='home/index/index') {
-            redirect(get_nav_url($default_url));
-        }
+        
         $show_blocks = get_kanban_config('BLOCK', 'enable', array(), 'Home');
         $this->assign('showBlocks', $show_blocks);
         $enter = modC('ENTER_URL', '', 'Home');
