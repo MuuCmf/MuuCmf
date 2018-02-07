@@ -258,15 +258,8 @@ class IndexController extends CommonController{
         $data['title']=I('post.title','','text');
         $data['cover']=I('post.cover',0,'intval');
         $data['description']=I('post.description','','text');
-        $data['dead_line']=I('post.dead_line','','text');
-        if($data['dead_line']==''){
-            $data['dead_line']=2147483640;
-        }else{
-            $data['dead_line']=strtotime($data['dead_line']);
-        }
         $data['source']=I('post.source','','text');
         $data['content']=I('post.content','','html');
-
         if(!mb_strlen($data['title'],'utf-8')){
             $this->error('标题不能为空！');
         }

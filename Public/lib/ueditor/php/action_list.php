@@ -32,7 +32,7 @@ $end = $start + $size;
 
 
 
-$rootpath = str_replace('/Public/static/ueditor/php/action_list.php', '', str_replace('\\', '/', __FILE__));
+$rootpath = str_replace('/Public/lib/ueditor/php/action_list.php', '', str_replace('\\', '/', __FILE__));
 $rootpath = explode('/',$rootpath);
 
 /* 获取文件列表 */

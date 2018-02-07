@@ -1,15 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 15-4-27
- * Time: 下午3:30
- * @author 郑钟良<zzl@ourstu.com>
- */
-
 namespace Articles\Model;
-
-
 use Common\Model\ContentHandlerModel;
 use Think\Model;
 
@@ -19,6 +9,7 @@ class ArticlesDetailModel extends Model{
     {
         $contentHandler=new ContentHandlerModel();
         $data['content']=$contentHandler->filterHtmlContent($data['content']);
+
         if($this->find($data['articles_id'])){
             $res=$this->save($data);
         }else{

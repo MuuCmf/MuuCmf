@@ -168,7 +168,8 @@ DROP TABLE IF EXISTS `muucmf_articles_detail`;
 CREATE TABLE IF NOT EXISTS `muucmf_articles_detail` (
   `articles_id` int(11) NOT NULL,
   `content` text NOT NULL COMMENT '内容',
-  `template` varchar(50) NOT NULL COMMENT '模板'
+  `template` varchar(50) NOT NULL COMMENT '模板',
+PRIMARY KEY (`articles_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='文章详情';
 
 DROP TABLE IF EXISTS `muucmf_attachment`;
