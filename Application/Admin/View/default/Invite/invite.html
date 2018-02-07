@@ -150,7 +150,6 @@
     </div>
 </block>
 <block name="script">
-    <script type="text/javascript" src="__PUBLIC__/js/ext/zclip/jquery.zclip.min.js"></script>
     <script type="text/javascript">
         function toggle_search(){
             $('#search_form').toggle('slide');
@@ -176,60 +175,7 @@
     </script>
     <script>
         $(function(){
-            $('[data-role="copy_code"]').zclip({
-                copy: function () {
-                    return $(this).attr('data-code');
-                },
-                afterCopy: function () {
-                    $(this).html({:L('_HAS_BEEN_COPIED_WITH_SINGLE_')});
-                    toast.success({:L('_COPY_SUCCESS_WITH_SINGLE_')});
-                }
-            });
-            $('[data-role="copy_code_url"]').zclip({
-                copy: function () {
-                    return $(this).attr('data-code-url');
-                },
-                afterCopy: function () {
-                    $(this).html({:L('_LINK_HAS_BEEN_COPIED_WITH_SINGLE_')});
-                    toast.success({:L('_REPLICATION_LINK_SUCCESS_WITH_SINGLE_')});
-                }
-            });
-            $('[data-role="copy_code_list"]').zclip({
-                copy: function () {
-                    var code_list='';
-                    $('.ids').each(function(){
-                        if($(this).is(":checked")){
-                            code_list+=$(this).attr('data-code')+'\n';
-                        }
-                    });
-                    if(code_list!=''){
-                        return code_list;
-                    }else{
-                        toast.error({:L('_PLEASE_SELECT_THE_DATA_WITH_SINGLE_')});
-                    }
-                },
-                afterCopy: function () {
-                    toast.success({:L('_BATCH_COPY_SUCCESS_WITH_SINGLE_')});
-                }
-            });
-            $('[data-role="copy_code_url_list"]').zclip({
-                copy: function () {
-                    var code_list_url='';
-                    $('.ids').each(function(){
-                        if($(this).is(":checked")){
-                            code_list_url+=$(this).attr('data-code-url')+'\n\n';
-                        }
-                    });
-                    if(code_list_url!=''){
-                        return code_list_url;
-                    }else{
-                        toast.error({:L('_PLEASE_SELECT_THE_DATA_WITH_SINGLE_')});
-                    }
-                },
-                afterCopy: function () {
-                    toast.success({:L('_BATCH_COPY_SUCCESS_WITH_SINGLE_')});
-                }
-            });
+
             $('[data-role="cvs"]').click(function(){
                 var data_url=$(this).attr('data-url');
                 var form=$('.ids');

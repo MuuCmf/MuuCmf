@@ -72,8 +72,8 @@ class MemberController extends Controller
             if (!check_reg_type($aUnType)) {
                 $this->error(L('_ERROR_REGISTER_NOT_OPENED_').L('_PERIOD_'));
             }
-
-            $aCode = I('post.code', '', 'op_t');
+            //获取和判断邀请码
+            $aCode = I('post.code', '', 'text');
             if (!$this->checkInviteCode($aCode)) {
                 $this->error(L('_ERROR_INV_ILLEGAL_').L('_EXCLAMATION_'));
             }

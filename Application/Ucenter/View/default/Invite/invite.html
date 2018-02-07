@@ -12,7 +12,6 @@
         </div>
     </div>
 
-
     <div class="invite_content" style="min-height: 400px;margin-top: 30px;">
         <if condition="!$type_list"><p class="text-muted" style="text-align: center; font-size: 18px;">
             {:L('_INV_NOT_')} <a href="{:U('Ucenter/Invite/index')}" style="text-decoration: underline;">{:L('_INV_CODE_GEN_')}</a> ～
@@ -36,7 +35,7 @@
                         <volist name="val['codes']" id="vl">
                             <tr>
                                 <td>{$vl.code}</td>
-                                <td class="text-more" style="width: 100%">{$vl.code_url}</td>
+                                <td class="text-ellipsis" style="width: 80px">{$vl.code_url}</td>
                                 <td>{$vl.num|default=0}{:L('_GE_')}</td>
                                 <td>{$vl.already_num|default=0} {:L('_GE_')}</td>
                                 <td>{$vl.end_time|time_format}</td>

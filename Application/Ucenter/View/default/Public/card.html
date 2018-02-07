@@ -35,12 +35,6 @@
         </div>
     </div>
     <div class="col-xs-12" style="background: #f1f1f1;">
-        <if condition="get_uid() AND $not_self">
-            <button type="button" class="btn btn-default" onclick="talker.start_talk({$user.uid})"
-                    style="float: right;margin: 5px 0;padding: 2px 12px;margin-left: 8px;">{:L('_CHAT_')}
-            </button>
-            &nbsp;
-        </if>
         <eq name="user.followed" value="1">
             <button type="button" class="btn btn-default" data-before="btn btn-primary" data-after="btn btn-default"
                     data-role="unfollow" data-follow-who="{$user.uid}"
