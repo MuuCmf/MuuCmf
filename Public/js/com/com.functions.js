@@ -71,8 +71,6 @@ function playsound(file) {
     }
     $('embed').remove();
     $('body').append('<embed src="' + file + '" autostart="true" hidden="true" loop="false">');
-    var div = document.getElementById('music');
-    div.src = file;
 }
 
 /**
@@ -144,83 +142,4 @@ function handleAjax(a) {
             location.href = a.url;
         }, interval);
     }
-}
-
-/** 绑定发送私信事件**/
-function iMessage() {
-    $("#iMessageAjaxPost").unbind('click');
-    $("#iMessageAjaxPost").click(function () {
-
-        var $this = $(this);
-        $this.text("发送中...");
-
-        var to_uid = $("input[name$='iMessageUid']").val();
-        var content = $("#iMessageTxt").val();
-
-        $.post(U('Ucenter/Message/postiMessage'), {iMessageUid: to_uid,iMessageTxt: content}, function (msg) {
-            if (msg.status) {
-                toast.success(msg.info, '发送成功');
-                $this.text("发送完成");
-
-                //隐藏对话框
-            } else {
-                toast.error(msg.info, '发送失败');
-                $this.text("发送");
-            }
-        }, 'json');
-    })
-}
-
-/**
- * 绑定消息检查
- */
-function bindMessageChecker() {
-    $hint_count = $('#nav_hint_count');
-    $nav_bandage_count = $('#nav_bandage_count');
-    if (Config.GET_INFORMATION) {
-        setInterval(function () {
-            checkMessage();
-        }, Config.GET_INFORMATION_INTERNAL);
-    }
-}
-
-function play_bubble_sound() {
-    playsound('./Public/js/ext/toastr/message.wav');
-}
-function paly_ios_sound() {
-    playsound('./Public/js/ext/toastr/tip.mp3');
-}
-/**
- * 检查是否有新的消息
- */
-function checkMessage() {
-    $.get(U('Ucenter/Public/getInformation'), {}, function (msg) {
-        if (msg.messages) {
-            paly_ios_sound();
-            var message = msg['messages'];
-            for (var index in msg.messages) {
-                if(message[index]['content']['untoastr']===undefined||message[index]['content']['untoastr']!=1){
-                    tip_message(message[index]['content']['content'] + '<div style="text-align: right"> ' + message[index]['ctime'] + '</div>', message[index]['content']['title']);
-                }
-            }
-        }
-
-        $('[data-role="now-message-num"]').html(msg.message_count);
-        if(msg.message_count==0){
-            $('[data-role="now-message-num"]').hide();
-        }else{
-            $('[data-role="now-message-num"]').show();
-        }
-
-    }, 'json');
-
-}
-
-/**
- * 消息中心提示有新的消息
- * @param text
- * @param title
- */
-function tip_message(text, title) {
-    toast.info(text);
 }

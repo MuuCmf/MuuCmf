@@ -1,11 +1,16 @@
+
+
 $(function () {
+
     ucard();//绑定用户小名片
     $('input,area').placeholder();//修复ieplace holder
-    //checkMessage();//检查一次消息
+    
     if (is_login()) {
-        checkMessage();//检查一次消息
-        bindMessageChecker();//绑定用户消息
-    } 
+        $.muu.check_message();//检查一次消息
+        $.muu.bind_message_checker();//绑定用户消息
+        $.muu.send_imessage(); //绑定发送私信
+    }
+    follower.bind_follow();
 });
 
 $(function () {
@@ -83,9 +88,48 @@ $(function () {
         //返回
         return false;
     });
-    follower.bind_follow();
-    iMessage();
+    
 });
+
+
+/**
+ * 绑定回到顶部
+ */
+
+$(function () {
+    $(window).on('scroll', function () {
+        var st = $(document).scrollTop();
+        if (st > 0) {
+            $('#go-top').css('display','block');
+        } else {
+            $('#go-top').hide();
+        }
+    });
+    $('#tool .go-top').on('click', function () {
+        $('html,body').animate({'scrollTop': 0}, 500);
+    });
+
+    $('#go-top .uc-2vm').hover(function () {
+        $('#go-top .uc-2vm-pop').removeClass('dn');
+    }, function () {
+        $('#go-top .uc-2vm-pop').addClass('dn');
+    });
+});
+
+/**
+ * 绑定登出事件
+ */
+$(function(){
+    $('[event-node=logout]').click(function () {
+        $.get(U('Ucenter/System/logout'), function (msg) {
+            $('body').append(msg.html);
+            toast.success(msg.message + '。', '温馨提示');
+            setTimeout(function () {
+                location.href = msg.url;
+            }, 1500);
+        }, 'json')
+    });
+})
 
 var follower = {
     'bind_follow': function () {
@@ -126,44 +170,7 @@ var follower = {
     }
 }
 
-/**
- * 绑定回到顶部
- */
 
-$(function () {
-    $(window).on('scroll', function () {
-        var st = $(document).scrollTop();
-        if (st > 0) {
-            $('#go-top').css('display','block');
-        } else {
-            $('#go-top').hide();
-        }
-    });
-    $('#tool .go-top').on('click', function () {
-        $('html,body').animate({'scrollTop': 0}, 500);
-    });
-
-    $('#go-top .uc-2vm').hover(function () {
-        $('#go-top .uc-2vm-pop').removeClass('dn');
-    }, function () {
-        $('#go-top .uc-2vm-pop').addClass('dn');
-    });
-});
-
-/**
- * 绑定登出事件
- */
-$(function(){
-    $('[event-node=logout]').click(function () {
-        $.get(U('Ucenter/System/logout'), function (msg) {
-            $('body').append(msg.html);
-            toast.success(msg.message + '。', '温馨提示');
-            setTimeout(function () {
-                location.href = msg.url;
-            }, 1500);
-        }, 'json')
-    });
-})
 /**
  * 更新附件表单值
  * @return void
@@ -222,70 +229,4 @@ jQuery.cookie = function (name, value, options) {
     }
 };
 
-var message_session={
-    message_type:'',
-    init_message:function(){
-        $('[data-role="open-slider-box"]').unbind();
-        $('[data-role="open-slider-box"]').click(function () {
-            toast.showLoading();
-            $.post(U('Ucenter/Message/messagetypelist'),{},function(html){
-                $('#message-type-box').find('.message-type-list').html(html);
-                $('[data-role="open-message-list"]').first().click();
-            });
-            toast.hideLoading();
-        });
-    },
-    list_message:function(){
-        $('[data-role="open-message-list"]').unbind();
-        $('[data-role="open-message-list"]').click(function(){
-            //alert('sdfsdfsfs');
-            message_type = $(this).attr("data-type");
-             $.post(U('Ucenter/Message/messagelist'),{tab:message_type},function(html){
-                $('.message-info-list').html(html);
-            });
-        });
-    },
-    list_message_load_more:function(){
-        var page = 1;
-        var r = 10;
-        $('.loadmore-type-messages').unbind();
-        $('.loadmore-type-messages').click(function(){
-            var _this = $(this);
-            _this.html('加载中');
-            $.post(U('Ucenter/Message/messagelist'),{tab:message_type,page:page+1,r:r},function(html){
-                if(html.length){
-                    $('.message-info-list').append(html);
-                    _this.html('加载更多');
-                }else{
-                    _this.html('已经没有喽');
-                }
-            });
-        });
-    }
-};
 
-var Notify = {
-    'readMessage': function (obj, message_id) {
-        var url = $(obj).attr('data-url');
-        if( url !=''){
-            toast.showLoading();
-            $.post(U('Ucenter/Public/readMessage'), {message_id: message_id}, function (msg) {
-                toast.hideLoading();
-                location.href = url;
-            }, 'json');
-        }
-
-    },
-    /**
-     * 将所有的消息设为已读
-     */
-    'setAllReaded': function () {
-        $.post(U('Ucenter/Public/setAllMessageReaded'), function () {
-            $hint_count.text(0);
-            $('#nav_message').html('<div style="font-size: 18px;color: #ccc;font-weight: normal;text-align: center;line-height: 150px">暂无任何消息!</div>');
-            $nav_bandage_count.hide();
-            $nav_bandage_count.text(0);
-
-        });
-    }
-};
