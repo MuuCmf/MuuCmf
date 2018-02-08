@@ -66,10 +66,10 @@
     }
 
     function play_bubble_sound() {
-        playsound('./Public/js/ext/toastr/message.wav');
+        playsound('./Public/lib/toastr/message.wav');
     }
     function paly_ios_sound() {
-        playsound('./Public/js/ext/toastr/tip.mp3');
+        playsound('./Public/lib/toastr/tip.mp3');
     }
 
     var message_type='';

@@ -4,7 +4,7 @@
             <switch name="pos.style">
                 <case value="2">
                     <!--轮播效果2-->
-                    <script src="__PUBLIC__/js/ext/kinmaxshow/js/kinmaxshow.min.js"></script>
+                    <script src="__PUBLIC__/lib/kinmaxshow/js/kinmaxshow.min.js"></script>
                     <div>
                         <div id="slide_{$pos.id}" style="display: none">
                             <volist name="list" id="vo">
@@ -64,8 +64,8 @@
                             width:100%;
                         }
                     </style>
-                    <link href="__PUBLIC__/js/ext/flickity/css/flickity.css" rel="stylesheet" media="screen">
-                    <script src="__PUBLIC__/js/ext/flickity/js/flickity.pkgd.min.js"></script>
+                    <link href="__PUBLIC__/lib/flickity/css/flickity.css" rel="stylesheet" media="screen">
+                    <script src="__PUBLIC__/lib/flickity/js/flickity.pkgd.min.js"></script>
                       <div id="slide_{$pos.id}">
                         <div class="flickity-content js-flickity" id="main-gallery" data-flickity-options='{ "cellAlign": "left", "contain": true,"autoplay": true,"wrapAround": true}'>
                             <volist name="list" id="vo">
@@ -84,12 +84,12 @@
 
                 <default />
                     <!--默认轮播效果-->
-                <link href="__PUBLIC__/js/ext/simpleSlider/style.css" rel="stylesheet" type="text/css">
+                <link href="__PUBLIC__/lib/simpleSlider/style.css" rel="stylesheet" type="text/css">
                 <script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
-                <script type="text/javascript" src="__PUBLIC__/js/ext/simpleSlider/js/transit.js"></script>
-                <script type="text/javascript" src="__PUBLIC__/js/ext/simpleSlider/js/touchSwipe.js"></script>
-                <script type="text/javascript" src="__PUBLIC__/js/ext/simpleSlider/js/simpleSlider.js"></script>
-                <script type="text/javascript" src="__PUBLIC__/js/ext/simpleSlider/js/backstretch.js"></script>
+                <script type="text/javascript" src="__PUBLIC__/lib/simpleSlider/js/transit.js"></script>
+                <script type="text/javascript" src="__PUBLIC__/lib/simpleSlider/js/touchSwipe.js"></script>
+                <script type="text/javascript" src="__PUBLIC__/lib/simpleSlider/js/simpleSlider.js"></script>
+                <script type="text/javascript" src="__PUBLIC__/lib/simpleSlider/js/backstretch.js"></script>
                 <script>
                 var mainslider;
                 $(document).ready(function(){

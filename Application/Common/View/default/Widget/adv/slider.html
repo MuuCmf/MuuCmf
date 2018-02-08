@@ -8,7 +8,7 @@
         <if condition="count($data) gt 0">
             <switch name="pos.style">
                 <case value="2">
-                    <script src="__PUBLIC__/js/ext/kinmaxshow/js/kinmaxshow.min.js"></script>
+                    <script src="__PUBLIC__/lib/kinmaxshow/js/kinmaxshow.min.js"></script>
                     <div style="width:{$pos.width};height:{$pos.height}">
                         <div id="slide_{$pos.pos}">
                             <volist name="data" id="vo">
@@ -29,8 +29,8 @@
                     </script>
                 </case>
                 <default/>
-                <script src="__PUBLIC__/js/ext/touchslide/js/jquery.touchSlider.js"></script>
-                <link href="__PUBLIC__/js/ext/touchslide/css/touchslider.css" rel="stylesheet" type="text/css"/>
+                <script src="__PUBLIC__/lib/touchslide/js/jquery.touchSlider.js"></script>
+                <link href="__PUBLIC__/lib/touchslide/css/touchslider.css" rel="stylesheet" type="text/css"/>
                 <div class="main_visual" style="height: {$pos.height};width:{$pos.width};">
                     <div class="flicking_con">
                         <volist name="data" id="vo">

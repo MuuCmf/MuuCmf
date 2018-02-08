@@ -1,16 +1,12 @@
-
 <extend name="Base/common"/>
 <block name="style">
-    <link href="__PUBLIC__/js/ext/Swiper-4.0.7/css/swiper.min.css" rel="stylesheet" media="screen">
-    <link type="text/css" rel="stylesheet" href="__THEME_CSS__/articles.css"/>
+    <link href="__PUBLIC__/lib/Swiper-4.0.7/css/swiper.min.css" rel="stylesheet" media="screen">
+    <link type="text/css" rel="stylesheet" href="__CSS__/articles.css"/>
 </block>
 <block name="body">
     <div id="main-container" class="container">
-     <!--菜单-->
-        <include file="Public/_button"/>
-    <!--end菜单-->
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-8">
                 {:W('Slide/lists',array('position'=>'1'))}
                 {:W('Position/lists',array('position'=>'2'))}
                 <div class="common_block_border">
@@ -31,9 +27,17 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-4">
+                <div class="common_block_border">
+                <!--侧栏菜单-->
+                    <include file="Public/_button"/>
+                <!--end侧栏菜单-->
+                    {:W('Hot/lists')}
+                </div>
+            </div>
         </div>
     </div>
 </block>
 <block name="script">
-    <script src="__PUBLIC__/js/ext/Swiper-4.0.7/js/swiper.min.js"></script>
+    <script src="__PUBLIC__/lib/Swiper-4.0.7/js/swiper.min.js"></script>
 </block>
