@@ -71,7 +71,7 @@
 	</form>
 </block>
 <block name="script">
-<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/lib/uploadify/jquery.uploadify.min.js"></script>
 <script type="text/javascript">
 
 (function(){
@@ -82,7 +82,7 @@
 	/* 初始化上传插件 */
 	$("#download-file").uploadify({
         "height"          : 30,
-        "swf"             : "__STATIC__/uploadify/uploadify.swf",
+        "swf"             : "__PUBLIC__/lib/uploadify/uploadify.swf",
         "fileObjName"     : "download",
         "buttonText"      : "上传文件",
         "uploader"        : "{:U('File/upload',array('session_id'=>session_id()))}",
@@ -108,7 +108,7 @@
     /* 初始化上传插件 */
 	$("#upload_picture").uploadify({
         "height"          : 30,
-        "swf"             : "__STATIC__/uploadify/uploadify.swf",
+        "swf"             : "__PUBLIC__/lib/uploadify/uploadify.swf",
         "fileObjName"     : "download",
         "buttonText"      : "上传图片",
         "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",

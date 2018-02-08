@@ -1,7 +1,7 @@
 <extend name="Public/base" />
 
 <block name="body">
-<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/lib/uploadify/jquery.uploadify.min.js"></script>
     <div class="main-title cf">
         <h2>{:L("_EDIT_")}[{$model['title']}]</h2>
     </div>
@@ -84,7 +84,7 @@
 							    /* 初始化上传插件 */
 								$("#upload_picture_{$field.name}").uploadify({
 							        "height"          : 30,
-							        "swf"             : "__STATIC__/uploadify/uploadify.swf",
+							        "swf"             : "__PUBLIC__/lib/uploadify/uploadify.swf",
 							        "fileObjName"     : "download",
 							        "buttonText"      : {:L("_UPLOAD_PICTURES_WITH_DOUBLE_")},
 							        "uploader"        : "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
@@ -130,7 +130,7 @@
 							    /* 初始化上传插件 */
 								$("#upload_file_{$field.name}").uploadify({
 							        "height"          : 30,
-							        "swf"             : "__STATIC__/uploadify/uploadify.swf",
+							        "swf"             : "__PUBLIC__/lib/uploadify/uploadify.swf",
 							        "fileObjName"     : "download",
 							        "buttonText"      : {:L("_UPLOAD_ATTACHMENTS_WITH_DOUBLE_")},
 							        "uploader"        : "{:U('File/upload',array('session_id'=>session_id()))}",
