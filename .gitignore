@@ -49,6 +49,9 @@ Temporary Items
 # Svn
 .svn
 
+# gulp
+/node_modules
+
 #
 /.idea
 

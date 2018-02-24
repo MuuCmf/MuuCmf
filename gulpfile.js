@@ -28,8 +28,8 @@ gulp.task('js', function() {
     .pipe(babel({
       presets: ['es2015']
     }))
-    //.pipe(concat('main.js'))//合并js
-    //.pipe(rename({suffix: '.min'}))//rename压缩后的文件名
+    .pipe(concat('main.js'))//合并js
+    .pipe(rename({suffix: '.min'}))//rename压缩后的文件名
     .pipe(uglify())
     .pipe(gulp.dest(dist+'/js'));
 });
@@ -44,6 +44,12 @@ gulp.task('lib', function () {
     gulp.src(src+'/lib/**/*')
     .pipe(copy())
     .pipe(gulp.dest(dist+'/lib'));
+});
+// ZUI框架不编译的直接copy
+gulp.task('zui', function () {
+    gulp.src(src+'/zui/**/*')
+    .pipe(copy())
+    .pipe(gulp.dest(dist+'/zui'));
 });
 // 自动刷新
 gulp.task('server', function() {
@@ -63,4 +69,4 @@ gulp.task('server', function() {
     gulp.watch(dist+"/css/*.css").on("change", reload);
 });
 // 监听事件
-gulp.task('default', ['scss', 'js', 'images', 'lib', 'server'])
+gulp.task('default', ['scss', 'js', 'images', 'lib' ,'zui', 'server'])
