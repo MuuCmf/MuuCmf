@@ -9,6 +9,14 @@
 (function($, window, undefined) {
     'use strict';
 
+    /* Check jquery */
+    if(typeof($) === 'undefined') throw new Error('MUU requires jQuery');
+    // muu shared object
+    if(!$.muu) $.muu = function(obj) {
+        if($.isPlainObject(obj)) {
+            $.extend($.muu, obj);
+        }
+    };
     /**
      * 绑定消息检查
      */
@@ -123,4 +131,14 @@
         list_message_load_more: list_message_load_more,
         send_imessage:iMessage,
     });
+  
 }(jQuery, window, undefined));
+
+// Initialize
+$(document).ready(function(e){
+    if (is_login()) {
+        $.muu.check_message();//检查一次消息
+        $.muu.bind_message_checker();//绑定用户消息
+        $.muu.send_imessage(); //绑定发送私信
+    }
+});

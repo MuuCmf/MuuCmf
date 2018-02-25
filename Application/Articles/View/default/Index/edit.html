@@ -101,8 +101,6 @@
         </div>
     </div>
     </div>
-    <link href="__PUBLIC__/css/form_check.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="__PUBLIC__/js/form_check.js"></script>
     <script type="text/javascript" src="__ZUI__/lib/datetimepicker/datetimepicker.min.js"></script>
     <script type="text/javascript" src="__JS__/webuploader.min.js"></script>
     <script>
@@ -169,8 +167,8 @@
             $error.text('上传失败');
         });
     });
-    </script>
-    <script>
+
+    $(function(){
         $('.time').datetimepicker({
             language:'zh-CN',
             weekStart:1,
@@ -194,6 +192,6 @@
             forceParse:0,
             format: 'yyyy-mm-dd'
         });
-
+    })
     </script>
 </block>

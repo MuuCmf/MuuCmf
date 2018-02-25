@@ -1,14 +1,5 @@
-
-
 $(function () {
-
     $('input,area').placeholder();//修复ieplace holder
-    
-    if (is_login()) {
-        $.muu.check_message();//检查一次消息
-        $.muu.bind_message_checker();//绑定用户消息
-        $.muu.send_imessage(); //绑定发送私信
-    }
     follower.bind_follow();
 });
 
