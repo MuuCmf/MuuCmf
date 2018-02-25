@@ -17,10 +17,11 @@ body {
 a {
   color:#000;
   text-decoration: none;
-}
-a:hover {
-  text-decoration: none;
-  cursor: pointer !important;
+    &:hover {
+      text-decoration: none;
+      cursor: pointer !important;
+    }
+
 }
 ul {
   padding-left: 0;
@@ -90,48 +91,54 @@ ul {
 .adv-wrap {
   position: relative;
   overflow: visible;
+
+  .adv-content {
+    line-height: 18px;
+    text-align: center;
+    padding-top: 5px;
+    background: url(/Public/images/adv_line.jpg);
+    padding-left: 10px;
+
+    .text {
+      background: white;
+      padding: 5px 10px;
+    }
+  }
+
+  .adv-tool {
+    display: none;
+    position: absolute;
+    width: 165px;
+    right: 0;
+    top: -24px;
+    background: #fcfcfc;
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px #eee;
+    line-height: 12px;
+    z-index: 999999;
+
+    a {
+      line-height: 24px !important;
+      padding: 10px 5px;
+    }
+  }
+
+  .adv-size {
+    display: none;
+    left: 50%;
+    margin-left: -150px;
+    width: 300px;
+    position: absolute;
+    z-index: 999;
+    background: #fcfcfc;
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px #eee;
+    line-height: 16px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
 }
-.adv-wrap .adv-content {
-  line-height: 18px;
-  text-align: center;
-  padding-top: 5px;
-  background: url(/Public/images/adv_line.jpg);
-  padding-left: 10px;
-}
-.adv-wrap .adv-content .text {
-  background: white;
-  padding: 5px 10px;
-}
-.adv-wrap .adv-tool {
-  display: none;
-  position: absolute;
-  width: 165px;
-  right: 0;
-  top: -24px;
-  background: #fcfcfc;
-  border: 1px solid #ddd;
-  box-shadow: 2px 2px #eee;
-  line-height: 12px;
-  z-index: 999999;
-}
-.adv-wrap .adv-tool a {
-  line-height: 24px !important;
-  padding: 10px 5px;
-}
-.adv-wrap .adv-size {
-  display: none;
-  left: 50%;
-  margin-left: -150px;
-  width: 300px;
-  position: absolute;
-  z-index: 999;
-  background: #fcfcfc;
-  border: 1px solid #ddd;
-  box-shadow: 2px 2px #eee;
-  line-height: 16px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
+
 .tool {
   position: fixed;
   bottom: 60px;
@@ -144,7 +151,7 @@ ul {
   width: 48px;
   height: 46px;
   margin-bottom: 10px;
-  background-image: url(/Public/images/tools.png);
+  background-image: url(../images/tools.png);
   border: 1px solid #dddddd;
 }
 .tool a:last-child {
@@ -172,66 +179,75 @@ ul {
   margin:20px auto;
   -webkit-transition: all 0.4s ease;
   transition: all 0.4s ease;
-}
-.register .register_body {
-  padding:20px;
-  max-width:468px;
-  margin:0 auto;
-}
-.register .register_body #reg_nav li a{
-    font-size:18px;
-}
 
-.register .register_body .tab-content {
-  background:#fff;
-  padding:20px;
-  border:1px solid #ddd;
-  border-top:0
-}
-.register .register_body .tab-content input{
-  border:1px solid #ddd;
-}
+  .register_body {
+    padding:20px;
+    max-width:468px;
+    margin:0 auto;
 
-.register .form-group {
-  position:relative;
-  margin-bottom:5px;
-}
-.register .new-input {
-  display: inline-block;
-}
-.register .existing-account {
-  text-align:center;
-  line-height: 36px;
-  margin-top:60px;
-  border-top:1px solid #f6f6f6;
-}
-.register .register-finish {
-  display: flex;
-  padding-left: calc(100vw - 100%);
-  min-height: calc(100vh - 140px); 
-  margin:0 auto;
-  padding:20px;
-}
-.register .register-finish .intro {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0 auto;
-}
-.register .register-finish .intro .avatar {
-  text-align:center;
-  padding:15px 0;
-}
-.register .register-finish .intro .avatar span{
-  display:block;
-  text-align:center;
-}
-.register .register-finish .font{
-  font-size:14px;
-  text-align:center;
-  padding:15px 0;
-  color:#666;
-}
+    #reg_nav li a{
+      font-size:18px;
+    }
+    .tab-content {
+      background:#fff;
+      padding:20px;
+      border:1px solid #ddd;
+      border-top:0;
+
+      input{
+        border:1px solid #ddd;
+      }
+    }
+  }
+
+  .form-group {
+    position:relative;
+    margin-bottom:5px;
+  }
+
+  .new-input {
+    display: inline-block;
+  }
+
+  .existing-account {
+    text-align:center;
+    line-height: 36px;
+    margin-top:60px;
+    border-top:1px solid #f6f6f6;
+  }
+
+  .register-finish {
+    display: flex;
+    padding-left: calc(100vw - 100%);
+    min-height: calc(100vh - 140px); 
+    margin:0 auto;
+    padding:20px;
+
+    .intro {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: 0 auto;
+
+      .avatar {
+        text-align:center;
+        padding:15px 0;
+
+        span{
+          display:block;
+          text-align:center;
+        }
+      }
+    }
+
+    .font{
+      font-size:14px;
+      text-align:center;
+      padding:15px 0;
+      color:#666;
+    }
+  }
+} 
 /*用户登录*/
 .login{
   position: fixed;
@@ -241,11 +257,12 @@ ul {
   height: 50%;
   -webkit-transform: translateX(-50%) translateY(-50%);
   max-width:468px;
-}
-.login .lg_lf_top {
-  letter-spacing:10px;
-  color:#333;
-  font-weight: 300;
+
+  .lg_lf_top {
+      letter-spacing:10px;
+      color:#333;
+      font-weight: 300;
+    }
 }
 /*找回密码*/
 .mi_form_box #mi_tab li a {
@@ -256,30 +273,29 @@ ul {
   height: 230px;
   background: white;
   margin-bottom: 15px;
-}
-.user-card .user_info {
-  margin-bottom: 20px;
-  position: relative;
-}
-.user-card .cover {
-  width: 100%;
-  height: 80px;
-}
-.user-card .user-data > div {
-  padding-bottom: 10px;
-}
-.user-card .headpic {
-  padding: 0;
-  border-radius: 50%;
-  text-align: center;
-  margin-top: -40px;
-}
-.user-card .cover {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.user-card .nickname {
-  padding-top: 10px;
+
+  .user_info {
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .user-data > div {
+    padding-bottom: 10px;
+  }
+  .headpic {
+    padding: 0;
+    border-radius: 50%;
+    text-align: center;
+    margin-top: -40px;
+  }
+  .cover {
+    width: 100%;
+    height: 80px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .nickname {
+    padding-top: 10px;
+  }
 }
 /*头衔*/
 .rank-icon {
