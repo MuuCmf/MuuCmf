@@ -60,7 +60,7 @@ Temporary Items
 /Conf/user.php
 /Conf/*.lock
 /Conf/common.php
-/Runtime/Cache
+/Runtime
 /.hatccess
 
 .htaccess
