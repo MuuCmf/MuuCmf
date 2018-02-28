@@ -623,7 +623,7 @@ class AdminListBuilder extends AdminBuilder
         //image转换为图片
         //大蒙 <修复无图片ID时默认判断为图片路径的BUG>
         $this->convertKey('image', 'html', function ($value, $key, $item) {
-            if (intval($value) || $value==0) {//value是图片id
+            if (is_numeric($value)) {//value是图片id
                 $value = htmlspecialchars($value);
                 $sc_src = get_cover($value, 'path');
 
