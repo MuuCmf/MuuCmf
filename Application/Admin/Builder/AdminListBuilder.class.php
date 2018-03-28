@@ -624,6 +624,10 @@ class AdminListBuilder extends AdminBuilder
         //大蒙 <修复无图片ID时默认判断为图片路径的BUG>
         $this->convertKey('image', 'html', function ($value, $key, $item) {
             if (is_numeric($value)) {//value是图片id
+                if($value===0 || $value==='0'){
+                    $html = "<div class='popup-gallery'><img src=\"Public/images/nopic.png\" style=\"width:80px;height:80px\"></div>";
+                    return $html;
+                }
                 $value = htmlspecialchars($value);
                 $sc_src = get_cover($value, 'path');
 
