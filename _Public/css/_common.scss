@@ -257,12 +257,25 @@ ul {
   height: 50%;
   -webkit-transform: translateX(-50%) translateY(-50%);
   max-width:468px;
-
+  .login-tit {
+    text-align:center;
+    font-size:22px;
+    margin:10px auto;
+  }
   .lg_lf_top {
       letter-spacing:10px;
       color:#333;
       font-weight: 300;
     }
+}
+@media screen and (max-width:768px){
+  .login{
+    position:relative;
+    width:100%;
+    left:0;
+    top:0;
+    -webkit-transform: translateX(0) translateY(0);
+  }
 }
 /*找回密码*/
 .mi_form_box #mi_tab li a {
