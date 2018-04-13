@@ -57,7 +57,6 @@ class UpdateController extends AdminController
 
         }else{
             $result = $this->checkVersion($localVersion);//读取云端可更新版本数据
-            //dump($result);exit;
         }
         $this->meta_title = '系统在线更新';
         $this->assign('localVersion',$localVersion);
@@ -197,7 +196,6 @@ class UpdateController extends AdminController
     {   
         $result = file_get_contents($this->cloud.'/index/enable_version/'.$localVersion);//读取云端可更新版本数据
         $result = json_decode($result,true);//转换为数组格式
-        //dump($result);exit;
         return $result;
     }
 
