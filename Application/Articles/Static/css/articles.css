@@ -77,6 +77,23 @@
 #contents .author a:hover {
   color: #333;
 }
+#contents ul {
+    padding-left: 20px;
+    margin-left: 10px;
+}
+#contents .syntaxhighlighter td.code {
+  padding: 9.5px 0 9.5px 0!important;
+}
+#contents .article_copyright {
+    border: 1px solid #efefef;
+    box-shadow: 0 0 16px rgba(0,0,0,0.05);
+    margin: 20px 1% 20px;
+    padding: 20px;
+    background: #fafafa;
+    word-break: break-all;
+    word-wrap: break-word;
+    font-size:14px;
+}
 .right_block {
   border-radius: 3px;
   border: 1px solid #f0f0f0;

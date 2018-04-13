@@ -7,7 +7,7 @@ return array(
     'router' => array(
 
         /*系统首页*/
-        'home/index/index'          =>  'home',
+        'home/index/index'                   =>  'home',
         /*用户中心*/
         'ucenter/index/index'                => 'ucenter/[uid]',
         'ucenter/index/following'            => 'ucenter/following_[uid]',
