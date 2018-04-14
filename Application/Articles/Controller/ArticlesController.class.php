@@ -331,6 +331,7 @@ str;
         $aId=I('id',0,'intval');
         $title=$aId?"编辑":"新增";
         if(IS_POST){
+            
             $aId&&$data['id']=$aId;
             $data['uid']=I('post.uid',get_uid(),'intval');
             $data['title']=I('post.title','','op_t');

@@ -138,6 +138,7 @@ class IndexController extends CommonController{
         }
 
         $info=$this->articlesModel->getData($aId);
+        
         $author=query_user(array('uid','space_url','nickname','avatar32','avatar64','signature'),$info['uid']);
         $author['articles_count']=$this->articlesModel->where(array('uid'=>$info['uid']))->count();
         //关键字转化成数组
@@ -159,6 +160,7 @@ class IndexController extends CommonController{
         $map = array('id' => $aId);
         $this->articlesModel->where($map)->setInc('view');
         /* 模板赋值并渲染模板 */
+
         $this->assign('author',$author);
         $this->assign('info', $info);
         $this->assign('keywords',$keywords);

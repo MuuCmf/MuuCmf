@@ -19,10 +19,11 @@ class ArticlesDetailModel extends Model{
     }
 
     public function getData($id)
-    {
-        $contentHandler=new ContentHandlerModel();
+    {   
+        //处理代码块时会产生BUG，暂时去掉
+        //$contentHandler=new ContentHandlerModel();
         $res=$this->where(array('articles_id'=>$id))->find();
-        $res['content']=$contentHandler->displayHtmlContent($res['content']);
+        //$res['content']=$contentHandler->displayHtmlContent($res['content']);
         return $res;
     }
 

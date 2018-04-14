@@ -1,6 +1,7 @@
 <extend name="Base/common"/>
 <block name="style">
     <link type="text/css" rel="stylesheet" href="__CSS__/articles.css"/>
+    <link type="text/css" rel="stylesheet" href="__PUBLIC__/lib/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css"/>
 </block>
 <block name="body">
 <div id="main-container" class="container">
@@ -95,8 +96,6 @@
         </div>
     </div>
     <script type="text/javascript" charset="utf-8" src="__PUBLIC__/lib/ueditor/third-party/SyntaxHighlighter/shCore.js"></script>
-    <link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css"/>
-    <script type="text/javascript">
-        SyntaxHighlighter.all();
-    </script>
+    <script>SyntaxHighlighter.all();</script>
+    <script>SyntaxHighlighter.defaults['toolbar'] = false;</script>
 </block>
