@@ -179,9 +179,9 @@ function write_config($config, $auth)
         //写入应用配置文件
         if (!IS_WRITE) {
             return '由于您的环境不可写，请复制下面的配置文件内容覆盖到相关的配置文件，然后再登录后台。<p>' . realpath('') . './Conf/common.php</p>
-            <textarea name="" style="width:650px;height:185px">' . $conf . '</textarea>
+            <textarea class="form-control" rows="15" name="" >' . $conf . '</textarea>
             <p>' . realpath('') . './Conf/user.php</p>
-            <textarea name="" style="width:650px;height:125px">' . $user . '</textarea>';
+            <textarea class="form-control" rows="15" name="" >' . $user . '</textarea>';
         } else {
             if (file_put_contents('./Conf/common.php', $conf) &&
                 file_put_contents('./Conf/user.php', $user)

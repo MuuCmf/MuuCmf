@@ -62,7 +62,7 @@ abstract class Controller
      */
     public function __construct()
     {
-        if (is_file('./Conf/user.php')) {//已经安装了
+        if (is_file('./Conf/install.lock')) {//已经安装了
 
             $moduleModel = D('Common/Module');
             /*读取站点配置*/
