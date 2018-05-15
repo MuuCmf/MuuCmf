@@ -195,6 +195,8 @@ class UserController extends AdminController
     /**用户扩展资料详情
      * @param string $uid
      * @author 郑钟良<zzl@ourstu.com>
+     * @author 大蒙<59262424@qq.com>
+     * 这里需要重构
      */
     public function expandinfo_details($uid = 0)
     {
@@ -217,6 +219,8 @@ class UserController extends AdminController
                 D('Ucenter/Score')->cleanUserCache($data['id'], cut_str('score', $key, 'l'));
             }
             unset($key, $val);
+            $rs_score = true;
+
             /* 修改积分 end*/
             /*身份设置 zzl(郑钟良)*/
             $data_role = array();
@@ -228,120 +232,39 @@ class UserController extends AdminController
                 }
             }
             unset($key, $val);
-            $this->_resetUserRole($uid, $data_role);
+            $rs_role = $this->_resetUserRole($uid, $data_role);
             /*身份设置 end*/
-            //基础设置 路飞
-            $field_list = $this->getRoleFieldIds();
-            if ($field_list) {
-                $map_field['id'] = array('in', $field_list);
-            } else {
-                $this->error(L('_ERROR_INFO_SAVE_NONE_').L('_EXCLAMATION_'));
-            }
 
-            $map_field['status'] = 1;
-            $field_setting_list = D('field_setting')->where($map_field)->order('sort asc')->select();
-
-            if (!$field_setting_list) {
-                $this->error(L('_ERROR_INFO_CHANGE_NONE_').L('_EXCLAMATION_'));
-            }
-
-            $data = null;
-            foreach ($field_setting_list as $key => $val) {
-                $data[$key]['uid'] = $uid;
-                $data[$key]['field_id'] = $val['id'];
-                switch ($val['field_name']) {
-                    case 'qq':
-                        $val['value'] = op_t($_POST['qq']);
-                        if (!$val['value'] || $val['value'] == '') {
-                            if ($val['required'] == 1) {
-                                $this->error($val['field_name'] . L('_ERROR_CONTENT_NONE_').L('_EXCLAMATION_'));
-                            }
-                        } else {
-                            if ($val['submit'] != null && $val['submit']['succ'] == 0) {
-                                $this->error($val['submit']['msg']);
-                            }
-                        }
-                        $data[$key]['field_data'] = $val['value'];
-                        break;
-                    case '生日':
-                        $val['value'] = op_t($_POST['生日']);
-                        $data[$key]['field_data'] = $val['value'];
-                        break;
-                    case '擅长语言':
-                        $val['value'] = op_t($_POST['擅长语言']);
-                        $data[$key]['field_data'] = $val['value'];
-                        break;
-                    case '承接项目':
-                        $val['value'] = op_t($_POST['承接项目']);
-                        $data[$key]['field_data'] = $val['value'];
-                        break;
-                    case '简介':
-                        $val['value'] = op_t($_POST['简介']);
-                        if (!$val['value'] || $val['value'] == '') {
-                            if ($val['required'] == 1) {
-                                $this->error($val['field_name'] . L('_ERROR_CONTENT_NONE_').L('_EXCLAMATION_'));
-                            }
-                        } else {
-                            if ($val['submit'] != null && $val['submit']['succ'] == 0) {
-                                $this->error($val['submit']['msg']);
-                            }
-                        }
-                        if ($val['submit'] != null && $val['submit']['succ'] == 0) {
-                            $this->error($val['submit']['msg']);
-                        }
-                        $data[$key]['field_data'] = $val['value'];
-                        break;
-                    case '其他技能':
-                        $val['value'] = op_t($_POST['其他技能']);
-                        $data[$key]['field_data'] = $val['value'];
-                        break;
-                    case '昵称':
-                        $val['value'] = op_t($_POST['昵称']);
-                        if (!$val['value'] || $val['value'] == '') {
-                            if ($val['required'] == 1) {
-                                $this->error($val['field_name'] . L('_ERROR_CONTENT_NONE_').L('_EXCLAMATION_'));
-                            }
-                        } else {
-                            if ($val['submit'] != null && $val['submit']['succ'] == 0) {
-                                $this->error($val['submit']['msg']);
-                            }
-                        }
-                        $data[$key]['field_data'] = $val['value'];
-                        break;
-                }
-            }
+            //基础设置 大蒙
             $map['uid'] = $uid;
             $aNickname = I('post.nickname', '', 'text');
             $this->checkNickname($aNickname, $uid);
             $user['nickname'] = $aNickname;
             $rs_member = D('Member')->where($map)->save($user);
 
-            $map['role_id'] = get_role_id();
-            $is_success = false;
-            foreach ($data as $dl) {
-                $dl['role_id'] = $map['role_id'];
-
-                $map['field_id'] = $dl['field_id'];
-                $res = D('field')->where($map)->find();
-                if (!$res) {
-                    if ($dl['field_data'] != '' && $dl['field_data'] != null) {
-                        $dl['createTime'] = $dl['changeTime'] = time();
-                        if (!D('field')->add($dl)) {
-                            $this->error(L('_ERROR_INFO_ADD_').L('_EXCLAMATION_'));
-                        }
-                        $is_success = true;
-                    }
-                } else {
-                    $dl['changeTime'] = time();
-                    if (!D('field')->where('id=' . $res['id'])->save($dl)) {
-                        $this->error(L('_ERROR_INFO_CHANGE_').L('_EXCLAMATION_'));
-                    }
-                    $is_success = true;
-                }
-                unset($map['field_id']);
+            //用户名、邮箱、手机变成可编辑内容
+            $aUsername=I('post.username','','text');
+            $aEmail=I('post.email','','text');
+            $aMobile=I('post.mobile','','text');
+            if($aUsername==''&&$aEmail==''&&$aMobile==''){
+                $this->error('用户名、邮箱、手机号，至少填写一项！');
             }
+            if($aEmail!=''){
+                if (!preg_match("/^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i", $aEmail)) {
+                    $this->error('请正确填写邮箱！');
+                }
+            }
+            if($aMobile!=''){
+                if (!preg_match("/^\d{11}$/", $aMobile)) {
+                    $this->error('请正确填写手机号！');
+                }
+            }
+            $ucenterMemberData=array('id'=>$uid,'username'=>$aUsername,'email'=>$aEmail,'mobile'=>$aMobile);
+            $rs_register = M('UcenterMember')->save($ucenterMemberData);
+            //用户名、邮箱、手机变成可编辑内容end
+
             clean_query_user_cache($uid, 'expand_info');
-            if ($rs_member || $is_success) {
+            if ($rs_member || $rs_register || $rs_role || $is_success) {
                 $this->success(L('_SUCCESS_SAVE_').L('_EXCLAMATION_'));
             } else {
                 $this->error(L('_ERROR_SAVE_').L('_EXCLAMATION_'));
@@ -351,7 +274,10 @@ class UserController extends AdminController
             $map['status'] = array('egt', 0);
             $member = M('Member')->where($map)->find();
             $member['id'] = $member['uid'];
-            $member['username'] = D('UcenterMember')->where(array('id' => $uid))->getField('username');
+            $ucenterMember = D('UcenterMember')->where(array('id' => $uid))->field('username,email,mobile')->find();
+            $member['username']=$ucenterMember['username'];
+            $member['email']=$ucenterMember['email'];
+            $member['mobile']=$ucenterMember['mobile'];
             //扩展信息查询
             $map_profile['status'] = 1;
             $field_group = D('field_group')->where($map_profile)->select();
@@ -370,11 +296,19 @@ class UserController extends AdminController
                 }
                 $member[$key] = $field_data;
             }
+
+            //
+
             $builder = new AdminConfigBuilder();
             $builder->title(L('_USER_EXPAND_INFO_DETAIL_'));
             $builder->meta_title = L('_USER_EXPAND_INFO_DETAIL_');
-            $builder->keyId()->keyReadOnly('username', L('_USER_NAME_'))->keyText('nickname', L('_NICKNAME_'));
-            $field_key = array('id', 'username', 'nickname');
+            $builder->keyId()
+                    ->keyText('email','邮箱')
+                    ->keyText('mobile','手机号')
+                    ->keyText('username', L('_USER_NAME_'))
+                    ->keyText('nickname', L('_NICKNAME_'));
+
+            $field_key = array('id', 'username','email','mobile', 'nickname');
             foreach ($fields_list as $vt) {
                 $field_key[] = $vt['field_name'];
             }
@@ -431,13 +365,7 @@ class UserController extends AdminController
                 }
             }
             /*身份设置 end*/
-            $builder->keyText($fields_list['qq']['field_name'], $fields_list['qq']['field_name'])
-                ->keyTime($fields_list['生日']['field_name'], $fields_list['生日']['field_name'])
-                ->keySelect($fields_list['擅长语言']['field_name'], $fields_list['擅长语言']['field_name'], '', array('java' => 'Java', 'C++' => 'C++', 'Python' => 'Python', 'php' => 'php', 'object c' => 'object c', 'ruby' => 'ruby'))
-                ->keyRadio($fields_list['承接项目']['field_name'], $fields_list['承接项目']['field_name'], '', array('是' => '是', '否' => '否'))
-                ->keyTextArea($fields_list['简介']['field_name'], $fields_list['简介']['field_name'])
-                ->keyCheckBox($fields_list['其他技能']['field_name'], $fields_list['其他技能']['field_name'], '', array('PhotoShop' => 'PhotoShop', 'Flash' => 'Flash'))
-                ->keyText($fields_list['昵称']['field_name'], $fields_list['昵称']['field_name'])
+            $builder
                 ->group(L('_BASIC_SETTINGS_'), implode(',', $field_key))
                 ->group(L('_SETTINGS_SCORE_'), implode(',', $score_key))
                 ->group(L('_SETTINGS_ROLE_'), implode(',', $role_key))
@@ -446,8 +374,57 @@ class UserController extends AdminController
                 ->display();
         }
 
-    }
 
+    }
+    /**验证用户名
+     * @param $nickname
+     * @author 路飞<lf@ourstu.com>
+     */
+    private function checkNickname($nickname, $uid)
+    {
+        $length = mb_strlen($nickname, 'utf8');
+        if ($length == 0) {
+            $this->error(L('_ERROR_NICKNAME_INPUT_').L('_PERIOD_'));
+        } else if ($length > modC('NICKNAME_MAX_LENGTH',32,'USERCONFIG')) {
+            $this->error(L('_ERROR_NICKNAME_1_'). modC('NICKNAME_MAX_LENGTH',32,'USERCONFIG').L('_ERROR_NICKNAME_2_').L('_PERIOD_'));
+        } else if ($length < modC('NICKNAME_MIN_LENGTH',2,'USERCONFIG')) {
+            $this->error(L('_ERROR_NICKNAME_LENGTH_1_').modC('NICKNAME_MIN_LENGTH',2,'USERCONFIG').L('_ERROR_NICKNAME_2_').L('_PERIOD_'));
+        }
+        $match = preg_match('/^(?!_|\s\')[A-Za-z0-9_\x80-\xff\s\']+$/', $nickname);
+        if (!$match) {
+            $this->error(L('_ERROR_NICKNAME_LIMIT_').L('_PERIOD_'));
+        }
+
+        $map_nickname['nickname'] = $nickname;
+        $map_nickname['uid'] = array('neq', $uid);
+        $had_nickname = D('Member')->where($map_nickname)->count();
+        if ($had_nickname) {
+            $this->error(L('_ERROR_NICKNAME_USED_').L('_PERIOD_'));
+        }
+        $denyName = M("Config")->where(array('name' => 'USER_NAME_BAOLIU'))->getField('value');
+        if ($denyName != '') {
+            $denyName = explode(',', $denyName);
+            foreach ($denyName as $val) {
+                if (!is_bool(strpos($nickname, $val))) {
+                    $this->error(L('_ERROR_NICKNAME_FORBIDDEN_').L('_PERIOD_'));
+                }
+            }
+        }
+    }
+    private function getRoleFieldIds($uid = null)
+    {
+        $role_id = get_role_id($uid);
+        $fields_list = S('Role_Expend_Info_' . $role_id);
+        if (!$fields_list) {
+            $map_role_config = getRoleConfigMap('expend_field', $role_id);
+            $fields_list = D('RoleConfig')->where($map_role_config)->getField('value');
+            if ($fields_list) {
+                $fields_list = explode(',', $fields_list);
+                S('Role_Expend_Info_' . $role_id, $fields_list, 600);
+            }
+        }
+        return $fields_list;
+    }
     /**
      * 重新设置某一用户拥有身份
      * @param int $uid
