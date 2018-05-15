@@ -45,9 +45,8 @@ class InstallController extends Controller{
 
     //安装第二步，创建数据库
     public function step2($db = null, $admin = null){
+        header("Content-type: text/html; charset=utf-8"); 
         if(IS_POST){
-
-
             //检测管理员信息
             if(!is_array($admin) || empty($admin[0]) || empty($admin[1]) || empty($admin[3])){
                 $this->error('请填写完整管理员信息');
@@ -84,11 +83,11 @@ class InstallController extends Controller{
                     if(strpos($e->getMessage(),'getaddrinfo failed')!==false){
                         $this->error( '数据库服务器（数据库服务器IP） 填写错误。','很遗憾，创建数据库失败，失败原因');// 提示信息
                     }
-                   if(strpos($e->getMessage(),'Access denied for user')!==false){
+                    if(strpos($e->getMessage(),'Access denied for user')!==false){
                        $this->error('数据库用户名或密码 填写错误。','很遗憾，创建数据库失败，失败原因');// 提示信息
-                   }else{
-                       $this->error( $e->getMessage());// 提示信息
-                   }
+                    }else{
+                       $this->error($e->getMessage());// 提示信息
+                    }
                 }
                 session('step',2);
                 // $this->error($db->getError());exit;

@@ -16,7 +16,6 @@ define('INSTALL_APP_PATH', realpath('./') . '/');
 return array(
 
     'ORIGINAL_TABLE_PREFIX' => 'muucmf_', //默认表前缀
-
     /* 模板相关配置 */
     'TMPL_PARSE_STRING' => array(
         '__STATIC__' => __ROOT__ . '/Public/static',
