@@ -87,10 +87,10 @@ class UploadAvatarWidget extends Controller
             }
         }else{//角色没有默认
             if ($size != 0) {
-                $default_avatar = "Public/images/default_avatar.jpg";
+                $default_avatar = __ROOT__."Public/images/default_avatar.jpg";
                 $path=$this->getImageUrlByPath($default_avatar, $size, false);
             } else {
-                $path= get_pic_src("Public/images/default_avatar.jpg");
+                $path= get_pic_src(__ROOT__."Public/images/default_avatar.jpg");
             }
         }
         return $path;
