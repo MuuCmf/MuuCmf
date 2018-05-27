@@ -1625,12 +1625,18 @@ function get_all_module_lang($common_lang = array())
  * @return [type] [description]
  */
 function muu_now_theme(){
+
+    if(MODULE_NAME!='Install'){
         if(is_mobile()){
             $now_theme =  D('Theme')->getThemeValue('_THEME_NOW_MTHEME');
         }else{
             $now_theme = D('Theme')->getThemeValue('_THEME_NOW_THEME');
         }
-    return $now_theme;
+        return $now_theme;
+    }else{
+        return 'default';
+    }
+        
 }
 /**
  * 获取当前完整URL
