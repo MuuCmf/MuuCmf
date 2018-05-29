@@ -17,7 +17,7 @@ class IndexController extends BaseController
     public function _initialize()
     {
         parent::_initialize();
-        $uid = isset($_GET['uid']) ? op_t($_GET['uid']) : is_login();
+        $uid = isset($_GET['uid']) ? text($_GET['uid']) : is_login();
         //调用API获取基本信息
         $this->userInfo($uid);
         $this->_fans_and_following($uid);

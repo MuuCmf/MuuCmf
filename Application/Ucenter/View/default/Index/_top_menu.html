@@ -8,16 +8,16 @@
     <div class="pnav-box">
         <ul class="nav nav-secondary pnav-list">
             <volist name='appArr' id='vo'>
-                <li class="{$tabClass[$key]}"><a href="{:U('appList',array('type'=>$key,'uid'=>$uid))}"  class="{$tabClass[$key]}">{$vo.title}</a></li>
+                <li class="{$tabClass[$key]}"><a href="{:U('appList',array('type'=>$key,'uid'=>$user_info['uid']))}"  class="{$tabClass[$key]}">{$vo.title}</a></li>
             </volist>
             <li class="{$tabClass.user_data}">
-                <a href="{:U('information',array('uid'=>$uid))}" >{:L('_INFORMATION_')}</a>
+                <a href="{:U('information',array('uid'=>$user_info['uid']))}" >{:L('_INFORMATION_')}</a>
             </li>
             <li class="{$tabClass.user_rank}">
-                <a href="{:U('rank',array('uid'=>$uid))}" >{:L('_RANK_TITLE_')}</a>
+                <a href="{:U('rank',array('uid'=>$user_info['uid']))}" >{:L('_RANK_TITLE_')}</a>
             </li>
             <li class="{$tabClass.user_fans}">
-                <a href="{:U('following',array('uid'=>$uid))}">{:L('_FOLLOWERS_NO_SPACE_')}{:L('_SLASH_')}{:L('_FANS_')}</a>
+                <a href="{:U('following',array('uid'=>$user_info['uid']))}">{:L('_FOLLOWERS_NO_SPACE_')}{:L('_SLASH_')}{:L('_FANS_')}</a>
             </li>
         </ul>
     </div>
