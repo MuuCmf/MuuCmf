@@ -270,6 +270,10 @@
             {:W('Common/Ueditor/editor',array($field['name'],$field['name'],$field['value'],$field['style']['width'],$field['style']['height'],$field['config']))}
 
     </case>
+    <case value="simditor">
+            {:W('Common/Simditor/editor',array($field['name'],$field['name'],$field['value'],$field['style']['width'],$field['style']['height'],$field['config']))}
+
+    </case>
     <case value="textarea">
         <textarea name="{$field.name}" class="text input-large form-control"
                   style="height: 8em;width: 400px;height: 200px">{$field.value|htmlspecialchars}</textarea>
