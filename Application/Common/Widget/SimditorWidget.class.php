@@ -6,7 +6,7 @@ use Think\Controller;
 class SimditorWidget extends Controller
 {
 
-    public function editor($id = 'myeditor', $name = 'content',$default='',$width='100%',$height='200px',$config='',$style='',$param='')
+    public function editor($id = 'myeditor', $name = 'content', $default='', $config='', $style='', $param='', $width='100%')
     {
         $this->assign('id',$id);
         $this->assign('name',$name);
