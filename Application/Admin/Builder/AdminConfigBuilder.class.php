@@ -172,7 +172,18 @@ class AdminConfigBuilder extends AdminBuilder
     {
         return $this->key($name, $title, $subtitle, 'checkbox', $options);
     }
-
+    /**
+     * 调用不同的富文本编辑器
+     * @param  [type] $name     字段
+     * @param  [type] $title    标题
+     * @param  [type] $subtitle 标题描述
+     * @param  string $type     目前支持ueditor\wangeditou，默认editor
+     * @param  string $config   配置项，需参考相应编辑器文档设置
+     * @param  string $style    样式 如：height:200px;width:200px
+     * @param  string $param    预留参数
+     * @param  string $width    [description]
+     * @return [type]           [description]
+     */
     public function keyEditor($name, $title, $subtitle = null, $type = 'ueditor', $config = '', $style = '',$param='', $width='100%')
     {
         if(empty($type) || $type==''){
