@@ -395,7 +395,7 @@ str;
                 ->keyReadOnly('uid','发布者')->keyDefault('uid',get_uid())
                 ->keyText('title','标题')
                 ->keyText('keywords','关键字','多个关键字用（,）分隔')
-                ->keyEditor('content','内容','','all',array('width' => '700px', 'height' => '400px'))
+                ->keyEditor('content','内容','','wangeditor','','min-height:400px;height:auto;')
                 ->keySelect('category','分类','',$options)
 
                 ->keyTextArea('description','摘要')

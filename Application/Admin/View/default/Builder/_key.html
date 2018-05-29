@@ -266,16 +266,16 @@
                data-field-name="{$field.name}" value="{$field.value}"/>
 
     </case>
-    <case value="editor">
-            {:W('Common/Ueditor/editor',array($field['name'],$field['name'],$field['value'],$field['style']['width'],$field['style']['height'],$field['config']))}
+    <case value="ueditor">
+            {:W('Common/Ueditor/editor',array($field['name'],$field['name'],$field['value'],$field['config'],$field['style'],$field['param'],$field['width']))}
 
     </case>
     <case value="simditor">
-            {:W('Common/Simditor/editor',array($field['name'],$field['name'],$field['value'],$field['style']['width'],$field['style']['height'],$field['config']))}
+            {:W('Common/Simditor/editor',array($field['name'],$field['name'],$field['value'],$field['config'],$field['style'],$field['param'],$field['width']))}
 
     </case>
     <case value="wangeditor">
-            {:W('Common/Wangeditor/editor',array($field['name'],$field['name'],$field['value'],$field['style']['width'],$field['style']['height'],$field['config']))}
+            {:W('Common/Wangeditor/editor',array($field['name'],$field['name'],$field['value'],$field['config'],$field['style'],$field['param'],$field['width']))}
 
     </case>
     <case value="textarea">

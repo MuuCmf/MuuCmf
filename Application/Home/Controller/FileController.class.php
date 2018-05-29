@@ -122,6 +122,7 @@ class FileController extends Controller
         /* 记录图片信息 */
         if ($info) {
             $return['status'] = 1;
+            $return['data'] = $info;
             if ($info['Filedata']) {
                 $return = array_merge($info['Filedata'], $return);
             }
@@ -132,6 +133,7 @@ class FileController extends Controller
             if ($info['file'] || $info['files']) {
                 $return['data']['file'] = $info['file']?$info['file']:$info['files'];
             }
+
             /*适用于自动表单的图片上传方式end*/
             $aWidth= I('get.width',0,'intval');
             $aHeight=   I('get.height',0,'intval');
