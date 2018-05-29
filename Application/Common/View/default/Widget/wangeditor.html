@@ -1,0 +1,34 @@
+
+
+<php> if(\Think\Hook::get('adminEditor') && MODULE_NAME == 'Admin'){</php>
+<label class="textarea">
+    <textarea name="{$name}" id="{$id}">{$default}</textarea>
+    {:hook('adminEditor', array('id'=>$id,'value'=>$default))}
+</label>
+
+<php>}elseif(\Think\Hook::get('editor')){</php>
+
+<label class="textarea">
+    <textarea name="{$name}" id="{$id}">{$default}</textarea>
+    {:hook('editor', array('id'=>$id,'value'=>$default))}
+</label>
+
+<php>}else{</php>
+
+	<div id="editor">
+        <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+    </div>
+	
+
+	<script type="text/javascript" src="__PUBLIC__/lib/wangEditor-3.1.1/wangEditor.min.js"></script>
+
+	<script>
+	$(function(){
+        var E = window.wangEditor
+        var editor = new E('#editor')
+        // 或者 var editor = new E( document.getElementById('editor') )
+        editor.create()
+    })
+	</script>
+	<php>}</php>
+<php>}</php>
