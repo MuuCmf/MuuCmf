@@ -18,11 +18,9 @@
 <script>
     var  ue_{$id};
     $(function () {
-    var config = {{$config},'topOffset':$('#nav_bar').height()+$('#sub_nav').height()+5};
+    var config = {$config};
     ue_{$id} = UE.getEditor('{$id}', config);
     })
-
-
 </script>
 
 <php>if(!$param['is_load_script']){</php>

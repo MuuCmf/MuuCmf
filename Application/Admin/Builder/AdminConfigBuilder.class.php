@@ -175,7 +175,9 @@ class AdminConfigBuilder extends AdminBuilder
 
     public function keyEditor($name, $title, $subtitle = null, $type = 'ueditor', $config = '', $style = '',$param='', $width='100%')
     {
-        $toolbars = "toolbars:[[" . $config . "]]";
+        if(empty($type) || $type==''){
+            $type='ueditor';
+        }
         /*
         if (empty($config)) {
             $toolbars = "toolbars:[['source','|','bold','italic','underline','fontsize','forecolor','justifyleft','fontfamily','|','map','emotion','insertimage','insertcode']]";

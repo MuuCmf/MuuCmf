@@ -16,16 +16,12 @@ class UeditorWidget extends Controller
         $this->assign('style',$style);
         if($config=='')
         {
-            $config="toolbars:[['source','|','bold','italic','underline','fontsize','forecolor','fontfamily','backcolor','|','insertimage','insertcode','link','emotion','scrawl','wordimage']]";
+            $config="{toolbars:[['source','|','bold','italic','underline','fontsize','forecolor','fontfamily','backcolor','|','insertimage','insertcode','link','emotion','scrawl','wordimage']]}";
         }
         if($config == 'all'){
-            $config='';
+            $config='{}';
         }
-        empty($param['zIndex']) && $param['zIndex'] = 977;
-        $config.=(empty($config)?'':',').'zIndex:'.$param['zIndex'];
-        is_bool(strpos($width,'%')) && $config.=',initialFrameWidth:'.str_replace('px','',$width);
-        is_bool(strpos($height,'%')) && $config.=',initialFrameHeight:'.str_replace('px','',$height);
-        $config.=',autoHeightEnabled: false';
+        
         $this->assign('config',$config);
         $this->assign('param',$param);
         cookie('video_get_info',U('Home/Public/getVideo'));
