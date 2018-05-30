@@ -25,18 +25,18 @@
             width:{$width};
         }
     </style>
-    <div id="toolbar" class="toolbar"></div>
-	<div id="editarea" class="editarea" style="{$style}">{$default}</div>
-	<textarea id="wangeditor" name="{$name}" id="{$id}" class="hidden">{$default}</textarea>
+    <div id="toolbar_{$id}" class="toolbar"></div>
+	<div id="editarea_{$id}" class="editarea" style="{$style}">{$default}</div>
+	<textarea id="wangeditor_{$id}" name="{$name}" class="hidden">{$default}</textarea>
     <php>if(!$param['is_load_script']){</php>
 	<script type="text/javascript" src="__PUBLIC__/lib/wangEditor-3.1.1/wangEditor.min.js"></script>
 
 	<script type="text/javascript">
 	$(function(){
         var E = window.wangEditor;
-        var editor = new E('#toolbar','#editarea');
+        var editor = new E('#toolbar_{$id}','#editarea_{$id}');
         // 或者 var editor = new E( document.getElementById('editor') )
-        var $text1 = $('#wangeditor')
+        var $text1 = $('#wangeditor_{$id}')
         editor.customConfig.onchange = function (html) {
             // 监控变化，同步更新到 textarea
             $text1.val(html)
