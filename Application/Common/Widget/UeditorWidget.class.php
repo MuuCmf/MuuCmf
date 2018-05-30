@@ -12,14 +12,40 @@ class UeditorWidget extends Controller
         $this->assign('name',$name);
         $this->assign('default',$default);
         $this->assign('width',$width);
-        $this->assign('height',$height);
         $this->assign('style',$style);
-        if($config=='')
-        {
-            $config="{toolbars:[['source','|','bold','italic','underline','fontsize','forecolor','fontfamily','backcolor','|','insertimage','insertcode','link','emotion','scrawl','wordimage']]}";
+        if($config=='mini'){
+            $config="{toolbars:[
+                        [
+                                'source','|',
+                                'bold',
+                                'italic',
+                                'underline',
+                                'fontsize',
+                                'forecolor',
+                                'fontfamily',
+                                'blockquote',
+                                'backcolor','|',
+                                'insertimage',
+                                'insertcode',
+                                'link',
+                                'emotion',
+                                'scrawl',
+                                'wordimage'
+                        ]
+                ],
+                autoHeightEnabled: false,
+                autoFloatEnabled: true,
+                initialFrameHeight: 350
+            }";
         }
-        if($config == 'all'){
+        if($config == 'all') {
             $config='{}';
+        }
+        if($config == '') {
+            $config='{
+                autoHeightEnabled: false,
+                autoFloatEnabled: true,
+                initialFrameHeight: 350}';
         }
         
         $this->assign('config',$config);

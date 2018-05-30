@@ -388,6 +388,7 @@ str;
             foreach($category as $val){
                 $options[$val['id']]=$val['title'];
             }
+
             $builder=new AdminConfigBuilder();
             $builder->title($title.'文章')
                 ->data($data)
@@ -395,8 +396,8 @@ str;
                 ->keyReadOnly('uid','发布者')->keyDefault('uid',get_uid())
                 ->keyText('title','标题')
                 ->keyText('keywords','关键字','多个关键字用（,）分隔')
-                ->keyEditor('content','内容','','','all','height:400px;min-height:400px')
-                //->keyEditor('content','内容','','wangeditor','','min-height:400px;height:auto;')
+                //->keyEditor('content','内容','','')
+                ->keyEditor('content','内容','','wangeditor','','min-height:400px;height:auto;')
                 ->keySelect('category','分类','',$options)
 
                 ->keyTextArea('description','摘要')

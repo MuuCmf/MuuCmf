@@ -186,8 +186,12 @@ class AdminConfigBuilder extends AdminBuilder
      */
     public function keyEditor($name, $title, $subtitle = null, $type = 'ueditor', $config = '', $style = '',$param='', $width='100%')
     {
-        if(empty($type) || $type==''){
+        if(empty($type) || $type=='' || $type!='wangeditor'){
             $type='ueditor';
+        }
+        //兼容老版
+        if(is_array($config)){
+            $config = '';
         }
         /*
         if (empty($config)) {
