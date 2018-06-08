@@ -62,9 +62,9 @@ class BaseController extends RestController
      */
     public function signature(){
         //获取客户端传过来的参数
-        $timestamp = I('timestamp',0,'intval'); //时间戳
-        $noce = I('noce','','text');
-        $signature = I('signature','','text');
+        $timestamp = I('get.timestamp',0,'intval'); //时间戳
+        $noce = I('get.noce','','text');
+        $signature = I('get.signature','','text');
         $res = $this->signModel->checkSign($timestamp,$noce,$signature);
         $sTime = time(); //获取服务器时间戳
         if(($sTime-60)>$timestamp || ($sTime+60)<$timestamp || (!$res)){
