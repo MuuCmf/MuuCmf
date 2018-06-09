@@ -9,10 +9,10 @@
             <div class="col-md-8">
                 <php>if(isset($categoryT['id'])){</php>
                 {:W('Slide/lists',array('position'=>'1','category'=>$categoryT['id']))}<!--幻灯-->
-                {:W('Position/lists',array('position'=>'4','category'=>$categoryT['id']))}<!--推荐位-->
+                {:W('Position/lists',array('position'=>'4','category'=>$categoryT['id'],limit=>3))}<!--推荐位-->
                 <php>}else{</php>
                 {:W('Slide/lists',array('position'=>'1'))}
-                {:W('Position/lists',array('position'=>'2'))}
+                {:W('Position/lists',array('position'=>'2',limit=>3))}
                 <php>}</php>
                 
                 <div class="common_block_border">

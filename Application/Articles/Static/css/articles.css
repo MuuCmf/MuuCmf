@@ -234,10 +234,7 @@
 .articles-hot_title h3 {
   margin:10px auto;
 }
-.hot-con {
-  width:100%;
-  overflow:hidden;
-}
+
 .articles-hot .cover {
   position:relative;
   display: block;
@@ -263,6 +260,17 @@
   width:60px;
   background:#ff6600;
 }
+.articles-hot .hot-con {
+  width:100%;
+  overflow:hidden;
+}
+.articles-hot .hot-con a {
+  color:#666;
+  font-weight: 400;
+}
+.articles-hot .author a {
+  color:#03b8cf;
+}
 .detail_box {
   background:#fff;
 }
@@ -282,6 +290,8 @@
 .detail_box .news-content {
   padding:20px;
   font-size:1.2em;
+  line-height: 30px;
+  color: #3d464d;
 }
 .detail_box .news-content * {
   max-width: 100%;
