@@ -670,9 +670,10 @@ nav.navbar.bootsnav .navbar-brand img{
   }
 @media (max-width: 992px){
   nav.navbar.bootsnav .navbar-brand {
-    padding:0;
-    height:58px;
+    display: inline-block;
     line-height: 58px;
+    float: none!important;
+    margin: 0!important;
   }
 
   nav.navbar.bootsnav .navbar-brand img{
