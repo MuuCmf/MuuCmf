@@ -639,7 +639,7 @@ nav.navbar.bootsnav {
   box-shadow: 0 1px 2px rgba(0,0,0,0.05);
   background-color: #fff;
   border: none;
-  z-index: 99999999;
+  z-index: 10002;
 }
 nav.navbar.bootsnav.navbar-fixed {
   position: fixed;
@@ -810,7 +810,12 @@ nav.navbar.bootsnav .navbar-collapse {
   line-height: 58px;
 }
 /*通用顶部导航end*/
-
+.modal {
+  z-index:10050;
+}
+.modal-backdrop {
+  z-index:10040;
+}
 /*通用footer*/
 .footer-bar {
   background:#252c34;
