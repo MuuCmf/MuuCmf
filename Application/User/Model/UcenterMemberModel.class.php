@@ -117,7 +117,7 @@ class UcenterMemberModel extends Model
     {
         $length = mb_strlen($username, 'utf-8'); // 当前数据长度
         if ($length < modC('USERNAME_MIN_LENGTH',2,'USERCONFIG') || $length > modC('USERNAME_MAX_LENGTH',32,'USERCONFIG')) {
-            return false;
+            return -2;
         }
         return true;
     }
