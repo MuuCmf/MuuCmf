@@ -406,35 +406,49 @@
         </script>
 
     </case>
-<case value="chosen">
-    <select name="{$field.name}[]" style="width: 400px" class="chosen-select" multiple="multiple">
-        <php>
-            if( key($field['opt']) === 0){
-        </php>
-        <volist name="field['opt']" id="option">
+
+    <case value="chosen">
+        <div class="chosen chosen_{$field.name}" style="width: 400px">
+        <select name="{$field.name}[]" class="chosen-select" multiple="multiple">
             <php>
-                $selected = in_array(reset($option),$field['value'])? 'selected' : '';
+                if( key($field['opt']) === 0){
             </php>
-            <option value="{:reset($option)}" {$selected}>{$option|end|htmlspecialchars}</option>
-        </volist>
-        <php>
-            }else{
-            foreach($field['opt'] as $optgroupkey =>$optgroup){
-        </php>
-        <optgroup label="{$optgroupkey}">
-            <volist name="optgroup" id="option">
+            <volist name="field['opt']" id="option">
                 <php>
                     $selected = in_array(reset($option),$field['value'])? 'selected' : '';
                 </php>
                 <option value="{:reset($option)}" {$selected}>{$option|end|htmlspecialchars}</option>
             </volist>
-        </optgroup>
-        <php>
-            }
-            }
-        </php>
-    </select>
-</case>
+            <php>
+                }else{
+                foreach($field['opt'] as $optgroupkey =>$optgroup){
+            </php>
+            <optgroup label="{$optgroupkey}">
+                <volist name="optgroup" id="option">
+                    <php>
+                        $selected = in_array(reset($option),$field['value'])? 'selected' : '';
+                    </php>
+                    <option value="{:reset($option)}" {$selected}>{$option|end|htmlspecialchars}</option>
+                </volist>
+            </optgroup>
+            <php>
+                }
+                }
+            </php>
+        </select>
+        <script>
+        $(function(){
+            $('.chosen_{$field.name} select.chosen-select').chosen({
+                lang:'zh_cn',
+                width:'100%',
+                no_results_text: '没有找到',    // 当检索时没有找到匹配项时显示的提示文本
+                disable_search_threshold: 10, // 10 个以下的选择项则不显示检索框
+                search_contains: true         // 从任意位置开始检索
+            });
+        });
+        </script>
+        </div>
+    </case>
 
     <case value="multiInput">
         <div class="clearfix" style="{$field['style']}">

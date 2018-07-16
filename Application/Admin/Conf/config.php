@@ -55,7 +55,7 @@ return array(
         '__IMG__' => __ROOT__ . '/Application/' . MODULE_NAME . '/Static/images',
         '__CSS__' => __ROOT__ . '/Application/' . MODULE_NAME . '/Static/css',
         '__JS__' => __ROOT__ . '/Application/' . MODULE_NAME . '/Static/js',
-        '__ZUI__' => __ROOT__ . '/Application/' . MODULE_NAME . '/Static/zui',
+        '__ZUI__' => __ROOT__ . '/Public/zui',
         '__CLOUD__' => 'http://www.muucmf.cn',
     ),
     '__CLOUD__'=>'http://www.muucmf.cn',
