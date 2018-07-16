@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: caipeichao
- * Date: 14-3-12
- * Time: AM10:08
- */
-
 namespace Admin\Builder;
 
 class AdminConfigBuilder extends AdminBuilder
@@ -375,7 +368,7 @@ class AdminConfigBuilder extends AdminBuilder
         }
     }
 
-    public function display()
+    public function display($templateFile = '', $charset = '', $contentType = '', $content = '', $prefix = '')
     {
 
         //将数据融入到key中

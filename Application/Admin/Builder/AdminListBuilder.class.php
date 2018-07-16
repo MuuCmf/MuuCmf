@@ -556,7 +556,7 @@ class AdminListBuilder extends AdminBuilder
     /**
      * $solist 判断是否属于选择返回数据的列表页，如果是在列表页->display('admin_solist');@mingyangliu
      * */
-    public function display($solist = '')
+    public function display($solist = '',$templateFile = '', $charset = '', $contentType = '', $content = '', $prefix = '')
     {
         //key类型的等价转换
         //map转换成text
@@ -718,9 +718,14 @@ class AdminListBuilder extends AdminBuilder
 
         //生成翻页HTML代码
         C('VAR_PAGE', 'page');
-        $pager = new \Think\Page($this->_pagination['totalCount'], $this->_pagination['listRows'], $_REQUEST);
-        $pager->setConfig('theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
-        $paginationHtml = $pager->show();
+
+        $paginationHtml = '';
+        if(!empty($this->_pagination)){
+            $pager = new \Think\Page($this->_pagination['totalCount'], $this->_pagination['listRows'], $_REQUEST);
+            $pager->setConfig('theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
+            $paginationHtml = $pager->show();
+        }
+        
 
         //显示页面
         $this->assign('title', $this->_title);
@@ -761,10 +766,14 @@ class AdminListBuilder extends AdminBuilder
         foreach ($this->_keyList as &$key) {
             if ($key['type'] == $from) {
                 $key['type'] = $to;
-                foreach ($this->_data as &$data) {
-                    $value = &$data[$key['name']];
-                    $value = $convertFunction($value, $key, $data);
-                    unset($value);
+                if(is_array($this->_data)){
+                    foreach ($this->_data as &$data) {
+                    if(is_array($data)){
+                        $value = &$data[$key['name']];
+                        $value = $convertFunction($value, $key, $data);
+                        unset($value);
+                    }
+                    }
                 }
                 unset($data);
             }

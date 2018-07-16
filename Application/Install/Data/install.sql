@@ -493,7 +493,7 @@ INSERT INTO `muucmf_auth_rule` (`id`, `module`, `type`, `name`, `title`, `status
 
 (297, 'Home', 1, 'deleteLocalComment', '删除本地评论', 1, ''),
 (313, 'admin', 1, 'Admin/module/install', '模块安装', 1, ''),
-(315, 'admin', 1, 'Admin/module/lists', '模块管理', 1, ''),
+(315, 'admin', 1, 'Admin/module/index', '模块管理', 1, ''),
 (316, 'admin', 1, 'Admin/module/uninstall', '卸载模块', 1, ''),
 (317, 'admin', 1, 'Admin/AuthManager/addNode', '新增权限节点', 1, ''),
 (318, 'admin', 1, 'Admin/AuthManager/accessUser', '前台权限管理', 1, ''),

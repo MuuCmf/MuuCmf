@@ -21,33 +21,25 @@ class IndexController extends AdminController
      */
     public function index()
     {
-
-        if (UID) {
-
-            if(IS_POST){
-                $count_day=I('post.count_day', C('COUNT_DAY'),'intval',7);
-                if(M('Config')->where(array('name'=>'COUNT_DAY'))->setField('value',$count_day)===false){
-                    $this->error(L('_ERROR_SETTING_').L('_PERIOD_'));
-                }else{
-                   S('DB_CONFIG_DATA',null);
-                    $this->success(L('_SUCCESS_SETTING_').L('_PERIOD_'),'refresh');
-                }
-
+        if(IS_POST){
+            $count_day=I('post.count_day', C('COUNT_DAY'),'intval',7);
+            if(M('Config')->where(array('name'=>'COUNT_DAY'))->setField('value',$count_day)===false){
+                $this->error(L('_ERROR_SETTING_').L('_PERIOD_'));
             }else{
-                //获取本地版本号
-                $version = file_get_contents('./Data/version.ini');
-
-                
-                $this->meta_title = L('_INDEX_MANAGE_');
-                $this->assign('version',$version);
-                $this->assign('count', $this->getUserCount());
-                $this->getOtherCount();
-                $this->display();
+               S('DB_CONFIG_DATA',null);
+                $this->success(L('_SUCCESS_SETTING_').L('_PERIOD_'),'refresh');
             }
 
+        }else{
+            //获取本地版本号
+            $version = file_get_contents('./Data/version.ini');
 
-        } else {
-            $this->redirect('Public/login');
+            
+            $this->meta_title = L('_INDEX_MANAGE_');
+            $this->assign('version',$version);
+            $this->assign('count', $this->getUserCount());
+            $this->getOtherCount();
+            $this->display();
         }
     }
 

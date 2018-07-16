@@ -19,14 +19,15 @@ use Vendor\requester;
 class AdminController extends Controller
 {
 
+    public $is_root;
     /**
      * 后台控制器初始化
      */
     protected function _initialize()
-    {
+    {   
         // 获取当前用户ID
-        define('UID', is_login());
-        if (!UID) {// 还没登录 跳转到登录页面
+        $uid = is_login();
+        if (!$uid) {// 还没登录 跳转到登录页面
             $this->redirect('Public/login');
         }
         /* 读取数据库中的配置 */
@@ -38,8 +39,9 @@ class AdminController extends Controller
         C($config); //添加配置
 
         // 是否是超级管理员
-        define('IS_ROOT', is_administrator());
-        if (!IS_ROOT && C('ADMIN_ALLOW_IP')) {
+        $this->is_root = is_administrator();
+        
+        if (!$this->is_root && C('ADMIN_ALLOW_IP')) {
             // 检查IP地址访问
             if (!in_array(get_client_ip(), explode(',', C('ADMIN_ALLOW_IP')))) {
                 $this->error(L('_FORBID_403_'));
@@ -84,14 +86,14 @@ class AdminController extends Controller
      */
     final protected function checkRule($rule, $type = AuthRuleModel::RULE_URL, $mode = 'url')
     {
-        if (IS_ROOT) {
+        if ($this->is_root) {
             return true;//管理员允许访问任何页面
         }
         static $Auth = null;
         if (!$Auth) {
             $Auth = new \Think\Auth();
         }
-        if (!$Auth->check($rule, UID, $type, $mode)) {
+        if (!$Auth->check($rule, $uid, $type, $mode)) {
             return false;
         }
         return true;
@@ -108,7 +110,7 @@ class AdminController extends Controller
      */
     protected function checkDynamic()
     {
-        if (IS_ROOT) {
+        if ($this->is_root) {
             return true;//管理员允许访问任何页面
         }
         return null;//不明,需checkRule
@@ -127,7 +129,7 @@ class AdminController extends Controller
      */
     final protected function accessControl()
     {
-        if (IS_ROOT) {
+        if ($this->is_root) {
             return true;//管理员允许访问任何页面
         }
         $allow = C('ALLOW_VISIT');
@@ -308,7 +310,7 @@ class AdminController extends Controller
                         $item['url'] = MODULE_NAME . '/' . $item['url'];
                     }
                     // 判断主菜单权限
-                    if (!IS_ROOT && !$this->checkRule($item['url'], AuthRuleModel::RULE_MAIN, null)) {
+                    if (!$this->is_root && !$this->checkRule($item['url'], AuthRuleModel::RULE_MAIN, null)) {
                         unset($menus['main'][$key]);
                         continue;//继续循环
                     }
@@ -335,7 +337,7 @@ class AdminController extends Controller
                         }
                         $second_urls = M('Menu')->where($where)->getField('id,url');
 
-                        if (!IS_ROOT) {
+                        if (!$this->is_root) {
                             // 检测菜单权限
                             $to_check_urls = array();
                             foreach ($second_urls as $key => $to_check_url) {

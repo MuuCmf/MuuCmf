@@ -19,7 +19,60 @@ class ModuleController extends AdminController
         parent::_initialize();
     }
 
+    public function index()
+    {
 
+        $this->meta_title = L('_MODULE_MANAGEMENT_');
+        $aType = I('type', 'installed', 'text');
+        $this->assign('type', $aType);
+
+        $listBuilder = new AdminListBuilder();
+
+        /*刷新模块列表时清空缓存*/
+        $aRefresh = I('get.refresh', 0, 'intval');
+        if ($aRefresh == 1) {
+            S('admin_modules', null);
+            D('Module')->reload();
+            S('admin_modules', null);
+        } else if ($aRefresh == 2) {
+            S('admin_modules', null);
+            D('Module')->cleanModulesCache();
+
+        }
+        /*刷新模块列表时清空缓存 end*/
+        $modules = S('admin_modules');
+        if ($modules === false) {
+            $modules = $this->moduleModel->getAll();
+            S('admin_modules', $modules);
+        }
+
+        foreach ($modules as $key => $m) {
+            switch ($aType) {
+                case 'all':
+                    break;
+                case 'installed':
+                    if ($m['can_uninstall'] && $m['is_setup']) {
+                    } else unset($modules[$key]);
+                    break;
+                case 'uninstalled':
+                    if ($m['can_uninstall'] && $m['is_setup'] == 0) {
+                    } else unset($modules[$key]);
+                    break;
+                case 'core':
+                    if ($m['can_uninstall'] == 0) {
+                    } else unset($modules[$key]);
+                    break;
+            }
+        }
+        unset($m);
+        $this->assign('modules', $modules);
+        $this->display();
+    }
+
+    /**
+     * lists 与父级冲突，待删除
+     * @return [type] [description]
+     */
     public function lists()
     {
 
@@ -44,7 +97,6 @@ class ModuleController extends AdminController
         $modules = S('admin_modules');
         if ($modules === false) {
             $modules = $this->moduleModel->getAll();
-            //$modules = $this->cloudModel->getVersionInfoList($modules);
             S('admin_modules', $modules);
         }
 
@@ -67,7 +119,6 @@ class ModuleController extends AdminController
             }
         }
         unset($m);
-        //dump($modules);exit;
         $this->assign('modules', $modules);
         $this->display();
     }

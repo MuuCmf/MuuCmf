@@ -124,11 +124,12 @@ class UserModel
         //获取昵称拼音 pinyin
         $user_data = $this->getPinyin($fields, $user_data);
         //如果全部命中，则直接返回数据
-
-
-        if (array_intersect(array('score','score1'), $pFields)) {
-            $user_data['score'] = $user_data['score1'];
+        if(is_array($pFields)){
+            if (array_intersect(['score','score1'], $pFields)) {
+                $user_data['score'] = $user_data['score1'];
+            }
         }
+        
         if (empty($fields)) {
             return $user_data;
         }
