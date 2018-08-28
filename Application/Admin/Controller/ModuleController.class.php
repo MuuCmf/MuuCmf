@@ -120,7 +120,7 @@ class ModuleController extends AdminController
         }
         unset($m);
         $this->assign('modules', $modules);
-        $this->display();
+        $this->display('index');
     }
 
     /**

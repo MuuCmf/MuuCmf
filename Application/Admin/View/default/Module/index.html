@@ -6,19 +6,19 @@
     </div>
     <div class="with-padding clearfix" style="">
         <ul class="pull-left nav nav-primary nav-warning">
-            <li id="type_all"><a href="{:U('lists',array('type'=>'all'))}">{:L("_ALL_")}</a></li>
-            <li id="type_installed"><a href="{:U('lists',array('type'=>'installed'))}">{:L("_INSTALLED_")}</a></li>
-            <li id="type_uninstalled"><a href="{:U('lists',array('type'=>'uninstalled'))}">{:L("_NOT_INSTALLED_")}</a></li>
-            <li id="type_core"><a href="{:U('lists',array('type'=>'core'))}">{:L("_SYSTEM_MODULE_")}</a></li>
+            <li id="type_all"><a href="{:U('index',array('type'=>'all'))}">{:L("_ALL_")}</a></li>
+            <li id="type_installed"><a href="{:U('index',array('type'=>'installed'))}">{:L("_INSTALLED_")}</a></li>
+            <li id="type_uninstalled"><a href="{:U('index',array('type'=>'uninstalled'))}">{:L("_NOT_INSTALLED_")}</a></li>
+            <li id="type_core"><a href="{:U('index',array('type'=>'core'))}">{:L("_SYSTEM_MODULE_")}</a></li>
             <script>
                 $('#type_{$type}').addClass('active');
             </script>
         </ul>
         <div class="pull-right">
-            <a href="{:U('Module/lists',array_merge($_GET,array('refresh'=>2)))}" class="btn btn-success"><i
+            <a href="{:U('Module/index',array_merge($_GET,array('refresh'=>2)))}" class="btn btn-success"><i
                     class="icon-level-up"></i>{:L("_CHECK_FOR_UPDATES_IMMEDIATELY_")}</a>
          &nbsp;<a
-                href="{:U('Module/lists',array_merge($_GET,array('refresh'=>1)))}" class="btn btn-danger"><i class="icon-undo"></i>
+                href="{:U('Module/index',array_merge($_GET,array('refresh'=>1)))}" class="btn btn-danger"><i class="icon-undo"></i>
            {:L("_RESET_ALL_MODULE_INFORMATION_IS_NOT_SYNCHRONIZED_TO_USE_")}</a>&nbsp;
 
         </div>
