@@ -281,7 +281,11 @@ class MemberModel extends Model
                 if($needModule){
                 //执行微信网页授权登陆
                 $requer_url = urlencode(GetCurUrl());
-                redirect(U('Weixin/index/authorize_url').'&requer_url='.$requer_url);
+                    if(C('URL_MODEL')==2){
+                        redirect(U('Weixin/index/authorize_url').'?requer_url='.$requer_url);
+                    }else{
+                        redirect(U('Weixin/index/authorize_url').'&requer_url='.$requer_url);
+                    }
                 }
             }
         }
