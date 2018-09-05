@@ -60,7 +60,7 @@ class DevtoolController extends AdminController
             S('module',I('module', '', 'text'));
         }
         $this->refreshS();
-        $menus = $this->getSubMenus(0);
+        $menus = $this->getSubMenus('0');
         $all_menus = M('Menu')->where(array('status' => 1, 'module' => $this->module['name']))->select();
         $this->assign('menus', $menus);
         $controller_name = $this->module['name'];
@@ -373,7 +373,7 @@ class DevtoolController extends AdminController
         return $methods;
     }
 
-    private function getSubMenus($pid = 0)
+    private function getSubMenus($pid='0')
     {
         $menus = M('Menu')->where(array('status' => 1, 'module' => $this->module['name'], 'pid' => $pid))->select();
         if ($menus == null) {
