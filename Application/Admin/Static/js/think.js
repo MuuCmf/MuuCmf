@@ -141,7 +141,7 @@
 
 		if(input.eq(0).is(":radio")) { //单选按钮
 			input.filter("[value='" + value + "']").each(function(){this.checked = true});
-		} else if(input.eq(0).is(":checkbox")) { //复选框
+		} else if(input.eq('0').is(":checkbox")) { //复选框
 			if(!$.isArray(value)){
 				val = new Array();
 				val[0] = value;

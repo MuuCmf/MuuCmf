@@ -110,7 +110,7 @@ class MenuController extends AdminController {
 
             $menus = D('Common/Tree')->toFormatTree($menus,$title = 'title',$pk='id',$pid = 'pid',$root = '0');
 
-            $menus = array_merge(array(0=>array('id'=>'','title_show'=>L('_MENU_TOP_'))), $menus);
+            $menus = array_merge(array(0=>array('id'=>'0','title_show'=>L('_MENU_TOP_'))), $menus);
 
             $this->assign('Menus', $menus);
             $this->assign('Modules',D('Module')->getAll());
