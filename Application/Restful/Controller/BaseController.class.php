@@ -101,7 +101,7 @@ class BaseController extends RestController
      */
     public function imageUrl($content)
     {
-    if (preg_match('/(http:\/\/)|(https:\/\/)/i', $content)) {
+    if (preg_match('/(src)[^\s]*(http:\/\/)|(src)[^\s]*(https:\/\/)/i', $content)) {
         $url = "";
     }else{
         $url = get_http_https() . $_SERVER['SERVER_NAME'];

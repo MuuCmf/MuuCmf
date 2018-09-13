@@ -60,13 +60,15 @@ class ApiController extends BaseController {
                         $data=$this->articlesModel->getData($aId);
 
                         $data['content']=$data['detail']['content'];
-                        $data['author']=query_user(array('uid','space_url','nickname','avatar64','signature'),$data['uid']);
+                        $data['author']=query_user(array('uid','nickname','avatar64','signature'),$data['uid']);
     					$data['thumbnail'] = getThumbImageById($data['cover'],352,240);
                         $data['user_articles_count']=$this->articlesModel->where(array('uid'=>$data['uid']))->count();
 
+                        $data['thumbnail']=get_http_https() . $_SERVER['SERVER_NAME'] . ($data['thumbnail']);
                         $data['content']=$this->imageUrl($data['content']);
+                        $data['create_time_str'] = friendlyDate($data['create_time']);
+                        $data['update_time_str'] = friendlyDate($data['update_time']);
                         unset($data['detail']);
-                        //dump($data);
                         $this->_category($data['category']);
 
                         /*获取上传文件路径*/
@@ -90,8 +92,11 @@ class ApiController extends BaseController {
                     /* 获取当前分类下资讯列表 */
                     list($data,$totalCount) = $this->articlesModel->getListByPage($map,$page,'sort desc,update_time desc','*',$r);
                     foreach($data as &$val){
-                        $val['user']=query_user(array('space_url','avatar32','nickname'),$val['uid']);
+                        $val['user']=query_user(array('avatar32','nickname'),$val['uid']);
                         $val['thumbnail'] = getThumbImageById($val['cover'],352,240);
+                        $val['thumbnail']=get_http_https() . $_SERVER['SERVER_NAME'] . ($val['thumbnail']);
+                        $val['create_time_str'] = friendlyDate($val['create_time']);
+                        $val['update_time_str'] = friendlyDate($val['update_time']);
                     }
                     unset($val);
                     $result = $this->codeModel->code(200);
@@ -104,8 +109,11 @@ class ApiController extends BaseController {
                     $map['status']=1;
                     list($data,$totalCount) = $this->articlesModel->getListByPage($map,$page,'sort desc,update_time desc','*',$r);
                     foreach($data as &$val){
-                        $val['user']=query_user(array('space_url','avatar32','nickname'),$val['uid']);
-                        $val['Thumbnail'] = getThumbImageById($val['cover'],352,240);
+                        $val['user']=query_user(array('avatar32','nickname'),$val['uid']);
+                        $val['thumbnail'] = getThumbImageById($val['cover'],352,240);
+                        $val['thumbnail']=get_http_https() . $_SERVER['SERVER_NAME'] . ($val['thumbnail']);
+                        $val['create_time_str'] = friendlyDate($val['create_time']);
+                        $val['update_time_str'] = friendlyDate($val['update_time']);
                     }
                     unset($val);
                     $result = $this->codeModel->code(200);
@@ -119,7 +127,7 @@ class ApiController extends BaseController {
             break;
             case 'post'://post请求处理代码
                          
-                $result['info'] = 'PUT未定义';
+                $result['info'] = 'post未定义';
             break;
         }
 
@@ -158,7 +166,7 @@ class ApiController extends BaseController {
                 $result['info'] = 'PUT未定义';
             break;
             case 'post'://post请求处理代码             
-                $result['info'] = 'PUT未定义';
+                $result['info'] = 'post未定义';
             break;
         }   
     }
