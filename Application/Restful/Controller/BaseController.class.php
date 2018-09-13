@@ -94,5 +94,21 @@ class BaseController extends RestController
             $this->response($result,$this->type);
         }
     }
+    /**
+     * 替换富文本编辑器图片路径
+     * @param  [type] $content [description]
+     * @return [type]          [description]
+     */
+    public function imageUrl($content)
+    {
+    if (preg_match('/(http:\/\/)|(https:\/\/)/i', $content)) {
+        $url = "";
+    }else{
+        $url = get_http_https() . $_SERVER['SERVER_NAME'];
+    }
+    $pregRule = "/<[img|IMG].*?src=[\'|\"](.*?(?:[\.jpg|\.jpeg|\.png|\.gif|\.bmp]))[\'|\"].*?[\/]?>/";
+    $result = preg_replace($pregRule, '<img src="' . $url . '${1}">', $content);
+    return $result;
+    }
 
 }
