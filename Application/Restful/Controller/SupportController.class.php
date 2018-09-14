@@ -1,6 +1,6 @@
 <?php
 /**
-     * APP discovery json接口
+ * 点赞
 */
 namespace Restful\Controller;
 

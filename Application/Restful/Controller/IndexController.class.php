@@ -1,6 +1,6 @@
 <?php
 /**
-     * RestfulApi 接口
+ * RestfulApi 接口
 */
 namespace Restful\Controller;
 

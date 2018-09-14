@@ -1,7 +1,6 @@
 <?php
 /**
-     * APP discovery json接口
-     * 本地评论插件接口
+ * 本地评论插件接口
 */
 namespace Restful\Controller;
 

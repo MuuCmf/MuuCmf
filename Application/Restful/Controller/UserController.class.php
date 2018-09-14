@@ -1,6 +1,6 @@
 <?php
 /**
-	 * 用户中心接口
+* 用户中心接口
 */
 namespace Restful\Controller;
 
@@ -651,5 +651,38 @@ class UserController extends BaseController
         }
         return $error;
     }
+
+    /**
+     * 微信小程序获取用户openid
+     * code 返回的code
+     * appid 小程序appid
+     * secret 小程序secret
+     * @return [type] [description]
+     */
+    public function openid()
+    {
+	    $code= I('code','','text');
+	    $appid= I('appid','','text');
+	    $secret= I('secret','','text');
+
+	    $url="https://api.weixin.qq.com/sns/jscode2session?appid=$appid&secret=$secret&js_code=$code&grant_type=authorization_code";
+	    function getcurl ($url){
+	            $ch = curl_init();
+	            curl_setopt ($ch,CURLOPT_URL,$url);
+	            curl_setopt ($ch,CURLOPT_RETURNTRANSFER,1);
+	            curl_setopt ($ch,CURLOPT_TIMEOUT,30);
+	            $content=curl_exec($ch);
+	            $status=(int)curl_getinfo($ch,CURLINFO_HTTP_CODE );
+	            if( $status==404)
+	            {
+	                return  "";
+	            }
+	            curl_close($ch) ;
+	            return $content;
+	    }
+	    //code换取openid
+	    $res= getcurl($url);
+	    print_r($res);
+	}
 	
 }

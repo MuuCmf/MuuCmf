@@ -1,7 +1,6 @@
 <?php
 /**
-     * APP discovery json接口
-     * 收藏插件接口控制器
+ * 收藏插件接口控制器
 */
 namespace Api\Controller;
 

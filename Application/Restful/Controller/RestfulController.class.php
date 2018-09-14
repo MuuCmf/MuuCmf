@@ -1,8 +1,4 @@
 <?php
-/**
-ping++管理
- */
-
 namespace Admin\Controller;
 
 use Admin\Builder\AdminConfigBuilder;

@@ -1,7 +1,6 @@
 <?php
 /**
-     * APP discovery json接口
-     * 消息接口控制器
+ * 消息接口控制器
 */
 namespace Restful\Controller;
 
