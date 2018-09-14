@@ -92,7 +92,7 @@ class ApiController extends BaseController {
                     /* 获取当前分类下资讯列表 */
                     list($data,$totalCount) = $this->articlesModel->getListByPage($map,$page,'sort desc,update_time desc','*',$r);
                     foreach($data as &$val){
-                        $val['user']=query_user(array('avatar32','nickname'),$val['uid']);
+                        $val['author']=query_user(array('avatar32','nickname'),$val['uid']);
                         $val['thumbnail'] = getThumbImageById($val['cover'],352,240);
                         $val['thumbnail']=get_http_https() . $_SERVER['SERVER_NAME'] . ($val['thumbnail']);
                         $val['create_time_str'] = friendlyDate($val['create_time']);
@@ -109,7 +109,7 @@ class ApiController extends BaseController {
                     $map['status']=1;
                     list($data,$totalCount) = $this->articlesModel->getListByPage($map,$page,'sort desc,update_time desc','*',$r);
                     foreach($data as &$val){
-                        $val['user']=query_user(array('avatar32','nickname'),$val['uid']);
+                        $val['author']=query_user(array('avatar32','nickname'),$val['uid']);
                         $val['thumbnail'] = getThumbImageById($val['cover'],352,240);
                         $val['thumbnail']=get_http_https() . $_SERVER['SERVER_NAME'] . ($val['thumbnail']);
                         $val['create_time_str'] = friendlyDate($val['create_time']);
