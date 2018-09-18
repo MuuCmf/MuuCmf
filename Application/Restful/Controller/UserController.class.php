@@ -38,6 +38,12 @@ class UserController extends BaseController
 			$userData=M('member')->where($map)->find();
 			if($userData){
 				$data = query_user(array('uid','nickname','sex','birthday','reg_ip','last_login_ip','last_login_time','avatar32','avatar128','mobile','email','username','title','signature','score','score1','score2','score3','score4'), $aUid);
+				$data['avatar32'] = get_http_https() . $_SERVER['SERVER_NAME'] . $data['avatar32'];
+				$data['avatar64'] = get_http_https() . $_SERVER['SERVER_NAME'] . $data['avatar64'];
+				$data['avatar128'] = get_http_https() . $_SERVER['SERVER_NAME'] . $data['avatar128'];
+				$data['avatar256'] = get_http_https() . $_SERVER['SERVER_NAME'] . $data['avatar256'];
+				$data['avatar512'] = get_http_https() . $_SERVER['SERVER_NAME'] . $data['avatar512'];
+				
 				$result = $this->codeModel->code(200);
 				$result['data'] = $data;
 			}else{
