@@ -58,16 +58,16 @@ class UserController extends BaseController
 		break;
 		case 'post'://post请求处理代码
 			//post用来修改用户基本信息
-			$this->_needLogin(); //必须登录后操作
+			$uid = $this->_needLogin(); //必须登录后操作
 
-			$uid = is_login();
+			//$uid = is_login();
 			$mobile = I('mobile',0,'intval');
 			$email = I('email','','text');
 			$verify = I('verify',0,'intval');
 			$nickname = I('nickname','','text');
-			$sex = I('sex');
+			$sex = I('sex','','intval');
 			$signature = I('signature','','text');
-			
+			dump($sex);
 			if($uid){
 				$udata['id'] = $uid;
 				if($mobile && $mobile!=0) {
@@ -99,15 +99,13 @@ class UserController extends BaseController
 					
 				$mdata['uid'] = $uid;
 				if($nickname){
-				$mdata['nickname'] = $nickname;
+					$mdata['nickname'] = $nickname;
 				}
-				if($sex){
-					if($sex==1 || $sex==2 || $sex==0){
+				if($sex===1 || $sex===2 || $sex===0){
 					$mdata['sex'] = $sex;
-					}
 				}
 				if($signature){
-				$mdata['signature'] = $signature;
+					$mdata['signature'] = $signature;
 				}
 				$User = M("Member"); // 实例化User对象
 				if (!$User->create($mdata)){
