@@ -67,7 +67,6 @@ class UserController extends BaseController
 			$nickname = I('nickname','','text');
 			$sex = I('sex','','intval');
 			$signature = I('signature','','text');
-			dump($sex);
 			if($uid){
 				$udata['id'] = $uid;
 				if($mobile && $mobile!=0) {
