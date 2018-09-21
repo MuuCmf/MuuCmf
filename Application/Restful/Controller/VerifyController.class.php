@@ -41,16 +41,14 @@ class VerifyController extends BaseController
         
         $time = time();
         if($aType == 'mobile'){
-            $resend_time =  modC('SMS_RESEND','60','USERCONFIG');
-            if($time <= session('verify_time')+$resend_time ){
 
+            $resend_time =  modC('SMS_RESEND','60','USERCONFIG');
+            if($time <= S('Verify_'.$aAccount)+$resend_time ){
                 $result = $this->codeModel->code(3001);
-                $result['info'] = L('_ERROR_WAIT_1_').($resend_time-($time-session('verify_time'))).L('_ERROR_WAIT_2_');
+                $result['info'] = L('_ERROR_WAIT_1_').($resend_time-($time-S('Verify_'.$aAccount))).L('_ERROR_WAIT_2_');
                 $this->response($result,$this->type);
             }
         }
-
-
         if ($aType == 'email' && empty($cEmail)) {
             
             $result = $this->codeModel->code(3000);
@@ -63,25 +61,26 @@ class VerifyController extends BaseController
             $result['info'] = L('_ERROR_PHONE_');
             $this->response($result,$this->type);
         }
-
         
         switch ($action){
-        case 'only'://可以发送至数据库中不包含的数据，如：用户注册
+        case 'only'://可以发送数据库中不包含的数据，保存数据的唯一性，场景适用如：用户注册，修改手机号码或邮箱等
 
             $checkIsExist = UCenterMember()->where(array($aType => $aAccount))->find();
             if ($checkIsExist) {
                 $str = $aType == 'mobile' ? L('_PHONE_') : L('_EMAIL_');
 
                 $result = $this->codeModel->code(3000);
+                //该$str已被占用提示消息
                 $result['info'] = L('_ERROR_USED_1_') . $str . L('_ERROR_USED_2_').L('_EXCLAMATION_');
                 $this->response($result,$this->type);
             }
-            $this->doSend($aAccount, $aType, $uid);
+
+            $this->doSend($aAccount, $aType, 0);
         break;
 
-        case 'all'://找回密码，可发送至所有邮箱或手机，如找回密码，修改手机号码或邮箱等
+        case 'all'://向所有手机或邮箱发送，场景适用如：找回密码，可发送至所有邮箱或手机，如找回密码，
         
-            $this->doSend($aAccount, $aType, $uid);
+            $this->doSend($aAccount, $aType, 0);
             
         break;
 
@@ -101,19 +100,16 @@ class VerifyController extends BaseController
             $result['info'] = L('_ERROR_FAIL_SEND_').L('_EXCLAMATION_');
             $this->response($result,$this->type);
         }
+        //缓存手机验证码发送时间，以便验证码过期校验
+        S('Verify_'.$aAccount,time());
         //ucfirst() 函数把字符串中的首字符转换为大写。
         $res =  A('Ucenter/'.ucfirst('Member'))->doSendVerify($aAccount, $verify, $aType);
-        
         if ($res === true) {
-            if($aType == 'mobile'){
-                session('verify_time',time());
-            }
             $result = $this->codeModel->code(200);
             $result['info'] = L('_ERROR_SUCCESS_SEND_');
             $this->response($result,$this->type);
 
         } else {
-
             $result = $this->codeModel->code(3002);
             $result['info'] = $res;
             $this->response($result,$this->type);

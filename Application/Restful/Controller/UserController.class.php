@@ -31,29 +31,29 @@ class UserController extends BaseController
 		switch ($this->_method){
 
 		case 'get': //get请求处理代码
-		//$this->_needLogin(); //必须登录后操作
-		$aUid = I('get.uid',0,'intval');
-		if($aUid){
-			$map['uid'] = $aUid;
-			$userData=M('member')->where($map)->find();
-			if($userData){
-				$data = query_user(array('uid','nickname','sex','birthday','reg_ip','last_login_ip','last_login_time','avatar32','avatar128','mobile','email','username','title','signature','score','score1','score2','score3','score4'), $aUid);
-				$data['avatar32'] = get_http_https() . $_SERVER['SERVER_NAME'] . $data['avatar32'];
-				$data['avatar64'] = get_http_https() . $_SERVER['SERVER_NAME'] . $data['avatar64'];
-				$data['avatar128'] = get_http_https() . $_SERVER['SERVER_NAME'] . $data['avatar128'];
-				$data['avatar256'] = get_http_https() . $_SERVER['SERVER_NAME'] . $data['avatar256'];
-				$data['avatar512'] = get_http_https() . $_SERVER['SERVER_NAME'] . $data['avatar512'];
-				
-				$result = $this->codeModel->code(200);
-				$result['data'] = $data;
+
+			$aUid = I('get.uid',0,'intval');
+			if($aUid){
+				$map['uid'] = $aUid;
+				$userData=M('member')->where($map)->find();
+				if($userData){
+					$data = query_user(array('uid','nickname','sex','birthday','reg_ip','last_login_ip','last_login_time','avatar32','avatar128','mobile','email','username','title','signature','score','score1','score2','score3','score4'), $aUid);
+					$data['avatar32'] = get_http_https() . $_SERVER['SERVER_NAME'] . $data['avatar32'];
+					$data['avatar64'] = get_http_https() . $_SERVER['SERVER_NAME'] . $data['avatar64'];
+					$data['avatar128'] = get_http_https() . $_SERVER['SERVER_NAME'] . $data['avatar128'];
+					$data['avatar256'] = get_http_https() . $_SERVER['SERVER_NAME'] . $data['avatar256'];
+					$data['avatar512'] = get_http_https() . $_SERVER['SERVER_NAME'] . $data['avatar512'];
+					
+					$result = $this->codeModel->code(200);
+					$result['data'] = $data;
+				}else{
+					$result = $this->codeModel->code(1004); //不存在的用户
+				}
 			}else{
-				$result = $this->codeModel->code(1004); //不存在的用户
+				$result = $this->codeModel->code(1004); 
 			}
-		}else{
-			$result = $this->codeModel->code(1004); 
-		}
-		
-		$this->response($result,$this->type);
+			
+			$this->response($result,$this->type);
 		
 		break;
 		case 'post'://post请求处理代码
@@ -65,37 +65,45 @@ class UserController extends BaseController
 			$email = I('email','','text');
 			$verify = I('verify',0,'intval');
 			$nickname = I('nickname','','text');
-			$sex = I('sex','','intval');
+			$sex = I('sex',2,'intval');
 			$signature = I('signature','','text');
 			if($uid){
 				$udata['id'] = $uid;
-				if($mobile && $mobile!=0) {
-					$time = time();
-					$resend_time =  modC('SMS_RESEND','60','USERCONFIG');
-		            if($time > session('verify_time')+$resend_time ){//验证码超时
-		                $result = $this->codeModel->code(3001);
-
+				//验证更新手机
+				if($mobile) {
+					//判断手机格式
+					if(!preg_match("/^1[34578]\d{9}$/", $mobile)){
+					    //手机号码格式错误
+					    $result = $this->codeModel->code(3000);
 						$this->response($result,$this->type);
-		            }
-					$ret = D('Verify')->checkVerify($moblie,'mobile',$verify,$uid);
+					}
+					//验证验证码
+					$ret = D('Verify')->checkVerify($mobile,'mobile',$verify);
 		            if(!$ret){//验证码错误
 		            	$result = $this->codeModel->code(3003);
 						$this->response($result,$this->type);	
 		            }
+		            //验证超时
+					$time = time();
+					$send_time = S('Verify_'.$mobile);
+					$resend_time =  modC('SMS_RESEND','60','USERCONFIG');
+		            if($time > $send_time+$resend_time ){//验证码超时
+		                $result = $this->codeModel->code(3001);
+						$this->response($result,$this->type);
+		            }
 		            $udata['mobile'] = $mobile;
 				}
-
+				//验证更新邮箱
 				if($email){
-					$ret = D('Verify')->checkVerify($email,'email',$verify,$uid);
-					if($ret){
-						$udata['email'] = $email;
-					}else{
+					$ret = D('Verify')->checkVerify($email,'email',$verify);
+					if(!$ret){
 						$result = $this->codeModel->code(1005);
 						$result['info'] = '邮箱和验证不匹配';
 						$this->response($result,$this->type);
 					}
+					$udata['email'] = $email;
 				}
-					
+				
 				$mdata['uid'] = $uid;
 				if($nickname){
 					$mdata['nickname'] = $nickname;
@@ -106,6 +114,7 @@ class UserController extends BaseController
 				if($signature){
 					$mdata['signature'] = $signature;
 				}
+
 				$User = M("Member"); // 实例化User对象
 				if (!$User->create($mdata)){
 					// 如果创建失败 表示验证没有通过 输出错误提示信息
@@ -116,6 +125,7 @@ class UserController extends BaseController
 					 // 验证通过 可以进行其他数据操作
 					$User->save($mdata);
 				}
+
 				$Ucmember = UCenterMember();
 				if (!$Ucmember->create($udata)){
 					// 如果创建失败 表示验证没有通过 输出错误提示信息
@@ -128,7 +138,6 @@ class UserController extends BaseController
 				}
 				clean_query_user_cache($uid,array('nickname','mobile','email','sex','signature'));
 				$result = $this->codeModel->code(200,'更新完成');
-				//$result['data'] = $mdata+$udata;
 				$this->response($result,$this->type);
 			}
 		break;
@@ -439,67 +448,58 @@ class UserController extends BaseController
 		break;
 		}
     }
-	/**
-	 * 上传头像
-	 * @return [type] [description]
-	 */
-	public function uploadAvatar(){//上传头像
+    /**
+     * 上传用户头像
+     * @return [type] [description]
+     */
+    public function uploadAvatar(){
 
-		$this->_needLogin(); //必须登录后操作
-		$files = I('post.file','',op_t);
-		$aUid = I('post.uid',0,intval);
-		$aOpen_id = I('post.open_id','',op_t);
-		
-		//验证open_id
-		$access_openid=D('Member')->access_openid($aOpen_id);
-		if($access_openid){
-			mkdir ("./Uploads/Avatar/".$aUid);
-			$base64_image = str_replace(' ', '+', $files);
-			//post的数据里面，加号会被替换为空格，需要重新替换回来，如果不是post的数据，则注释掉这一行
-			if (preg_match('/^(data:\s*image\/(\w+);base64,)/',$base64_image,$result)){
-				//dump($result);
-				//匹配成功
-				if($result[2] == 'jpeg'){
-					$image_qz = uniqid();
-					$image_name = $image_qz.'.jpg';
-					//纯粹是看jpeg不爽才替换的
-				}else{
-					$image_qz = uniqid();
-					$image_name = $image_qz.'.'.$result[2];
-				}
-			}
-			$image_file = "Uploads/Avatar/".$aUid."/".$image_name; //未缩微的图片含后缀jpg,png
-			$image_file_ok = "Uploads/Avatar/".$aUid."/".$image_qz; //缩微后的不含后缀
-			$returnPath = '/'.$aUid.'/'.$image_name; //存入数据库的PATH
-			
-			if(file_put_contents($image_file, base64_decode(str_replace($result[1], '', $base64_image)))){
-				
-				$image = new \Think\Image(); 
-				$image->open($image_file);
-				// 按照原图的比例生成一个最大为150*150的缩略图并保存为thumb.jpg
-				$image->thumb(512, 512)->save($image_file_ok.'_512_512.'.$result[2]);
-				$image->thumb(256, 256)->save($image_file_ok.'_256_256.'.$result[2]);
-				$image->thumb(128, 128)->save($image_file_ok.'_128_128.'.$result[2]);
-				$image->thumb(64, 64)->save($image_file_ok.'_64_64.'.$result[2]);
-				$image->thumb(32, 32)->save($image_file_ok.'_32_32.'.$result[2]);
-				
-				$driver = modC('PICTURE_UPLOAD_DRIVER','local','config');
-				$data = array('uid' => $aUid, 'status' => 1, 'is_temp' => 0, 'path' => $returnPath,'driver'=> $driver, 'create_time' => time());
-				$res = M('avatar')->where(array('uid' => $aUid))->save($data);
-				if (!$res) {
-					M('avatar')->add($data);
-				}
-				clean_query_user_cache($aUid, array('avatar256', 'avatar128', 'avatar64', 'avatar32', 'avatar512'));
-				$return['info'] = '头像上传成功';
-				$return['code'] = 200;
-			}else{
-				$return['info'] = 'error';
-			}
-			$this->response($result,$this->type);
-		}else{
-			$return['info'] = 'error';
-			$this->response($result,$this->type);
-		}
+    	$aUid = $this->_needLogin(); //必须登录后操作
+    	mkdir ("./Uploads/Avatar/".$aUid);
+
+        $files = $_FILES;
+
+        $setting  = C('PICTURE_UPLOAD');
+
+        $driver = modC('PICTURE_UPLOAD_DRIVER','local','config');
+        $driver = check_driver_is_exist($driver);
+        $uploadConfig = get_upload_config($driver);
+
+        /* 上传文件 */
+        $setting['rootPath'] = './Uploads/Avatar';
+        $setting['saveName'] = array('uniqid', '/'.$aUid.'/');
+        $setting['savepath'] = '';
+        $setting['subName'] = '';
+        $setting['replace'] = true;
+
+        $Upload = new \Think\Upload($setting, $driver, $uploadConfig);
+        $info = $Upload->upload($files);
+
+        if ($info) { //文件上传成功，不记录文件
+        	//写入数据库
+        	$data = array(
+        		'uid' => $aUid, 
+        		'status' => 1, 
+        		'is_temp' => 0, 
+        		'path' => $info['file']['savename'],
+        		'driver'=> $driver, 
+        		'create_time' => time()
+        	);
+        	$res = M('avatar')->where(array('uid' => $aUid))->save($data);
+	        if (!$res) {
+	            M('avatar')->add($data);
+	        }
+	        clean_query_user_cache($aUid, array('avatars','avatars_html'));
+            /*适用于自动表单的图片上传方式*/
+            $result = $this->codeModel->code(200); 
+            $result['info'] = 'Success';
+            $result['data'] = $info['file'];
+        } else {
+            $result = $this->codeModel->code(400); 
+            $result['info'] = $Upload->getError();
+        }
+		$this->response($result,$this->type);
+
     }
 
     /**
@@ -653,39 +653,5 @@ class UserController extends BaseController
                 $error = L('_ERROR_UNKNOWN_');
         }
         return $error;
-    }
-
-    /**
-     * 微信小程序获取用户openid
-     * code 返回的code
-     * appid 小程序appid
-     * secret 小程序secret
-     * @return [type] [description]
-     */
-    public function openid()
-    {
-	    $code= I('code','','text');
-	    $appid= I('appid','','text');
-	    $secret= I('secret','','text');
-
-	    $url="https://api.weixin.qq.com/sns/jscode2session?appid=$appid&secret=$secret&js_code=$code&grant_type=authorization_code";
-	    function getcurl ($url){
-	            $ch = curl_init();
-	            curl_setopt ($ch,CURLOPT_URL,$url);
-	            curl_setopt ($ch,CURLOPT_RETURNTRANSFER,1);
-	            curl_setopt ($ch,CURLOPT_TIMEOUT,30);
-	            $content=curl_exec($ch);
-	            $status=(int)curl_getinfo($ch,CURLINFO_HTTP_CODE );
-	            if( $status==404)
-	            {
-	                return  "";
-	            }
-	            curl_close($ch) ;
-	            return $content;
-	    }
-	    //code换取openid
-	    $res= getcurl($url);
-	    print_r($res);
-	}
-	
+    }	
 }

@@ -80,9 +80,11 @@ class CodeModel extends Model{
             case 3000:
                   $result['code'] = 3000;
                   $result['info'] = '错误的手机号或邮箱';
+            break;
             case 3001:
                   $result['code'] = 3001;
                   $result['info'] = '验证超时，请重新发送';
+            break;
             case 3002:
                   $result['code'] = 3002;
                   $result['info'] = '发送失败';

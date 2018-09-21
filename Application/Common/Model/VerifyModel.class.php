@@ -43,7 +43,15 @@ class VerifyModel extends Model
         $verify = $this->where(array('id'=>$id))->getField('verify');
         return $verify;
     }
-    public function checkVerify($account,$type,$verify,$uid){
+    /**
+     * 验证验证码
+     * @param  text  $account 账号 如：59262424@qq.com、18618380435
+     * @param  text  $type    账号类型 email或mobile
+     * @param  intval  $verify  验证码
+     * @param  integer $uid     用户id
+     * @return bool           返回布尔
+     */
+    public function checkVerify($account,$type,$verify,$uid=0){
         $verify = $this->where(array('account'=>$account,'type'=>$type,'verify'=>$verify,'uid'=>$uid))->find();
         if(!$verify){
             return false;
