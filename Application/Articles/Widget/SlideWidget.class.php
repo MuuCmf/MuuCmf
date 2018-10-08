@@ -1,6 +1,6 @@
 <?php
-
 namespace Articles\Widget;
+
 use Think\Controller;
 
 /**

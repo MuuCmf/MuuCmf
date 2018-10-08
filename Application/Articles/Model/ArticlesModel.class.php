@@ -43,6 +43,12 @@ class ArticlesModel extends Model{
     public function getList($map,$order='view desc',$limit=5,$field='*')
     {
         $lists = $this->where($map)->order($order)->limit($limit)->field($field)->select();
+        $category=D('ArticlesCategory')->_category();
+
+        foreach($lists as &$val){
+            $val['category_title']=$category[$val['category']]['title'];
+        }
+        unset($val);
         return $lists;
     }
 

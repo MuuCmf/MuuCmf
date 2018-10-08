@@ -100,4 +100,11 @@ class ArticlesCategoryModel extends Model{
         return $cateList;
     }
 
+    public function _category()
+    {
+        $category=$this->getCategoryList(['status'=>['egt',0]],1);
+        $category=array_combine(array_column($category,'id'),$category);
+        return $category;
+    }
+
 } 

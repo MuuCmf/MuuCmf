@@ -7,10 +7,10 @@
 
 namespace Articles\Widget;
 
+use Think\Controller;
 use Articles\Model\ArticlesModel;
-use Think\Action;
 
-class UcenterBlockWidget extends Action
+class UcenterBlockWidget extends Controller
 {
     public function render($uid = 0, $page = 1, $tab = null, $count = 10)
     {

@@ -9,10 +9,15 @@
             <div class="col-md-8">
                 <div class="common_block_border detail_box">
                     <div class="common_block_title">
-                        <div class="title"><h2>{$info.title}</h2></div>
-                        <div class="author">
+                        <div class="title">
+                            <h2>{$info.title}</h2>
+                        </div>
+                        <div class="info">
                             <span class="author"><a href="{$author.space_url}"><img src="{$author.avatar32}" class="img-circle"/>  {$author.nickname}</a>&nbsp;&nbsp;</span>
                             <span> 发表于 {$info.create_time|date='Y-m-d H:i',###}</span>
+                            <span class="category">
+                                <a href="{:U('Articles/index/category',array('id'=>$now_category['id']))}">{$now_category.title}</a>
+                            </span>
                         </div>
                         <p class="clearfix">
                             <if condition="check_auth('Articles/Index/edit',$info['uid'])&&($info['status'] neq 1)">
@@ -20,12 +25,9 @@
                             </if>
                         </p>
                         <if condition="$info['cover'] neq 0">
-                                <a title="{$info.title|op_t}" href="{:U('Articles/index/detail',array('id'=>$info['id']))}" class="cover">
-                                    <img alt="{$info.title|op_t}" src="{$info.cover|getThumbImageById=708,304}">
-                                </a>
-                                <div class="clearfix" style="color: #999;font-size: 14px;">{$info.description}</div>
-                            <else/>
-                                <div class="clearfix" style="color: #999;font-size: 14px;">{$info.description}</div>
+                            <div class="clearfix" style="color: #999;font-size: 14px;">{$info.description}</div>
+                        <else/>
+                            <div class="clearfix" style="color: #999;font-size: 14px;">{$info.description}</div>
                         </if>
                         <if condition="$info['keywords'] neq ''">
                                 <div class="keywords-box">
@@ -59,39 +61,53 @@
             
             <div class="col-md-4">
                 <div class="right_block public-bg-w">
-                <div class="author_info">
-                    <div class="right_block_title">
-                        <h3>作者</h3>
-                    </div>
-                    <div class="col-xs-12">
-                        <div class="row">
-                            <div class="col-xs-3">
-                                <img class="img-circle" src="{$author.avatar64}"/>
+                    <div class="right_block_item">
+                        <div class="author_info">
+                            <div class="right_block_title">
+                                <h3>作者</h3>
                             </div>
-                            <div class="col-xs-9">
-                                <a href="{$author.space_url}">{$author.nickname}</a>
-                                <p class="text-more">{$author.signature}</p>
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <img class="img-circle" src="{$author.avatar64}"/>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <a href="{$author.space_url}">{$author.nickname}</a>
+                                        <p class="text-more">{$author.signature}</p>
+                                    </div>
+                                </div>
                             </div>
+                            <div class="col-xs-12">
+                            <div class="author_num">
+                                <span class="num">
+                                {$author.articles_count}篇
+                                <br />
+                                文章总数
+                                </span>
+                                <span class="num">
+                                {$author.articles_view}
+                                <br />
+                                总访问次数
+                                </span>
+                            </div>
+                            </div>
+                            <div class="clearfix"></div>
                         </div>
                     </div>
-                    <div class="col-xs-12">
-                    <div class="author_num">
-                        <span class="num">
-                        {$author.articles_count}篇
-                        <br />
-                        文章总数
-                        </span>
-                        <span class="num">
-                        {$author.articles_view}
-                        <br />
-                        总访问次数
-                        </span>
-                    </div>
-                    </div>
-                    <div class="clearfix"></div>
                 </div>
+                <div class="right_block public-bg-w">
+                    <div class="right_block_item">
+                        <div class="right_block_title">
+                            <h3>最新更新</h3>
+                        </div>
+                    {:W('New/lists',array('uid'=>$author['uid']))}
+                    <section class="">
+                        <a rel="nofollow" class="btn btn-lg btn-info btn-block btn-articles" href="{:U('Ucenter/Index/applist',array('type'=>'articles','uid'=>$info['uid']))}" target="_blank">阅读更多内容，狠戳这里</a>
+                    </section>
+                    </div>
                 </div>
                 {:W('Hot/lists',array('category'=>$info['category']))}
+
             </div>
         </div>
     </div>

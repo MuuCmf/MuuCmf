@@ -27,5 +27,4 @@ class PositionWidget extends Controller{
 		$this->assign('lists', $lists);
 		$this->display('Widget/position');
 	}
-	
 }
