@@ -51,7 +51,8 @@
 
                                 <div class="card-content">
                                     <p class="text-muted text-ellipsis">{$vo.description}</p>
-                                    <p class="text-muted text-ellipsis">{$vo.author}</p>
+                                    <p class="text-muted text-ellipsis">开发者：{$vo.author}</p>
+                                    <a class="text-muted text-ellipsis">版本：{$vo.version}</a>
                                 </div>
                                 <div class="card-actions">
                                     <div class="btn-group">
@@ -89,9 +90,6 @@
                                                href="{:U('install?addon_name='.$vo['name'])}">{:L("_INSTALL_")}</a>
                                         </empty>
                                     </div>
-                                    <span class="pull-right">
-                                        <span class="label label-success">{$vo.version}</span>
-                                    </span>
                                 </div>
                             </div>
                         </div>
