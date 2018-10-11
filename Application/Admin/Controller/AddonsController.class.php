@@ -465,7 +465,12 @@ str;
 
         //所有插件
         $all_addons = D('Addons')->getList('');
-        
+        //只获取已安装插件
+        foreach ($all_addons as $key => $value) {
+            if ($value['uninstall'] != 1) {
+                unset($all_addons[$key]);
+            }
+        }
         $all_addons = array_combine(array_column($all_addons,'name'),$all_addons);
 
         $all_addons_arr = array();
