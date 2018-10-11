@@ -9,6 +9,7 @@
 
 namespace Admin\Controller;
 
+use Admin\Builder\AdminConfigBuilder;
 /**
  * 扩展后台管理页面
  * @author yangweijie <yangweijiester@gmail.com>
@@ -461,11 +462,53 @@ str;
     public function edithook($id)
     {
         $hook = M('Hooks')->field(true)->find($id);
+
+        //所有插件
+        $all_addons = D('Addons')->getList('');
+        
+        $all_addons = array_combine(array_column($all_addons,'name'),$all_addons);
+
+        $all_addons_arr = array();
+        foreach ($all_addons as $key => $v) {
+            $all_addons_arr[] = array('name'=>$v['name'],'title' => $v['title']);
+        }
+        
+        //已挂载数据
+        if(empty($hook['addons'])){
+            $ok_addons = array();
+        }else{
+           $ok_addons = explode(',',$hook['addons']); 
+        }
+        
+        $ok_addons_arr = array();
+        foreach ($ok_addons as $key => $v) {
+            //为避免数组中含有已卸载插件，这里做个判断
+            if(!empty($all_addons[$v]['name'])){
+                $ok_addons_arr[] = array('name'=>$all_addons[$v]['name'],'title' =>$all_addons[$v]['title']);
+            }
+        }
+        
+        //未挂载去除差值
+        $tmp_arr = array();//声明数组
+        foreach($all_addons_arr as $k => $v)
+        {
+            if(in_array($v, $ok_addons_arr))
+            {
+                unset($all_addons_arr[$k]);
+            }else {
+                $tmp_arr[] = $v;
+            }
+        }
+
+        $all_addons_arr = $tmp_arr;
         $this->assign('data', $hook);
+        //看板挂载数据
+        $this->assign('all_addons_arr', $all_addons_arr);
+        $this->assign('ok_addons_arr', $ok_addons_arr);
         $this->meta_title = L('_EDIT_HOOK_');
         $this->display('edithook');
     }
-
+    
     //超级管理员删除钩子
     public function delhook($id)
     {

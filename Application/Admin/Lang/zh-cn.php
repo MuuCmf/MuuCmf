@@ -1372,7 +1372,7 @@ return array(
     '_HOOKS_DESCRIPTION_' => '（钩子的描述信息）',
     '_HOOK_TYPE_' => '钩子类型',
     '_THE_MAIN_USE_OF_THE_HOOK_' => '（区分钩子的主要用途）',
-    '_HOOK_MOUNTED_PLUGIN_SORTING_' => '钩子挂载的插件排序',
+    '_HOOK_MOUNTED_PLUGIN_SORTING_' => '钩子的插件挂载及插件排序',
     '_ORDER_PRESERVING_DRAG_EFFECT_WITH_A_HOOK_MOUNT_PLUGIN_EXECUTION_ORDER_' => '（拖动后保存顺序，影响同一个钩子挂载的插件执行先后顺序）',
     '_NO_PLUGINS_CANNOT_SORT_' => ' 暂无插件，无法排序',
     '_PLUGIN_SORT_' => '插件排序',
