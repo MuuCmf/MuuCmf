@@ -241,18 +241,18 @@ str;
     public function index()
     {
         $this->meta_title = L('_PLUGIN_LIST_');
-        $type = I('get.type', 'no', 'text');
+        $type = I('get.type', 'all', 'text');
         $list = D('Addons')->getList('');
         $request = (array)I('request.');
 
         $listRows = 20;
-        if ($type == 'yes') {//已安装的
+        if ($type == 'no') {
             foreach ($list as $key => $value) {
                 if ($value['uninstall'] != 1) {
                     unset($list[$key]);
                 }
             }
-        } else if ($type == 'no') {
+        } else if ($type == 'yes') {//已安装的
             foreach ($list as $key => $value) {
                 if ($value['uninstall'] == 1) {
                     unset($list[$key]);
@@ -465,12 +465,14 @@ str;
 
         //所有插件
         $all_addons = D('Addons')->getList('');
+
         //只获取已安装插件
         foreach ($all_addons as $key => $value) {
-            if ($value['uninstall'] != 1) {
+            if ($value['uninstall'] == 1) {
                 unset($all_addons[$key]);
             }
         }
+
         $all_addons = array_combine(array_column($all_addons,'name'),$all_addons);
 
         $all_addons_arr = array();
