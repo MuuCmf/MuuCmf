@@ -731,7 +731,8 @@ INSERT INTO `muucmf_config` (`id`, `name`, `type`, `title`, `group`, `extra`, `r
 (1016, '_HOME_TITLE2', 0, '', 0, '', '', 1432791820, 1432791820, 1, '', 0),
 (1017, '_HOME_PIC3', 0, '', 0, '', '', 1432791820, 1432791820, 1, '', 0),
 (1018, '_HOME_URL3', 0, '', 0, '', '', 1432791820, 1432791820, 1, '', 0),
-(1019, '_HOME_TITLE3', 0, '', 0, '', '', 1432791820, 1432791820, 1, '', 0);
+(1019, '_HOME_TITLE3', 0, '', 0, '', '', 1432791820, 1432791820, 1, '', 0),
+(14081, 'MAIL_SMTP_SSL', 4, '启用SMTP验证功能', 5, '0:关闭\r\n1:开启', '是否启用SMTP验证功能', 0, 0, 1, '0', 0);
 
 DROP TABLE IF EXISTS `muucmf_count_active`;
 CREATE TABLE IF NOT EXISTS `muucmf_count_active` (

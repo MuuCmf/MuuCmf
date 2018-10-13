@@ -511,35 +511,6 @@ class MemberController extends Controller
     }
 
     /**
-     * doSendVerify  发送验证码
-     * @param $account
-     * @param $verify
-     * @param $type
-     * @return bool|string
-     * @author:xjw129xjt(肖骏涛) xjt@ourstu.com
-     */
-    public function doSendVerify($account, $verify, $type)
-    {
-        switch ($type) {
-            case 'mobile':
-                $content = modC('SMS_CONTENT', '{$verify}', 'USERCONFIG');
-                $content = str_replace('{$verify}', $verify, $content);
-                $content = str_replace('{$account}', $account, $content);
-                $res = sendSMS($account, $content);
-                return $res;
-                break;
-            case 'email':
-                //发送验证邮箱
-                $content = modC('REG_EMAIL_VERIFY', '{$verify}', 'USERCONFIG');
-                $content = str_replace('{$verify}', $verify, $content);
-                $content = str_replace('{$account}', $account, $content);
-                $res = send_mail($account, modC('WEB_SITE_NAME', L('_MUUCMF_'), 'Config') . L('_EMAIL_VERIFY_2_'), $content);
-                return $res;
-                break;
-        }
-    }
-
-    /**
      * activate  提示激活页面
      * @author:xjw129xjt(肖骏涛) xjt@ourstu.com
      */

@@ -37,7 +37,33 @@ function get_city_by_ip($ip)
     return $guo . $city . $ips . '[' . $ip . ']';
 
 }
-
+/**
+ * doSendVerify  发送验证码
+ * @param $account
+ * @param $verify
+ * @param $type
+ * @return bool|string
+ */
+function doSendVerify($account, $verify, $type)
+{
+    switch ($type) {
+        case 'mobile':
+            $content = modC('SMS_CONTENT', '{$verify}', 'USERCONFIG');
+            $content = str_replace('{$verify}', $verify, $content);
+            $content = str_replace('{$account}', $account, $content);
+            $res = sendSMS($account, $content);
+            return $res;
+            break;
+        case 'email':
+            //发送验证邮箱
+            $content = modC('REG_EMAIL_VERIFY', '{$verify}', 'USERCONFIG');
+            $content = str_replace('{$verify}', $verify, $content);
+            $content = str_replace('{$account}', $account, $content);
+            $res = send_mail($account, modC('WEB_SITE_NAME', L('_MUUCMF_'), 'Config') . L('_EMAIL_VERIFY_2_'), $content);
+            return $res;
+            break;
+    }
+}
 /**
  * 系统邮件发送函数
  * @param string $to 接收邮件者邮箱
@@ -122,7 +148,12 @@ function send_mail_local($to = '', $subject = '', $body = '', $name = '', $attac
     $from_name = modC('WEB_SITE_NAME', L('_MUUCMF_'), 'Config');
     $reply_email = '';
     $reply_name = '';
-
+    //判断是否启用安全协议
+    if(config('MAIL_SMTP_SSL')){
+        $ssl_value = 'ssl';
+    }else{
+        $ssl_value = '';
+    }
     //require_once('./ThinkPHP/Library/Vendor/PHPMailer/phpmailer.class.php');增加命名空间，可以注释掉此行
     $mail = new PHPMailer(); //实例化PHPMailer
     $mail->CharSet = 'UTF-8'; //设定邮件编码，默认ISO-8859-1，如果发中文此项必须设置，否则乱码
@@ -132,7 +163,7 @@ function send_mail_local($to = '', $subject = '', $body = '', $name = '', $attac
     // 2 = messages only
     $mail->SMTPAuth = true; // 启用 SMTP 验证功能
 
-    $mail->SMTPSecure = ''; // 使用安全协议
+    $mail->SMTPSecure = $ssl_value; // 使用安全协议
     $mail->Host = C('MAIL_SMTP_HOST'); // SMTP 服务器
     $mail->Port = C('MAIL_SMTP_PORT'); // SMTP服务器的端口号
     $mail->Username = C('MAIL_SMTP_USER'); // SMTP服务器用户名

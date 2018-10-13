@@ -102,8 +102,8 @@ class VerifyController extends BaseController
         }
         //缓存手机验证码发送时间，以便验证码过期校验
         S('Verify_'.$aAccount,time());
-        //ucfirst() 函数把字符串中的首字符转换为大写。
-        $res =  A('Ucenter/'.ucfirst('Member'))->doSendVerify($aAccount, $verify, $aType);
+        
+        $res = doSendVerify($aAccount, $verify, $aType);
         if ($res === true) {
             $result = $this->codeModel->code(200);
             $result['info'] = L('_ERROR_SUCCESS_SEND_');

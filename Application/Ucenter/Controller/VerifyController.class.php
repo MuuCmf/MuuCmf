@@ -12,8 +12,6 @@ use Think\Controller;
 
 class VerifyController extends Controller
 {
-
-
     /**
      * sendVerify 发送验证码
      * @author:xjw129xjt(肖骏涛) xjt@ourstu.com
@@ -69,9 +67,9 @@ class VerifyController extends Controller
             $this->error(L('_ERROR_FAIL_SEND_').L('_EXCLAMATION_'));
         }
         if($aAction==='find'){
-            $res =  A('Ucenter/'.ucfirst('Member'))->doSendVerify($aAccount, $verify, $aType);
+            $res = doSendVerify($aAccount, $verify, $aType);
         }else{
-            $res =  A(ucfirst($aAction))->doSendVerify($aAccount, $verify, $aType);
+            $res = doSendVerify($aAccount, $verify, $aType);
         }
         
         if ($res === true) {
